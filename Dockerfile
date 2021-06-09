@@ -10,7 +10,6 @@ ARG             EXT_DIR="$ULS_DIR/ext"
 ARG             ETP_CLI_VERSION="0.3.4"
 ARG             EAA_CLI_VERSION="0.3.8"
 ARG             MFA_CLI_VERSION="0.0.4"
-ARG             ULS_VERSION="0.0.1"
 
 # ENV VARS
 ENV             ULS_DIR=$ULS_DIR
@@ -37,8 +36,7 @@ RUN             mkdir -p ${HOMEDIR}/uls
 
 
 # Install ULS
-ENV             ULS_VERSION=$ULS_VERSION
-RUN             git clone --depth 1 -b "${ULS_VERSION}" --single-branch https://github.com/akamai/uls.git ${ULS_DIR}
+COPY            bin/ ${ULS_DIR}/bin
 WORKDIR         ${ULS_DIR}
 
 # Install external CLI'S
