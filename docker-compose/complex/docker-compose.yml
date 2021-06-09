@@ -1,0 +1,26 @@
+version: "3.0"
+services:
+  etp-threat:
+    image: akamai/uls:latest
+    restart: always
+    env_file: etp-threat.env
+    volumes:
+      - type: bind
+        source: /Users/mschiess/.edgerc
+        target: /opt/akamai-uls/.edgerc
+  eaa-access:
+    image: akamai/uls:latest
+    restart: always
+    env_file: eaa-access.env
+    volumes:
+      - type: bind
+        source: /Users/mschiess/.edgerc
+        target: /opt/akamai-uls/.edgerc
+  eaa-admin:
+    image: akamai/uls:latest
+    restart: always
+    env_file: eaa-admin.env
+    volumes:
+      - type: bind
+        source: /Users/mschiess/.edgerc
+        target: /opt/akamai-uls/.edgerc
