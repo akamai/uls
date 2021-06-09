@@ -72,8 +72,10 @@ class UlsMonitoring:
                        'event_rate': round(self.window_messages_handled / self.monitoring_interval, 2),
                        'mon_interval': self.monitoring_interval
                     }
-                    print(json.dumps(mon_msg))
+                    #print(json.dumps(mon_msg))
+                    sys.stdout.write(json.dumps(mon_msg) + "\n")
                     sys.stdout.flush()
+
                     # Reset window based vars
                     with self._metricLock:
                         self.window_messages_handled = 0
