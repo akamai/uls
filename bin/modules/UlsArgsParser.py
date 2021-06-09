@@ -126,7 +126,7 @@ def init():
     output_group.add_argument('--httpinsecure',
                               action='store',
                               type=bool,
-                              default=(os.environ.get('ULS_HTTP_NO_VERIFY_TLS') or False),
+                              default=(os.environ.get('ULS_HTTP_INSECURE') or False),
                               nargs='?',
                               const=True,
                               help=f'Disable TLS CA Certificate verification. Default: False')
