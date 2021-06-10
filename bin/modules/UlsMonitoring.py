@@ -4,6 +4,7 @@ import time
 import threading
 import json
 import datetime
+import sys
 
 import modules.aka_log as aka_log
 import config.global_config as uls_config
@@ -65,13 +66,16 @@ class UlsMonitoring:
                        'dt': datetime.datetime.utcnow().isoformat(),
                        'uls_product': self._product,
                        'uls_feed': self._feed,
-                       'uls_outpout': self._output,
+                       'uls_output': self._output,
                        'uls_runtime': self._runtime(),
                        'event_count': self.overall_messages_handled,
                        'event_rate': round(self.window_messages_handled / self.monitoring_interval, 2),
                        'mon_interval': self.monitoring_interval
                     }
-                    print(json.dumps(mon_msg))
+                    #print(json.dumps(mon_msg))
+                    sys.stdout.write(json.dumps(mon_msg) + "\n")
+                    sys.stdout.flush()
+
                     # Reset window based vars
                     with self._metricLock:
                         self.window_messages_handled = 0

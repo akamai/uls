@@ -1,5 +1,14 @@
 # Version History
 
+## v0.0.2
+|||
+|---|---|
+|Date|2021-06-10
+|Kind|Bugfix
+|Author|mschiess@akamai.com <br> adrocho@akamai.com
+- fixed monitoring output bug in docker-compose
+- fixed bug in Dockerfile that prevented development builds
+- fixed a bug in EAA CLI handler
 
 ## v0.0.1 (Initial Commit)
 |version|v0.0.1|

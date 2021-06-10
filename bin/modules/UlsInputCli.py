@@ -116,7 +116,7 @@ class UlsInputCli:
                 if not rawcmd:
                     feed = self._feed_selector(feed, product_feeds)
                     cli_command = [self.bin_python, product_path, 'log', feed.lower(), '-f']
-                    cli_command[2:2] = self._uls_useragent(product_path, product, feed)
+                    cli_command[2:2] = self._uls_useragent(product, feed)
                     cli_command[2:2] = edgegrid_auth
                     cli_command[2:2] = self._prep_proxy(inproxy)
                     if self._format_selector(cliformat) == "JSON":
@@ -183,8 +183,8 @@ class UlsInputCli:
                 aka_log.log.error(f'{self.name} - {my_error} -> {self.proc.stderr.read()}')
 
             if self.running is False and rerun_counter > self.rerun_retries:
-                aka_log.log.critical(f'Not able to start the CLI for {product}. See above errors'
-                                     f'giving up after {rerun_counter - 1} retries.')
+                aka_log.log.critical(f'Not able to start the CLI for {product}. See above errors. '
+                                     f'Giving up after {rerun_counter - 1} retries.')
                 sys.exit(1)
 
     def check_proc(self):
