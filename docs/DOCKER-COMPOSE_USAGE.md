@@ -55,5 +55,5 @@ docker compose up -d
   **Files:**  
     - [docker-compose.yml](../docker-compose/complex/docker-compose.yml)
     - [etp-threat.env](../docker-compose/complex/etp-threat.env)
-    - [eaa-admin.env](../docker-compose/complex/eaa-admin.env)
+    - [eaa-admin.env](../docker-compose/complex/eaa-access.env)
     - [eaa-access.env](../docker-compose/complex/eaa-access.env)

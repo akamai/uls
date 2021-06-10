@@ -1,0 +1,58 @@
+version: "3.0"
+services:
+  # THREAT
+  etp-threat:
+    image: akamai/uls:latest
+    restart: always
+    env_file: etp-threat.env
+    volumes:
+      - type: bind
+        source: /patch/to/your/.edgerc
+        target: /opt/akamai-uls/.edgerc
+  # AUP
+  etp-aup:
+    image: akamai/uls:latest
+    restart: always
+    env_file: etp-aup.env
+    volumes:
+      - type: bind
+        source: /patch/to/your/.edgerc
+        target: /opt/akamai-uls/.edgerc
+# EAA
+  # ACCESS
+  eaa-access:
+    image: akamai/uls:latest
+    restart: always
+    env_file: eaa-access.env
+    volumes:
+      - type: bind
+        source: /patch/to/your/.edgerc
+        target: /opt/akamai-uls/.edgerc
+  # ADMIN
+  eaa-admin:
+    image: akamai/uls:latest
+    restart: always
+    env_file: eaa-admin.env
+    volumes:
+      - type: bind
+        source: /patch/to/your/.edgerc
+        target: /opt/akamai-uls/.edgerc
+# MFA
+  # AUTH
+  mfa-auth:
+    image: akamai/uls:latest
+    restart: always
+    env_file: mfa-auth.env
+    volumes:
+      - type: bind
+        source: /patch/to/your/.edgerc
+        target: /opt/akamai-uls/.edgerc
+  # POLICY
+  mfa-policy:
+    image: akamai/uls:latest
+    restart: always
+    env_file: mfa-policy.env
+    volumes:
+      - type: bind
+        source: /patch/to/your/.edgerc
+        target: /opt/akamai-uls/.edgerc

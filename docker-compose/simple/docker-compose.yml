@@ -6,5 +6,5 @@ services:
     env_file: etp-threat.env
     volumes:
       - type: bind
-        source: /Users/mschiess/.edgerc
+        source: /patch/to/your/.edgerc
         target: /opt/akamai-uls/.edgerc
