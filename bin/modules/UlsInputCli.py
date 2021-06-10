@@ -183,8 +183,8 @@ class UlsInputCli:
                 aka_log.log.error(f'{self.name} - {my_error} -> {self.proc.stderr.read()}')
 
             if self.running is False and rerun_counter > self.rerun_retries:
-                aka_log.log.critical(f'Not able to start the CLI for {product}. See above errors'
-                                     f'giving up after {rerun_counter - 1} retries.')
+                aka_log.log.critical(f'Not able to start the CLI for {product}. See above errors. '
+                                     f'Giving up after {rerun_counter - 1} retries.')
                 sys.exit(1)
 
     def check_proc(self):
