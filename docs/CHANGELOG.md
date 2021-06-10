@@ -8,7 +8,6 @@
 |Author|mschiess@akamai.com <br> adrocho@akamai.com
 - fixed monitoring output bug in docker-compose
 - fixed bug in Dockerfile that prevented development builds
-- bumped ETP CLI version 0.3.4 -> 0.3.5
 - fixed a bug in EAA CLI handler
 
 ## v0.0.1 (Initial Commit)
