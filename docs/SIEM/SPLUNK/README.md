@@ -18,9 +18,18 @@ Many messages might appear as "one" event within splunk.
 To fix this, please follow the instructions below:  
 
 Add the following to the file `$SPLUNK_HOME/etc/system/local/props.conf`:
+Example source name = uls_eaa-access
 ```text
-[akamai_etp]
+[source::uls_eaa-access]
 SHOULD_LINEMERGE = false
 ```
+
+But you can also use a wildcard for all source types
+```text
+[source::uls_*]
+SHOULD_LINEMERGE = false
+```
+
 The default linebreaker `LINE_BREAKER = ([\r\n]+)` configuration should perfectly match.  
 More information on props can be found [here](https://docs.splunk.com/Documentation/Splunk/Latest/Admin/Propsconf)
+

@@ -92,11 +92,11 @@ def main():
                               http_insecure=uls_args.httpinsecure)
 
             if input_poll.poll(10):
-                data = my_input.proc_output.readline().strip('\n').strip('\r')
+                data = my_input.proc_output.readline()
                 if data:
-                    aka_log.log.debug(f"DATA: {data + uls_config.output_line_breaker}")
+                    aka_log.log.debug(f"DATA: {data + uls_config.output_line_breaker.encode()}")
                     my_monitor.increase_message_count()
-                    my_output.send_data(data + uls_config.output_line_breaker)
+                    my_output.send_data(data + uls_config.output_line_breaker.encode())
         except KeyboardInterrupt:
             control_break_handler()
 
