@@ -7,6 +7,7 @@ The Unified Log Streamer (ULS) is designed to simplify SIEM integrations for Aka
 - [Akamai Phish-proof Multi Factor Authenticator (AKAMAI-MFA)](https://www.akamai.com/us/en/products/security/akamai-mfa.jsp)
 
 Thanks to its modular design, ULS allows the connection of many SIEM solutions out-of-the-box.  
+ULS can send data into any SIEM that supports either TCP, UDP or HTTP ingestion.  
 It can be run directly as Python code, as a provided Docker container or through `docker compose` scripts.
 
 
