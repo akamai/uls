@@ -8,6 +8,7 @@ __tool_name_short__ = "ULS"
 
 # Generic config
 bin_python = "python3"                          # Python binary to use (use OS standard when not using path)
+output_line_breaker = '\r\n'                    # Line breaking type (to split messages when streaming data)
     # EAA
 bin_eaa_cli = "ext/cli-eaa/bin/akamai-eaa"      # Path to the EAA CLI Executable
 eaa_cli_feeds = ['ACCESS', 'ADMIN']             # Available EAA CLI feeds
