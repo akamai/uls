@@ -66,7 +66,7 @@ class UlsMonitoring:
                        'dt': datetime.datetime.utcnow().isoformat(),
                        'uls_product': self._product,
                        'uls_feed': self._feed,
-                       'uls_outpout': self._output,
+                       'uls_output': self._output,
                        'uls_runtime': self._runtime(),
                        'event_count': self.overall_messages_handled,
                        'event_rate': round(self.window_messages_handled / self.monitoring_interval, 2),
