@@ -1,4 +1,12 @@
 # Version History
+## v0.0.3
+|||
+|---|---|
+|Date|2021-06-1
+|Kind|Bugfix / Feature
+|Author|mschiess@akamai.com
+- introduced line breaker variable for output
+
 
 ## v0.0.2
 |||
