@@ -13,10 +13,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
 import sys
-import select
 import signal
 import threading
 
@@ -67,6 +65,12 @@ def main():
     my_output = UlsOutput.UlsOutput()
     my_input = UlsInputCli.UlsInputCli()
 
+    # When reading CLI output, if no data, pause 10ms before retrying
+    # if still no data, then it will backoff exponentially till 60s
+    wait_default = 0.01
+    wait_max = 60
+    wait = wait_default
+
     # Now let's handle the data and send input to output
     while not stopEvent.is_set():
         try:
@@ -78,8 +82,6 @@ def main():
                                  credentials_file_section=uls_args.credentials_file_section,
                                  rawcmd=uls_args.rawcmd)
 
-            input_poll = select.poll()
-            input_poll.register(my_input.proc_output)
             my_input.check_proc()
 
             # (RE)Connect the output handler
@@ -91,14 +93,23 @@ def main():
                               http_url=uls_args.httpurl,
                               http_insecure=uls_args.httpinsecure)
 
-            if input_poll.poll(10):
-                data = my_input.proc_output.readline()
-                if data:
-                    aka_log.log.debug(f"DATA: {data + uls_config.output_line_breaker.encode()}")
+            input_data = my_input.proc_output.readline()
+            if input_data:
+                wait = wait_default  # back to 10ms wait in case of bursty content
+                aka_log.log.debug(f"<IN> {input_data}")
+                for e in input_data.splitlines():
                     my_monitor.increase_message_count()
-                    my_output.send_data(data + uls_config.output_line_breaker.encode())
+                    out_data = e + uls_config.output_line_breaker.encode()
+                    my_output.send_data(out_data)
+                    aka_log.log.debug(f"<OUT> {out_data}")
+            else:
+                aka_log.log.debug(f"Mainloop, wait {wait} seconds [{my_monitor.get_stats()}]")
+                stopEvent.wait(wait)
+                wait = min(wait * 2, wait_max)  # double the wait till a max of 60s
         except KeyboardInterrupt:
             control_break_handler()
+        except Exception:
+            aka_log.log.exception("General error in ULS main loop")
 
     my_output.tear_down()
 

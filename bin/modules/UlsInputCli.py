@@ -1,12 +1,27 @@
-#!/usr/bin/env python3
+# Copyright 2021 Akamai Technologies, Inc. All Rights Reserved
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 import subprocess
 import sys
 import time
 import shlex
+import platform
+import os
+
+# ULS modules
 import modules.aka_log as aka_log
 import config.global_config as uls_config
-import platform
 
 
 def uls_version():
@@ -169,6 +184,7 @@ class UlsInputCli:
                 aka_log.log.debug(f"{self.name} - started PID[{cli_proc.pid}]: {cli_command}")
                 self.proc = cli_proc
                 self.proc_output = cli_proc.stdout
+                os.set_blocking(self.proc_output.fileno(), False)
                 time.sleep(1)
 
                 if not self.check_proc():
