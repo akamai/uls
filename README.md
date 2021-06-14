@@ -40,13 +40,14 @@ It can be run directly as Python code, as a provided Docker container or through
     - TCP Socket (tcp://host:port)
     - UDP Socket (udp://host:port)
     - HTTP(S) URL (http(s)://host:port/path) (supporting Authentication)
+    - RAW (>STDOUT)
 
 
 - Operation types
     - [python (command line)](./docs/COMMAND_LINE_USAGE.md)
     - [docker](./docs/DOCKER_USAGE.md)
     - [docker-compose](./docs/DOCKER-COMPOSE_USAGE.md)
-  
+ 
 
 - Additional Features
     - [Monitoring output](./docs/MONITORING.md)

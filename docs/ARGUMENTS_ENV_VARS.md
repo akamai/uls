@@ -24,7 +24,7 @@ The following tables list all available command line parameters and their corres
 ## OUTPUT
 |Parameter|Env - Var|Options|Default|Description|
 |---|---|---|---|---|
-|-o <br> --output| ULS_OUTPUT | 'TCP' | None | Specify the desired OUTPUT target |
+|-o <br> --output| ULS_OUTPUT | 'TCP', 'UDP', 'HTTP', 'RAW' | None | Specify the desired OUTPUT target |
 |--host | ULS_OUTPUT_HOST | xxx.xxx.xxx.xxx | None | Specify the desired OUTPUT target host (TCP/UDP only) |
 |--port| ULS_OUTPUT_PORT | xxxx | None | Specify the desired OUTPUT target port (TCP/UDP only) |
 |--httpurl| ULS_HTTP_URL | http(s)://\<host\>:\<port\>/\<path\> | None | The HTTP target URL. (HTTP only) <br> Do not use --host / --port for HTTP|

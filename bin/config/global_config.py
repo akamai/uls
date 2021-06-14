@@ -24,7 +24,7 @@ input_choices = ['EAA', 'ETP', 'MFA']           # Available input types
 input_format_choices = ['JSON', 'TEXT']         # Available input format choices (need to be supported by cli)
 
     # OUTPUT Choices
-output_choices = ['TCP', 'HTTP', 'UDP']         # Definition of OUTPUT Choices
+output_choices = ['TCP', 'HTTP', 'UDP', 'RAW']         # Definition of OUTPUT Choices
 
     # LogLevels
 log_levels_available = ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']

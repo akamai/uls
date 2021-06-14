@@ -4,8 +4,11 @@
 |---|---|
 |Date|2021-06-1
 |Kind|Bugfix / Feature
-|Author|mschiess@akamai.com
+|Author|mschiess@akamai.com <br> adrocho@akamai.com
 - introduced line breaker variable for output
+- fixed a bug in the "poll" handling (adrocho@akamai.com)
+- bumped Dockerfile to newer CLI versions
+- introduced RAW output (send data to stdout)
 
 
 ## v0.0.2
