@@ -1,4 +1,16 @@
 # Version History
+## v0.0.3
+|||
+|---|---|
+|Date|2021-06-15
+|Kind|Bugfix / Feature
+|Author|mschiess@akamai.com <br> adrocho@akamai.com
+- introduced line breaker variable for output
+- fixed a bug in the "poll" handling
+- fixed a bug that caused Popen PIPE to hang in certain circumstances
+- bumped Dockerfile to newer CLI versions
+- introduced RAW output (send data to stdout)
+
 
 ## v0.0.2
 |||

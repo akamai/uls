@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 
 # Common global variables / constants
-__version__ = "0.0.2"
+__version__ = "0.0.3"
 __tool_name_long__ = "Akamai Unified Log Streamer"
 __tool_name_short__ = "ULS"
 
 
 # Generic config
 bin_python = "python3"                          # Python binary to use (use OS standard when not using path)
+output_line_breaker = '\r\n'                    # Line breaking type (to split messages when streaming data)
     # EAA
 bin_eaa_cli = "ext/cli-eaa/bin/akamai-eaa"      # Path to the EAA CLI Executable
 eaa_cli_feeds = ['ACCESS', 'ADMIN']             # Available EAA CLI feeds
@@ -23,7 +24,7 @@ input_choices = ['EAA', 'ETP', 'MFA']           # Available input types
 input_format_choices = ['JSON', 'TEXT']         # Available input format choices (need to be supported by cli)
 
     # OUTPUT Choices
-output_choices = ['TCP', 'HTTP', 'UDP']         # Definition of OUTPUT Choices
+output_choices = ['TCP', 'HTTP', 'UDP', 'RAW']         # Definition of OUTPUT Choices
 
     # LogLevels
 log_levels_available = ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']

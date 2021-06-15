@@ -7,8 +7,8 @@ ARG             HOMEDIR="/opt/akamai-uls"
 ARG             ULS_DIR="$HOMEDIR/uls"
 ARG             EXT_DIR="$ULS_DIR/ext"
 
-ARG             ETP_CLI_VERSION="0.3.4"
-ARG             EAA_CLI_VERSION="0.3.8"
+ARG             ETP_CLI_VERSION="0.3.5"
+ARG             EAA_CLI_VERSION="0.3.9"
 ARG             MFA_CLI_VERSION="0.0.4"
 
 # ENV VARS

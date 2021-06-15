@@ -1,4 +1,16 @@
-#!/usr/bin/env python3
+# Copyright 2021 Akamai Technologies, Inc. All Rights Reserved
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 import socket
 import requests
@@ -57,7 +69,7 @@ class UlsOutput:
         reconnect_counter = 1
         while not stopEvent.is_set() and self.connected is False and reconnect_counter <= self.reconnect_retries:
             # Check & set output type
-            if output_type in ['TCP', 'HTTP', 'UDP']:
+            if output_type in uls_config.output_choices:
                 self.output_type = output_type
                 aka_log.log.debug(f"{self.name} Selected Output Type: {self.output_type} ")
             else:
@@ -141,6 +153,12 @@ class UlsOutput:
                         self.connected = False
                         reconnect_counter = 1
 
+                # RAW OUTPUT
+                if self.output_type == "RAW":
+                    aka_log.log.debug(f"{self.name} Preparing RAW OUTPUT ... (done ;D) ")
+                    self.connected = True
+                    reconnect_counter = 1
+
             except Exception as con_error:
                 aka_log.log.debug(f"{self.name} issue: {con_error}")
                 if not self.output_type == 'HTTP':
@@ -180,6 +198,11 @@ class UlsOutput:
                                                  verify=self.http_verify_tls)
                 aka_log.log.debug(f"{self.name} DATA Send response {response.status_code},"
                                   f" {response.text} ")
+
+            elif self.output_type == "RAW":
+                sys.stdout.write(data.decode())
+                sys.stdout.flush()
+
             else:
                 aka_log.log.critical(f"{self.name} target was not defined {self.output_type} ")
                 sys.exit(1)
