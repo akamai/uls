@@ -67,8 +67,8 @@ def main():
 
     # When reading CLI output, if no data, pause 10ms before retrying
     # if still no data, then it will backoff exponentially till 60s
-    wait_default = 0.01
-    wait_max = 60
+    wait_default = uls_config.main_wait_default
+    wait_max = uls_config.main_wait_max
     wait = wait_default
 
     # Now let's handle the data and send input to output
