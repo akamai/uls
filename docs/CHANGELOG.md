@@ -1,4 +1,15 @@
 # Version History
+## v0.0.4
+|||
+|---|---|
+|Date|2021-06-15
+|Kind|Feature
+|Author|mschiess@akamai.com <br> adrocho@akamai.com
+- Minor improvements 
+  - Wait_time and wait_max shifted to config
+  - added -f flag as alternative to --flag
+
+
 ## v0.0.3
 |||
 |---|---|
