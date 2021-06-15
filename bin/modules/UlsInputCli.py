@@ -179,7 +179,7 @@ class UlsInputCli:
                 aka_log.log.debug(f'{self.name} - CLI Command:  {cli_command}')
                 cli_proc = subprocess.Popen(cli_command,
                                             stdout=subprocess.PIPE,
-                                            stderr=subprocess.PIPE)
+                                            stderr=subprocess.DEVNULL)
 
                 aka_log.log.debug(f"{self.name} - started PID[{cli_proc.pid}]: {cli_command}")
                 self.proc = cli_proc
