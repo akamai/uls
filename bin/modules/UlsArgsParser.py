@@ -52,7 +52,7 @@ def init():
                              choices=uls_config.input_choices,
                              help="Select the Input Source. Default: None", )
     # INPUT_FEED
-    input_group.add_argument('--feed',
+    input_group.add_argument('-f', '--feed',
                              action='store',
                              type=str.upper,
                              default=(os.environ.get('ULS_FEED') or 'DEFAULT'),
