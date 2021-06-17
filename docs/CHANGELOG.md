@@ -3,11 +3,12 @@
 |||
 |---|---|
 |Date|2021-06-15
-|Kind|Feature
+|Kind|Bugfix / Feature
 |Author|mschiess@akamai.com <br> adrocho@akamai.com
 - Minor improvements 
   - Wait_time and wait_max shifted to config
   - added -f flag as alternative to --flag
+  - fixed an exception that was introduced in v0.0.3 
 
 
 ## v0.0.3
