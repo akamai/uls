@@ -14,7 +14,7 @@ The following tables list all available command line parameters and their corres
 |Parameter|Env - Var|Options|Default|Description|
 |---|---|---|---|---|
 |-i <br> --input | ULS_INPUT | 'EAA', 'ETP', 'MFA' | None | Specify the desired INPUT source |
-|--feed | ULS_FEED | EAA: 'ACCESS', 'ADMIN'<br> ETP: 'THREAT', 'AUP'<br> MFA: 'AUTH','POLICY' | None | Specify the desired INPUT feed |
+|--feed | ULS_FEED | EAA: 'ACCESS', 'ADMIN', 'CONHEALTH'<br> ETP: 'THREAT', 'AUP'<br> MFA: 'AUTH','POLICY' | None | Specify the desired INPUT feed |
 |--format | ULS_FORMAT | 'JSON', 'TEXT' | JSON | Specify the desired INPUT (=OUTPUT) format |
 |--inproxy <br> --inputproxy | ULS_INPUT_PROXY | HOST:PORT| None | Adjust proxy usage for INPUT data collection (cli) |
 |--rawcmd | ULS_RAWCMD | \<cli command\> | None | USE with caution /!\ <br> This is meant only to be used when told by AKAMAI|

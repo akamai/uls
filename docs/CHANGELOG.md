@@ -9,7 +9,8 @@
   - Wait_time and wait_max shifted to config
   - added -f flag as alternative to --flag
   - fixed an exception that was introduced in v0.0.3 
-
+- Feature:
+ - EAA CONNECTOR HEALTH (CONHEALTH) now available
 
 ## v0.0.3
 |||
