@@ -16,7 +16,7 @@ import subprocess
 import sys
 import time
 import shlex
-import platform
+
 import os
 
 # ULS modules
@@ -24,35 +24,9 @@ import modules.aka_log as aka_log
 import config.global_config as uls_config
 
 
-def uls_version():
-    """
-    Collect ULS Version information and display it on STDOUT
-    """
-    def _get_cli_version(cli_bin):
-        try:
-            version_proc = subprocess.Popen([uls_config.bin_python, cli_bin, "version"],
-                                            stdout=subprocess.PIPE,
-                                            stderr=subprocess.PIPE)
-            my_cli_version = version_proc.communicate()[0].decode().strip('\n')
-            version_proc.terminate()
-            if my_cli_version:
-                return my_cli_version
-            else:
-                return "n/a"
-        except Exception as my_err:
-            return f"n/a -> ({my_err})"
 
-    # generate the stdout
-    print(f"{uls_config.__tool_name_long__} Version information\n"
-          f"ULS Version\t\t{uls_config.__version__}\n\n"
-          f"EAA Version\t\t{_get_cli_version(uls_config.bin_eaa_cli)}\n"
-          f"ETP Version\t\t{_get_cli_version(uls_config.bin_etp_cli)}\n"
-          f"MFA Version\t\t{_get_cli_version(uls_config.bin_mfa_cli)}\n\n"
-          f"OS Plattform\t\t{platform.platform()}\n"
-          f"OS Version\t\t{platform.release()}\n"
-          f"Python Version\t\t{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}\n"
-          )
-    sys.exit(0)
+
+
 
 
 class UlsInputCli:
