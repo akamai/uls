@@ -189,14 +189,14 @@ class UlsInputCli:
 
                 if not self.check_proc():
                     raise NameError(f"process [{cli_proc.pid}] "
-                                    f"exited rc={cli_proc.returncode}: {cli_proc.stderr.read()}")
+                                    f"exited rc={cli_proc.returncode}: {cli_proc.stdout.read()}")
                 self.running = True
 
             except Exception as my_error:
                 time.sleep(self.rerun_delay)
                 self.running = False
                 rerun_counter += 1
-                aka_log.log.error(f'{self.name} - {my_error} -> {self.proc.stderr.read()}')
+                aka_log.log.error(f'{self.name} - {my_error}')
 
             if self.running is False and rerun_counter > self.rerun_retries:
                 aka_log.log.critical(f'Not able to start the CLI for {product}. See above errors. '
@@ -210,7 +210,7 @@ class UlsInputCli:
             else:
                 self.running = False
                 aka_log.log.error(f'{self.name} - CLI process [{self.proc.pid}]'
-                                  f' was found stale -> {self.proc.stderr.read()}')
+                                  f' was found stale')
                 return False
         except:
             return False
