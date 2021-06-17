@@ -13,8 +13,10 @@ main_wait_default = 0.01                        # Default wait time within the m
 main_wait_max = 60                              # Maximum wait time for the main loop
 
     # EAA
-bin_eaa_cli = "ext/cli-eaa/bin/akamai-eaa"      # Path to the EAA CLI Executable
-eaa_cli_feeds = ['ACCESS', 'ADMIN']             # Available EAA CLI feeds
+        # Path to the EAA CLI Executable
+bin_eaa_cli = "ext/cli-eaa/bin/akamai-eaa"
+        # Available EAA CLI feeds
+eaa_cli_feeds = ['ACCESS', 'ADMIN', 'CONHEALTH']
     # ETP
 bin_etp_cli = "ext/cli-etp/bin/akamai-etp"      # Path to the ETP CLI Executable
 etp_cli_feeds = ['THREAT', 'AUP']               # Available ETP CLI feeds
