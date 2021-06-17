@@ -32,8 +32,15 @@ It can be run directly as Python code, as a provided Docker container or through
 
 - Supported Inputs (Secure Enterprise Access Products)
     - [Enterprise Application Access (EAA)](https://www.akamai.com/us/en/products/security/enterprise-application-access.jsp)
+      - ACCESS 
+      - ADMIN
+      - CONHEALTH
     - [Enterprise Threat Protectors (ETP)](https://www.akamai.com/us/en/products/security/enterprise-threat-protector.jsp)
+      - THREAT
+      - AUP
     - [Akamai Phish-proof Multi Factor Authenticator (AKAMAI-MFA)](https://www.akamai.com/us/en/products/security/akamai-mfa.jsp)
+      - AUTH
+      - POLICY
   
 
 - Supported data outputs
