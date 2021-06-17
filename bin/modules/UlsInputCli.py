@@ -167,6 +167,8 @@ class UlsInputCli:
                 if not self.check_proc():
                     raise NameError(f"process [{cli_proc.pid}] "
                                     f"exited RC={cli_proc.returncode}, REASON: {cli_proc.stderr.read().decode()}")
+
+                # Handover the app into running state (disable stderr as it caused issues)
                 self.running = True
                 cli_proc.stderr = subprocess.DEVNULL
 
