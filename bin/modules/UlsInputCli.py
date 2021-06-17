@@ -24,11 +24,6 @@ import modules.aka_log as aka_log
 import config.global_config as uls_config
 
 
-
-
-
-
-
 class UlsInputCli:
     def __init__(self):
 
@@ -189,7 +184,6 @@ class UlsInputCli:
 
                 return True
             else:
-                cli_proc.stderr = subprocess.PIPE
                 self.running = False
                 aka_log.log.error(f'{self.name} - CLI process [{self.proc.pid}]'
                                   f' was found stale - {cli_proc.stderr.read().decode()}')

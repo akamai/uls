@@ -47,6 +47,7 @@ def uls_check_sys():
     _check_cli_installed(uls_config.bin_etp_cli)
     _check_cli_installed(uls_config.bin_mfa_cli)
 
+
 def uls_version():
     """
     Collect ULS Version information and display it on STDOUT
