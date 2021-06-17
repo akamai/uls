@@ -2,7 +2,7 @@
 ## v0.0.4
 |||
 |---|---|
-|Date|2021-06-15
+|Date|2021-06-17
 |Kind|Bugfix / Feature
 |Author|mschiess@akamai.com <br> adrocho@akamai.com
 - Minor improvements 
@@ -10,7 +10,8 @@
   - added -f flag as alternative to --flag
   - fixed an exception that was introduced in v0.0.3 
 - Feature:
- - EAA CONNECTOR HEALTH (CONHEALTH) now available
+  - EAA CONNECTOR HEALTH (CONHEALTH) now available
+  - Preflight (forced) check for available cli's
 
 ## v0.0.3
 |||
@@ -23,7 +24,6 @@
 - fixed a bug that caused Popen PIPE to hang in certain circumstances
 - bumped Dockerfile to newer CLI versions
 - introduced RAW output (send data to stdout)
-
 
 ## v0.0.2
 |||
