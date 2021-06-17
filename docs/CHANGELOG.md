@@ -4,11 +4,13 @@
 |---|---|
 |Date|2021-06-17
 |Kind|Bugfix / Feature
-|Author|mschiess@akamai.com <br> adrocho@akamai.com
+|Author|mschiess@akamai.com
 - Minor improvements 
   - Wait_time and wait_max shifted to config
   - added -f flag as alternative to --flag
-  - fixed an exception that was introduced in v0.0.3 
+  - fixed an exception that was introduced in v0.0.3
+  - bumped MFA -CLI to 0.0.5 in dockerfile
+  - added an additional debugging example
 - Feature:
   - EAA CONNECTOR HEALTH (CONHEALTH) now available
   - Preflight (forced) check for available cli's
