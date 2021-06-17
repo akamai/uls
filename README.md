@@ -60,8 +60,21 @@ ULS can be operated in many ways.
 Before setting up ULS, please understand your SIEM ingestion capabilities and configure an ingest method on your SIEM.
 More information for specific SIEM solutions can be found in [this directory](./docs/SIEM/SIEM_OVERVIEW.md) and in your SIEM documentation.
 
+### Generic Requirements
+- Python 3.9+ OR docker / docker-compose 
+- AKAMAI .edgerc file
+- Internet access 
+
 ### Command Line Usage
 ![ULS command line usage](docs/images/uls_cli_help_example.png)  
+Example commands:
+```bash
+# ETP - THREAT to console
+python3.9 bin/uls.py --input etp --feed threat --output raw
+
+# EAA - ACCESS to TCP
+python3.0  bin/uls.py --input eaa --feed access -output tcp --host 10.99.10.99 --port 8081
+```
 For more information, please visit [this document](./docs/COMMAND_LINE_USAGE.md)
 
 ### Docker
