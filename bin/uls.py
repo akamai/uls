@@ -25,6 +25,7 @@ import modules.UlsOutput as UlsOutput
 import modules.UlsInputCli as UlsInputCli
 import config.global_config as uls_config
 import modules.UlsMonitoring as UlsMonitoring
+import modules.UlsTools as UlsTools
 
 stopEvent = threading.Event()
 
@@ -51,13 +52,19 @@ def main():
 
     signal.signal(signal.SIGTERM, sigterm_handler)
 
+
     # Load the Argument / ENV Var handler
     uls_args = aka_parser.init()
-    if uls_args.version:
-        UlsInputCli.uls_version()
 
     # Load the LOG system
     aka_log.init(uls_args.loglevel, uls_config.__tool_name_short__)
+
+    # Check CLI Environment
+    UlsTools.uls_check_sys()
+
+    # OUTPUT Version Information
+    if uls_args.version:
+        UlsTools.uls_version()
 
     # Create instances for Input and Output stream handler
     my_monitor = UlsMonitoring.UlsMonitoring(stopEvent, uls_args.input, uls_args.feed, uls_args.output)
@@ -67,8 +74,8 @@ def main():
 
     # When reading CLI output, if no data, pause 10ms before retrying
     # if still no data, then it will backoff exponentially till 60s
-    wait_default = 0.01
-    wait_max = 60
+    wait_default = uls_config.main_wait_default
+    wait_max = uls_config.main_wait_max
     wait = wait_default
 
     # Now let's handle the data and send input to output

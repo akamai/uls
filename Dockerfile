@@ -9,7 +9,7 @@ ARG             EXT_DIR="$ULS_DIR/ext"
 
 ARG             ETP_CLI_VERSION="0.3.5"
 ARG             EAA_CLI_VERSION="0.3.9"
-ARG             MFA_CLI_VERSION="0.0.4"
+ARG             MFA_CLI_VERSION="0.0.5"
 
 # ENV VARS
 ENV             ULS_DIR=$ULS_DIR

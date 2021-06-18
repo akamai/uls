@@ -206,6 +206,7 @@ class UlsOutput:
             else:
                 aka_log.log.critical(f"{self.name} target was not defined {self.output_type} ")
                 sys.exit(1)
+
         except Exception as my_error:
             aka_log.log.error(f"{self.name} Issue sending data {my_error}")
             self.connected = False

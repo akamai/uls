@@ -16,43 +16,12 @@ import subprocess
 import sys
 import time
 import shlex
-import platform
+
 import os
 
 # ULS modules
 import modules.aka_log as aka_log
 import config.global_config as uls_config
-
-
-def uls_version():
-    """
-    Collect ULS Version information and display it on STDOUT
-    """
-    def _get_cli_version(cli_bin):
-        try:
-            version_proc = subprocess.Popen([uls_config.bin_python, cli_bin, "version"],
-                                            stdout=subprocess.PIPE,
-                                            stderr=subprocess.PIPE)
-            my_cli_version = version_proc.communicate()[0].decode().strip('\n')
-            version_proc.terminate()
-            if my_cli_version:
-                return my_cli_version
-            else:
-                return "n/a"
-        except Exception as my_err:
-            return f"n/a -> ({my_err})"
-
-    # generate the stdout
-    print(f"{uls_config.__tool_name_long__} Version information\n"
-          f"ULS Version\t\t{uls_config.__version__}\n\n"
-          f"EAA Version\t\t{_get_cli_version(uls_config.bin_eaa_cli)}\n"
-          f"ETP Version\t\t{_get_cli_version(uls_config.bin_etp_cli)}\n"
-          f"MFA Version\t\t{_get_cli_version(uls_config.bin_mfa_cli)}\n\n"
-          f"OS Plattform\t\t{platform.platform()}\n"
-          f"OS Version\t\t{platform.release()}\n"
-          f"Python Version\t\t{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}\n"
-          )
-    sys.exit(0)
 
 
 class UlsInputCli:
@@ -130,12 +99,15 @@ class UlsInputCli:
                 product_feeds = uls_config.eaa_cli_feeds
                 if not rawcmd:
                     feed = self._feed_selector(feed, product_feeds)
-                    cli_command = [self.bin_python, product_path, 'log', feed.lower(), '-f']
+                    if feed == "CONHEALTH":
+                        cli_command = [self.bin_python, product_path, 'connector', 'list', '--perf', '--tail']
+                    else:
+                        cli_command = [self.bin_python, product_path, 'log', feed.lower(), '-f']
                     cli_command[2:2] = self._uls_useragent(product, feed)
                     cli_command[2:2] = edgegrid_auth
                     cli_command[2:2] = self._prep_proxy(inproxy)
                     if self._format_selector(cliformat) == "JSON":
-                        cli_command.append('-j')
+                        cli_command.append('--json')
                 else:
                     cli_command = [self.bin_python, product_path] + \
                                   self._uls_useragent(product, feed) +\
@@ -179,7 +151,7 @@ class UlsInputCli:
                 aka_log.log.debug(f'{self.name} - CLI Command:  {cli_command}')
                 cli_proc = subprocess.Popen(cli_command,
                                             stdout=subprocess.PIPE,
-                                            stderr=subprocess.DEVNULL)
+                                            stderr=subprocess.PIPE)
 
                 aka_log.log.debug(f"{self.name} - started PID[{cli_proc.pid}]: {cli_command}")
                 self.proc = cli_proc
@@ -189,14 +161,17 @@ class UlsInputCli:
 
                 if not self.check_proc():
                     raise NameError(f"process [{cli_proc.pid}] "
-                                    f"exited rc={cli_proc.returncode}: {cli_proc.stderr.read()}")
+                                    f"exited RC={cli_proc.returncode}, REASON: {cli_proc.stderr.read().decode()}")
+
+                # Handover the app into running state (disable stderr as it caused issues)
                 self.running = True
+                cli_proc.stderr = subprocess.DEVNULL
 
             except Exception as my_error:
                 time.sleep(self.rerun_delay)
                 self.running = False
                 rerun_counter += 1
-                aka_log.log.error(f'{self.name} - {my_error} -> {self.proc.stderr.read()}')
+                aka_log.log.error(f'{self.name} - {my_error} - {cli_proc.stderr.read().decode()}')
 
             if self.running is False and rerun_counter > self.rerun_retries:
                 aka_log.log.critical(f'Not able to start the CLI for {product}. See above errors. '
@@ -206,11 +181,12 @@ class UlsInputCli:
     def check_proc(self):
         try:
             if self.proc.poll() is None:
+
                 return True
             else:
                 self.running = False
                 aka_log.log.error(f'{self.name} - CLI process [{self.proc.pid}]'
-                                  f' was found stale -> {self.proc.stderr.read()}')
+                                  f' was found stale - {cli_proc.stderr.read().decode()}')
                 return False
         except:
             return False
