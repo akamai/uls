@@ -4,7 +4,10 @@ The recommended way (in order to minimize network/encryption overhead) is the TC
 Nevertheless, ULS has been tested with UDP, TCP & HTTP output module towards splunk.
 
 It is recommended to use ULS default format **(JSON)** and Splunk Source_type: _json for best user experience.
-In search commands it might be neccessary to add the ["SPATH"](https://docs.splunk.com/Documentation/Splunk/8.2.0/SearchReference/Spath) abstraction to search within the json fields:
+In search commands it might be neccessary to add the ["SPATH"](https://docs.splunk.com/Documentation/Splunk/8.2.0/SearchReference/Spath) abstraction to search within the json fields:  
+```text
+index=akamai source=uls_etp_threat | spath | top event.actionName
+```
 
 Splunk also works perfectly with the ULS provided [monitoring data](../../MONITORING.md)
 ## Additional Documentation
