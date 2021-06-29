@@ -4,9 +4,13 @@ All commands referenced in this document are run from the repositories root leve
 
 
 ### Overview
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Usage](#usage)
+- [ULS Command Line Usage](#uls-command-line-usage)
+    - [Overview](#overview)
+  - [Requirements](#requirements)
+  - [Installation](#installation)
+    - [Enterprise Access CLI's](#enterprise-access-clis)
+  - [Usage](#usage)
+    - [Usage examples](#usage-examples)
 
 ## Requirements
 To run the operations within the following documentation, you need to have the following tools installed:
@@ -21,7 +25,7 @@ The Secure Enterprise Access Products CLI Tools need to be installed into the `e
 Please run the following commands to download the CLI tools and install the requirements.
 ```bash
 # Enterprise Application Access (EAA)
-git clone --depth 1 --single-branch https://github.com/akamai/cli-etp.git ext/cli-etp && \
+git clone --depth 1 --single-branch https://github.com/akamai/cli-eaa.git ext/cli-eaa && \
 pip install -r ext/cli-eaa/requirements.txt
 
 # Enterprise Threat Protector (ETP)
