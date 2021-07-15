@@ -4,9 +4,13 @@ All commands referenced in this document are run from the repositories root leve
 
 
 ### Overview
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Usage](#usage)
+- [ULS Command Line Usage](#uls-command-line-usage)
+    - [Overview](#overview)
+  - [Requirements](#requirements)
+  - [Installation](#installation)
+    - [Enterprise Access CLI's](#enterprise-access-clis)
+  - [Usage](#usage)
+    - [Usage examples](#usage-examples)
 
 ## Requirements
 To run the operations within the following documentation, you need to have the following tools installed:
