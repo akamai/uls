@@ -1,4 +1,4 @@
-FROM            python:3.9.5-slim-buster
+FROM            python:3.9.6-slim-buster
 LABEL 	        maintainer="Mike Schiessl - mike.schiessl@akamai.com"
 LABEL	        APP="Akamai Universal Log Streamer"
 
@@ -8,7 +8,7 @@ ARG             ULS_DIR="$HOMEDIR/uls"
 ARG             EXT_DIR="$ULS_DIR/ext"
 
 ARG             ETP_CLI_VERSION="0.3.5"
-ARG             EAA_CLI_VERSION="0.3.9"
+ARG             EAA_CLI_VERSION="0.4.0"
 ARG             MFA_CLI_VERSION="0.0.5"
 
 # ENV VARS

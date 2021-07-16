@@ -1,4 +1,16 @@
 # Version History
+## v0.0.5
+|||
+|---|---|
+|Date|2021-07-26-2021
+|Kind|Bugfix / Feature
+|Author|mschiess@akamai.com
+- Minor improvements 
+  - fixed some typos / instructions
+  - bumped EAA version to 0.4.0
+  - updated docker base image to 3.9.6-slim-buster
+  - Added API Credentials documentation
+- 
 ## v0.0.4
 |||
 |---|---|
