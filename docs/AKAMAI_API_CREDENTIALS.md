@@ -28,7 +28,7 @@ This document describes how to create Akamai API credentials and configure them 
 |Enterprise Threat Protector|ETP|THREAT|[{OPEN} API / ETP Report](#etp-open-api-reporting)|
 |Enterprise Threat Protector|ETP|AUP|[{OPEN} API / ETP Report](#etp-open-api-reporting)|
 |Akamai MFA|MFA|AUTH|[MFA Integration](#mfa-integration-for-logging)|
-|Akamai MFA|MFA|POLCIY|[MFA Integration](#mfa-integration-for-logging)|
+|Akamai MFA|MFA|POLICY|[MFA Integration](#mfa-integration-for-logging)|
 
 ## Setting up API credentials for ULS
 
