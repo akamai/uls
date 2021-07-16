@@ -7,8 +7,8 @@ It allows to decrease the number of log lines sent to SIEM for cost, performance
 
 The filter is **regex** based so it is capable of filtering "json" AND raw text events. 
 Only events **matching the filter pattern will be sent towards the selected SIEM** output.
-
-For ETP there is also an option to [filter directly on the API side](AKAMAI_API_CREDENTIALS.md#etp-api-event-filters).
+Filtering can lead to higher CPU / MEMORY consumption in production environments.  
+For ETP there is also an option to [filter directly on the API request side](AKAMAI_API_CREDENTIALS.md#etp-api-event-filters).
 
 ### Usage examples:
 - Filter for "geo_country": "Germany" (in EAA Access logs)
