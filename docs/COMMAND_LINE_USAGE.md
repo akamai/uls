@@ -9,6 +9,7 @@ All commands referenced in this document are run from the repositories root leve
   - [Requirements](#requirements)
   - [Installation](#installation)
     - [Enterprise Access CLI's](#enterprise-access-clis)
+    - [Setup the edgerc file](#setup-the-edgerc-file)
   - [Usage](#usage)
     - [Usage examples](#usage-examples)
 
@@ -16,7 +17,7 @@ All commands referenced in this document are run from the repositories root leve
 To run the operations within the following documentation, you need to have the following tools installed:
 - git
 - python >= 3.9 (including pip)
-- Akamai EDGEGRID credentials file (`.edgerc`)
+- Akamai API credentials file - `.edgerc` (see [API Credentials](AKAMAI_API_CREDENTIALS.md) for creation instructions)
 - Understanding of available [ULS CLI PARAMETERS](ARGUMENTS_ENV_VARS.md)
 
 ## Installation
@@ -35,6 +36,11 @@ pip install -r ext/cli-etp/requirements.txt
 # Akamai Phish Proof Multi Factor Authenticator (AKAMAI-MFA)
 git clone --depth 1 --single-branch https://github.com/akamai/cli-mfa.git ext/cli-mfa && \
 pip install -r ext/cli-mfa/requirements.txt
+```
+### Setup the .EDGERC File
+Copy the `.edgerc` file ([instructions for creation](AKAMAI_API_CREDENTIALS.md)) to your users home directory (~):
+```bash
+cp /path/to/your/.edgerc ~/.edgerc
 ```
 
 ## Usage

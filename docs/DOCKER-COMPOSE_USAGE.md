@@ -6,15 +6,25 @@ The `docker compose` command used in this doc, was recently integrated into the 
 ![ULS docker compose usage](./images/ula_docker-compose_complex_example.png)  
 ### Overview
 - [Requirements](#requirements)
+- [Installation](#installation)
+  - [Obtaining the Docker image](#obtaining-the-docker-image)
+  - [Setup the .EDGERC File](#setup-the-edgerc-file)
 - [Usage](#usage)
 
 ## Requirements
 - [Docker](https://www.docker.com/) needs to be installed on an **linux** OS (Windows not supported)
 - [docker-compose](https://docs.docker.com/compose/install/) needs to be installed alongside docker  
   As alternative to the above, you can now use the latest docker cli with the command `docker compose`
-- Access to the docker image (see Installation section within the [DOCKER documentation](./DOCKER_USAGE.md#installation))
-- Akamai EDGEGRID credentials file (`.edgerc`)
+- Access to the docker image (see [Installation](#installation) section)
+- Akamai API credentials file - `.edgerc` (see [API Credentials](AKAMAI_API_CREDENTIALS.md) for creation instructions)
 - Understanding of available [ULS Environmental Variables](ARGUMENTS_ENV_VARS.md)
+
+## Installation
+### Obtaining the Docker image
+please see the ["Obtaining the Docker image" section in the Docker_Usage file](DOCKER_USAGE.md#obtaining-the-docker-image).
+
+## Setup the .EDGERC File
+Make sure you refer the path to your `.edgerc` file  ([instructions for creation](AKAMAI_API_CREDENTIALS.md)) within the `.env` files.
 
 ## Usage
 Docker compose is the recommended way to run AKAMAI ULS in a production environment.  

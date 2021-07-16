@@ -107,6 +107,7 @@ The .edgerc file hosts all relevant credentials required by ULS (and CLI's). Som
 This repo also provides a [.edgerc sample file](examples/.edgerc) with all config sections added and explained.
 Feel free to use the file as a template and comment out the sections not needed with `;`. 
 
+
 ### Advanced .edgerc Usage 
 #### Multiple customer contracts
 If your organization has multiple contracts, please add the following "contract_id" line to your `.edgerc` file in order select the proper contract.  
