@@ -1,0 +1,39 @@
+; This is a demo .edgerc file provided for usage with AKAMAI Universal Log Streamer
+; all settings go into the [default] section
+
+[default]
+
+; Akamai {OPEN} API credentials (FOR EAA-HEALTH & all ETP logs)
+host = akaa-xxxxxxxxxxxxxxxx-xxxxxxxxxxxxxxxx.luna.akamaiapis.net
+client_token = akab-xxxxxxxxxxxxxxxx-xxxxxxxxxxxxxxxx
+client_secret = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+access_token = akab-xxxxxxxxxxxxxxxx-xxxxxxxxxxxxxxxx
+
+
+; EAA Legacy API (required for EAA-Acess and EAA-Admin logs)
+eaa_api_host = manage.akamai-access.com
+eaa_api_key = XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXX
+eaa_api_secret = XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXX
+
+
+; ETP Config ID (required for ETP usage)
+etp_config_id = your-ETP-config-ID
+
+
+; MFA INTEGRATION API (required for MFA usage)
+mfa_integration_id = app_xxxxxxxxxxxxxxxxxxxxx
+mfa_signing_key = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+
+; Advanced Options
+
+; If your organization have multiple contracts with EAA service
+; please add it below. Contact your Akamai representative to obtain it
+; uncomment below to enable the contract id selector
+; contract_id = A-B-1CD2E34
+
+; If you are a partner managing multiple customers, you can use the switchkey
+; For more information, see:
+; https://learn.akamai.com/en-us/learn_akamai/getting_started_with_akamai_developers/developer_tools/accountSwitch.html
+; uncomment below to enable estra_qs - switch_key line
+; extra_qs = accountSwitchKey=TENANT-SWITCH-KEY

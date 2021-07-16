@@ -10,7 +10,10 @@
   - bumped EAA version to 0.4.0
   - updated docker base image to python/3.9.6-slim-buster
   - Added API Credentials documentation
+  - fixed a bug in rawcmd handling
 - Feature:
+  - [FILTER (--filter) feature](ADDITIONAL_FEATURES.md#filter---filter-feature) introduced to reduce number of sent log lines towards SIEM
+  
 
 ## v0.0.4
 |||
@@ -38,7 +41,7 @@
 - fixed a bug in the "poll" handling
 - fixed a bug that caused Popen PIPE to hang in certain circumstances
 - bumped Dockerfile to newer CLI versions
-- introduced RAW output (send data to stdout)
+- [introduced RAW output](ADDITIONAL_FEATURES.md#rawcmd---rawcmd-feature) (send data to stdout)
 
 ## v0.0.2
 |||

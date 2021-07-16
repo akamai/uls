@@ -104,7 +104,7 @@ To create **MFA INTEGRATION API** credentials, connect to [Akamai Control Center
 
 ## EDGERC File
 The .edgerc file hosts all relevant credentials required by ULS (and CLI's). Some basic information around .edgerc can be found [here](https://developer.akamai.com/legacy/introduction/Conf_Client.html).
-This repo also provides a [.edgerc sample file](examples/.edgerc) with all config sections added and explained.
+This repo also provides a [.edgerc sample file](examples/.edgerc-sample) with all config sections added and explained.
 Feel free to use the file as a template and comment out the sections not needed with `;`. 
 
 
