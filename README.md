@@ -61,6 +61,7 @@ It can be run directly as Python code, as a provided Docker container or through
     - Debug information (log level adjustment)
     - HTTP CA CERT verification skipping
     - Adoptable HTTP - POST format
+    - [Output filter](docs/ADDITIONAL_FEATURES.md#filter---filter-feature) (to reduce number of log lines sent to SIEM)
   
 ## Documentation
 ULS can be operated in many ways.  
@@ -69,7 +70,7 @@ More information for specific SIEM solutions can be found in [this directory](./
 
 ### Generic Requirements
 - Python 3.9+ OR docker / docker-compose 
-- AKAMAI .edgerc file
+- AKAMAI .edgerc file ([see further documentation here](docs/AKAMAI_API_CREDENTIALS.md))
 - Internet access 
 
 ### Command Line Usage
