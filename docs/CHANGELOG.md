@@ -8,9 +8,10 @@
 - Minor improvements 
   - fixed some typos / instructions
   - bumped EAA version to 0.4.0
-  - updated docker base image to 3.9.6-slim-buster
+  - updated docker base image to python/3.9.6-slim-buster
   - Added API Credentials documentation
-- 
+- Feature:
+
 ## v0.0.4
 |||
 |---|---|
