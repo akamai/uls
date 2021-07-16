@@ -17,6 +17,7 @@
 import sys
 import signal
 import threading
+import re
 
 # ULS specific modules
 import modules.aka_log as aka_log
@@ -72,6 +73,15 @@ def main():
     my_output = UlsOutput.UlsOutput()
     my_input = UlsInputCli.UlsInputCli()
 
+    # Prepare the Filter
+    if uls_args.filter:
+        try:
+            aka_log.log.debug(f"FILTER pattern has been specified: {uls_args.filter} - will only output matches")
+            filter_pattern = re.compile(uls_args.filter.encode())
+        except Exception as error:
+            aka_log.log.critical(f"Error in filter patter {uls_args.filter} (exiting). Error: {error}")
+            exit(1)
+
     # When reading CLI output, if no data, pause 10ms before retrying
     # if still no data, then it will backoff exponentially till 60s
     wait_default = uls_config.main_wait_default
@@ -105,9 +115,13 @@ def main():
                 wait = wait_default  # back to 10ms wait in case of bursty content
                 aka_log.log.debug(f"<IN> {input_data}")
                 for e in input_data.splitlines():
-                    my_monitor.increase_message_count()
+                    # ENHANCEMENT FOR FILTERING
+                    if uls_args.filter and not filter_pattern.match(e):
+                        aka_log.log.debug(f"SKIPPED LINE due to FILTER rule: {e}")
+                        continue
                     out_data = e + uls_config.output_line_breaker.encode()
                     my_output.send_data(out_data)
+                    my_monitor.increase_message_count()
                     aka_log.log.debug(f"<OUT> {out_data}")
             else:
                 aka_log.log.debug(f"Mainloop, wait {wait} seconds [{my_monitor.get_stats()}]")

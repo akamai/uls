@@ -27,6 +27,7 @@ The following tables list all available command line parameters and their corres
 |-o <br> --output| ULS_OUTPUT | 'TCP', 'UDP', 'HTTP', 'RAW' | None | Specify the desired OUTPUT target |
 |--host | ULS_OUTPUT_HOST | xxx.xxx.xxx.xxx | None | Specify the desired OUTPUT target host (TCP/UDP only) |
 |--port| ULS_OUTPUT_PORT | xxxx | None | Specify the desired OUTPUT target port (TCP/UDP only) |
+|--filter| ULS_OUTPUT_FILTER | \<regular expression\> | None | Filter (regex) to reduce number of sent log files (Only send lines that match the --filter argument)|
 |--httpurl| ULS_HTTP_URL | http(s)://\<host\>:\<port\>/\<path\> | None | The HTTP target URL. (HTTP only) <br> Do not use --host / --port for HTTP|
 |--httpformat| ULS_HTTP_FORMAT| '<http_output_format>'|'{"event": %s}'| Specify the expected output format (i.e. json) where %s will be replaced with the event data.
 |--httpauthheader| ULS_HTTP_AUTH_HEADER | '{"Authorization": "VALUE"}' | None | Specify an Auhtorization header to auth against the HTTP Server (HTTP only) <br>Example:<br>'{"Authorization": "Splunk xxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx"}' |

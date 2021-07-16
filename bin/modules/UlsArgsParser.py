@@ -119,6 +119,13 @@ def init():
                               default=int(os.environ.get('ULS_OUTPUT_PORT') or '0'),
                               help="Port for TCP/UDP")
 
+    # Output FILTER
+    output_group.add_argument('--filter',
+                              action='store',
+                              type=str,
+                              default=(os.environ.get('ULS_OUTPUT_FILTER') or None),
+                              help="Filter (regex) to reduce number of sent log files (Only send lines that match the --filter argument).")
+
     # HTTP URL
     output_group.add_argument('--httpurl',
                               action='store',
