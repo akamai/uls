@@ -110,7 +110,7 @@ class UlsInputCli:
                         cli_command.append('--json')
                 else:
                     cli_command = [self.bin_python, product_path] + \
-                                  self._uls_useragent(product, feed) +\
+                                  self._uls_useragent(product, "rawcmd") +\
                                   shlex.split(rawcmd)
 
             # ETP config
@@ -125,7 +125,7 @@ class UlsInputCli:
                     cli_command[2:2] = self._prep_proxy(inproxy)
                 else:
                     cli_command = [self.bin_python, product_path] +\
-                                  self._uls_useragent(product, feed) +\
+                                  self._uls_useragent(product, "rawcmd") +\
                                   shlex.split(rawcmd)
 
             # MFA config
@@ -140,7 +140,7 @@ class UlsInputCli:
                     cli_command[2:2] = self._prep_proxy(inproxy)
                 else:
                     cli_command = [self.bin_python, product_path] +\
-                                  self._uls_useragent(product, feed) +\
+                                  self._uls_useragent(product, "rawcmd") +\
                                   shlex.split(rawcmd)
 
             # Everything else (undefined)
