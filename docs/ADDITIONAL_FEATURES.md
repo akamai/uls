@@ -19,7 +19,7 @@ For ETP there is also an option to [filter directly on the API request side](AKA
     ```bash
     python3 bin/uls.py -i etp -f threat -o raw <additional params> --filter '.*"actionName": "Block - Error Page".*'
     ```
-Always test your filter with the "RAW" console output on the command libefore you send the data towards a SIEM
+Always test your filter with the "RAW" console output on the command line before you send the data towards a SIEM
 ```bash
 python3 bin/uls.py -i eaa --feed access --filter '.*"geo_country": "Germany".*' -o raw
 ```
