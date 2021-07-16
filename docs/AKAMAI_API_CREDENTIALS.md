@@ -10,6 +10,7 @@ This document describes the creation and usage of AKAMAI API credentials for the
 - [EdgeRC File](#edgerc-file)
     - [Multiple Contracts](#multiple-customer-contracts)
     - [Partner & employee enhancement](#partner--employee-enhancement)
+    - [ETP API Event Filters](#etp-api-event-filters)
 
 ## Feed / API overview
 |Product|Feed|API|
@@ -17,8 +18,8 @@ This document describes the creation and usage of AKAMAI API credentials for the
 |EAA|ACCESS|EAA LEGACY API|
 |EAA|ADMIN|EAA LEGACY API|
 |EAA|HEALTH|EAA OPEN API|
-|ETP|THREAT|ETP OPEN API V2|
-|ETP|AUP|ETP OPEN API V2|
+|ETP|THREAT|ETP OPEN API V3|
+|ETP|AUP|ETP OPEN API V3|
 |MFA|AUTH|MFA INTEGRATION API|
 |MFA|POLCIY|MFA INTEGRATION API|
 
@@ -125,4 +126,12 @@ For Partners or AKAMAI employees please add the "extra_qs" line to your `.edgerc
 ; For more information, see:
 ; https://learn.akamai.com/en-us/learn_akamai/getting_started_with_akamai_developers/developer_tools/accountSwitch.html
 extra_qs = accountSwitchKey=TENANT-SWITCH-KEY
+```
+
+#### ETP API EVENT Filters
+For Enterprise Threat protector (ETP), events can already be filtered at API level, so they won't even be transferred towards ULS.
+This can be used for performance / scaling as well for cost saving reasons.
+Please find more information around filtering on ETP API in the [ETP APIv3 documentation](https://developer.akamai.com/api/enterprise_security/enterprise_threat_protector_reporting/v3.html#filter)
+```bash
+etp_event_filters = {"list":{"nin":["12345"]}}
 ```
