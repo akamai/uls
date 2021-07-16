@@ -1,25 +1,22 @@
-# Akamai API credentials for ULS
+# Configure Akamai API credentials for ULS<!-- omit in toc -->
 
-This document describes how to create Akamai API credentials and configure them in ULS to access the different products and data feeds.
+This document describes how to create Akamai API credentials and configure them in Unified Log Streamer (ULS) to access the different Akamai products and data feeds.
 
-### Table of contents
+## Table of contents<!-- omit in toc -->
 
-- [Akamai API credentials for ULS](#akamai-api-credentials-for-uls)
-    - [Table of contents](#table-of-contents)
-  - [Feeds / API overview](#feeds--api-overview)
-  - [Setting up API credentials for ULS](#setting-up-api-credentials-for-uls)
-    - [Enterprise Application Access (EAA)](#enterprise-application-access-eaa)
-      - [EAA Legacy API (for Access and Admin Audit feeds)](#eaa-legacy-api-for-access-and-admin-audit-feeds)
-      - [EAA {OPEN} API (for Connector Health feed)](#eaa-open-api-for-connector-health-feed)
-    - [Enterprise Threat Protector (ETP)](#enterprise-threat-protector-etp)
-      - [ETP {OPEN} API Reporting](#etp-open-api-reporting)
-    - [Akamai MFA](#akamai-mfa)
-      - [MFA Integration for logging](#mfa-integration-for-logging)
-  - [.edgerc file](#edgerc-file)
-    - [Advanced .edgerc Usage](#advanced-edgerc-usage)
-      - [Multiple customer contracts](#multiple-customer-contracts)
-      - [Partner & employee enhancement](#partner--employee-enhancement)
-      - [ETP API EVENT Filters](#etp-api-event-filters)
+- [Feeds / API overview](#feeds--api-overview)
+- [Setting up API credentials for ULS](#setting-up-api-credentials-for-uls)
+  - [Enterprise Application Access (EAA)](#enterprise-application-access-eaa)
+    - [EAA Legacy API (for Access and Admin Audit feeds)](#eaa-legacy-api-for-access-and-admin-audit-feeds)
+    - [EAA {OPEN} API (for Connector Health feed)](#eaa-open-api-for-connector-health-feed)
+  - [Enterprise Threat Protector (ETP)](#enterprise-threat-protector-etp)
+    - [ETP {OPEN} API Reporting](#etp-open-api-reporting)
+  - [Akamai MFA](#akamai-mfa)
+    - [MFA Integration for logging](#mfa-integration-for-logging)
+- [Advanced .edgerc usage](#advanced-edgerc-usage)
+  - [Multiple customer contracts](#multiple-customer-contracts)
+  - [Partner & employee enhancement](#partner--employee-enhancement)
+  - [ETP API EVENT Filters](#etp-api-event-filters)
 
 ## Feeds / API overview
 
@@ -35,7 +32,14 @@ This document describes how to create Akamai API credentials and configure them 
 
 ## Setting up API credentials for ULS
 
-ULS will read the API credentials from a text file, by default named `.edgerc` in the home directory of the current user. The credentials configuration file can have multiple sections allowing to use multiple tenants (in case of multi-contract structure, or Akamai Partner).
+ULS will read the API credentials from a text file, by default named `.edgerc` and stored in the home directory of the current user. The credentials configuration file can have multiple sections allowing to use multiple tenants (in case of multi-contract structure, or Akamai Partner).
+
+Some basic information around `.edgerc` can be found [here](https://developer.akamai.com/legacy/introduction/Conf_Client.html).
+This repo also provides a [.edgerc sample file](examples/.edgerc-sample) with all config sections added and explained.
+
+Feel free to use the file as a template and comment out the sections not needed with `;`.
+
+You'll find below all the details how to create the credentials based on the Akamai Data you plan to use with ULS.
 
 ### Enterprise Application Access (EAA) 
 
@@ -48,8 +52,8 @@ To create **EAA Legacy API** credentials, connect to [Akamai Control Center](htt
 - Select the **API Keys** tab
 - Click **Generate new API Key** top right button
 - Enter a name and a description
-- On the confirmation screen, copy the **Key** and the **Secret**
-![img.png](images/uls_apicreds_eaa_ec.png)
+- On the confirmation screen, copy the **Key** and the **Secret**:  
+- <img src="images/uls_apicreds_eaa_ec.png" width="846" />
 - Add/replace/amend the following section to your `.edgerc` file and replace the data accordingly, example in the default section:
   
 ```INI
@@ -64,9 +68,9 @@ eaa_api_secret = XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXX
 
 To create **Akamai {OPEN} API** credentials, please follow [these instructions](https://developer.akamai.com/legacy/introduction/Prov_Creds.html).
 
-Make sure the API user has **READ-WRITE** permission on the **Enterprise Application Access** API. For ULS usage, it is safe to provide all required API permission (such as EAA, ETP) to a single API user. We do not recommend All APIs.
+Make sure the API user has `READ-WRITE` permission on the **Enterprise Application Access** API. For ULS usage, it is safe to provide all required API permission (such as EAA, ETP) to a single API user.
 
-![img.png](images/uls_apicreds_eaa_openapi.png)
+<img src="images/uls_apicreds_eaa_openapi.png" width="1251" alt="Edit API client screenshot in Akamai Control Center" />
 
 Please add/replace/amend the following section to your `.edgerc` file and replace the data accordingly, example in the default section:
 
@@ -117,11 +121,11 @@ To create **MFA Integration** credentials, connect to [Akamai Control Center](ht
 
 - Select **Enterprise Center** from the main navigation menu on the left
 - Navigate to **MFA** > **Integrations**
-- Click on (+) to add a new integration
-    <img src="images/uls_apicreds_mfa_create.png" width="500px" />
+- Click on (+) to add a new MFA integration:  
+  <img src="images/uls_apicreds_mfa_create.png" width="778" />
 - Confirm by clicking the **Save & Deploy** button
-- **Copy** the credentials as shown below:
-    <img src="images/uls_apicreds_mfa_creds.png"  width="500px" />
+- **Copy** the credentials as shown below:  
+  <img src="images/uls_apicreds_mfa_creds.png"  width="366" />
 - Add/replace/amend the following section to your `.edgerc` file and replace the data accordingly:
 
 ```INI
@@ -131,15 +135,9 @@ mfa_integration_id = app_xxxxxxxxxxxxxxxxxxxxx
 mfa_signing_key = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
-## .edgerc file
+## Advanced .edgerc usage
 
-The `.edgerc` file hosts all relevant credentials required by ULS (and underlying CLI's). Some basic information around `.edgerc` can be found [here](https://developer.akamai.com/legacy/introduction/Conf_Client.html).
-This repo also provides a [.edgerc sample file](examples/.edgerc-sample) with all config sections added and explained.
-Feel free to use the file as a template and comment out the sections not needed with `;`. 
-
-### Advanced .edgerc Usage 
-
-#### Multiple customer contracts
+### Multiple customer contracts
 
 If your organization has multiple contracts, please add the following "contract_id" line to your `.edgerc` file in order select the proper contract.  
 If ETP and EAA are on different contracts, we recommend the creation of two different `.edgerc` files.
@@ -151,7 +149,7 @@ If ETP and EAA are on different contracts, we recommend the creation of two diff
 contract_id = A-B-1CD2E34
 ```
 
-#### Partner & employee enhancement
+### Partner & employee enhancement
 
 For Partners or AKAMAI employees please add the "extra_qs" line to your `.edgerc` file in order to switch towards the desired tenant. Please replace "TENANT-SWITCH-KEY" with the provided switch key.
 
@@ -163,7 +161,7 @@ For Partners or AKAMAI employees please add the "extra_qs" line to your `.edgerc
 extra_qs = accountSwitchKey=TENANT-SWITCH-KEY
 ```
 
-#### ETP API EVENT Filters
+### ETP API EVENT Filters
 
 For Enterprise Threat protector (ETP), events can already be filtered at API level, so they won't even be transferred towards ULS.
 This can be used for performance / scaling as well for cost saving reasons.
