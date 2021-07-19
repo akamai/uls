@@ -1,5 +1,5 @@
 # Version History
-## v0.0.5
+## v0.9.0
 |||
 |---|---|
 |Date|2021-07-26-2021
@@ -8,9 +8,12 @@
 - Minor improvements 
   - fixed some typos / instructions
   - bumped EAA version to 0.4.0
+  - bumped MFA version to 0.6.0
   - updated docker base image to python/3.9.6-slim-buster
   - Added API Credentials documentation
   - fixed a bug in rawcmd handling
+  - Improved input error counting to leverage "restarting" towards docker
+  
 - Feature:
   - [FILTER (--filter) feature](ADDITIONAL_FEATURES.md#filter---filter-feature) introduced to reduce number of sent log lines towards SIEM
   
