@@ -37,6 +37,7 @@ class UlsInputCli:
         self.running = False            # Internal Running tracker - do not touch
         self.proc = None
         self.proc_output = None
+        self.rerun_counter = 1
 
     def _feed_selector(self, feed, product_feeds):
         if feed in product_feeds:
@@ -87,9 +88,7 @@ class UlsInputCli:
                     rawcmd=None,
                     inproxy=None):
 
-        rerun_counter = 1
-
-        while self.running is False and rerun_counter <= self.rerun_retries:
+        while self.running is False and self.rerun_counter <= self.rerun_retries:
             edgegrid_auth = self._prep_edgegridauth(credentials_file, credentials_file_section)
             aka_log.log.debug(f'{self.name} - selected product: {product}')
 
@@ -163,19 +162,20 @@ class UlsInputCli:
                     raise NameError(f"process [{cli_proc.pid}] "
                                     f"exited RC={cli_proc.returncode}, REASON: {cli_proc.stderr.read().decode()}")
 
-                # Handover the app into running state (disable stderr as it caused issues)
+                # Handover the app into running state (disable stderr as it caused issues) and reset rerun counter to 1
                 self.running = True
+                self.rerun_counter = 1
                 cli_proc.stderr = subprocess.DEVNULL
 
             except Exception as my_error:
                 time.sleep(self.rerun_delay)
                 self.running = False
-                rerun_counter += 1
+                self.rerun_counter += 1
                 aka_log.log.error(f'{self.name} - {my_error} - {cli_proc.stderr.read().decode()}')
 
-            if self.running is False and rerun_counter > self.rerun_retries:
+            if self.running is False and self.rerun_counter > self.rerun_retries:
                 aka_log.log.critical(f'Not able to start the CLI for {product}. See above errors. '
-                                     f'Giving up after {rerun_counter - 1} retries.')
+                                     f'Giving up after {self.rerun_counter - 1} retries.')
                 sys.exit(1)
 
     def check_proc(self):
