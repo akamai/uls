@@ -8,7 +8,7 @@ ARG             ULS_DIR="$HOMEDIR/uls"
 ARG             EXT_DIR="$ULS_DIR/ext"
 
 ARG             ETP_CLI_VERSION="0.3.5"
-ARG             EAA_CLI_VERSION="0.4.0"
+ARG             EAA_CLI_VERSION="0.4.1"
 ARG             MFA_CLI_VERSION="0.0.6"
 
 # ENV VARS
