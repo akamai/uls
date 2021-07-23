@@ -8,16 +8,19 @@ All commands referenced in this document are run from the repositories root leve
     - [Overview](#overview)
   - [Requirements](#requirements)
   - [Installation](#installation)
+    - [Obtaining the Docker image](#obtaining-the-docker-image)
+    - [Setup the .EDGERC File](#setup-the-edgerc-file)
   - [Usage](#usage)
 
 ## Requirements
 - [Docker](https://www.docker.com/) needs to be installed on an **GNU/Linux** OS
   - Note: Windows is not supported, please use HyperV with a Linux VM
 - Access to the docker image (see [installation](#installation))
-- Akamai EDGEGRID credentials file (`.edgerc`)
+- Akamai API credentials file - `.edgerc` (see [API Credentials](AKAMAI_API_CREDENTIALS.md) for creation instructions)
 - Understanding of available [ULS Environmental Variables and CLI PARAMETERS](ARGUMENTS_ENV_VARS.md)
 
 ## Installation
+### Obtaining the Docker image
 There are two options to retrieve the docker image:
 - DockerHub  
   Pull the latest image from DockerHubs online repository  
@@ -36,6 +39,14 @@ docker image ls | grep uls
 should return something like (where size, fingerprint and time will differ)
 ```text
 akamai/uls                                                    latest        2a822d4ab406   16 hours ago   929MB
+```
+### Setup the .EDGERC File
+Make sure you refer the path to your `.edgerc` file  ([instructions for creation](AKAMAI_API_CREDENTIALS.md)) within your docker command.
+```text
+docker run ...
+...
+--mount type=bind,source="/path/to/your/.edgerc",target="/opt/akamai-uls/.edgerc",readonly \
+...
 ```
 
 ## Usage

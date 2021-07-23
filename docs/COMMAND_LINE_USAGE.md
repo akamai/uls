@@ -4,15 +4,20 @@ All commands referenced in this document are run from the repositories root leve
 
 
 ### Overview
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Usage](#usage)
+- [ULS Command Line Usage](#uls-command-line-usage)
+    - [Overview](#overview)
+  - [Requirements](#requirements)
+  - [Installation](#installation)
+    - [Enterprise Access CLI's](#enterprise-access-clis)
+    - [Setup the edgerc file](#setup-the-edgerc-file)
+  - [Usage](#usage)
+    - [Usage examples](#usage-examples)
 
 ## Requirements
 To run the operations within the following documentation, you need to have the following tools installed:
 - git
 - python >= 3.9 (including pip)
-- Akamai EDGEGRID credentials file (`.edgerc`)
+- Akamai API credentials file - `.edgerc` (see [API Credentials](AKAMAI_API_CREDENTIALS.md) for creation instructions)
 - Understanding of available [ULS CLI PARAMETERS](ARGUMENTS_ENV_VARS.md)
 
 ## Installation
@@ -21,16 +26,21 @@ The Secure Enterprise Access Products CLI Tools need to be installed into the `e
 Please run the following commands to download the CLI tools and install the requirements.
 ```bash
 # Enterprise Application Access (EAA)
-git clone --depth 1 --single-branch https://github.com/akamai/cli-etp.git ext/cli-etp && \
+git clone --depth 1 --single-branch https://github.com/akamai/cli-eaa.git ext/cli-eaa && \
 pip install -r ext/cli-eaa/requirements.txt
 
 # Enterprise Threat Protector (ETP)
 git clone --depth 1 --single-branch https://github.com/akamai/cli-etp.git ext/cli-etp && \
-pip install ext/cli-etp/requirements.txt
+pip install -r ext/cli-etp/requirements.txt
 
 # Akamai Phish Proof Multi Factor Authenticator (AKAMAI-MFA)
 git clone --depth 1 --single-branch https://github.com/akamai/cli-mfa.git ext/cli-mfa && \
 pip install -r ext/cli-mfa/requirements.txt
+```
+### Setup the .EDGERC File
+Copy the `.edgerc` file ([instructions for creation](AKAMAI_API_CREDENTIALS.md)) to your users home directory (~):
+```bash
+cp /path/to/your/.edgerc ~/.edgerc
 ```
 
 ## Usage
