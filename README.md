@@ -108,7 +108,7 @@ Contributions to this software can be provided via [Pull Requests](https://docs.
 Akamai ULS is provided "as-is". It is not supported by Akamai Support. Akamai is neither liable for the function nor for any caused problems that come along with the usage or caused by this tool. Please refer to the [LICENSE](./LICENSE) document for more information.
 
 To report an issue, feature request or bug, please open a new issue into the [GitHub Issues page](https://github.com/akamai/uls/issues).
-This software is released under the "Apache License". Please visit the [debugging instructions](./docs/DEBUGGING.md) before opening a bug request.  
+This software is released under the "Apache License". Please read the [frequently asked questions](docs/FAQ.md) and visit the [debugging instructions](./docs/DEBUGGING.md) before opening a bug request.  
 
 [Pull requests](#development) to improve the code or enhance the functionality are welcome.
 
