@@ -13,6 +13,7 @@
   - Added API Credentials documentation
   - fixed a bug in rawcmd handling
   - Improved cli input error handling to leverage "restarting" towards docker
+  - added FAQ documents
 - Feature:
   - [FILTER (--filter) feature](ADDITIONAL_FEATURES.md#filter---filter-feature) introduced to reduce number of sent log lines towards SIEM
   
