@@ -6,7 +6,7 @@ services:
     env_file: etp-threat.env
     volumes:
       - type: bind
-        source: /patch/to/your/.edgerc
+        source: /path/to/your/.edgerc
         target: /opt/akamai-uls/.edgerc
   eaa-access:
     image: akamai/uls:latest
@@ -14,7 +14,7 @@ services:
     env_file: eaa-access.env
     volumes:
       - type: bind
-        source: /patch/to/your/.edgerc
+        source: /path/to/your/.edgerc
         target: /opt/akamai-uls/.edgerc
   eaa-admin:
     image: akamai/uls:latest
@@ -22,5 +22,5 @@ services:
     env_file: mfa-auth.env
     volumes:
       - type: bind
-        source: /patch/to/your/.edgerc
+        source: /path/to/your/.edgerc
         target: /opt/akamai-uls/.edgerc
