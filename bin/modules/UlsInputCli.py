@@ -119,7 +119,8 @@ class UlsInputCli:
                 product_path = uls_config.bin_etp_cli
                 product_feeds = uls_config.etp_cli_feeds
                 if not rawcmd:
-                    UlsTools.uls_check_edgerc(credentials_file, credentials_file_section, uls_config.edgerc_openapi)
+                    UlsTools.uls_check_edgerc(credentials_file, credentials_file_section,
+                                              uls_config.edgerc_openapi + ["etp_config_id"])
                     feed = self._feed_selector(feed, product_feeds)
                     cli_command = [self.bin_python, product_path, 'event', feed.lower(), '-f']
                     cli_command[2:2] = self._uls_useragent(product, feed)
