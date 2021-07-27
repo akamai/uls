@@ -45,9 +45,11 @@ python3 bin/uls.py --loglevel debug <rest of your ULS command>
 ```
 ####Docker
 ```bash
-docker run -ti --mount type=bind,source="/path/to/your/.edgerc",target="/opt/akamai-uls/.edgerc",readonly \
-  --rm akamai/uls --loglevel debug \
-  <rest of your ULS command> 
+docker run -ti \
+  --mount type=bind,source="/path/to/your/.edgerc",target="/opt/akamai-uls/.edgerc",readonly \
+  --rm \
+  --name uls_debugging \
+  akamai/uls --loglevel debug <rest of your ULS command parameters> 
 ```
 
 Instead of adding it to the command line, you can also set the `ULS_LOGLEVEL` ENV VAR to "DEBUG"
@@ -72,11 +74,17 @@ This is helpful when a deeper debugging from within the CLI tool is required.
     Via this way, you can get the full CLI debugging output within ULS
 
 #### DOCKER / DOCKER-COMPOSE 
-1) Connect to the docker instance
-    ```json
-    docker exec -ti my_instance_name /bin/bash
-    ```
-2) Run CLI directly 
+1) Start a debugging docker instance and connect to it's console
+   ```bash
+   docker run -ti \
+     --mount type=bind,source="/path/to/your/.edgerc",target="/opt/akamai-uls/.edgerc",readonly \
+     --entrypoint "/bin/bash" \
+     --name uls_debugging \
+     --rm akamai/uls:latest
+   ```
+
+2) Run CLI directly within the container  
+    Example:
     ```bash
      ext/cli-eaa/bin/akamai-eaa -d --edgerc ~/.edgerc --section akamaidemo connector list --perf --tail --json
     ```

@@ -1,4 +1,14 @@
 # Version History
+## v0.9.1
+|||
+|---|---|
+|Date|2021-07-XX
+|Kind|Bugfix / Feature
+|Author|mschiess@akamai.com, adrocho@akamai.com
+- Minor improvements
+  - EdgeRC file check (preflight) and "~" expansion to solve some common issues
+  - fixed some typos in the "docker-compose" file
+ 
 ## v0.9.0
 |||
 |---|---|
