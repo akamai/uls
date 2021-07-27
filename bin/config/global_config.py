@@ -56,3 +56,9 @@ output_http_header = {'User-Agent': f'{__tool_name_long__}/{__version__}'}
 # Monitoring Configuration
 monitoring_enabled = True                       # Set to false to disable monitoring outputs
 monitoring_interval = 5 * 60                    # Monitoring output interval (seconds)
+
+
+# EDGERC_Checks
+edgerc_openapi = ["host", "client_token", "client_secret", "access_token"]          # required fields for OPENAPI
+edgerc_eaa_legacy = ["eaa_api_host", "eaa_api_key", "eaa_api_secret"]               # required for EAA - Legacy
+edgerc_mfa = ["mfa_integration_id", "mfa_signing_key"]                              # Required for MFA

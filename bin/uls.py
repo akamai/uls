@@ -18,6 +18,7 @@ import sys
 import signal
 import threading
 import re
+import os
 
 # ULS specific modules
 import modules.aka_log as aka_log
@@ -95,7 +96,7 @@ def main():
             my_input.proc_create(product=uls_args.input,
                                  feed=uls_args.feed,
                                  cliformat=uls_args.cliformat,
-                                 credentials_file=uls_args.credentials_file,
+                                 credentials_file=os.path.expanduser(uls_args.credentials_file),
                                  credentials_file_section=uls_args.credentials_file_section,
                                  rawcmd=uls_args.rawcmd)
 
