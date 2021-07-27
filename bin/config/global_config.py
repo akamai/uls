@@ -62,3 +62,4 @@ monitoring_interval = 5 * 60                    # Monitoring output interval (se
 edgerc_openapi = ["host", "client_token", "client_secret", "access_token"]          # required fields for OPENAPI
 edgerc_eaa_legacy = ["eaa_api_host", "eaa_api_key", "eaa_api_secret"]               # required for EAA - Legacy
 edgerc_mfa = ["mfa_integration_id", "mfa_signing_key"]                              # Required for MFA
+edgerc_documentation_url = "https://github.com/akamai/uls/blob/main/docs/AKAMAI_API_CREDENTIALS.md"

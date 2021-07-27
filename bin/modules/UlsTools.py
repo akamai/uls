@@ -81,17 +81,25 @@ def uls_version():
 
 
 def uls_check_edgerc(configfile, configsection, configvalues):
+    """
+    Verify the given "edgerc" file to contain all required variables (for the desired stream) within the given section
+    see https://github.com/akamai/uls/blob/main/docs/AKAMAI_API_CREDENTIALS.md for more information
+    :param configfile: The path to the config file
+    :param configsection: The section within the config file [default]
+    :param configvalues: A list of desiresd config values ["val1", "val2", ...]
+    :return:
+    """
     config = configparser.ConfigParser()
     # Load config file
     if not config.read(os.path.expanduser(configfile)):
         aka_log.log.critical(f"Config file '{os.path.expanduser(configfile)}' could not be loaded. - Exiting.")
         sys.exit(1)
     else:
-        aka_log.log.debug(f"Config file {os.path.expanduser(configfile)} was found and is readable.")
+        aka_log.log.debug(f"Config file '{os.path.expanduser(configfile)}' was found and is readable.")
 
     # Check config section
     if configsection not in config:
-        aka_log.log.critical(f"Section {configsection} not found. Available sections: {config.sections()}. - Exiting")
+        aka_log.log.critical(f"Section '{configsection}' not found. Available sections: '{config.sections()}'. - Exiting")
         sys.exit(1)
     else:
         aka_log.log.debug(f"Section '{configsection}' found.")
@@ -99,7 +107,8 @@ def uls_check_edgerc(configfile, configsection, configvalues):
     # check for specified values
     for configvalue in configvalues:
         if not configvalue in config[configsection]:
-            aka_log.log.critical(f"Required configuration value {configvalue} not found in section / file. - Exiting")
+            aka_log.log.critical(f"Required configuration value '{configvalue}' not found in section / file. Please see: {uls_config.edgerc_documentation_url} - Exiting")
             sys.exit(1)
         else:
-            aka_log.log.debug(f"Required configuration value {configvalue} found.")
+            aka_log.log.debug(f"Required configuration value '{configvalue}' found.")
+    return 0
