@@ -91,7 +91,7 @@ def uls_check_edgerc(configfile, configsection, configvalues):
     """
     config = configparser.ConfigParser()
     # Load config file
-    if not config.read(os.path.expanduser(configfile)):
+    if not config.read(configfile):
         aka_log.log.critical(f"Config file '{os.path.expanduser(configfile)}' could not be loaded. - Exiting.")
         sys.exit(1)
     else:
