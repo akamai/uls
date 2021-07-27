@@ -8,7 +8,8 @@
 - Minor improvements
   - EdgeRC file check (preflight) and "~" expansion to solve some common issues
   - fixed some typos in the "docker-compose" file
- 
+  - bumped EAA-CLI to version 0.4.2 
+
 ## v0.9.0
 |||
 |---|---|
