@@ -152,7 +152,7 @@ class UlsInputCli:
                 aka_log.log.critical(f" {self.name} - No valid product selected (--input={product}).")
                 sys.exit(1)
             try:
-                aka_log.log.debug(f'{self.name} - CLI Command:  {cli_command}')
+                aka_log.log.debug(f'{self.name} - CLI Command:  {" ".join(cli_command)}')
                 cli_proc = subprocess.Popen(cli_command,
                                             stdout=subprocess.PIPE,
                                             stderr=subprocess.PIPE)
