@@ -43,16 +43,16 @@ WORKDIR         ${ULS_DIR}
 ## ETP CLI
 ENV             ETP_CLI_VERSION=$ETP_CLI_VERSION
 RUN             git clone --depth 1 -b "${ETP_CLI_VERSION}" --single-branch https://github.com/akamai/cli-etp.git ${EXT_DIR}/cli-etp && \
-                pip install -r ${EXT_DIR}/cli-etp/requirements.txt
+                pip3 install -r ${EXT_DIR}/cli-etp/requirements.txt
 
 ## EAA CLI
 ENV             EAA-CLI_VERSION=$EAA_CLI_VERSION
 RUN             git clone --depth 1 -b "${EAA_CLI_VERSION}" --single-branch https://github.com/akamai/cli-eaa.git ${EXT_DIR}/cli-eaa && \
-                pip install -r ${EXT_DIR}/cli-eaa/requirements.txt
+                pip3 install -r ${EXT_DIR}/cli-eaa/requirements.txt
 ## MFA CLI
 ENV             MFA-CLI_VERSION=$MFA_CLI_VERSION
 RUN             git clone --depth 1 -b "${MFA_CLI_VERSION}" --single-branch https://github.com/akamai/cli-mfa.git ${EXT_DIR}/cli-mfa && \
-                pip install -r ${EXT_DIR}/cli-mfa/requirements.txt
+                pip3 install -r ${EXT_DIR}/cli-mfa/requirements.txt
 
 # ENTRYPOINTS / CMD
 #CMD             /usr/local/bin/python3 ${ULS_DIR}/bin/uls.py
