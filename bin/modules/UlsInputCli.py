@@ -157,7 +157,7 @@ class UlsInputCli:
                                             stdout=subprocess.PIPE,
                                             stderr=subprocess.PIPE)
 
-                aka_log.log.debug(f"{self.name} - started PID[{cli_proc.pid}]: {cli_command}")
+                aka_log.log.debug(f"{self.name} - started PID[{cli_proc.pid}]: {' '.join(cli_command)}")
                 self.proc = cli_proc
                 self.proc_output = cli_proc.stdout
                 os.set_blocking(self.proc_output.fileno(), False)
