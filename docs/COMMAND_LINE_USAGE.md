@@ -21,6 +21,13 @@ To run the operations within the following documentation, you need to have the f
 - Understanding of available [ULS CLI PARAMETERS](ARGUMENTS_ENV_VARS.md)
 
 ## Installation
+### Clone ULS Repo
+Clone the ULS repository from github and change into the repository directory aferwards.
+```bash
+https://github.com/akamai/uls.git
+cd uls
+```
+
 ### Enterprise Access CLI's
 The Secure Enterprise Access Products CLI Tools need to be installed into the `ext` directory within this repo.
 Please run the following commands to download the CLI tools and install the requirements.
@@ -37,6 +44,7 @@ pip3 install -r ext/cli-etp/requirements.txt
 git clone --depth 1 --single-branch https://github.com/akamai/cli-mfa.git ext/cli-mfa && \
 pip3 install -r ext/cli-mfa/requirements.txt
 ```
+
 ### Setup the .EDGERC File
 Copy the `.edgerc` file ([instructions for creation](AKAMAI_API_CREDENTIALS.md)) to your users home directory (~):
 ```bash
