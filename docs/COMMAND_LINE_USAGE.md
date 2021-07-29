@@ -19,12 +19,13 @@ To run the operations within the following documentation, you need to have the f
 - python >= 3.9 (including pip)
 - Akamai API credentials file - `.edgerc` (see [API Credentials](AKAMAI_API_CREDENTIALS.md) for creation instructions)
 - Understanding of available [ULS CLI PARAMETERS](ARGUMENTS_ENV_VARS.md)
+- Access to `github.com`, `pypi.org`, `pythonhosted.org` and `pypi.python.org` within your firewall
 
 ## Installation
 ### Clone ULS Repo
 Clone the ULS repository from github and change into the repository directory aferwards.
 ```bash
-https://github.com/akamai/uls.git
+git clone https://github.com/akamai/uls.git
 cd uls
 ```
 
