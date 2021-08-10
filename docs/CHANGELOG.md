@@ -2,7 +2,7 @@
 ## v1.0.0
 |||
 |---|---|
-|Date|2021-07-XX
+|Date|2021-08-10
 |Kind|Bugfix / Feature
 |Author|mschiess@akamai.com, adrocho@akamai.com
 - Minor improvements

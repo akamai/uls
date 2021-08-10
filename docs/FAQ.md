@@ -6,7 +6,7 @@
 - [Where to get the API credentials ?](#where-to-get-the-api-credentials-)
 - [What command line Options are available ? ](#what-command-line-options-are-available-)
 - [What environmental variables (ENV VARS) are available](#what-environmental-variables-env-vars-are-available-#)
-
+- [--version does not show all versions](#ulspy---version-does-not-show-all-versions)
 ----
 ## FAQ
 ### How can the ULS process be monitored ?
@@ -37,3 +37,8 @@ There is a dedicated document explaining the [command line parameters and enviro
 There is a dedicated document explaining the [command line parameters and environment variables.](ARGUMENTS_ENV_VARS.md)
 
 ---
+### `uls.py --version` does not show all versions
+This is (sadly) a known issue. It is a problem within some of the CLI's if no ".edgerc" file is provided. If you provide a `.edgerc`, the show is correct.
+
+---
+
