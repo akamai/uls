@@ -11,6 +11,7 @@
   - bumped EAA-CLI to version 0.4.2
   - simplified cli - command re-usage (visual parsing of subprocess cmd)
   - cleaned up the Dockerfile
+  - added [Log_Overview](LOG_OVERVIEW.md) page to extend background on logged data
 
 ## v0.9.0
 |||
