@@ -1,5 +1,5 @@
 # Version History
-## v0.9.1
+## v1.0.0
 |||
 |---|---|
 |Date|2021-07-XX
@@ -10,6 +10,7 @@
   - fixed some typos in the "docker-compose" file
   - bumped EAA-CLI to version 0.4.2
   - simplified cli - command re-usage (visual parsing of subprocess cmd)
+  - cleaned up the Dockerfile
 
 ## v0.9.0
 |||

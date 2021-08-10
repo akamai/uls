@@ -1,6 +1,8 @@
 FROM            python:3.9.6-slim-buster
-LABEL 	        maintainer="Mike Schiessl - mike.schiessl@akamai.com"
-LABEL	        APP="Akamai Universal Log Streamer"
+LABEL 	        MAINTAINER="Mike Schiessl - mike.schiessl@akamai.com"
+LABEL	        APP_LONG="Akamai Universal Log Streamer"
+LABEL           APP_SHORT="ULS"
+LABEL           VENDOR="Akamai Technologies"
 
 # CONFIGURATION ARGS
 ARG             HOMEDIR="/opt/akamai-uls"
@@ -21,9 +23,10 @@ ENV             HOMEDIR=$HOMEDIR
 # ENV PREP
 RUN	            apt-get update && \
 	            apt-get --no-install-recommends -y install \
-		        curl \
 		        ca-certificates \
-		        git && \
+		        git \
+		        curl \
+                telnet && \
 		        rm -rf /var/lib/apt/lists/
 
 # USER & GROUP
@@ -32,7 +35,7 @@ RUN 	        groupadd akamai && \
 
 USER            akamai
 WORKDIR         ${HOMEDIR}
-RUN             mkdir -p ${HOMEDIR}/uls
+RUN             mkdir -p ${ULS_DIR}
 
 
 # Install ULS
@@ -44,7 +47,6 @@ WORKDIR         ${ULS_DIR}
 ENV             ETP_CLI_VERSION=$ETP_CLI_VERSION
 RUN             git clone --depth 1 -b "${ETP_CLI_VERSION}" --single-branch https://github.com/akamai/cli-etp.git ${EXT_DIR}/cli-etp && \
                 pip3 install -r ${EXT_DIR}/cli-etp/requirements.txt
-
 ## EAA CLI
 ENV             EAA-CLI_VERSION=$EAA_CLI_VERSION
 RUN             git clone --depth 1 -b "${EAA_CLI_VERSION}" --single-branch https://github.com/akamai/cli-eaa.git ${EXT_DIR}/cli-eaa && \
@@ -55,7 +57,6 @@ RUN             git clone --depth 1 -b "${MFA_CLI_VERSION}" --single-branch http
                 pip3 install -r ${EXT_DIR}/cli-mfa/requirements.txt
 
 # ENTRYPOINTS / CMD
-#CMD             /usr/local/bin/python3 ${ULS_DIR}/bin/uls.py
 ENTRYPOINT      ["/usr/local/bin/python3","bin/uls.py"]
-
+CMD             ["--help"]
 # EOF
