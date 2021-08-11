@@ -82,7 +82,7 @@ def init():
                              action='store',
                              type=str,
                              dest="credentials_file",
-                             default=(os.environ.get('ULS_EDGERC') or '~/.edgerc'),
+                             default=(os.environ.get('ULS_EDGERC') or "~/.edgerc"),
                              help="Location of the credentials file (default is ~/.edgerc)")
     # EDGERC-SECTION
     input_group.add_argument('--section',

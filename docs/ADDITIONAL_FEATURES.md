@@ -2,7 +2,7 @@
 This document handles the usage of features not explained anywhere else.
 
 ## FILTER (--filter) Feature
-This feature got introduced in ULS v0.0.5.
+This feature got introduced in ULS v0.9.0.  
 It allows to decrease the number of log lines sent to SIEM for cost, performance or security reasons.
 
 The filter is **regex** based so it is capable of filtering "json" AND raw text events. 
@@ -25,7 +25,7 @@ python3 bin/uls.py -i eaa --feed access --filter '.*"geo_country": "Germany".*' 
 ```
 
 ## RAWCMD (--rawcmd) Feature
-This feature got introduced in ULS v0.0.3.
+This feature got introduced in ULS v0.0.3.  
 Attention: This is a pretty critical setting, which can break ULS behaviour.
 
 Raw commands within ULS can be used to trigger cli calls, that have not been integrated into ULS (yet).

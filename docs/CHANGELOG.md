@@ -1,4 +1,20 @@
 # Version History
+
+## v1.0.0
+|||
+|---|---|
+|Date|2021-08-10
+|Kind|Bugfix / Feature
+|Author|mschiess@akamai.com, adrocho@akamai.com
+- Minor improvements
+  - EdgeRC file check (preflight) and "~" expansion to solve some common issues
+  - fixed some typos in the "docker-compose" file
+  - bumped EAA-CLI to version 0.4.2
+  - simplified cli - command re-usage (visual parsing of subprocess cmd)
+  - cleaned up the Dockerfile
+  - added [Log_Overview](LOG_OVERVIEW.md) page to extend background on logged data
+
+
 ## v0.9.0
 |||
 |---|---|

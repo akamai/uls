@@ -19,15 +19,23 @@ To run the operations within the following documentation, you need to have the f
 - python >= 3.9 (including pip)
 - Akamai API credentials file - `.edgerc` (see [API Credentials](AKAMAI_API_CREDENTIALS.md) for creation instructions)
 - Understanding of available [ULS CLI PARAMETERS](ARGUMENTS_ENV_VARS.md)
+- Access to `github.com`, `pypi.org`, `pythonhosted.org` and `pypi.python.org` within your firewall
 
 ## Installation
+### Clone ULS Repo
+Clone the ULS repository from github and change into the repository directory aferwards.
+```bash
+git clone https://github.com/akamai/uls.git
+cd uls
+```
+
 ### Enterprise Access CLI's
 The Secure Enterprise Access Products CLI Tools need to be installed into the `ext` directory within this repo.
 Please run the following commands to download the CLI tools and install the requirements.
 ```bash
 # Enterprise Application Access (EAA)
 git clone --depth 1 --single-branch https://github.com/akamai/cli-eaa.git ext/cli-eaa && \
-pip install -r ext/cli-eaa/requirements.txt
+pip3 install -r ext/cli-eaa/requirements.txt
 
 # Enterprise Threat Protector (ETP)
 git clone --depth 1 --single-branch https://github.com/akamai/cli-etp.git ext/cli-etp && \
@@ -35,7 +43,13 @@ pip install -r ext/cli-etp/requirements.txt
 
 # Akamai Phish Proof Multi Factor Authenticator (AKAMAI-MFA)
 git clone --depth 1 --single-branch https://github.com/akamai/cli-mfa.git ext/cli-mfa && \
-pip install -r ext/cli-mfa/requirements.txt
+pip3 install -r ext/cli-mfa/requirements.txt
+```
+
+### Setup the .EDGERC File
+Copy the `.edgerc` file ([instructions for creation](AKAMAI_API_CREDENTIALS.md)) to your users home directory (~):
+```bash
+cp /path/to/your/.edgerc ~/.edgerc
 ```
 ### Setup the .EDGERC File
 Copy the `.edgerc` file ([instructions for creation](AKAMAI_API_CREDENTIALS.md)) to your users home directory (~):

@@ -22,7 +22,7 @@ import os
 # ULS modules
 import modules.aka_log as aka_log
 import config.global_config as uls_config
-
+import modules.UlsTools as UlsTools
 
 class UlsInputCli:
     def __init__(self):
@@ -99,8 +99,10 @@ class UlsInputCli:
                 if not rawcmd:
                     feed = self._feed_selector(feed, product_feeds)
                     if feed == "CONHEALTH":
+                        UlsTools.uls_check_edgerc(credentials_file, credentials_file_section, uls_config.edgerc_openapi)
                         cli_command = [self.bin_python, product_path, 'connector', 'list', '--perf', '--tail']
                     else:
+                        UlsTools.uls_check_edgerc(credentials_file, credentials_file_section, uls_config.edgerc_eaa_legacy)
                         cli_command = [self.bin_python, product_path, 'log', feed.lower(), '-f']
                     cli_command[2:2] = self._uls_useragent(product, feed)
                     cli_command[2:2] = edgegrid_auth
@@ -117,6 +119,8 @@ class UlsInputCli:
                 product_path = uls_config.bin_etp_cli
                 product_feeds = uls_config.etp_cli_feeds
                 if not rawcmd:
+                    UlsTools.uls_check_edgerc(credentials_file, credentials_file_section,
+                                              uls_config.edgerc_openapi + ["etp_config_id"])
                     feed = self._feed_selector(feed, product_feeds)
                     cli_command = [self.bin_python, product_path, 'event', feed.lower(), '-f']
                     cli_command[2:2] = self._uls_useragent(product, feed)
@@ -132,6 +136,7 @@ class UlsInputCli:
                 product_path = uls_config.bin_mfa_cli
                 product_feeds = uls_config.mfa_cli_feeds
                 if not rawcmd:
+                    UlsTools.uls_check_edgerc(credentials_file, credentials_file_section, uls_config.edgerc_mfa)
                     feed = self._feed_selector(feed, product_feeds)
                     cli_command = [self.bin_python, product_path, 'event', feed.lower(), '-f']
                     cli_command[2:2] = self._uls_useragent(product, feed)
@@ -147,12 +152,12 @@ class UlsInputCli:
                 aka_log.log.critical(f" {self.name} - No valid product selected (--input={product}).")
                 sys.exit(1)
             try:
-                aka_log.log.debug(f'{self.name} - CLI Command:  {cli_command}')
+                aka_log.log.debug(f'{self.name} - CLI Command:  {" ".join(cli_command)}')
                 cli_proc = subprocess.Popen(cli_command,
                                             stdout=subprocess.PIPE,
                                             stderr=subprocess.PIPE)
 
-                aka_log.log.debug(f"{self.name} - started PID[{cli_proc.pid}]: {cli_command}")
+                aka_log.log.debug(f"{self.name} - started PID[{cli_proc.pid}]: {' '.join(cli_command)}")
                 self.proc = cli_proc
                 self.proc_output = cli_proc.stdout
                 os.set_blocking(self.proc_output.fileno(), False)

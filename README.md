@@ -32,15 +32,15 @@ It can be run directly as Python code, as a provided Docker container or through
 
 - Supported Inputs (Secure Enterprise Access Products)
     - [Enterprise Application Access (EAA)](https://www.akamai.com/us/en/products/security/enterprise-application-access.jsp)
-      - ACCESS 
-      - ADMIN
-      - CONHEALTH
+      - [ACCESS](docs/LOG_OVERVIEW.md#access-logs-access) 
+      - [ADMIN](docs/LOG_OVERVIEW.md#admin-logs-admin)
+      - [CONHEALTH](docs/LOG_OVERVIEW.md#connector-health-conhealth)
     - [Enterprise Threat Protectors (ETP)](https://www.akamai.com/us/en/products/security/enterprise-threat-protector.jsp)
-      - THREAT
-      - AUP
+      - [THREAT](docs/LOG_OVERVIEW.md#threat-log-threat)
+      - [AUP](docs/LOG_OVERVIEW.md#accceptable-use-policy-logs-aup)
     - [Akamai Phish-proof Multi Factor Authenticator (AKAMAI-MFA)](https://www.akamai.com/us/en/products/security/akamai-mfa.jsp)
-      - AUTH
-      - POLICY
+      - [AUTH](docs/LOG_OVERVIEW.md#authentication-logs-auth)
+      - [POLICY](docs/LOG_OVERVIEW.md#policy-logs-policy)
   
 
 - Supported data outputs
@@ -71,7 +71,8 @@ More information for specific SIEM solutions can be found in [this directory](./
 ### Generic Requirements
 - Python 3.9+ OR docker / docker-compose 
 - AKAMAI .edgerc file ([see further documentation here](docs/AKAMAI_API_CREDENTIALS.md))
-- Internet access 
+- Outbound Internet access (Akamai API, Dockerhub OR Python repositories)
+
 
 ### Command Line Usage
 ![ULS command line usage](docs/images/uls_cli_help_example.png)  

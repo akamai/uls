@@ -1,10 +1,10 @@
 version: "3.0"
 services:
   etp-threat:
-    image: uls:latest
+    image: akamai/uls:latest
     restart: always
     env_file: etp-threat.env
     volumes:
       - type: bind
-        source: /patch/to/your/.edgerc
+        source: /path/to/your/.edgerc
         target: /opt/akamai-uls/.edgerc

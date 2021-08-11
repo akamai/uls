@@ -7,7 +7,7 @@ services:
     env_file: etp-threat.env
     volumes:
       - type: bind
-        source: /patch/to/your/.edgerc
+        source: /path/to/your/.edgerc
         target: /opt/akamai-uls/.edgerc
   # AUP
   etp-aup:
@@ -16,7 +16,7 @@ services:
     env_file: etp-aup.env
     volumes:
       - type: bind
-        source: /patch/to/your/.edgerc
+        source: /path/to/your/.edgerc
         target: /opt/akamai-uls/.edgerc
 # EAA
   # ACCESS
@@ -26,7 +26,7 @@ services:
     env_file: eaa-access.env
     volumes:
       - type: bind
-        source: /patch/to/your/.edgerc
+        source: /path/to/your/.edgerc
         target: /opt/akamai-uls/.edgerc
   # ADMIN
   eaa-admin:
@@ -35,7 +35,7 @@ services:
     env_file: eaa-admin.env
     volumes:
       - type: bind
-        source: /patch/to/your/.edgerc
+        source: /path/to/your/.edgerc
         target: /opt/akamai-uls/.edgerc
 # MFA
   # AUTH
@@ -45,7 +45,7 @@ services:
     env_file: mfa-auth.env
     volumes:
       - type: bind
-        source: /patch/to/your/.edgerc
+        source: /path/to/your/.edgerc
         target: /opt/akamai-uls/.edgerc
   # POLICY
   mfa-policy:
@@ -54,5 +54,5 @@ services:
     env_file: mfa-policy.env
     volumes:
       - type: bind
-        source: /patch/to/your/.edgerc
+        source: /path/to/your/.edgerc
         target: /opt/akamai-uls/.edgerc
