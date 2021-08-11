@@ -59,5 +59,5 @@ RUN             git clone --depth 1 -b "${MFA_CLI_VERSION}" --single-branch http
 
 # ENTRYPOINTS / CMD
 ENTRYPOINT      ["/usr/local/bin/python3","bin/uls.py"]
-CMD             ["--help"]
+#CMD             ["--help"]
 # EOF
