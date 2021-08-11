@@ -1,4 +1,5 @@
 # Version History
+
 ## v1.0.0
 |||
 |---|---|
@@ -13,10 +14,11 @@
   - cleaned up the Dockerfile
   - added [Log_Overview](LOG_OVERVIEW.md) page to extend background on logged data
 
+
 ## v0.9.0
 |||
 |---|---|
-|Date|2021-07-23-2021
+|Date|2021-07-26-2021
 |Kind|Bugfix / Feature
 |Author|mschiess@akamai.com, adrocho@akamai.com
 - Minor improvements 

@@ -4,6 +4,7 @@ LABEL	        APP_LONG="Akamai Universal Log Streamer"
 LABEL           APP_SHORT="ULS"
 LABEL           VENDOR="Akamai Technologies"
 
+
 # CONFIGURATION ARGS
 ARG             HOMEDIR="/opt/akamai-uls"
 ARG             ULS_DIR="$HOMEDIR/uls"

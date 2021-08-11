@@ -73,6 +73,7 @@ More information for specific SIEM solutions can be found in [this directory](./
 - AKAMAI .edgerc file ([see further documentation here](docs/AKAMAI_API_CREDENTIALS.md))
 - Outbound Internet access (Akamai API, Dockerhub OR Python repositories)
 
+
 ### Command Line Usage
 ![ULS command line usage](docs/images/uls_cli_help_example.png)  
 Example commands:

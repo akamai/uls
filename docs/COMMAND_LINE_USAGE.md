@@ -39,13 +39,18 @@ pip3 install -r ext/cli-eaa/requirements.txt
 
 # Enterprise Threat Protector (ETP)
 git clone --depth 1 --single-branch https://github.com/akamai/cli-etp.git ext/cli-etp && \
-pip3 install -r ext/cli-etp/requirements.txt
+pip install -r ext/cli-etp/requirements.txt
 
 # Akamai Phish Proof Multi Factor Authenticator (AKAMAI-MFA)
 git clone --depth 1 --single-branch https://github.com/akamai/cli-mfa.git ext/cli-mfa && \
 pip3 install -r ext/cli-mfa/requirements.txt
 ```
 
+### Setup the .EDGERC File
+Copy the `.edgerc` file ([instructions for creation](AKAMAI_API_CREDENTIALS.md)) to your users home directory (~):
+```bash
+cp /path/to/your/.edgerc ~/.edgerc
+```
 ### Setup the .EDGERC File
 Copy the `.edgerc` file ([instructions for creation](AKAMAI_API_CREDENTIALS.md)) to your users home directory (~):
 ```bash
