@@ -1,5 +1,15 @@
 # Version History
 
+## v1.0.1
+|||
+|---|---|
+|Date|2021-08-12
+|Kind|Bugfix / Feature
+|Author|mschiess@akamai.com
+- Minor improvements
+  - Version number fix (Stated 0.9.0 instead of 1.x.x)
+  - debug "message" fix ( changed HTTP to HTTP(S) to avoid misunderstanding)
+
 ## v1.0.0
 |||
 |---|---|
