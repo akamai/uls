@@ -52,8 +52,8 @@ docker compose up -d
   This will run the "simple" use case in foreground. 
   The `docker-compose.yml` file will reference the `etp-threat.env` and provide the configuration from that file.  
   **Files:**  
-    - [docker-compose.yml](../docker-compose/simple/docker-compose.yml)
-    - [etp-threat.env](../docker-compose/simple/etp-threat.env)
+    - [docker-compose.yml](docker-compose/simple/docker-compose.yml)
+    - [etp-threat.env](docker-compose/simple/etp-threat.env)
 
   
 - Complex docker-compose setup delivering different streams to different endpoints
@@ -63,7 +63,7 @@ docker compose up -d
   ```
   This triggers a more complex setup consisting out of 3 different data feeds.  
   **Files:**  
-    - [docker-compose.yml](../docker-compose/complex/docker-compose.yml)
-    - [etp-threat.env](../docker-compose/complex/etp-threat.env)
-    - [eaa-admin.env](../docker-compose/complex/eaa-access.env)
-    - [eaa-access.env](../docker-compose/complex/eaa-access.env)
+    - [docker-compose.yml](docker-compose/complex/docker-compose.yml)
+    - [etp-threat.env](docker-compose/complex/etp-threat.env)
+    - [eaa-admin.env](docker-compose/complex/eaa-access.env)
+    - [eaa-access.env](docker-compose/complex/eaa-access.env)
