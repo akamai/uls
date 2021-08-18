@@ -11,6 +11,8 @@
 - Minor improvements
   - Version number fix (Stated 0.9.0 instead of 1.x.x)
   - debug "message" fix ( changed HTTP to HTTP(S) to avoid misunderstanding)
+  - documented workaround for discovered proxy issue
+  - enabled json highlighting in [Log_overview](./LOG_OVERVIEW.md)
 
 ## v1.0.0
 |||
