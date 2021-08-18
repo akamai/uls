@@ -135,7 +135,7 @@ class UlsOutput:
                                              f'Use --httpurl instead of --host / --port')
                         sys.exit(1)
                     else:
-                        aka_log.log.debug(f"{self.name} attempting to connect via HTTP to {http_url} ")
+                        aka_log.log.debug(f"{self.name} attempting to connect via HTTP(S) to {http_url} ")
 
                     # Let'S do an options request
                     self.http_url = http_url

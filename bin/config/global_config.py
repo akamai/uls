@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Common global variables / constants
-__version__ = "0.9.0"
+__version__ = "1.1.0"
 __tool_name_long__ = "Akamai Unified Log Streamer"
 __tool_name_short__ = "ULS"
 
@@ -17,9 +17,13 @@ main_wait_max = 60                              # Maximum wait time for the main
 bin_eaa_cli = "ext/cli-eaa/bin/akamai-eaa"
         # Available EAA CLI feeds
 eaa_cli_feeds = ['ACCESS', 'ADMIN', 'CONHEALTH']
+
     # ETP
-bin_etp_cli = "ext/cli-etp/bin/akamai-etp"      # Path to the ETP CLI Executable
-etp_cli_feeds = ['THREAT', 'AUP']               # Available ETP CLI feeds
+        # Path to the ETP CLI Executable
+bin_etp_cli = "ext/cli-etp/bin/akamai-etp"
+        # Available ETP CLI feeds
+etp_cli_feeds = ['THREAT', 'AUP', 'DNS', 'PROXY']
+
     # MFA
 bin_mfa_cli = "ext/cli-mfa/bin/akamai-mfa"      # Path to the MFA CLI Executable
 mfa_cli_feeds = ['POLICY', 'AUTH']              # Available MFA CLI feeds

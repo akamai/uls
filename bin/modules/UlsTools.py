@@ -112,3 +112,17 @@ def uls_check_edgerc(configfile, configsection, configvalues):
         else:
             aka_log.log.debug(f"Required configuration value '{configvalue}' found.")
     return 0
+
+
+def uls_check_args(input, output):
+    missing = None
+    if not input:
+        missing = "INPUT"
+    elif not output:
+        missing = "OUTPUT"
+    if missing:
+        aka_log.log.critical(f"Required argument / ENV var not set: {missing}")
+        aka_log.log.critical(f"Please run `bin/uls.py --help` for additional information")
+        sys.exit(1)
+    else:
+        return 0

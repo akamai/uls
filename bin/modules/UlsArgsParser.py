@@ -70,7 +70,9 @@ def init():
                              dest='inproxy',
                              type=str,
                              default=(os.environ.get('ULS_INPUT_PROXY') or None),
-                             help="Use a proxy Server for the INPUT requests (fetching data from AKAMAI API'S)")
+                             help=argparse.SUPPRESS)
+                            # We're surpressing this for now, as the param does not seem to work (mschiess-20210818 - see EME-498)
+                             #help="Use a proxy Server for the INPUT requests (fetching data from AKAMAI API'S)")
     # RAWCMD
     input_group.add_argument('--rawcmd',
                              action='store',

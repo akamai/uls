@@ -38,16 +38,18 @@ It can be run directly as Python code, as a provided Docker container or through
     - [Enterprise Threat Protectors (ETP)](https://www.akamai.com/us/en/products/security/enterprise-threat-protector.jsp)
       - [THREAT](docs/LOG_OVERVIEW.md#threat-log-threat)
       - [AUP](docs/LOG_OVERVIEW.md#accceptable-use-policy-logs-aup)
+      - [DNS](docs/LOG_OVERVIEW.md#dns)
+      - [PROXY](docs/LOG_OVERVIEW.md#proxy)
     - [Akamai Phish-proof Multi Factor Authenticator (AKAMAI-MFA)](https://www.akamai.com/us/en/products/security/akamai-mfa.jsp)
       - [AUTH](docs/LOG_OVERVIEW.md#authentication-logs-auth)
       - [POLICY](docs/LOG_OVERVIEW.md#policy-logs-policy)
   
 
 - Supported data outputs
-    - TCP Socket (tcp://host:port)
-    - UDP Socket (udp://host:port)
-    - HTTP(S) URL (http(s)://host:port/path) (supporting Authentication)
-    - RAW (>STDOUT)
+    - TCP Socket (tcp://host:port) `--output tcp`
+    - UDP Socket (udp://host:port) `--output udp`
+    - HTTP(S) URL (http(s)://host:port/path) (supporting Authentication) `--output http`
+    - RAW (>STDOUT) `--output raw`
 
 
 - Operation types

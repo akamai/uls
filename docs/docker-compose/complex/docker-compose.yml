@@ -8,6 +8,7 @@ services:
       - type: bind
         source: /path/to/your/.edgerc
         target: /opt/akamai-uls/.edgerc
+        read_only: true
   eaa-access:
     image: akamai/uls:latest
     restart: always
@@ -16,6 +17,7 @@ services:
       - type: bind
         source: /path/to/your/.edgerc
         target: /opt/akamai-uls/.edgerc
+        read_only: true
   eaa-admin:
     image: akamai/uls:latest
     restart: always
@@ -24,3 +26,4 @@ services:
       - type: bind
         source: /path/to/your/.edgerc
         target: /opt/akamai-uls/.edgerc
+        read_only: true

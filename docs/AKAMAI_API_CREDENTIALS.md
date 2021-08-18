@@ -27,6 +27,8 @@ This document describes how to create Akamai API credentials and configure them 
 |Enterprise Application Access|EAA|HEALTH|[{OPEN} API / Enterprise Application Access](#eaa-open-api-for-connector-health-feed)|
 |Enterprise Threat Protector|ETP|THREAT|[{OPEN} API / ETP Report](#etp-open-api-reporting)|
 |Enterprise Threat Protector|ETP|AUP|[{OPEN} API / ETP Report](#etp-open-api-reporting)|
+|Enterprise Threat Protector|ETP|DNS|[{OPEN} API / ETP Report](#etp-open-api-reporting)|
+|Enterprise Threat Protector|ETP|PROXY|[{OPEN} API / ETP Report](#etp-open-api-reporting)|
 |Akamai MFA|MFA|AUTH|[MFA Integration](#mfa-integration-for-logging)|
 |Akamai MFA|MFA|POLICY|[MFA Integration](#mfa-integration-for-logging)|
 
