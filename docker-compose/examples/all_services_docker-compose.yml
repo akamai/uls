@@ -18,6 +18,24 @@ services:
       - type: bind
         source: /path/to/your/.edgerc
         target: /opt/akamai-uls/.edgerc
+  # DNS
+  etp-aup:
+    image: akamai/uls:latest
+    restart: always
+    env_file: etp-dns.env
+    volumes:
+      - type: bind
+        source: /path/to/your/.edgerc
+        target: /opt/akamai-uls/.edgerc
+  # PROXY
+  etp-aup:
+    image: akamai/uls:latest
+    restart: always
+    env_file: etp-proxy.env
+    volumes:
+      - type: bind
+        source: /path/to/your/.edgerc
+        target: /opt/akamai-uls/.edgerc
 # EAA
   # ACCESS
   eaa-access:
