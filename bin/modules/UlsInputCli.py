@@ -43,10 +43,10 @@ class UlsInputCli:
         if feed in product_feeds:
             # feed matches the given list
             aka_log.log.debug(f'{self.name} - selected feed: {feed}')
-        elif not feed:
+        elif not feed or feed == "DEFAULT":
             # Set default (first of feeds)
             feed = product_feeds[0]
-            aka_log.log.debug(f'{self.name} - using default feed: {feed}')
+            aka_log.log.warning(f'{self.name} - using default feed: {feed}')
         else:
             aka_log.log.critical(
                 f"{self.name} - Feed ({feed}) not available - Available: {product_feeds}")

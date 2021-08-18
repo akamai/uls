@@ -62,6 +62,9 @@ def main():
     # Load the LOG system
     aka_log.init(uls_args.loglevel, uls_config.__tool_name_short__)
 
+    # Verify the given core params (at least input and output should be set)
+    UlsTools.uls_check_args(uls_args.input, uls_args.output)
+
     # Check CLI Environment
     UlsTools.uls_check_sys()
 
