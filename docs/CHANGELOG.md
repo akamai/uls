@@ -1,11 +1,13 @@
 # Version History
 
-## v1.0.1
+## v1.1.0
 |||
 |---|---|
-|Date|2021-08-12
+|Date|2021-08-18
 |Kind|Bugfix / Feature
 |Author|mschiess@akamai.com
+- Features
+  - Added DNS and PROXY feeds to ETP Input
 - Minor improvements
   - Version number fix (Stated 0.9.0 instead of 1.x.x)
   - debug "message" fix ( changed HTTP to HTTP(S) to avoid misunderstanding)

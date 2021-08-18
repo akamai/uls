@@ -38,6 +38,8 @@ It can be run directly as Python code, as a provided Docker container or through
     - [Enterprise Threat Protectors (ETP)](https://www.akamai.com/us/en/products/security/enterprise-threat-protector.jsp)
       - [THREAT](docs/LOG_OVERVIEW.md#threat-log-threat)
       - [AUP](docs/LOG_OVERVIEW.md#accceptable-use-policy-logs-aup)
+      - [DNS]()
+      - [PROXY]()
     - [Akamai Phish-proof Multi Factor Authenticator (AKAMAI-MFA)](https://www.akamai.com/us/en/products/security/akamai-mfa.jsp)
       - [AUTH](docs/LOG_OVERVIEW.md#authentication-logs-auth)
       - [POLICY](docs/LOG_OVERVIEW.md#policy-logs-policy)
