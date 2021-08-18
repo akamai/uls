@@ -7,12 +7,15 @@
 |Kind|Bugfix / Feature
 |Author|mschiess@akamai.com
 - Features
-  - Added DNS and PROXY feeds to ETP Input
+  - Added **DNS** and **PROXY** feeds to ETP Input (<3 Sara)
 - Minor improvements
   - Version number fix (Stated 0.9.0 instead of 1.x.x)
   - debug "message" fix ( changed HTTP to HTTP(S) to avoid misunderstanding)
   - documented workaround for discovered proxy issue
   - enabled json highlighting in [Log_overview](./LOG_OVERVIEW.md)
+  - added better error guidance when basic stuff is unset (input / output)
+  - moved docker-compose from root dir to /docs
+  - added `read_only: true` to the docker-compose.yml files (security enhancement)
 
 ## v1.0.0
 |||
