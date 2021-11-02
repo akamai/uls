@@ -23,12 +23,13 @@ import os
 
 # ULS specific modules
 import modules.aka_log as aka_log
-import modules.UlsArgsParser as aka_parser
+import modules.UlsArgsParser as ArgsParser
 import modules.UlsOutput as UlsOutput
 import modules.UlsInputCli as UlsInputCli
-import config.global_config as uls_config
 import modules.UlsMonitoring as UlsMonitoring
+import modules.UlsTransformation as UlsTransformation
 import modules.UlsTools as UlsTools
+import config.global_config as uls_config
 
 stopEvent = threading.Event()
 
@@ -55,12 +56,15 @@ def main():
 
     signal.signal(signal.SIGTERM, sigterm_handler)
 
-
     # Load the Argument / ENV Var handler
-    uls_args = aka_parser.init()
+    uls_args = ArgsParser.init()
 
     # Load the LOG system
     aka_log.init(uls_args.loglevel, uls_config.__tool_name_short__)
+
+    # OUTPUT Version Information
+    if uls_args.version:
+        UlsTools.uls_version()
 
     # Verify the given core params (at least input and output should be set)
     UlsTools.uls_check_args(uls_args.input, uls_args.output)
@@ -68,24 +72,59 @@ def main():
     # Check CLI Environment
     UlsTools.uls_check_sys()
 
-    # OUTPUT Version Information
-    if uls_args.version:
-        UlsTools.uls_version()
-
-    # Create instances for Input and Output stream handler
-    my_monitor = UlsMonitoring.UlsMonitoring(stopEvent, uls_args.input, uls_args.feed, uls_args.output)
+    # Create & Start monitoring Instance
+    my_monitor = UlsMonitoring.UlsMonitoring(stopEvent=stopEvent,
+                                             product=uls_args.input,
+                                             feed=uls_args.feed,
+                                             output=uls_args.output)
     my_monitor.start()
-    my_output = UlsOutput.UlsOutput()
-    my_input = UlsInputCli.UlsInputCli()
+
+    # Connect to an Input Handler UlsInputCli
+    my_input = UlsInputCli.UlsInputCli(product=uls_args.input,
+                                       feed=uls_args.feed,
+                                       cliformat=uls_args.cliformat,
+                                       credentials_file=os.path.expanduser(
+                                           uls_args.credentials_file),
+                                       credentials_file_section=uls_args.credentials_file_section,
+                                       inproxy=uls_args.inproxy,
+                                       rawcmd=uls_args.rawcmd,
+                                       starttime=uls_args.starttime,
+                                       endtime=uls_args.endtime)
+
+    # Connect to the selected input UlsOutput
+    my_output = UlsOutput.UlsOutput(output_type=uls_args.output,
+                                    host=uls_args.host,
+                                    port=uls_args.port,
+                                    http_out_format=uls_args.httpformat,
+                                    http_out_auth_header=uls_args.httpauthheader,
+                                    http_url=uls_args.httpurl,
+                                    http_insecure=uls_args.httpinsecure,
+                                    filehandler=uls_args.filehandler,
+                                    filename=uls_args.filename,
+                                    filebackupcount=uls_args.filebackupcount,
+                                    filemaxbytes=uls_args.filemaxbytes,
+                                    filetime=uls_args.filetime,
+                                    fileinterval=uls_args.fileinterval)
+
+    # Load a Transformation (if selected) UlsTransformation
+    my_transformer = UlsTransformation.UlsTransformation(transformation=uls_args.transformation,
+                                                         product=uls_args.input,
+                                                         feed=uls_args.feed,
+                                                         cliformat=uls_args.cliformat,
+                                                         transformationpattern=uls_args.transformationpattern)
 
     # Prepare the Filter
     if uls_args.filter:
         try:
-            aka_log.log.debug(f"FILTER pattern has been specified: {uls_args.filter} - will only output matches")
+            aka_log.log.info(f"FILTER pattern has been specified: "
+                             f"{uls_args.filter} - will only output matches")
             filter_pattern = re.compile(uls_args.filter.encode())
-        except Exception as error:
-            aka_log.log.critical(f"Error in filter patter {uls_args.filter} (exiting). Error: {error}")
-            exit(1)
+        except Exception as my_error:
+            aka_log.log.critical(f"Error in filter patter {uls_args.filter}"
+                                 f" (exiting). Error: {my_error}")
+            sys.exit(1)
+    else:
+        filter_pattern = None
 
     # When reading CLI output, if no data, pause 10ms before retrying
     # if still no data, then it will backoff exponentially till 60s
@@ -94,48 +133,77 @@ def main():
     wait = wait_default
 
     # Now let's handle the data and send input to output
+
+    # Initiate the Input handler
+    my_input.proc_create()
+
+    # Connect the output handler
+    my_output.connect()
+
     while not stopEvent.is_set():
         try:
-            # (Re)Connect the input handler
-            my_input.proc_create(product=uls_args.input,
-                                 feed=uls_args.feed,
-                                 cliformat=uls_args.cliformat,
-                                 credentials_file=os.path.expanduser(uls_args.credentials_file),
-                                 credentials_file_section=uls_args.credentials_file_section,
-                                 rawcmd=uls_args.rawcmd)
 
+            # Ensure the Input handler is still running (rebump if stale)
             my_input.check_proc()
-
-            # (RE)Connect the output handler
-            my_output.connect(output_type=uls_args.output,
-                              host=uls_args.host,
-                              port=uls_args.port,
-                              http_out_format=uls_args.httpformat,
-                              http_out_auth_header=uls_args.httpauthheader,
-                              http_url=uls_args.httpurl,
-                              http_insecure=uls_args.httpinsecure)
 
             input_data = my_input.proc_output.readline()
             if input_data:
                 wait = wait_default  # back to 10ms wait in case of bursty content
                 aka_log.log.debug(f"<IN> {input_data}")
-                for e in input_data.splitlines():
-                    # ENHANCEMENT FOR FILTERING
-                    if uls_args.filter and not filter_pattern.match(e):
-                        aka_log.log.debug(f"SKIPPED LINE due to FILTER rule: {e}")
+                for log_line in input_data.splitlines():
+
+                    # Filter Enhancement
+                    if uls_args.filter and not filter_pattern.match(log_line):
+                        aka_log.log.info(f"SKIPPED LINE due to FILTER rule {uls_args.filter}")
+                        aka_log.log.debug(f"SKIPPED the folllwoing LOG_LINE "
+                                          f"due to FILTER match: {log_line}")
                         continue
-                    out_data = e + uls_config.output_line_breaker.encode()
-                    my_output.send_data(out_data)
-                    my_monitor.increase_message_count()
-                    aka_log.log.debug(f"<OUT> {out_data}")
+
+                    # Module Enhancement
+                    if uls_args.transformation:
+                        log_line = my_transformer.transform(log_line)
+                        aka_log.log.debug(f"Transformed Logline via "
+                                          f"({uls_args.transformation}): {log_line}")
+
+                    # Attach Linebreak
+                    out_data = log_line + uls_config.output_line_breaker.encode()
+
+                    # Send the data (through a loop for retransmission)
+                    resend_counter = 1
+                    resend_status = False
+
+                    while not resend_status and\
+                            resend_counter < uls_config.main_resend_attempts:
+                        aka_log.log.info(f"MSG[{my_monitor.get_message_count()}]"
+                                         f" Delivery (output) attepmt  "
+                                         f"{resend_counter} of {uls_config.main_resend_attempts}")
+                        # Send the data
+                        resend_status = my_output.send_data(out_data)
+                        my_monitor.increase_message_count()
+                        aka_log.log.debug(f"<OUT> {out_data}")
+                        resend_counter = resend_counter + 1
+
+                    if resend_counter == uls_config.main_resend_attempts and\
+                            uls_config.main_resend_exit_on_fail:
+                        aka_log.log.critical(f"MSG[{my_monitor.get_message_count()}] "
+                                             f"ULS was not able to deliver the log message "
+                                             f"{out_data.decode()} - exiting!")
+                        sys.exit(1)
+                    elif resend_counter == uls_config.main_resend_attempts and \
+                            not uls_config.main_resend_exit_on_fail:
+                        aka_log.log.warning(
+                            f"MSG[{my_monitor.get_message_count()}] "
+                            f"ULS was not able to deliver the log message "
+                            f"{out_data.decode()} - (continuing anyway)")
+
             else:
                 aka_log.log.debug(f"Mainloop, wait {wait} seconds [{my_monitor.get_stats()}]")
                 stopEvent.wait(wait)
                 wait = min(wait * 2, wait_max)  # double the wait till a max of 60s
         except KeyboardInterrupt:
             control_break_handler()
-        except Exception:
-            aka_log.log.exception("General error in ULS main loop")
+        except Exception as my_error:
+            aka_log.log.critical(f"General error in ULS main loop: {my_error}")
 
     my_output.tear_down()
 

@@ -1,4 +1,4 @@
-FROM            python:3.9.6-slim-buster
+FROM            python:3.10-slim-bullseye
 LABEL 	        MAINTAINER="Mike Schiessl - mike.schiessl@akamai.com"
 LABEL	        APP_LONG="Akamai Universal Log Streamer"
 LABEL           APP_SHORT="ULS"
@@ -11,7 +11,7 @@ ARG             ULS_DIR="$HOMEDIR/uls"
 ARG             EXT_DIR="$ULS_DIR/ext"
 
 ARG             ETP_CLI_VERSION="0.3.5"
-ARG             EAA_CLI_VERSION="0.4.2"
+ARG             EAA_CLI_VERSION="0.4.4"
 ARG             MFA_CLI_VERSION="0.0.6"
 
 # ENV VARS
@@ -27,7 +27,8 @@ RUN	            apt-get update && \
 		        ca-certificates \
 		        git \
 		        curl \
-                telnet && \
+                telnet \
+                gcc libssl-dev libffi-dev  && \
 		        rm -rf /var/lib/apt/lists/
 
 # USER & GROUP
@@ -42,22 +43,26 @@ RUN             mkdir -p ${ULS_DIR}
 # Install ULS
 COPY            bin/ ${ULS_DIR}/bin
 WORKDIR         ${ULS_DIR}
+RUN             pip3 install -r ${ULS_DIR}/bin/requirements.txt
 
 # Install external CLI'S
 ## ETP CLI
 ENV             ETP_CLI_VERSION=$ETP_CLI_VERSION
 RUN             git clone --depth 1 -b "${ETP_CLI_VERSION}" --single-branch https://github.com/akamai/cli-etp.git ${EXT_DIR}/cli-etp && \
                 pip3 install -r ${EXT_DIR}/cli-etp/requirements.txt
+
 ## EAA CLI
 ENV             EAA-CLI_VERSION=$EAA_CLI_VERSION
 RUN             git clone --depth 1 -b "${EAA_CLI_VERSION}" --single-branch https://github.com/akamai/cli-eaa.git ${EXT_DIR}/cli-eaa && \
                 pip3 install -r ${EXT_DIR}/cli-eaa/requirements.txt
+
+
 ## MFA CLI
 ENV             MFA-CLI_VERSION=$MFA_CLI_VERSION
 RUN             git clone --depth 1 -b "${MFA_CLI_VERSION}" --single-branch https://github.com/akamai/cli-mfa.git ${EXT_DIR}/cli-mfa && \
                 pip3 install -r ${EXT_DIR}/cli-mfa/requirements.txt
 
 # ENTRYPOINTS / CMD
-ENTRYPOINT      ["/usr/local/bin/python3","bin/uls.py"]
+ENTRYPOINT      ["/usr/local/bin/python3","-u","bin/uls.py"]
 #CMD             ["--help"]
 # EOF

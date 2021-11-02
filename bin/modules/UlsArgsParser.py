@@ -70,9 +70,9 @@ def init():
                              dest='inproxy',
                              type=str,
                              default=(os.environ.get('ULS_INPUT_PROXY') or None),
-                             help=argparse.SUPPRESS)
-                            # We're surpressing this for now, as the param does not seem to work (mschiess-20210818 - see EME-498)
-                             #help="Use a proxy Server for the INPUT requests (fetching data from AKAMAI API'S)")
+                             help="Use a proxy Server for the INPUT requests (fetching data from AKAMAI API'S)")
+                             #help=argparse.SUPPRESS)
+
     # RAWCMD
     input_group.add_argument('--rawcmd',
                              action='store',
@@ -94,6 +94,21 @@ def init():
                              default=(os.environ.get('ULS_SECTION') or 'default'),
                              help="Credentials file Section's name to use ('default' if not specified).")
 
+    # Log Starttime
+    input_group.add_argument('--starttime',
+                             action='store',
+                             type=int,
+                             dest="starttime",
+                             default=(os.environ.get('ULS_STARTTIME') or None),
+                             help="Start time (EPOCH SECONDS) from when to start getting logs ('default': cli_default (now), example: '1631556101')")
+    # Log Endtime
+    input_group.add_argument('--endtime',
+                             action='store',
+                             type=int,
+                             dest="endtime",
+                             default=(os.environ.get('ULS_ENDTIME') or None),
+                             help="End time (EPOCH SECONDS) until when to stop getting logs ('default': cli_default (never), example: '1631556101')")
+
     # ----------------------
     # Output GROUP
     output_group = parser.add_argument_group(title="Output",
@@ -107,28 +122,23 @@ def init():
                               choices=uls_config.output_choices,
                               help="Select the Output Destination Default: None")
 
-    # Output HOST
+    # TCP / UPD
+    ## Output HOST
     output_group.add_argument('--host',
                               action='store',
                               type=str,
                               default=(os.environ.get('ULS_OUTPUT_HOST') or None),
                               help="Host for TCP/UDP")
 
-    # OUTPUT PORT
+    ## OUTPUT PORT
     output_group.add_argument('--port',
                               action='store',
                               type=int,
                               default=int(os.environ.get('ULS_OUTPUT_PORT') or '0'),
                               help="Port for TCP/UDP")
 
-    # Output FILTER
-    output_group.add_argument('--filter',
-                              action='store',
-                              type=str,
-                              default=(os.environ.get('ULS_OUTPUT_FILTER') or None),
-                              help="Filter (regex) to reduce number of sent log files (Only send lines that match the --filter argument).")
-
-    # HTTP URL
+    # HTTP
+    ## HTTP URL
     output_group.add_argument('--httpurl',
                               action='store',
                               type=str,
@@ -136,7 +146,7 @@ def init():
                               help=f'Full http(s) target url i.e. '
                                    f'https://my.splunk.host:9091/services/collector/event"')
 
-    # HTTP AUTH HEADER
+    ## HTTP AUTH HEADER
     output_group.add_argument('--httpauthheader',
                               action='store',
                               type=str,
@@ -144,7 +154,7 @@ def init():
                               help='HTTP Header for authorization. Example: '
                                    '\'{"Authorization": "Splunk xxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx"}\'')
 
-    # Disable HTTP TLS verification
+    ## Disable HTTP TLS verification
     output_group.add_argument('--httpinsecure',
                               action='store',
                               type=bool,
@@ -153,7 +163,7 @@ def init():
                               const=True,
                               help=f'Disable TLS CA Certificate verification. Default: False')
 
-    # HTTP FORMAT DEFINITION
+    ## HTTP FORMAT DEFINITION
     output_group.add_argument('--httpformat',
                               action='store',
                               type=str,
@@ -161,6 +171,90 @@ def init():
                               help='HTTP Message format expected by http receiver '
                                    '(%%s defines the data string). Default \'{\"event\": %%s}\'')
 
+    # FILE STUFF
+    ## File Handler
+    output_group.add_argument('--filehandler',
+                              action='store',
+                              type=str.upper,
+                              default=(os.environ.get('ULS_FILE_HANDLER') or None),
+                              choices=uls_config.output_file_handler_choices,
+                              help=f"Output file handler - Decides when files are rotated -"
+                                   f"Choices: {uls_config.output_file_handler_choices} -"
+                                   f" Default: None")
+    ## File Name
+    output_group.add_argument('--filename',
+                              action='store',
+                              type=str,
+                              default=(os.environ.get('ULS_FILE_NAME') or
+                                       uls_config.output_file_default_name),
+                              help=f"Output file destination (path + filename)"
+                                   f" Default: {uls_config.output_file_default_name}")
+
+    ## File Backup count
+    output_group.add_argument('--filebackupcount',
+                              action='store',
+                              type=int,
+                              default=(os.environ.get('ULS_FILE_BACKUPCOUNT') or
+                                       uls_config.output_file_default_backup_count),
+                              help=f"Number of rotated files to keep (backup)"
+                                   f" Default: {uls_config.output_file_default_backup_count}")
+
+    ## File Max bytes
+    output_group.add_argument('--filemaxbytes',
+                              action='store',
+                              type=int,
+                              default=(os.environ.get('ULS_FILE_MAXBYTES') or
+                                       uls_config.output_file_default_maxbytes),
+                              help=f"Number of rotated files to keep (backup)"
+                                   f" Default: {uls_config.output_file_default_maxbytes} bytes")
+
+    ## File Time
+    output_group.add_argument('--filetime',
+                              action='store',
+                              type=str.upper,
+                              default=(os.environ.get('ULS_FILE_TIME') or
+                                       uls_config.output_file_time_default),
+                              choices=uls_config.output_file_time_choices,
+                              help=f"Specifies the file rotation trigger unit  "
+                                   f" Default: {uls_config.output_file_time_default}, Valid Choices: {uls_config.output_file_time_choices}")
+
+    ## File Time Interval
+    output_group.add_argument('--fileinterval',
+                              action='store',
+                              type=int,
+                              default=(os.environ.get('ULS_FILE_INTERVAL') or
+                                       uls_config.output_file_time_interval),
+                              help=f"Specifies the file rotation interval based on `--filetime` unit value"
+                                   f" Default: {uls_config.output_file_time_interval}")
+
+    # ----------------------
+    special_group = parser.add_argument_group(title="Transformation",
+                                             description="Define Module Settings (Output manipulation)")
+
+    # Output FILTER
+    special_group.add_argument('--filter',
+                              action='store',
+                              type=str,
+                              default=(os.environ.get('ULS_OUTPUT_FILTER') or None),
+                              help="Filter (regex) to reduce number of sent log files (Only send lines that match the --filter argument).")
+
+    # Transformation Handler
+    special_group.add_argument('--transformation',
+                              action='store',
+                              dest="transformation",
+                              type=str.upper,
+                              default=(os.environ.get('ULS_TRANSFORMATION') or None),
+                              choices=uls_config.transformation_choices,
+                              help="Select a transformation to manipulate the output format (optional)")
+
+    special_group.add_argument('--transformpattern', '--transformationpattern',
+                              action='store',
+                              dest="transformationpattern",
+                              type=str,
+                              default=(os.environ.get('ULS_TRANSFORMATION_PATTERN') or None),
+                              help="Provide a pattern to transform the output (Required for JMESPATH)")
+
     return parser.parse_args()
+
 
 # EOF

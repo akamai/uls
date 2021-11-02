@@ -46,11 +46,13 @@ It can be run directly as Python code, as a provided Docker container or through
   
 
 - Supported data outputs
-    - TCP Socket (tcp://host:port) `--output tcp`
-    - UDP Socket (udp://host:port) `--output udp`
-    - HTTP(S) URL (http(s)://host:port/path) (supporting Authentication) `--output http`
-    - RAW (>STDOUT) `--output raw`
-
+    - [`TCP` Socket (tcp://host:port) `--output tcp`](docs/OUTPUTS.md#tcp--udp)
+    - [`UDP` Socket (udp://host:port) `--output udp`](docs/OUTPUTS.md#tcp--udp)
+    - [`HTTP` and `HTTPS` URL (http(s)://host:port/path) (supporting Authentication) `--output http`](docs/OUTPUTS.md#http-and-https)
+    - [`RAW` (>STDOUT) `--output raw`](docs/OUTPUTS.md#raw)
+    - [`FILE` (writes log to a file on the local filesystem and rotates them) `--output file`](docs/OUTPUTS.md#file)  
+    The output documentation can be found [here](docs/OUTPUTS.md).
+  
 
 - Operation types
     - [python (command line)](./docs/COMMAND_LINE_USAGE.md)
@@ -64,6 +66,7 @@ It can be run directly as Python code, as a provided Docker container or through
     - HTTP CA CERT verification skipping
     - Adoptable HTTP - POST format
     - [Output filter](docs/ADDITIONAL_FEATURES.md#filter---filter-feature) (to reduce number of log lines sent to SIEM)
+    - [Output transformation](docs/TRANSFORMATIONS.md) (to produce other log formats i.e. for 3rd party integrations)
   
 ## Documentation
 ULS can be operated in many ways.  

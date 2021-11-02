@@ -4,7 +4,8 @@ All commands referenced in this document are run from the repositories root leve
 The `docker compose` command used in this doc, was recently integrated into the docker cli (currently beta). Nevertheless, all of the `docker-compose`commands will work as well. 
 
 ![ULS docker compose usage](./images/ula_docker-compose_complex_example.png)  
-### Overview
+
+### Table of contents
 - [Requirements](#requirements)
 - [Installation](#installation)
   - [Obtaining the Docker image](#obtaining-the-docker-image)
