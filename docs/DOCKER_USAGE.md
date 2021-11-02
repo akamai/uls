@@ -3,7 +3,7 @@ This document describes the "docker" of the ULS software.
 All commands referenced in this document are run from the repositories root level.  
 ![img.png](images/uls_docker_etp_threat_example.png)    
 
-### Overview
+### Table of contents
 - [ULS Docker Usage](#uls-docker-usage)
     - [Overview](#overview)
   - [Requirements](#requirements)

@@ -55,7 +55,7 @@ def uls_version():
     """
     def _get_cli_version(cli_bin):
         try:
-            version_proc = subprocess.Popen([uls_config.bin_python, cli_bin, "version"],
+            version_proc = subprocess.Popen([uls_config.bin_python, cli_bin, "--edgerc", uls_config.edgerc_mock_file, "version"],
                                             stdout=subprocess.PIPE,
                                             stderr=subprocess.PIPE)
             my_cli_version = version_proc.communicate()[0].decode().strip('\n')
@@ -67,6 +67,13 @@ def uls_version():
         except Exception as my_err:
             return f"n/a -> ({my_err})"
 
+    # Create a mocked edgerc file (fix bug no output on missing edgerc)
+    if os.path.isfile(uls_config.edgerc_mock_file):
+        os.remove(uls_config.edgerc_mock_file)
+
+    with open(uls_config.edgerc_mock_file, 'x') as mcoked_edgerc_file:
+        mcoked_edgerc_file.write("[default]\n")
+
     # generate the stdout
     print(f"{uls_config.__tool_name_long__} Version information\n"
           f"ULS Version\t\t{uls_config.__version__}\n\n"
@@ -76,7 +83,12 @@ def uls_version():
           f"OS Plattform\t\t{platform.platform()}\n"
           f"OS Version\t\t{platform.release()}\n"
           f"Python Version\t\t{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}\n"
+          f"Docker Status\t\t{check_docker()}\n"
           )
+
+    # Delete the mocked edgerc file
+    os.remove(uls_config.edgerc_mock_file)
+
     sys.exit(0)
 
 
@@ -126,3 +138,6 @@ def uls_check_args(input, output):
         sys.exit(1)
     else:
         return 0
+
+def check_docker():
+    return os.path.isfile('/.dockerenv')

@@ -18,7 +18,10 @@ import logging
 def init(loglevel='WARNING', loggername=None):
     global log
     log = logging.getLogger(loggername)
-    logging.basicConfig(format='%(asctime)s %(name)s %(levelname).1s %(message)s')
+    console_handler = logging.StreamHandler()
+    formatter = logging.Formatter('%(asctime)s %(name)s %(levelname).1s %(message)s')
+    console_handler.setFormatter(formatter)
+    log.addHandler(console_handler)
     log.setLevel(loglevel)
     log.debug("Logging initialized")
     return log

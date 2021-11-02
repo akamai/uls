@@ -2,14 +2,16 @@
 ULS supports ingestion of different log streams into SIEM. To get the highest value out of the ingested data, it is crucial to understand the delivered data.  
 Here are some examples (per product) and links to additional information.
 
-## Overview
+## Table of contents
 - [Enterprise Application Access](#enterprise-application-access)
   - [Access Logs (ACCESS)](#access-logs-access)
   - [Admin Logs(ADMIN)](#admin-logs-admin)
   - [Connector Health(CONHEALTH)](#connector-health-conhealth)
 - [Enterprise Threat Protector](#etp)
-  - [Threat Logs]()
-  - [Accceptable Use Policy Logs (AUP)]()
+  - [Threat Logs](#threat-log-threat)
+  - [Accceptable Use Policy Logs (AUP)](#accceptable-use-policy-logs-aup)
+  - [DNS Logs](#dns)
+  - [Proxy Logs](#proxy)
 - [Akamai MFA](#akamai-mfa)
   - [Authentication Logs (AUTH)](#authentication-logs) 
   - [Policy Logs(POLICY)](#policy-logs)

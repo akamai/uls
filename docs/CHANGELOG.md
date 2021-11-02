@@ -1,14 +1,42 @@
 # Version History
 
+## v1.2.0
+|||
+|---|---|
+|Date|2021-11-02
+|Kind| Feature & Bugfix release
+|Author|mschiess@akamai.com, adrocho@akamai.com
+- **Features**
+  - [Transformation Support for output format transformation ](TRANSFORMATIONS.md)(additional log formats and integrations) introduced
+  - [MCAS transformation](TRANSFORMATIONS.md#microsoft-cloud-application-security-mcas): Microsoft Cloud Application Security
+  - [JMESPATH transformation](TRANSFORMATIONS.md#jmespath): Create your own pattern / filter / searches
+  - added [--starttime ](ARGUMENTS_ENV_VARS.md#input)to tell ULS where to start scratching the logs (EPOCH time required)
+  - added [--endtime](ARGUMENTS_ENV_VARS.md#input) to allow cherry-picking of a specific time-slice (EPOCH time required)
+  - added [FILE OUTPUT ](OUTPUTS.md#file)support (writes log streams to a file to the local filesystem)
+- **Bugfix**
+  - Fixed a bug in proxy handling (using cli param), re-enabled CLI cmd and amended docs
+  - Fixed a bug that prevented "--version" to work properly
+  - Fixed a bug that mitigates version display bug on the CLI (solves the symptom only)
+  - Fixed a bug that potentially allowed buffered output from the CLI's (CLI calls and DOCKERFILE)
+- **Minor improvements**
+  - updated base container to "python:3.10-slim-bullseye"  ****
+  - Introduced "systemd" example to [Command Line Usage docs](COMMAND_LINE_USAGE.md#uls-as-a-service-systemd)
+  - Introduced docker check to version check and amendment to UA Header
+  - Introduced - Message re-transmission on network error
+  - ReFactored INPUT / OUTPUT handler to reduce compute & memory footprint
+  - bumped EAA CLI Version to 0.4.4 (docker only)
+  - Introduced dedicated ["OUTPUT" documentation](OUTPUTS.md)
+  - introduced uls own requirements.txt in the [bin directory](../bin/requirements.txt) - still trying to keep req's as low as possible. 
+  
 ## v1.1.0
 |||
 |---|---|
 |Date|2021-08-18
 |Kind|Bugfix / Feature
 |Author|mschiess@akamai.com
-- Features
+- **Features**
   - Added **DNS** and **PROXY** feeds to ETP Input (<3 Sara)
-- Minor improvements
+- **Minor improvements**
   - Version number fix (Stated 0.9.0 instead of 1.x.x)
   - debug "message" fix ( changed HTTP to HTTP(S) to avoid misunderstanding)
   - documented workaround for discovered proxy issue
@@ -23,7 +51,7 @@
 |Date|2021-08-10
 |Kind|Bugfix / Feature
 |Author|mschiess@akamai.com, adrocho@akamai.com
-- Minor improvements
+- **Minor improvements**
   - EdgeRC file check (preflight) and "~" expansion to solve some common issues
   - fixed some typos in the "docker-compose" file
   - bumped EAA-CLI to version 0.4.2

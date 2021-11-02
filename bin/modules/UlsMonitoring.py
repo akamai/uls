@@ -99,6 +99,9 @@ class UlsMonitoring:
             self.overall_messages_handled = self.overall_messages_handled + 1
             self.window_messages_handled = self.window_messages_handled + 1
 
+    def get_message_count(self):
+        return self.overall_messages_handled
+
     def get_stats(self):
         with self._metricLock:
             return f"event_count={self.overall_messages_handled}, runtime={self._runtime()}"

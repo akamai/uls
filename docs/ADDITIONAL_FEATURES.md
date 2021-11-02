@@ -1,6 +1,11 @@
 # Additional ULS Features
 This document handles the usage of features not explained anywhere else.
 
+## Table of contents<!-- omit in toc -->
+- [FILTER (--filter) Feature](#filter---filter-feature)
+- [RAWCMD (--rawcmd) Feature](#rawcmd---rawcmd-feature)
+- [ULS TRANSFORMATIONS](#uls-transformations)
+
 ## FILTER (--filter) Feature
 This feature got introduced in ULS v0.9.0.  
 It allows to decrease the number of log lines sent to SIEM for cost, performance or security reasons.
@@ -39,3 +44,7 @@ python3 bin/uls.py -i etp --rawcmd 'event threat -f' -l debug -o raw
 This will also run the etp threat feed in "tail -f" mode
 
 Please be aware: Not all output from the cli will be redirected to ULS by default.
+
+# ULS TRANSFORMATIONS
+Transformations have been introduced to ULS in version `1.2.0` to support additional 3rd party integrations and custom log formats.
+Please see the dedicated "[Transformations docs](TRANSFORMATIONS.md)" available.
