@@ -62,15 +62,19 @@ def main():
     # Load the LOG system
     aka_log.init(uls_args.loglevel, uls_config.__tool_name_short__)
 
+    # Determine root directory
+    root_path = str(UlsTools.runpath())
+
     # OUTPUT Version Information
     if uls_args.version:
-        UlsTools.uls_version()
+        UlsTools.uls_version(root_path=root_path)
+
 
     # Verify the given core params (at least input and output should be set)
     UlsTools.uls_check_args(uls_args.input, uls_args.output)
 
     # Check CLI Environment
-    UlsTools.uls_check_sys()
+    UlsTools.uls_check_sys(root_path=root_path)
 
     # Create & Start monitoring Instance
     my_monitor = UlsMonitoring.UlsMonitoring(stopEvent=stopEvent,
@@ -89,7 +93,8 @@ def main():
                                        inproxy=uls_args.inproxy,
                                        rawcmd=uls_args.rawcmd,
                                        starttime=uls_args.starttime,
-                                       endtime=uls_args.endtime)
+                                       endtime=uls_args.endtime,
+                                       root_path=root_path)
 
     # Connect to the selected input UlsOutput
     my_output = UlsOutput.UlsOutput(output_type=uls_args.output,

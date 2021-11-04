@@ -1,4 +1,12 @@
 # Version History
+## v1.2.1
+|||
+|---|---|
+|Date|2021-11-02
+|Kind| Bugfix release
+|Author|mschiess@akamai.com
+- **Bugfix**
+  - removed hard requirement to run ULS via bin/uls.py - can now be run from everywhere 
 
 ## v1.2.0
 |||

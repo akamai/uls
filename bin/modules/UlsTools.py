@@ -17,13 +17,14 @@ import sys
 import platform
 import os.path
 import configparser
+import pathlib
 
 # ULS modules
 import modules.aka_log as aka_log
 import config.global_config as uls_config
 
 
-def uls_check_sys():
+def uls_check_sys(root_path):
     """
     Collect ULS requirements information and request input if failing
     """
@@ -44,18 +45,20 @@ def uls_check_sys():
         except Exception as my_error:
             aka_log.log.critical(f"Error checking the cli'tools ")
 
-    _check_cli_installed(uls_config.bin_eaa_cli)
-    _check_cli_installed(uls_config.bin_etp_cli)
-    _check_cli_installed(uls_config.bin_mfa_cli)
+    _check_cli_installed(root_path + "/" + uls_config.bin_eaa_cli)
+    _check_cli_installed(root_path + "/" + uls_config.bin_etp_cli)
+    _check_cli_installed(root_path + "/" + uls_config.bin_mfa_cli)
 
 
-def uls_version():
+def uls_version(root_path):
     """
     Collect ULS Version information and display it on STDOUT
     """
-    def _get_cli_version(cli_bin):
+
+    my_edgerc_mock_file = root_path + "/" + uls_config.edgerc_mock_file
+    def _get_cli_version(cli_bin, edgerc_mock_file):
         try:
-            version_proc = subprocess.Popen([uls_config.bin_python, cli_bin, "--edgerc", uls_config.edgerc_mock_file, "version"],
+            version_proc = subprocess.Popen([uls_config.bin_python, cli_bin, "--edgerc", edgerc_mock_file, "version"],
                                             stdout=subprocess.PIPE,
                                             stderr=subprocess.PIPE)
             my_cli_version = version_proc.communicate()[0].decode().strip('\n')
@@ -68,26 +71,27 @@ def uls_version():
             return f"n/a -> ({my_err})"
 
     # Create a mocked edgerc file (fix bug no output on missing edgerc)
-    if os.path.isfile(uls_config.edgerc_mock_file):
-        os.remove(uls_config.edgerc_mock_file)
+    if os.path.isfile(my_edgerc_mock_file):
+        os.remove(my_edgerc_mock_file)
 
-    with open(uls_config.edgerc_mock_file, 'x') as mcoked_edgerc_file:
-        mcoked_edgerc_file.write("[default]\n")
+    with open(my_edgerc_mock_file, 'x') as mocked_edgerc_file:
+        mocked_edgerc_file.write("[default]\n")
 
     # generate the stdout
     print(f"{uls_config.__tool_name_long__} Version information\n"
           f"ULS Version\t\t{uls_config.__version__}\n\n"
-          f"EAA Version\t\t{_get_cli_version(uls_config.bin_eaa_cli)}\n"
-          f"ETP Version\t\t{_get_cli_version(uls_config.bin_etp_cli)}\n"
-          f"MFA Version\t\t{_get_cli_version(uls_config.bin_mfa_cli)}\n\n"
+          f"EAA Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_eaa_cli, my_edgerc_mock_file)}\n"
+          f"ETP Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_etp_cli, my_edgerc_mock_file)}\n"
+          f"MFA Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_mfa_cli, my_edgerc_mock_file)}\n\n"
           f"OS Plattform\t\t{platform.platform()}\n"
           f"OS Version\t\t{platform.release()}\n"
           f"Python Version\t\t{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}\n"
           f"Docker Status\t\t{check_docker()}\n"
+          f"RootPath \t\t{root_path}\n"
           )
 
     # Delete the mocked edgerc file
-    os.remove(uls_config.edgerc_mock_file)
+    os.remove(my_edgerc_mock_file)
 
     sys.exit(0)
 
@@ -141,3 +145,11 @@ def uls_check_args(input, output):
 
 def check_docker():
     return os.path.isfile('/.dockerenv')
+
+
+def runpath():
+    """
+    Function to return the root path of the repo
+    :return: Root path (git root)
+    """
+    return pathlib.Path(__file__).parent.resolve().parent.resolve().parent.resolve()

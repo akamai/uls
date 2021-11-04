@@ -38,7 +38,8 @@ class UlsInputCli:
                  rawcmd=None,
                  inproxy=None,
                  starttime: int=None,
-                 endtime: int=None):
+                 endtime: int=None,
+                 root_path: str=None):
         """
         Initialzing a new UlsInput handler
         :param product: Input product
@@ -50,6 +51,7 @@ class UlsInputCli:
         :param inproxy: Proxy config
         :param starttime: Start time in epoch seconds
         :param endtime: End time in epoch seconds
+        :param root_path: Root path of the git repo (to avoid runtime issues)
         """""
 
         # Defaults (may vary later)
@@ -71,6 +73,7 @@ class UlsInputCli:
         self.inproxy = inproxy
         self.starttime = starttime
         self.endtime = endtime
+        self.root_path = root_path
 
         # Variables (load from uls_config)
         self.run_delay = uls_config.input_run_delay              # Time in seconds to wait for the first health check
@@ -139,7 +142,7 @@ class UlsInputCli:
 
             # EAA config
             if self.product == "EAA":
-                product_path = uls_config.bin_eaa_cli
+                product_path = self.root_path + "/" + uls_config.bin_eaa_cli
                 product_feeds = uls_config.eaa_cli_feeds
                 if not self.rawcmd:
                     my_feed = self._feed_selector(self.feed, product_feeds)
@@ -180,7 +183,7 @@ class UlsInputCli:
 
             # ETP config
             elif self.product == "ETP":
-                product_path = uls_config.bin_etp_cli
+                product_path = self.root_path + "/" + uls_config.bin_etp_cli
                 product_feeds = uls_config.etp_cli_feeds
 
                 if not self.cliformat == "JSON":
@@ -210,7 +213,7 @@ class UlsInputCli:
 
             # MFA config
             elif self.product == "MFA":
-                product_path = uls_config.bin_mfa_cli
+                product_path = self.root_path + "/" + uls_config.bin_mfa_cli
                 product_feeds = uls_config.mfa_cli_feeds
                 if not self.cliformat == "JSON":
                     aka_log.log.warning(f"{self.name} - Selected LOG Format ({self.cliformat}) "
