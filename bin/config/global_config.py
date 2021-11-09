@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Common global variables / constants
-__version__ = "1.2.0"
+__version__ = "1.2.1"
 __tool_name_long__ = "Akamai Unified Log Streamer"
 __tool_name_short__ = "ULS"
 
@@ -62,10 +62,10 @@ output_tcp_send_buffer = 262144                 # TCP Send buffer in bytes
 output_tcp_timeout = 10.0                       # TCP SEND / CONNECT Timeout (seconds)
     ## HTTP
 output_http_header = {'User-Agent': f'{__tool_name_long__}/{__version__}'}  # HTTP Additional Headers to send (requests module KV pairs)
+output_http_timeout = 10                        # Timeout after which a request will be considered as failed
     ## FILE
 output_file_encoding = "utf-8"                  # FILE Encoding setting
 output_file_handler_choices = ['SIZE', 'TIME']  # Available Choices for the file handler
-output_file_default_name = 'tmp/uls_file.output'    # Default file name (path + name), only used if not set
 output_file_default_backup_count = 3                # Default number of backup files (after rotation)
 output_file_default_maxbytes = 50* 1024 * 1024      # Default maximum size of a file when rotated by the FILE - handler
 output_file_default_time_use_utc = False            # Use UTC instead of local system time (Default: False)

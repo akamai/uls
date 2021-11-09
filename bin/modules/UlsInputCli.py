@@ -260,6 +260,7 @@ class UlsInputCli:
                 time.sleep(1)
 
                 if not self.check_proc():
+                    #self.rerun_counter += 1
                     raise NameError(f"process [{self.cli_proc.pid}] "
                                     f"exited RC={self.cli_proc.returncode}, REASON: "
                                     f"{self.cli_proc.stderr.read().decode()}")
@@ -282,7 +283,7 @@ class UlsInputCli:
             if self.running is False and self.rerun_counter > self.rerun_retries:
                 aka_log.log.critical(f'{self.name} - Not able to start the CLI for '
                                      f'{self.product}. See above errors. '
-                                     f'Giving up after {self.rerun_counter - 1} retries.')
+                                     f'Giving up after {self.rerun_counter - 2} retries.')
                 sys.exit(1)
 
     def check_proc(self):
@@ -292,6 +293,7 @@ class UlsInputCli:
                 return True
             else:
                 self.running = False
+                self.rerun_counter += 1
                 aka_log.log.error(f'{self.name} - CLI process [{self.proc.pid}]'
                                   f' was found stale - {self.proc.stderr.read().decode()}')
                 self.proc_create()

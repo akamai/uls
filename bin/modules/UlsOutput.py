@@ -85,7 +85,7 @@ class UlsOutput:
         if self.output_type in ['TCP', 'UDP'] and host and port:
             self.host = host
             self.port = port
-        elif self.output_type in ['TCP', 'UDP'] and not host and not port:
+        elif self.output_type in ['TCP', 'UDP'] and (not host or not port):
             aka_log.log.critical(f"{self.name} - Host or Port has not "
                                  f"been set Host: {host} Port: {port} - exiting")
             sys.exit(1)
@@ -97,6 +97,7 @@ class UlsOutput:
             self.http_out_format = http_out_format
             self.http_out_auth_header = http_out_auth_header
             self.http_insecure = http_insecure
+            self.http_timeout = uls_config.output_http_timeout
         elif self.output_type in ['HTTP'] and not http_url:
             aka_log.log.critical(f"{self.name}  http_out_format http_out_auth_"
                                  f"header http_url or http_insecure missing- exiting")
@@ -104,6 +105,10 @@ class UlsOutput:
 
         # File Parameters
         elif self.output_type in ['FILE']:
+            if filename == None:
+                aka_log.log.critical(f"{self.name}  file-output was specified, but no file was specified. "
+                                     f"Please use --filename <filename> to specify a file")
+                sys.exit(1)
             self.filehandler = filehandler
             self.filename = filename
             self.filebackupcount = filebackupcount
@@ -207,7 +212,7 @@ class UlsOutput:
                     # Let'S do an options request
                     resp = self.httpSession.options(url=self.http_url,
                                                     data='{"event":"connection test"}',
-                                                    verify=self.http_verify_tls)
+                                                    verify=self.http_verify_tls, timeout=self.http_timeout)
 
                     if resp.status_code == 200:
                         reconnect_counter = 1
@@ -319,7 +324,8 @@ class UlsOutput:
             elif self.output_type == "HTTP":
                 response = self.httpSession.post(url=self.http_url,
                                                  data=self.http_out_format % (data.decode()),
-                                                 verify=self.http_verify_tls)
+                                                 verify=self.http_verify_tls,
+                                                 timeout=self.http_timeout)
                 aka_log.log.debug(f"{self.name} DATA Send response {response.status_code},"
                                   f" {response.text} ")
 

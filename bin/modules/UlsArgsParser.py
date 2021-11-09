@@ -134,7 +134,7 @@ def init():
     output_group.add_argument('--port',
                               action='store',
                               type=int,
-                              default=int(os.environ.get('ULS_OUTPUT_PORT') or '0'),
+                              default=int(os.environ.get('ULS_OUTPUT_PORT') or '0' ),
                               help="Port for TCP/UDP")
 
     # HTTP
@@ -176,7 +176,7 @@ def init():
     output_group.add_argument('--filehandler',
                               action='store',
                               type=str.upper,
-                              default=(os.environ.get('ULS_FILE_HANDLER') or None),
+                              default=(os.environ.get('ULS_FILE_HANDLER') or "SIZE"),
                               choices=uls_config.output_file_handler_choices,
                               help=f"Output file handler - Decides when files are rotated -"
                                    f"Choices: {uls_config.output_file_handler_choices} -"
@@ -186,9 +186,9 @@ def init():
                               action='store',
                               type=str,
                               default=(os.environ.get('ULS_FILE_NAME') or
-                                       uls_config.output_file_default_name),
+                                       None),
                               help=f"Output file destination (path + filename)"
-                                   f" Default: {uls_config.output_file_default_name}")
+                                   f" Default: None")
 
     ## File Backup count
     output_group.add_argument('--filebackupcount',
