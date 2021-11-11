@@ -35,7 +35,7 @@ The following tables list all available command line parameters and their corres
 |--httpauthheader| HTTP(S) | ULS_HTTP_AUTH_HEADER | '{"Authorization": "VALUE"}' | None | Specify an Auhtorization header to auth against the HTTP Server (HTTP only) <br>Example:<br>'{"Authorization": "Splunk xxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx"}' |
 |--httpinsecure| HTTP(S) | ULS_HTTP_INSECURE | True | False | Disable TLS CA certificate verification |
 |--filehandler| FILE | ULS_FILE_HANDLER | 'SIZE','TIME' | SIZE | Select the handler which decides how the files are rotated if either specific SIZE or TIME has been reached |
-|--filename| FILE | ULS_FILE_NAME | '/path/to/file.name' | /tmp/uls_file.output | The PATH + FILENAME where ULS should create the file |
+|--filename| FILE | ULS_FILE_NAME | '/path/to/file.name' | None | The PATH + FILENAME where ULS should create the file |
 |--filebackupcount | FILE | ULS_FILE_BACKUPCOUNT | '\<number of files to keep\>' | 3 | Select the number of files that should be kept on the file system when rotating the data|
 |--filemaxbytes| FILE (SIZE)| ULS_FILE_MAXBYTES | '\<bytes\>' | 50 * 1024 * 1024 = 50 MB | Filesize (in bytes) a file can reach before it will be rotated.<br>Only on SIZE - Handler (`--filehandler = size`) !!|
 |--filetime| FILE (TIME)| ULS_FILE_TIME| ['S','M','H','D','W0'-'W6','midnight'] | 'M' | Specifies the file rotation trigger unit.<br>S: seconds, M: minutes, H: hours, D: days, 'W0'-'W6' Weekday (W0=Monday), 'midnight': midnight.|
