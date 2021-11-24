@@ -2,13 +2,14 @@
 ## v1.2.1
 |||
 |---|---|
-|Date|2021-11-x
+|Date|2021-11-x 
 |Kind| Bugfix release
 |Author|mschiess@akamai.com
 - **Bugfix**
   - removed hard requirement to run ULS via bin/uls.py - can now be run from everywhere 
   - introduced HTTP Timeout to the configuration file (http stream did not issue proper error messages in some cases)
   - Fixed an output issue on "CLI failure", added configureable output handling to the config
+  - replaced pip with pip3 in CLI usage docs
 - **Features**
   - [internal] Added automated test scripts to improve release quality
 

@@ -44,7 +44,7 @@ pip3 install -r ext/cli-eaa/requirements.txt
 
 # Enterprise Threat Protector (ETP)
 git clone --depth 1 --single-branch https://github.com/akamai/cli-etp.git ext/cli-etp && \
-pip install -r ext/cli-etp/requirements.txt
+pip3 install -r ext/cli-etp/requirements.txt
 
 # Akamai Phish Proof Multi Factor Authenticator (AKAMAI-MFA)
 git clone --depth 1 --single-branch https://github.com/akamai/cli-mfa.git ext/cli-mfa && \
