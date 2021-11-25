@@ -50,7 +50,7 @@ log_level_default = 'WARNING'
 input_rerun_retries = 3                         # Number of rerun attempts before giving up
 input_run_delay = 1                             # Time in seconds to wait for the first health check
 input_rerun_delay = 1                           # Time in seconds between rerun attempts
-input_disable_stderr = False                    # Enable STDERR output disabling (see value below to specify when this should happen)
+input_disable_stderr = True                     # Enable STDERR output disabling (see value below to specify when this should happen)
 input_disable_stderr_after = 25                 # Disable stderr output after x input_cli cycles --> to prevent buffer overflow
 
 # OUTPUT Configuration
