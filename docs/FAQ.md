@@ -67,30 +67,24 @@ Some excellent troubleshooting guidance from SPLUNK (but also applies to other S
 ### ULS on Windows error: "[WinError 2] The system cannot find the file specified"
 ULS requires the OS to provide a python3 executable. The python installation on Windows somehow (unlike other OS) just installs a "python" executable.  
 Luckily this is something that can get sorted easily and in multiple different ways (just pick the one that suites you best):
-1) **Create a python3.bat (recommended)**  
-To avoid copying the binary you can create a `batch` file and place it in some dir specified in the `$PATH` (the python dir is ok, too).  
-Create a python3.bat with the following content:
-    ```text
-    python %*
-    ```  
 
-2) **Copy the binary**  
+1) **Copy the binary (recommended)**  
 Go to your python directory on Windows e.g. `C:\Users\Administrator\AppData\Local\Programs\Python\Python310` or `C:\Program Files\Python\Python310`.  
 Now copy the `python.exe` executable to  `python3.exe` within the same folder.  
 
   
-3) **Create a powershell alias (temproary only)**  
+2) **Create a powershell alias (temproary only)**  
 If you are using powershell, run this before you start ULS.
     ```text
     Set-Alias -Name python3 -Value python
     ```  
 
-4) **Create a symbolic link (requires [mklink](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/mklink))**  
+3) **Create a symbolic link (requires [mklink](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/mklink))**  
     ```text
     mklink "C:\path\to\symlink\python3.exe" "C:\path\to\Python3\python.exe"
     ```
    
-5) **Change ULS config (not recommended)**  
+4) **Change ULS config (not recommended)**  
 You can modify the bin_python variable within the ULS global config file's `bin/config/global_config.py` 'Generic config' section.#
 Change
     ```text
