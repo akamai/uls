@@ -261,7 +261,11 @@ class UlsInputCli:
                                  f"{' '.join(cli_command)}")
                 self.proc = self.cli_proc
                 self.proc_output = self.cli_proc.stdout
-                os.set_blocking(self.proc_output.fileno(), False)
+
+                # Unblocking on windows causes trouble so we're avoiding it
+                if not os.name == 'nt':
+                    os.set_blocking(self.proc_output.fileno(), False)
+
                 time.sleep(1)
 
                 if not self.check_proc():

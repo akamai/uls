@@ -10,6 +10,7 @@
   - introduced HTTP Timeout to the configuration file (http stream did not issue proper error messages in some cases)
   - Fixed an output issue on "CLI failure", added configureable output handling to the config
   - replaced pip with pip3 in CLI usage docs
+  - Fixed a windows bug (bypass blocking on windows) + added a [FAQ entry on how fix a installation specific bug](FAQ.md#uls-on-windows-error-winerror-2-the-system-cannot-find-the-file-specified)
 - **Features**
   - [internal] Added automated test scripts to improve release quality
 
