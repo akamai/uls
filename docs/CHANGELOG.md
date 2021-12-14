@@ -11,6 +11,8 @@
   - Fixed an output issue on "CLI failure", added configureable output handling to the config
   - replaced pip with pip3 in CLI usage docs
   - Fixed a windows bug (bypass blocking on windows) + added a [FAQ entry on how fix a installation specific bug](FAQ.md#uls-on-windows-error-winerror-2-the-system-cannot-find-the-file-specified)
+- **Minor improvements**
+  - Bumped ETP-CLI to version 0.3.6
 - **Features**
   - [internal] Added automated test scripts to improve release quality
 
