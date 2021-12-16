@@ -11,13 +11,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+import json
 import subprocess
 import sys
 import platform
 import os.path
 import configparser
 import pathlib
+import datetime
 
 # ULS modules
 import modules.aka_log as aka_log
@@ -147,9 +148,96 @@ def check_docker():
     return os.path.isfile('/.dockerenv')
 
 
-def runpath():
+def root_path():
     """
     Function to return the root path of the repo
     :return: Root path (git root)
     """
     return pathlib.Path(__file__).parent.resolve().parent.resolve().parent.resolve()
+
+
+def check_autoresume(input, feed, checkpoint_dir=uls_config.autoresume_checkpoint_path):
+    # Check if we're in a supported stream / feed
+    if input not in uls_config.autoresume_supported_inputs or feed == "CONHEALTH":
+        aka_log.log.critical(f"Input {input} or feed {feed} currently not supported by AUTORESUME - Exiting.")
+        sys.exit(1)
+
+    checkpoint_file = "uls_" + input.lower() + "_" + feed.lower() + ".ckpt"
+    checkpoint_full = str(os.path.abspath(checkpoint_dir)) + "/" + checkpoint_file
+
+    if os.path.isfile(checkpoint_full):
+        aka_log.log.debug(f"Autoresume Checkpoint found: {checkpoint_full}")
+        if os.stat(checkpoint_full).st_size == 0:
+            aka_log.log.warning(f"Checkpoint \'{checkpoint_full}\' seems to be empty.")
+            creation_time = None
+            checkpoint = None
+        else:
+            try:
+                with open (checkpoint_full, "r") as ckpt_f:
+                    data = json.load(ckpt_f)
+                    if data['creation_time'] and data['checkpoint']:
+                        aka_log.log.debug(f"Autoresume Checkpoint successfully loaded. Checkpoint Time: {data['checkpoint']}, Creation_time: {data['creation_time']}")
+                        creation_time = data['creation_time']
+                        # Convert the Checkpoint to "epoch Timestamp", depending on the input
+                        if data['input'] == "ETP":
+                            mytime = data['checkpoint'].split("Z")[0]
+                        elif data['input'] == "EAA":
+                            mytime = data['checkpoint'].split("+")[0]
+                        else:
+                            aka_log.log.critical(
+                                f"Unhandeled input data in checkpointfile  \'{checkpoint_full}\' --> {input} / {feed} - Exiting.")
+                            sys.exit(1)
+                        checkpoint = int(datetime.datetime(year=int(mytime.split("T")[0].split("-")[0]),
+                                            month=int(mytime.split("T")[0].split("-")[1]),
+                                            day=int(mytime.split("T")[0].split("-")[2]),
+                                            hour=int(mytime.split("T")[1].split(":")[0]),
+                                            minute=int(mytime.split("T")[1].split(":")[1]),
+                                            second=int(mytime.split("T")[1].split(":")[2]),
+                                            ).timestamp())
+                        aka_log.log.debug(f"Checkpoint timestamp {data['checkpoint']} converted to epoch time {checkpoint}")
+                    else:
+                        aka_log.log.critical(f"Inconsitent data in checkpointfile  \'{checkpoint_full}\' --> {data} - Exiting.")
+                        sys.exit(1)
+            except Exception as readerror:
+                aka_log.log.critical(f"Error reading data from \'{checkpoint_full}\': {readerror} - Exiting.")
+                sys.exit(1)
+    else:
+        aka_log.log.info(f"No autoresume Checkpoint found - trying to create {checkpoint_full}")
+        creation_time = None
+        checkpoint = None
+        try:
+            pathlib.Path(checkpoint_full).touch()
+        except Exception as toucherr:
+            aka_log.log.critical(f"Error creating {checkpoint_full}: {toucherr} Please check directory / file permissions. - Exiting")
+            sys.exit(1)
+        aka_log.log.info(
+            f"Checkpoint file {checkpoint_full} successfully created")
+
+    return {'filename': checkpoint_full, 'creation_time': creation_time, 'checkpoint': checkpoint}
+
+
+def write_autoresume_ckpt(input, feed, autoresume_file, logline):
+    aka_log.log.info(f"AUTORESUME - IT's time to write a new checkpoint")
+
+    # Adopt the field to the stream / feed
+    checkpoint_line = logline.decode()
+    if input == "ETP" and (feed == "THREAT" or feed =="PROXY" or feed == "AUP"):
+        checkpoint_timestamp = json.loads(checkpoint_line)['event']['detectionTime']
+    if input == "ETP" and feed == "DNS":
+        checkpoint_timestamp = json.loads(checkpoint_line)['query']['time']
+    elif input == "EAA" and feed == "ACCESS":
+        checkpoint_timestamp = json.loads(checkpoint_line)['datetime']
+    else:
+        aka_log.log.critical(
+            f"AUTORESUME - Unhandled Inpute / FEed detected  {input} / {feed} (this should never happen !!)- Exiting")
+        sys.exit(1)
+
+    # Write out the file
+    try:
+        autoresume_data = {'creation_time': str(datetime.datetime.now()), 'checkpoint': str(checkpoint_timestamp), 'input': input, 'feed': feed}
+        with open(autoresume_file, "w") as ckpt_fd:
+            json.dump(autoresume_data, ckpt_fd)
+        aka_log.log.debug(f"AUTORESUME - Wrote a new checkpoint to {autoresume_file}: {autoresume_data}")
+    except Exception as write_error:
+        aka_log.log.critical(f"AUTORESUME - Failure writing data to {autoresume_file} - Data: {autoresume_data} - error: {write_error} - Exiting")
+        sys.exit(1)

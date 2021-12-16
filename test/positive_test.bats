@@ -115,3 +115,16 @@ load 'test/bats/bats-assert/load.bash'
     #[ "$status" -eq 124 ]      #return value from timeout without --preserve status
     [ "$status" -eq 100 ]       #return value from uls when interrupted --> with --preserve status on timeout
 }
+
+@test "AUTORESUME - Create File" {
+    run timeout --preserve-status $uls_test_timeout $uls_bin --input eaa --feed access --output raw --edgerc $uls_edgerc --section $uls_section --autoresume --autoresumepath /tmp/
+    assert_output ""
+    #assert_output --partial " seems to be empty"
+    #assert_output --partial "The specified directory tmp does not exist or privileges are missing - exiting"
+    #[ "$status" -eq 124 ]      #return value from timeout without --preserve status
+    [ "$status" -eq 100 ]       #return value from uls when interrupted --> with --preserve status on timeout
+}
+
+teardown() {
+    rm -f /tmp/uls_eaa_access.ckpt
+}

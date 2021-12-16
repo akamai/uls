@@ -39,6 +39,7 @@ def init():
                         const=True,
                         help=f'Display {uls_config.__tool_name_short__} version and operational information')
 
+
     # ----------------------
     # Input GROUP
     input_group = parser.add_argument_group(title="Input",
@@ -227,6 +228,14 @@ def init():
                               help=f"Specifies the file rotation interval based on `--filetime` unit value"
                                    f" Default: {uls_config.output_file_time_interval}")
 
+    ## File Action
+    output_group.add_argument('--fileaction',
+                              action='store',
+                              type=str,
+                              default=(os.environ.get('ULS_FILE_ACTION') or None),
+                              help=f"This enables you to specify your own action upon a file rotation. ('%%s' defines the absolute file_name e.g. /path/to/my_file.log.1)."
+                                   f" Default: <None>")
+
     # ----------------------
     special_group = parser.add_argument_group(title="Transformation",
                                              description="Define Module Settings (Output manipulation)")
@@ -253,6 +262,35 @@ def init():
                               type=str,
                               default=(os.environ.get('ULS_TRANSFORMATION_PATTERN') or None),
                               help="Provide a pattern to transform the output (Required for JMESPATH)")
+
+
+
+    #-------------------------
+    resume_group = parser.add_argument_group(title="Autoresume",
+                                             description="Define Autoresume Settings")
+    # Autoresume / Resume Switch
+    resume_group.add_argument('--autoresume', '--resume',
+                        action='store',
+                        type=bool,
+                        dest='autoresume',
+                        default=(os.environ.get('ULS_AUTORESUME') or False),
+                        nargs='?',
+                        const=True,
+                        help=f'Enable automated resume on based on a checkpoint (do not use alongside --starttime)')
+
+    resume_group.add_argument('--autoresumepath',
+                        action='store',
+                        type=str,
+                        dest='autoresumepath',
+                        default=(os.environ.get('ULS_AUTORESUME_PATH') or uls_config.autoresume_checkpoint_path),
+                        help=f'Specify the path where checkpoint files should be written to. (Trailing /) [Default: {uls_config.autoresume_checkpoint_path}]')
+
+    resume_group.add_argument('--autoresumewriteafter',
+                              action='store',
+                              type=int,
+                              dest='autoresumewriteafter',
+                              default=(os.environ.get('ULS_AUTORESUME_WRITEAFTER') or uls_config.autoresume_write_after),
+                              help=f'Specify after how many loglines a checkpoint should be written [Default: {uls_config.autoresume_write_after}]')
 
     return parser.parse_args()
 

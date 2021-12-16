@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Common global variables / constants
-__version__ = "1.2.1"
+__version__ = "1.3.0"
 __tool_name_long__ = "Akamai Unified Log Streamer"
 __tool_name_short__ = "ULS"
 
@@ -85,3 +85,9 @@ edgerc_eaa_legacy = ["eaa_api_host", "eaa_api_key", "eaa_api_secret"]           
 edgerc_mfa = ["mfa_integration_id", "mfa_signing_key"]                              # Required for MFA
 edgerc_documentation_url = "https://github.com/akamai/uls/blob/main/docs/AKAMAI_API_CREDENTIALS.md"
 edgerc_mock_file = "ext/edgerc"                 # Required for display the version if no edgercfile was given
+
+# Autoresume Configuration
+autoresume_checkpoint_path = "var/"              # (Default) Path, where the checkpointfiles should be stored to
+autoresume_supported_inputs = ['ETP', 'EAA']           # Internal Var only, to adjust supported inputs
+autoresume_write_after = 1000                    # Write checkpoint only every ${autoresume_write_every} loglines
+

@@ -147,3 +147,11 @@ load 'test/bats/bats-assert/load.bash'
     assert_output --partial " transformation JMESPath https://jmespath.org/ [JMESPATH] specified, but wrong params given format defined. (Inputformat/pattern)JMESPath only supports Cliformat: ['JSON'] Transformation pattern given: asd - (exiting)"
     [ "$status" -eq 1 ]
 }
+
+### Autoresume
+@test "AUTORESUME - inacessible path" {
+    run  $uls_bin --input etp --feed threat --output raw --autoresume --autoresumepath /blabla/blabla
+    assert_output --partial " [Errno 2] No such file or directory:"
+    [ "$status" -eq 1 ]
+}
+

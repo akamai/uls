@@ -39,9 +39,9 @@ ULS will resolve domain names using the hosts DNS resolution capabilities.
 Several SIEM do provide a way to ingest logs via HTTP(S), so ULS is supporting this feature as well.
 Data is sent towards the HTTP listener via a POST request, containing the data in the payload.
 
-|OUTPUT|Required Parameters|Optional Parameters|
-|---|---|---|
-|--output http|--httpurl \<target url including port and path\>|--httpformat \<output format\> --httpauthheader '{"Authorization": "VALUE"}' --httpinsecure|
+|OUTPUT|Required Parameters| Optional Parameters                                                                                |
+|---|---|----------------------------------------------------------------------------------------------------|
+|--output http|--httpurl \<target url including port and path\>| --httpformat \<output format\><br> --httpauthheader '{"Authorization": "VALUE"}'<br>--httpinsecure |
 More information regarding the parameters can be found [here](ARGUMENTS_ENV_VARS.md#output).
 
 **Examples:**
@@ -77,9 +77,9 @@ bin/uls.py --input eaa --feed admin --output raw
 The file output has been introduced in ULS version 1.2.0 to support logging/archiving operations.
 Data is written to an output file and rotated depending on the giben parameters (see examples below).
 
-|OUTPUT|Required Parameters|Optional Parameters|
-|---|---|---|
-|--output file|--filehandler \<file handler ('SIZE','TIME')\> --filename '/path/to/file.name' --filebackupcount \<number of files to keep\>|--filemaxbytes '\<bytes\>' --filetime ['S','M','H','D','W0'-'W6','midnight'] --fileinterval \<interval\>|
+|OUTPUT| Required Parameters                                                                                                                  | Optional Parameters                                                                                                                              |
+|---|--------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+|--output file| --filehandler \<file handler ('SIZE','TIME')\> <br>--filename '/path/to/file.name'<br> --filebackupcount \<number of files to keep\> | --filemaxbytes '\<bytes\>'<br> --filetime ['S','M','H','D','W0'-'W6','midnight']<br> --fileinterval \<interval\><br>--fileaction <action script> |
 More information regarding the parameters can be found [here](ARGUMENTS_ENV_VARS.md#output).
 
 **Examples:**
