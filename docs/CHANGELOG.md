@@ -1,4 +1,29 @@
 # Version History
+## v1.3.0
+|||
+|---|---|
+|Date|2021-12-17
+|Kind| Feature & Bugfix release
+|Author|mschiess@akamai.com
+- **Features**
+  - [internal] Added automated test scripts to improve continuous release quality
+  - [AUTO-RESUME feature](ADDITIONAL_FEATURES.md#autoresume--resume) enables ULS to automatically continue operation starting from the last saved checkpoint.
+  - [FileAction support](ADDITIONAL_FEATURES.md#post-processing-of-files-fileoutput-only) to trigger custom scripts upon file rotation event.
+
+
+- **Minor improvements**
+  - Bumped ETP-CLI to version 0.3.6 in Dockerfile
+  - Bumped EAA-CLI version to 0.4.5 in Dockerfile
+  - Added additional fields to the monitoring output ([uls_version, event_count_interval](MONITORING.md))
+
+
+- **Bugfixes**
+  - removed hard requirement to run ULS via bin/uls.py - can now be run from everywhere 
+  - introduced HTTP Timeout (for HTTP OUTPUT) to the configuration file (http stream did not issue proper error messages in some cases)
+  - Fixed an output issue on "CLI failure", added configureable output handling to the config
+  - replaced pip with pip3 in CLI usage docs
+  - Fixed a windows bug (bypass blocking on windows) + added a [FAQ entry on how fix a installation specific bug](FAQ.md#uls-on-windows-error-winerror-2-the-system-cannot-find-the-file-specified)
+
 
 ## v1.2.0
 |||

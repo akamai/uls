@@ -1,0 +1,17 @@
+[testing]
+client_secret = testing
+host = testing.luna.akamaiapis.net
+access_token = testing
+client_token = testing
+
+# EAA MOCK
+eaa_api_host = manage.akamai-access.com
+eaa_api_key = testing
+eaa_api_secret = testing
+
+# ETP MOCK
+etp_config_id = 54321
+
+# MFA MOCK
+mfa_integration_id = testing
+mfa_signing_key = testing

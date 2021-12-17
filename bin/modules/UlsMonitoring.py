@@ -45,6 +45,7 @@ class UlsMonitoring:
         # Variables
         self.monitoring_enabled = uls_config.monitoring_enabled                     # Monitoring enable Flag
         self.monitoring_interval = uls_config.monitoring_interval                    # Monitoring interval
+        self._version = uls_config.__version__
 
         # Definitions
         self.name = "UlsMonitoring"                          # Class Human readable name
@@ -79,8 +80,10 @@ class UlsMonitoring:
                        'uls_product': self._product,
                        'uls_feed': self._feed,
                        'uls_output': self._output,
+                       'uls_version': self._version,
                        'uls_runtime': self._runtime(),
                        'event_count': self.overall_messages_handled,
+                       'event_count_interval': self.window_messages_handled,
                        'event_rate': round(self.window_messages_handled / self.monitoring_interval, 2),
                        'mon_interval': self.monitoring_interval
                     }

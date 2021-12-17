@@ -38,7 +38,8 @@ class UlsInputCli:
                  rawcmd=None,
                  inproxy=None,
                  starttime: int=None,
-                 endtime: int=None):
+                 endtime: int=None,
+                 root_path: str=None):
         """
         Initialzing a new UlsInput handler
         :param product: Input product
@@ -50,6 +51,7 @@ class UlsInputCli:
         :param inproxy: Proxy config
         :param starttime: Start time in epoch seconds
         :param endtime: End time in epoch seconds
+        :param root_path: Root path of the git repo (to avoid runtime issues)
         """""
 
         # Defaults (may vary later)
@@ -60,6 +62,7 @@ class UlsInputCli:
         self.rerun_counter = 1
         self.cli_proc = None
         self.run_once = False
+        self.cycle_counter = 0
 
         # Handover Parameters
         self.product = product
@@ -71,12 +74,15 @@ class UlsInputCli:
         self.inproxy = inproxy
         self.starttime = starttime
         self.endtime = endtime
+        self.root_path = root_path
 
         # Variables (load from uls_config)
         self.run_delay = uls_config.input_run_delay              # Time in seconds to wait for the first health check
         self.rerun_retries = uls_config.input_rerun_retries      # Number of rerun attempts before giving up
         self.rerun_delay = uls_config.input_rerun_delay          # Time in seconds between rerun attempts
         self.bin_python = uls_config.bin_python                  # The python binary
+        self.disable_stderr = uls_config.input_disable_stderr    #Specify if STDERR should be disabled at all after $disable_stderr_after cycles
+        self.disable_stderr_after = uls_config.input_disable_stderr_after   # Disable StdErr Output after # cycles
 
     def _feed_selector(self, feed, product_feeds):
         if feed in product_feeds:
@@ -139,7 +145,7 @@ class UlsInputCli:
 
             # EAA config
             if self.product == "EAA":
-                product_path = uls_config.bin_eaa_cli
+                product_path = self.root_path + "/" + uls_config.bin_eaa_cli
                 product_feeds = uls_config.eaa_cli_feeds
                 if not self.rawcmd:
                     my_feed = self._feed_selector(self.feed, product_feeds)
@@ -180,7 +186,7 @@ class UlsInputCli:
 
             # ETP config
             elif self.product == "ETP":
-                product_path = uls_config.bin_etp_cli
+                product_path = self.root_path + "/" + uls_config.bin_etp_cli
                 product_feeds = uls_config.etp_cli_feeds
 
                 if not self.cliformat == "JSON":
@@ -210,7 +216,7 @@ class UlsInputCli:
 
             # MFA config
             elif self.product == "MFA":
-                product_path = uls_config.bin_mfa_cli
+                product_path = self.root_path + "/" + uls_config.bin_mfa_cli
                 product_feeds = uls_config.mfa_cli_feeds
                 if not self.cliformat == "JSON":
                     aka_log.log.warning(f"{self.name} - Selected LOG Format ({self.cliformat}) "
@@ -243,7 +249,9 @@ class UlsInputCli:
                 aka_log.log.critical(f" {self.name} - No valid product selected "
                                      f"(--input={self.product}).")
                 sys.exit(1)
+
             try:
+                self.cycle_counter = 0
                 aka_log.log.info(f'{self.name} - CLI Command:  {" ".join(cli_command)}')
                 os.environ["PYTHONUNBUFFERED"] = "1"
                 self.cli_proc = subprocess.Popen(cli_command,
@@ -253,10 +261,15 @@ class UlsInputCli:
                                  f"{' '.join(cli_command)}")
                 self.proc = self.cli_proc
                 self.proc_output = self.cli_proc.stdout
-                os.set_blocking(self.proc_output.fileno(), False)
+
+                # Unblocking on windows causes trouble so we're avoiding it
+                if not os.name == 'nt':
+                    os.set_blocking(self.proc_output.fileno(), False)
+
                 time.sleep(1)
 
                 if not self.check_proc():
+                    #self.rerun_counter += 1
                     raise NameError(f"process [{self.cli_proc.pid}] "
                                     f"exited RC={self.cli_proc.returncode}, REASON: "
                                     f"{self.cli_proc.stderr.read().decode()}")
@@ -267,7 +280,8 @@ class UlsInputCli:
                 self.rerun_counter = 1
                 if self.endtime:
                     self.run_once = True
-                self.cli_proc.stderr = subprocess.DEVNULL
+
+                #self.cli_proc.stderr = subprocess.DEVNULL
 
             except Exception as my_error:
                 time.sleep(self.rerun_delay)
@@ -279,18 +293,27 @@ class UlsInputCli:
             if self.running is False and self.rerun_counter > self.rerun_retries:
                 aka_log.log.critical(f'{self.name} - Not able to start the CLI for '
                                      f'{self.product}. See above errors. '
-                                     f'Giving up after {self.rerun_counter - 1} retries.')
+                                     f'Giving up after {self.rerun_counter - 2} retries.')
                 sys.exit(1)
 
     def check_proc(self):
         try:
             if self.proc.poll() is None:
 
+                if self.cycle_counter == self.disable_stderr_after and self.disable_stderr:
+                    aka_log.log.info(f"{self.name} - Disabling STDERR output from now on, after {self.cycle_counter} successful cycles")
+                    self.cli_proc.stderr = subprocess.DEVNULL
+                aka_log.log.debug(f'{self.name} - Successful cycles for proc[{self.proc.pid}]: {self.cycle_counter}')
+                self.cycle_counter = self.cycle_counter + 1
                 return True
             else:
                 self.running = False
-                aka_log.log.error(f'{self.name} - CLI process [{self.proc.pid}]'
-                                  f' was found stale - {self.proc.stderr.read().decode()}')
+                self.rerun_counter += 1
+                if (self.cycle_counter <= self.disable_stderr_after and self.disable_stderr) or not self.disable_stderr:
+                    aka_log.log.error(f'{self.name} - CLI process [{self.proc.pid}]'
+                                      f' was found stale - Reason:  "{self.proc.stderr.read().decode()}" ')
+                else:
+                    aka_log.log.error(f'{self.name} - CLI process [{self.proc.pid}], sadly stderr has been disabled')
                 self.proc_create()
                 return False
 
@@ -299,7 +322,7 @@ class UlsInputCli:
                 aka_log.log.critical(f"{self.name} - '--endtime' was specified - so stopping now")
                 sys.exit(0)
             else:
-                aka_log.log.critical(f'{self.name} - Soemthing really '
+                aka_log.log.error(f'{self.name} - Soemthing really '
                                      f'strange happened - message: {my_error}')
 
             self.proc_create()

@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+import shlex
 import socket
 import ast
 import sys
@@ -47,7 +47,8 @@ class UlsOutput:
                  filebackupcount=None,
                  filemaxbytes=None,
                  filetime=None,
-                 fileinterval=None):
+                 fileinterval=None,
+                 fileaction=None):
         """
         Initialzing a new UlsOutput handler
         :param output_type: The desired output format (TCP/ UDP / HTTP)
@@ -85,7 +86,7 @@ class UlsOutput:
         if self.output_type in ['TCP', 'UDP'] and host and port:
             self.host = host
             self.port = port
-        elif self.output_type in ['TCP', 'UDP'] and not host and not port:
+        elif self.output_type in ['TCP', 'UDP'] and (not host or not port):
             aka_log.log.critical(f"{self.name} - Host or Port has not "
                                  f"been set Host: {host} Port: {port} - exiting")
             sys.exit(1)
@@ -97,6 +98,7 @@ class UlsOutput:
             self.http_out_format = http_out_format
             self.http_out_auth_header = http_out_auth_header
             self.http_insecure = http_insecure
+            self.http_timeout = uls_config.output_http_timeout
         elif self.output_type in ['HTTP'] and not http_url:
             aka_log.log.critical(f"{self.name}  http_out_format http_out_auth_"
                                  f"header http_url or http_insecure missing- exiting")
@@ -104,12 +106,21 @@ class UlsOutput:
 
         # File Parameters
         elif self.output_type in ['FILE']:
+            if filename == None:
+                aka_log.log.critical(f"{self.name}  file-output was specified, but no file was specified. "
+                                     f"Please use --filename <filename> to specify a file")
+                sys.exit(1)
             self.filehandler = filehandler
             self.filename = filename
             self.filebackupcount = filebackupcount
             self.filemaxbytes = filemaxbytes
             self.filetime = filetime
             self.fileinterval = fileinterval
+            self.fileaction = fileaction
+            if self.fileaction and not "'%s'" in self.fileaction:
+                aka_log.log.critical(f"{self.name}  file-action was specified, but \'%s\' was not sepcified within the string or %s was not properly escaped with a single quote ('%s') . "
+                                     f"Please use --fileaction \"my_script.sh \'%s\'\"")
+                sys.exit(1)
 
         # Variables (load from uls_config)
         self.reconnect_retries = uls_config.output_reconnect_retries    # Number of reconnect attempts before giving up
@@ -207,7 +218,7 @@ class UlsOutput:
                     # Let'S do an options request
                     resp = self.httpSession.options(url=self.http_url,
                                                     data='{"event":"connection test"}',
-                                                    verify=self.http_verify_tls)
+                                                    verify=self.http_verify_tls, timeout=self.http_timeout)
 
                     if resp.status_code == 200:
                         reconnect_counter = 1
@@ -264,6 +275,32 @@ class UlsOutput:
                         aka_log.log.critical(f"{self.name} - No valid filehandler has been specified Valid choices: {uls_config.output_file_handler_choices}. Given value: {self.filehandler} - exiting.")
                         sys.exit(1)
 
+                    ##### Add a hook to trigger file rotation
+                    if self.fileaction and self.filebackupcount == 1:
+                        aka_log.log.debug(f"{self.name} - FileAction has been specified: '{self.fileaction}' - enabling it now")
+                        import subprocess
+                        class UlsRotator:
+                            def __init__(self, fileaction):
+                                self.fileaction = fileaction
+                                self.name = "UlsRotator"
+
+                            def __call__(self, source, dest):
+                                # This is exactly what the original filehandler does
+                                if os.path.exists(source):
+                                    os.rename(source, dest)
+                                    cmd = self.fileaction % (dest)
+                                    #print(self.fileaction % (dest))
+                                    aka_log.log.warning(f"{self.name} - Running command {cmd}")
+                                    file_proc = subprocess.Popen(shlex.split(cmd))
+
+
+                        file_handler.rotator = UlsRotator(self.fileaction)
+                    elif self.fileaction and (self.filebackupcount >= 1 or self.filebackupcount == 0):
+                        aka_log.log.critical(
+                            f"{self.name} - FileAction (--fileaction) has been specifiec but BackoupCount is not 1 (specify --filebackupcount 1) - Exiting")
+                        sys.exit(1)
+                    #####
+
                     self.my_file_writer.addHandler(file_handler)
                     self.my_file_writer.setLevel(logging.INFO)
 
@@ -319,7 +356,8 @@ class UlsOutput:
             elif self.output_type == "HTTP":
                 response = self.httpSession.post(url=self.http_url,
                                                  data=self.http_out_format % (data.decode()),
-                                                 verify=self.http_verify_tls)
+                                                 verify=self.http_verify_tls,
+                                                 timeout=self.http_timeout)
                 aka_log.log.debug(f"{self.name} DATA Send response {response.status_code},"
                                   f" {response.text} ")
 

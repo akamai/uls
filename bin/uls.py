@@ -62,15 +62,29 @@ def main():
     # Load the LOG system
     aka_log.init(uls_args.loglevel, uls_config.__tool_name_short__)
 
+    # Determine root directory
+    root_path = str(UlsTools.root_path())
+
     # OUTPUT Version Information
     if uls_args.version:
-        UlsTools.uls_version()
+        UlsTools.uls_version(root_path=root_path)
 
     # Verify the given core params (at least input and output should be set)
     UlsTools.uls_check_args(uls_args.input, uls_args.output)
 
+    # Avoid confusion alongside "autoresume" (we do this after the input class have initialized to avoid creation of dumb files)
+    if uls_args.autoresume and uls_args.starttime:
+        aka_log.log.critical(f"Error using --autoresume alongside --starttime. This is too confusing to me. Exiting.")
+        sys.exit(1)
+    elif uls_args.autoresume:
+        autoresume_file = None
+        autoresume_lastwrite = 0
+        autoresume_data = UlsTools.check_autoresume(input=uls_args.input, feed=uls_args.feed, checkpoint_dir=uls_args.autoresumepath)
+        uls_args.starttime = autoresume_data['checkpoint']
+        autoresume_file =  autoresume_data['filename']
+
     # Check CLI Environment
-    UlsTools.uls_check_sys()
+    UlsTools.uls_check_sys(root_path=root_path)
 
     # Create & Start monitoring Instance
     my_monitor = UlsMonitoring.UlsMonitoring(stopEvent=stopEvent,
@@ -89,7 +103,8 @@ def main():
                                        inproxy=uls_args.inproxy,
                                        rawcmd=uls_args.rawcmd,
                                        starttime=uls_args.starttime,
-                                       endtime=uls_args.endtime)
+                                       endtime=uls_args.endtime,
+                                       root_path=root_path)
 
     # Connect to the selected input UlsOutput
     my_output = UlsOutput.UlsOutput(output_type=uls_args.output,
@@ -104,7 +119,9 @@ def main():
                                     filebackupcount=uls_args.filebackupcount,
                                     filemaxbytes=uls_args.filemaxbytes,
                                     filetime=uls_args.filetime,
-                                    fileinterval=uls_args.fileinterval)
+                                    fileinterval=uls_args.fileinterval,
+                                    fileaction=uls_args.fileaction)
+
 
     # Load a Transformation (if selected) UlsTransformation
     my_transformer = UlsTransformation.UlsTransformation(transformation=uls_args.transformation,
@@ -152,6 +169,12 @@ def main():
                 aka_log.log.debug(f"<IN> {input_data}")
                 for log_line in input_data.splitlines():
 
+                    # Write checkpoint to the checkpoint file (if autoresume is enabled) (not after transformation or filter)
+                    if uls_args.autoresume and int(my_monitor.get_message_count()) >= autoresume_lastwrite + uls_args.autoresumewriteafter:
+                        UlsTools.write_autoresume_ckpt(uls_args.input, uls_args.feed, autoresume_file, log_line)
+                        autoresume_lastwrite = int(my_monitor.get_message_count())
+
+
                     # Filter Enhancement
                     if uls_args.filter and not filter_pattern.match(log_line):
                         aka_log.log.info(f"SKIPPED LINE due to FILTER rule {uls_args.filter}")
@@ -159,7 +182,7 @@ def main():
                                           f"due to FILTER match: {log_line}")
                         continue
 
-                    # Module Enhancement
+                    # Transformation Enhancement
                     if uls_args.transformation:
                         log_line = my_transformer.transform(log_line)
                         aka_log.log.debug(f"Transformed Logline via "
@@ -187,14 +210,14 @@ def main():
                             uls_config.main_resend_exit_on_fail:
                         aka_log.log.critical(f"MSG[{my_monitor.get_message_count()}] "
                                              f"ULS was not able to deliver the log message "
-                                             f"{out_data.decode()} - exiting!")
+                                             f"{out_data.decode()} after {resend_counter} attempts - Exiting!")
                         sys.exit(1)
                     elif resend_counter == uls_config.main_resend_attempts and \
                             not uls_config.main_resend_exit_on_fail:
                         aka_log.log.warning(
                             f"MSG[{my_monitor.get_message_count()}] "
                             f"ULS was not able to deliver the log message "
-                            f"{out_data.decode()} - (continuing anyway)")
+                            f"{out_data.decode()} after {resend_counter} attempts - (continuing anyway as my config says)")
 
             else:
                 aka_log.log.debug(f"Mainloop, wait {wait} seconds [{my_monitor.get_stats()}]")

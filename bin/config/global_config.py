@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Common global variables / constants
-__version__ = "1.2.0"
+__version__ = "1.3.0"
 __tool_name_long__ = "Akamai Unified Log Streamer"
 __tool_name_short__ = "ULS"
 
@@ -50,7 +50,8 @@ log_level_default = 'WARNING'
 input_rerun_retries = 3                         # Number of rerun attempts before giving up
 input_run_delay = 1                             # Time in seconds to wait for the first health check
 input_rerun_delay = 1                           # Time in seconds between rerun attempts
-
+input_disable_stderr = True                     # Enable STDERR output disabling (see value below to specify when this should happen)
+input_disable_stderr_after = 25                 # Disable stderr output after x input_cli cycles --> to prevent buffer overflow
 
 # OUTPUT Configuration
 output_reconnect_retries = 10                   # Number of reconnect attempts before giving up
@@ -62,10 +63,10 @@ output_tcp_send_buffer = 262144                 # TCP Send buffer in bytes
 output_tcp_timeout = 10.0                       # TCP SEND / CONNECT Timeout (seconds)
     ## HTTP
 output_http_header = {'User-Agent': f'{__tool_name_long__}/{__version__}'}  # HTTP Additional Headers to send (requests module KV pairs)
+output_http_timeout = 10                        # Timeout after which a request will be considered as failed
     ## FILE
 output_file_encoding = "utf-8"                  # FILE Encoding setting
 output_file_handler_choices = ['SIZE', 'TIME']  # Available Choices for the file handler
-output_file_default_name = 'tmp/uls_file.output'    # Default file name (path + name), only used if not set
 output_file_default_backup_count = 3                # Default number of backup files (after rotation)
 output_file_default_maxbytes = 50* 1024 * 1024      # Default maximum size of a file when rotated by the FILE - handler
 output_file_default_time_use_utc = False            # Use UTC instead of local system time (Default: False)
@@ -84,3 +85,9 @@ edgerc_eaa_legacy = ["eaa_api_host", "eaa_api_key", "eaa_api_secret"]           
 edgerc_mfa = ["mfa_integration_id", "mfa_signing_key"]                              # Required for MFA
 edgerc_documentation_url = "https://github.com/akamai/uls/blob/main/docs/AKAMAI_API_CREDENTIALS.md"
 edgerc_mock_file = "ext/edgerc"                 # Required for display the version if no edgercfile was given
+
+# Autoresume Configuration
+autoresume_checkpoint_path = "var/"              # (Default) Path, where the checkpointfiles should be stored to
+autoresume_supported_inputs = ['ETP', 'EAA']           # Internal Var only, to adjust supported inputs
+autoresume_write_after = 1000                    # Write checkpoint only every ${autoresume_write_every} loglines
+

@@ -5,6 +5,8 @@ This document handles the usage of features not explained anywhere else.
 - [FILTER (--filter) Feature](#filter---filter-feature)
 - [RAWCMD (--rawcmd) Feature](#rawcmd---rawcmd-feature)
 - [ULS TRANSFORMATIONS](#uls-transformations)
+- [AUTORESUME / RESUME](#autoresume--resume)
+- 
 
 ## FILTER (--filter) Feature
 This feature got introduced in ULS v0.9.0.  
@@ -37,7 +39,7 @@ Raw commands within ULS can be used to trigger cli calls, that have not been int
 This allows a more flexible implementation to solve some edge cases.
 RAWCMD just requires the input to be selected.
 
-Example: 
+Example:
 ```bash
 python3 bin/uls.py -i etp --rawcmd 'event threat -f' -l debug -o raw
 ```
@@ -48,3 +50,72 @@ Please be aware: Not all output from the cli will be redirected to ULS by defaul
 # ULS TRANSFORMATIONS
 Transformations have been introduced to ULS in version `1.2.0` to support additional 3rd party integrations and custom log formats.
 Please see the dedicated "[Transformations docs](TRANSFORMATIONS.md)" available.
+
+
+# AUTORESUME / RESUME
+This feature was introduced in ULS 1.3.0.  
+Different circumstances (network isse, server maintainence, ...) could lead to an interruption of the log stream or ULS itself.
+As this could cause a gap in the continuous log delivery, ULS now offers the option to enable automated resume upon the last recorded checkpoint.
+
+AUTORESUME will create a checkpoint every 1000 lines of log (configureable) to prevent too many FS operations.
+This means, in the worst case, the 1000 lines of log are going to be re-imported.
+
+Example:
+```bash
+bin/uls.py -input etp -feed threat --output raw --autoresume
+```
+Autoresume can also be set via [environment variables (ENV)](ARGUMENTS_ENV_VARS.md#autoresume).  
+Attention: Do not use --autoresume alongside the --starttime argument or ENV variable, as ULS would not know where to start from.
+For DOCKER based environments, please make sure you're using a volume or mount towards the var (default but configureable) directory within ULS.
+
+Additional configuration options:
+[--autoresumepath](ARGUMENTS_ENV_VARS.md#autoresume)
+[--autoresumewriteafter](ARGUMENTS_ENV_VARS.md#autoresume)
+
+
+# POST PROCESSING OF FILES (FileOutput only)
+This feature was introduced in ULS 1.3.0.
+This allows to take over the control of the file post-processing workflow (asynchronous).
+It is highly recommended to specify a binary or script that consumes the absolute file name as input.
+
+Ensure the following things:
+- this will only work with `--output file`
+- this will only work with `--filebackupcount 1`
+- ensure to escape the `%s` like `'%s'` when specificy on the console
+
+
+## Warnings
+- ULS will just fire the process - but not care about "error/fallback handling"
+- If the script "messes" up the file, the file is lost!
+- If the file is not processed fast enough - the file is lost / overwritten! (size the rotation rules accordingly)
+- Output of the "file handler" will be directly written to the console
+- ULS will NOT take care of rotating your processed files. Please delete old log files on your own.
+
+
+Example:  
+/opt/msycript.sh
+```bash
+#!/bin/bash
+
+target_dir="/tmp"
+file_name="log_$(date +%Y%M%d-%H%m%S).gz"
+
+if [[ -z $1 ]] ; then
+        echo "No file given - please specify absolute path"
+        exit 1
+fi
+gzip -cvf $1 > ${target_dir=}/${file_name=}
+echo "->  ${target_dir=}/${file_name=}"
+rm $1
+```
+You can find the [example script here](examples/scripts/file_handler.sh).
+
+Run ULS using the fileaction script
+```bash
+./bin/uls.py -i etp -f threat -o file --filename /tmp/logtest/test1.log --filehandler SIZE --filemaxbytes 10240000 --fileaction --filebackupcount 1 "/opt/msycript.sh '%s'"  
+```
+
+Here's  a recommendation on how to use this feature to avoid any "glitches":  
+Use the --fileaction handler to move the file into an observed queue directory and start a new process from there.
+This will ensure a "fast handling" within ULS and provide even more flexibility/stability towards the worklfow and its error handling.
+
