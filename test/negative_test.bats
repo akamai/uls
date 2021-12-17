@@ -108,14 +108,37 @@ load 'test/bats/bats-assert/load.bash'
 
 ## FILE
 @test "FILE output failure (-o file)" {
-    run  $uls_bin --input eaa --feed access -o file
+    run $uls_bin --input eaa --feed access -o file
     assert_output --partial "file-output was specified, but no file was specified. Please use --filename <filename> to specify a file"
     [ "$status" -eq 1 ]
 }
-@test "FILE output failure (-o file --filename /non/existent/dir/ec/tory/test.log )" {
-    run  $uls_bin --input eaa --feed access -o file --filename /non/existent/dir/ec/tory/test.log
+@test "FILE output failure (-o file --filename /non/existent/dir/ec/tory/test.log)" {
+    rm -fr /non/existent/dir/ec/tory/test.log
+    run $uls_bin --input eaa --feed access -o file --filename /non/existent/dir/ec/tory/test.log
     assert_output --partial " The specified directory /non/existent/dir/ec/tory does not exist or privileges are missing - exiting."
     [ "$status" -eq 1 ]
+    rm -fr /non/existent/dir/ec/tory/test.log
+}
+
+@test "FILE autoresume failure (-o file --filename /tmp/uls_tmplogfile.log --fileaction \"/tmp/test.sh\")" {
+    run $uls_bin --input eaa --feed access -o file --filename /tmp/uls_tmplogfile.log --fileaction "test.sh"
+    assert_output --partial "file-action was specified, but '%s' was not sepcified within the string"
+    [ "$status" -eq 1 ]
+    rm -fr /tmp/uls_tmplogfile.log
+}
+
+@test "FILE autoresume failure (-o file --filename /tmp/uls_tmplogfile.log --fileaction \"/tmp/test.sh %s\")" {
+    run $uls_bin --input eaa --feed access -o file --filename /tmp/uls_tmplogfile.log --fileaction "test.sh"
+    assert_output --partial "or %s was not properly escaped with a single quote ('%s')"
+    [ "$status" -eq 1 ]
+    rm -fr /tmp/uls_tmplogfile.log
+}
+
+@test "FILE autoresume failure (-o file --filename /tmp/uls_tmplogfile.log --fileaction \"/tmp/test.sh '%s'\")" {
+    run $uls_bin --input eaa --feed access -o file --filename /tmp/uls_tmplogfile.log --fileaction "test.sh '%s'"
+    assert_output --partial "FileAction (--fileaction) has been specifiec but BackoupCount is not 1 (specify --filebackupcount 1)"
+    [ "$status" -eq 1 ]
+    rm -fr /tmp/uls_tmplogfile.log
 }
 
 
@@ -155,3 +178,18 @@ load 'test/bats/bats-assert/load.bash'
     [ "$status" -eq 1 ]
 }
 
+@test "AUTORESUME - corrupt file (wrong data)" {
+    echo '{"aa": "bb"}' > /tmp/uls_eaa_access.ckpt
+    run $uls_bin --input eaa --feed access --output raw --autoresume --autoresumepath /tmp/
+    assert_output  --partial  "'creation_time' - Exiting"
+    [ "$status" -eq 1 ]
+    rm -fr /tmp/uls_eaa_access.ckpt
+}
+
+@test "AUTORESUME - corrupt file (wrong quoting within file )" {
+    echo "{'aa': 'bb'}" > /tmp/uls_eaa_access.ckpt
+    run $uls_bin --input eaa --feed access --output raw --autoresume --autoresumepath /tmp/
+    assert_output  --partial  "Expecting property name enclosed in double quotes: line 1 column 2 (char 1) - Exiting."
+    [ "$status" -eq 1 ]
+    rm -fr /tmp/uls_eaa_access.ckpt
+}

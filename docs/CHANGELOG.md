@@ -2,7 +2,7 @@
 ## v1.3.0
 |||
 |---|---|
-|Date|2021-12-x 
+|Date|2021-12-17
 |Kind| Feature & Bugfix release
 |Author|mschiess@akamai.com
 - **Features**

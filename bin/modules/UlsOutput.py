@@ -117,6 +117,10 @@ class UlsOutput:
             self.filetime = filetime
             self.fileinterval = fileinterval
             self.fileaction = fileaction
+            if self.fileaction and not "'%s'" in self.fileaction:
+                aka_log.log.critical(f"{self.name}  file-action was specified, but \'%s\' was not sepcified within the string or %s was not properly escaped with a single quote ('%s') . "
+                                     f"Please use --fileaction \"my_script.sh \'%s\'\"")
+                sys.exit(1)
 
         # Variables (load from uls_config)
         self.reconnect_retries = uls_config.output_reconnect_retries    # Number of reconnect attempts before giving up

@@ -1,11 +1,11 @@
 #!/bin/bash
-
+# test.sh [file - $tests_available] [regex merge]
 tests_available="basic positive negative "
 
 function do_test() {
   if [ -f "test/$1_test.bats" ] ; then
     echo -e "$1 TESTING\n"
-    bats test/$1_test.bats
+    bats test/$1_test.bats $filter
     my_exitcode=$?
     if [ $my_exitcode -ne 0 ] ; then
       exit $my_exitcode
@@ -24,6 +24,12 @@ else
   echo "$1 is not a proper selection !!!"
   echo "please try: [$tests_available] or all"
   exit 1
+fi
+
+if [ ! -z "$2" ] ; then
+  filter="-f $2"
+else
+  filter=""
 fi
 
 
