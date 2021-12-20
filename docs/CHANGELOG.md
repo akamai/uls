@@ -1,4 +1,14 @@
 # Version History
+## v1.3.1
+|||
+|---|---|
+|Date|2021-12-20
+|Kind| Bugfix release
+|Author|mschiess@akamai.com
+- **Bugfixes**
+  - fixed a checkpoint issue when using ETP / THREAD 
+  - 
+
 ## v1.3.0
 |||
 |---|---|
