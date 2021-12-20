@@ -223,13 +223,13 @@ def write_autoresume_ckpt(input, feed, autoresume_file, logline):
     checkpoint_line = logline.decode()
     if input == "ETP" and (feed == "THREAT" or feed =="PROXY" or feed == "AUP"):
         checkpoint_timestamp = json.loads(checkpoint_line)['event']['detectionTime']
-    if input == "ETP" and feed == "DNS":
+    elif input == "ETP" and feed == "DNS":
         checkpoint_timestamp = json.loads(checkpoint_line)['query']['time']
     elif input == "EAA" and feed == "ACCESS":
         checkpoint_timestamp = json.loads(checkpoint_line)['datetime']
     else:
         aka_log.log.critical(
-            f"AUTORESUME - Unhandled Inpute / FEed detected  {input} / {feed} (this should never happen !!)- Exiting")
+            f"AUTORESUME - Unhandled Input / Feed detected:  '{input} / {feed}' (this should never happen !!)- Exiting")
         sys.exit(1)
 
     # Write out the file

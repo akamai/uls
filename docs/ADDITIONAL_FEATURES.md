@@ -6,7 +6,8 @@ This document handles the usage of features not explained anywhere else.
 - [RAWCMD (--rawcmd) Feature](#rawcmd---rawcmd-feature)
 - [ULS TRANSFORMATIONS](#uls-transformations)
 - [AUTORESUME / RESUME](#autoresume--resume)
-- 
+- [POST PROCESSING OF FILES (FileOutput only)](#post-processing-of-files-fileoutput-only)
+
 
 ## FILTER (--filter) Feature
 This feature got introduced in ULS v0.9.0.  
