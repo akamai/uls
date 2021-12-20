@@ -7,7 +7,7 @@
 |Author|mschiess@akamai.com
 - **Bugfixes**
   - fixed a checkpoint issue when using ETP / THREAD 
-  - 
+  - some doc fixes
 
 ## v1.3.0
 |||
