@@ -8,6 +8,7 @@ This document handles the usage of features not explained anywhere else.
 - [AUTORESUME / RESUME](#autoresume--resume)
 - [POST PROCESSING OF FILES (FileOutput only)](#post-processing-of-files-fileoutput-only)
 
+
 ## FILTER (--filter) Feature
 This feature got introduced in ULS v0.9.0.  
 It allows to decrease the number of log lines sent to SIEM for cost, performance or security reasons.
