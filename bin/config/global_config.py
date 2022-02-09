@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Common global variables / constants
-__version__ = "1.3.0"
+__version__ = "1.3.2"
 __tool_name_long__ = "Akamai Unified Log Streamer"
 __tool_name_short__ = "ULS"
 
@@ -77,7 +77,6 @@ output_file_time_interval = 30                      # Default value for the inte
 # Monitoring Configuration
 monitoring_enabled = True                       # Set to false to disable monitoring outputs
 monitoring_interval = 5 * 60                    # Monitoring output interval (seconds)
-
 
 # EDGERC_Checks
 edgerc_openapi = ["host", "client_token", "client_secret", "access_token"]          # required fields for OPENAPI

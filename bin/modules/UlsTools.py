@@ -19,6 +19,7 @@ import os.path
 import configparser
 import pathlib
 import datetime
+import time
 
 # ULS modules
 import modules.aka_log as aka_log
@@ -89,6 +90,7 @@ def uls_version(root_path):
           f"Python Version\t\t{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}\n"
           f"Docker Status\t\t{check_docker()}\n"
           f"RootPath \t\t{root_path}\n"
+          f"TimeZone (UTC OFST) \t{check_timezone()} ({-time.timezone / 3600})\n"
           )
 
     # Delete the mocked edgerc file
@@ -147,6 +149,11 @@ def uls_check_args(input, output):
 def check_docker():
     return os.path.isfile('/.dockerenv')
 
+def check_timezone():
+    now = datetime.datetime.now()
+    from pytz import reference
+    localtime = reference.LocalTimezone()
+    return localtime.tzname(now)
 
 def root_path():
     """

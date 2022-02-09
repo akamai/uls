@@ -95,10 +95,35 @@ class UlsOutput:
         elif self.output_type in ['HTTP'] and http_url:
             self.http_url = http_url
             # apply other variables if SET
-            self.http_out_format = http_out_format
-            self.http_out_auth_header = http_out_auth_header
+
+            if '%s' in http_out_format:
+                self.http_out_format = http_out_format
+            else:
+                aka_log.log.critical(
+                    f"{self.name} given HTTP_OUT_FORMAT does not contain %s identifier:"
+                    f"given HTTP_OUT_FORMAT: {http_out_format} - exiting")
+                sys.exit(1)
+
+            # Verify AUTH header
+            if http_out_auth_header:
+                try:
+                    self.http_out_auth_header = ast.literal_eval(http_out_auth_header)
+                except (AttributeError, ValueError, SyntaxError):
+                    aka_log.log.critical(
+                        f"{self.name} given HTTP-AUTH-HEADER  is not a proper dictionary like: "
+                        f"'{{\"Authorization\": \"VALUE\"}}' - exiting")
+                    sys.exit(1)
+                if not isinstance(self.http_out_auth_header, dict):
+                    aka_log.log.critical(
+                        f"{self.name} given HTTP-AUTH-HEADER ({self.http_out_auth_header}) is not a proper dictionary like: "
+                        f"'{{\"Authorization\": \"VALUE\"}}' - exiting")
+                    sys.exit(1)
+            else:
+                self.http_out_auth_header = http_out_auth_header
+
             self.http_insecure = http_insecure
             self.http_timeout = uls_config.output_http_timeout
+
         elif self.output_type in ['HTTP'] and not http_url:
             aka_log.log.critical(f"{self.name}  http_out_format http_out_auth_"
                                  f"header http_url or http_insecure missing- exiting")
@@ -181,7 +206,7 @@ class UlsOutput:
                     self.httpSession = requests.session()
                     # Prepare & set the headers
                     if self.http_out_auth_header:
-                        headers = self.http_header | ast.literal_eval(self.http_out_auth_header)
+                        headers = self.http_header | self.http_out_auth_header
                     else:
                         headers = self.http_header
                     aka_log.log.info(f"{self.name} adding http headers: {headers}")
@@ -230,7 +255,7 @@ class UlsOutput:
                                           f"{resp.text} [{reconnect_counter}]")
                         time.sleep(uls_config.output_reconnect_delay)
                         self.connected = False
-                        reconnect_counter = 1
+                        reconnect_counter = reconnect_counter + 1
 
                 # RAW OUTPUT
                 elif self.output_type == "RAW":
@@ -268,6 +293,11 @@ class UlsOutput:
                                                  f"specified and somehow the default "
                                                  f"was not used - exiting.")
                             sys.exit(1)
+
+                        # Due to a inconsitency in python logging handler (https://bugs.python.org/issue46377?) we need to do this
+                        if  self.fileinterval.lower() == "midnight":
+                            self.filetime = 1
+
                         file_handler = logging.handlers.TimedRotatingFileHandler(filename=self.filename, when=self.filetime.lower(), interval=self.fileinterval, backupCount=self.filebackupcount, encoding=self.file_encoding, delay=False, utc=uls_config.output_file_default_time_use_utc, atTime=None)
 
                     else:
