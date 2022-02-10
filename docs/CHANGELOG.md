@@ -23,6 +23,7 @@
   - removed forced http authentication token "--httpauthheader" (allow None)
   - discovered a bug in configparser -> [see FAQ entry](FAQ.md#uls-does-not-start-due-to-missing-field-in-config)
 
+
 ## v1.3.1
 |||
 |---|---|
