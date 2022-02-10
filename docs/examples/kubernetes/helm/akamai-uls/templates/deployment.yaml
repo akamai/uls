@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    uls-app: {{ .Release.Name }}
+spec:
+  replicas: 1   # hard forcing 1 replica for ULS
+  selector:
+    matchLabels:
+      uls-app: {{ .Release.Name }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        uls-app: {{ .Release.Name }}
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: {{ .Release.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}-configmap
+          volumeMounts:
+            - name: edgerc
+              mountPath: /opt/akamai-uls/.edgerc
+              readOnly: True
+              subPath: data
+      volumes:
+        - name: edgerc
+          secret:
+            secretName: {{ .Values.akamai_uls.edgerc_secret.name }}
+            items:
+            - key: edgerc
+              path: data

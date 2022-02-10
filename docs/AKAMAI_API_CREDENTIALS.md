@@ -37,7 +37,7 @@ This document describes how to create Akamai API credentials and configure them 
 ULS will read the API credentials from a text file, by default named `.edgerc` and stored in the home directory of the current user. The credentials configuration file can have multiple sections allowing to use multiple tenants (in case of multi-contract structure, or Akamai Partner).
 
 Some basic information around `.edgerc` can be found [here](https://developer.akamai.com/legacy/introduction/Conf_Client.html).
-This repo also provides a [.edgerc sample file](examples/.edgerc-sample) with all config sections added and explained.
+This repo also provides a [.edgerc sample file](examples/edgerc-sample) with all config sections added and explained.
 
 Feel free to use the file as a template and comment out the sections not needed with `;`.
 

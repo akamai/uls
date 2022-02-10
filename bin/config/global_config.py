@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Common global variables / constants
-__version__ = "1.3.0"
+__version__ = "1.3.2"
 __tool_name_long__ = "Akamai Unified Log Streamer"
 __tool_name_short__ = "ULS"
 
@@ -68,7 +68,7 @@ output_http_timeout = 10                        # Timeout after which a request 
 output_file_encoding = "utf-8"                  # FILE Encoding setting
 output_file_handler_choices = ['SIZE', 'TIME']  # Available Choices for the file handler
 output_file_default_backup_count = 3                # Default number of backup files (after rotation)
-output_file_default_maxbytes = 50* 1024 * 1024      # Default maximum size of a file when rotated by the FILE - handler
+output_file_default_maxbytes = 50 * 1024 * 1024      # Default maximum size of a file when rotated by the FILE - handler
 output_file_default_time_use_utc = False            # Use UTC instead of local system time (Default: False)
 output_file_time_choices = ['S','M','H','D','W0','W1','W2','W3','W4','W5','W6','MIDNIGHT']      # Available choices for the time unit
 output_file_time_default = 'M'                      # Default value for the time unit (Minutes)
@@ -77,7 +77,6 @@ output_file_time_interval = 30                      # Default value for the inte
 # Monitoring Configuration
 monitoring_enabled = True                       # Set to false to disable monitoring outputs
 monitoring_interval = 5 * 60                    # Monitoring output interval (seconds)
-
 
 # EDGERC_Checks
 edgerc_openapi = ["host", "client_token", "client_secret", "access_token"]          # required fields for OPENAPI

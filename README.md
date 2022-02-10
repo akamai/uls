@@ -12,7 +12,7 @@ ULS can send data into any SIEM that supports either TCP, UDP or HTTP ingestion.
 It can be run directly as Python code, as a provided Docker container or through `docker compose` scripts.
 
 
-![ULS docker compose usage](docs/images/ula_docker-compose_complex_example.png)
+![ULS docker compose usage](docs/images/uls_docker-compose_complex_example.png)
 
 
 ## Table of contents
@@ -24,7 +24,9 @@ It can be run directly as Python code, as a provided Docker container or through
     - [Command Line Usage](#command-line-usage)
     - [Docker](#docker)
     - [Docker-compose](#docker-compose)
+    - [kubernetes / k8s](#kubernetes)
   - [Development](#development)
+  - [Changelog](#changelog)
   - [Support](#support)
   - [LINKS / REFERENCES](#links--references)
 
@@ -51,13 +53,14 @@ It can be run directly as Python code, as a provided Docker container or through
     - [`HTTP` and `HTTPS` URL (http(s)://host:port/path) (supporting Authentication) `--output http`](docs/OUTPUTS.md#http-and-https)
     - [`RAW` (>STDOUT) `--output raw`](docs/OUTPUTS.md#raw)
     - [`FILE` (writes log to a file on the local filesystem and rotates them) `--output file`](docs/OUTPUTS.md#file)  
-    The output documentation can be found [here](docs/OUTPUTS.md).
+    The full output documentation can be found [here](docs/OUTPUTS.md).
   
 
 - Operation types
     - [python (command line)](./docs/COMMAND_LINE_USAGE.md)
     - [docker](./docs/DOCKER_USAGE.md)
     - [docker-compose](./docs/DOCKER-COMPOSE_USAGE.md)
+    - [kubernetes / k8s](./docs/KUBERNETES_USAGE.md)
  
 
 - Additional Features
@@ -67,6 +70,8 @@ It can be run directly as Python code, as a provided Docker container or through
     - Adoptable HTTP - POST format
     - [Output filter](docs/ADDITIONAL_FEATURES.md#filter---filter-feature) (to reduce number of log lines sent to SIEM)
     - [Output transformation](docs/TRANSFORMATIONS.md) (to produce other log formats i.e. for 3rd party integrations)
+    - [Auto - Resume](./docs/ADDITIONAL_FEATURES.md#autoresume--resume)
+    - [File - Post Processing](./docs/ADDITIONAL_FEATURES.md#post-processing-of-files-fileoutput-only)
   
 ## Documentation
 ULS can be operated in many ways.  
@@ -74,7 +79,7 @@ Before setting up ULS, please understand your SIEM ingestion capabilities and co
 More information for specific SIEM solutions can be found in [this directory](./docs/SIEM/SIEM_OVERVIEW.md) and in your SIEM documentation.
 
 ### Generic Requirements
-- Python 3.9+ OR docker / docker-compose 
+- Python 3.9+ OR docker / docker-compose OR kubernetes / helm
 - AKAMAI .edgerc file ([see further documentation here](docs/AKAMAI_API_CREDENTIALS.md))
 - Outbound Internet access (Akamai API, Dockerhub OR Python repositories)
 
@@ -96,9 +101,12 @@ For more information, please visit [this document](./docs/COMMAND_LINE_USAGE.md)
 For more information, please visit [this document](./docs/DOCKER_USAGE.md)
 
 ### Docker-compose
-![ULS docker compose usage](docs/images/ula_docker-compose_complex_example.png)  
+![ULS docker compose usage](docs/images/uls_docker-compose_complex_example.png)  
 For more information, please visit [this document](./docs/DOCKER-COMPOSE_USAGE.md)
 
+### Kubernetes
+![img.png](docs/images/uls_kubernetes_helm_example.png)  
+For more information, please visit [this document](./docs/KUBERNETES_USAGE.md)
 
 ## Development
 
@@ -108,6 +116,10 @@ The `development` branch can be subject to change and could also represent a bro
 In parallel, all new versions within the "main" branch will also be available on the [ULS docker hub space](https://hub.docker.com/repository/docker/akamai/uls).
 
 Contributions to this software can be provided via [Pull Requests](https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests) and will get merged after successful review. 
+
+## Changelog
+Find a full Changelog of all added Features and fixed Bugs here:  
+[ULS - Changelog](./docs/CHANGELOG.md)
 
 ## Support
 

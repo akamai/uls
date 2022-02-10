@@ -3,7 +3,7 @@ This document describes the "docker compose" of the ULS software.
 All commands referenced in this document are run from the repositories root level.  
 The `docker compose` command used in this doc, was recently integrated into the docker cli (currently beta). Nevertheless, all of the `docker-compose`commands will work as well. 
 
-![ULS docker compose usage](./images/ula_docker-compose_complex_example.png)  
+![ULS docker compose usage](./images/uls_docker-compose_complex_example.png)  
 
 ### Table of contents
 - [Requirements](#requirements)
@@ -53,8 +53,8 @@ docker compose up -d
   This will run the "simple" use case in foreground. 
   The `docker-compose.yml` file will reference the `etp-threat.env` and provide the configuration from that file.  
   **Files:**  
-    - [docker-compose.yml](docker-compose/simple/docker-compose.yml)
-    - [etp-threat.env](docker-compose/simple/etp-threat.env)
+    - [docker-compose.yml](examples/docker-compose/simple/docker-compose.yml)
+    - [etp-threat.env](examples/docker-compose/simple/etp-threat.env)
 
   
 - Complex docker-compose setup delivering different streams to different endpoints
@@ -64,7 +64,7 @@ docker compose up -d
   ```
   This triggers a more complex setup consisting out of 3 different data feeds.  
   **Files:**  
-    - [docker-compose.yml](docker-compose/complex/docker-compose.yml)
-    - [etp-threat.env](docker-compose/complex/etp-threat.env)
-    - [eaa-admin.env](docker-compose/complex/eaa-access.env)
-    - [eaa-access.env](docker-compose/complex/eaa-access.env)
+    - [docker-compose.yml](examples/docker-compose/complex/docker-compose.yml)
+    - [etp-threat.env](examples/docker-compose/complex/etp-threat.env)
+    - [eaa-admin.env](examples/docker-compose/complex/eaa-access.env)
+    - [eaa-access.env](examples/docker-compose/complex/eaa-access.env)

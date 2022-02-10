@@ -1,4 +1,29 @@
 # Version History
+
+## v1.3.2
+|||
+|---|---|
+|Date|2022-02-10
+|Kind| Bugfix release
+|Author|mschiess@akamai.com
+- **Features**
+  - Kubernetes deployment example / Helm charts added ([start here](KUBERNETES_USAGE.md))  
+  
+
+- **Minor improvements**
+  - Bumped ETP-CLI to version 0.3.7 in Dockerfile
+  - Bumped EAA-CLI version to 0.4.6 in Dockerfile  
+  
+
+- **Bugfixes**
+  - fixed issue when using file handler and rotation at "midnight" - running back in time for 30 days
+  - added a sanity (dictionary) check for "--httpauthheader"
+  - fixed a bug in http reconnecting forever in certain circumstances
+  - added a sanity check for "HTTP_OUT_FORMAT" to avoid issues with the ´%s´ seclector
+  - removed forced http authentication token "--httpauthheader" (allow None)
+  - discovered a bug in configparser -> [see FAQ entry](FAQ.md#uls-does-not-start-due-to-missing-field-in-config)
+
+
 ## v1.3.1
 |||
 |---|---|

@@ -9,6 +9,7 @@
 - [--inputproxy <proxy> does not work as expected](#--inputproxy-proxy-does-not-work-as-expected)
 - [Logs are not showing up in my SIEM](#logs-are-not-showing-up-in-siem)
 - [ULS on Windows error: "[WinError 2] The system cannot find the file specified"](#uls-on-windows-error-winerror-2-the-system-cannot-find-the-file-specified)
+- [ULS does not start due to missing field in config](#uls-does-not-start-due-to-missing-field-in-config)
 
 
 ----
@@ -98,3 +99,13 @@ Change
     **WARNING:** This change prevents the global_config.py file to get updated via GIT in the future. You need to manually take care of updating changes within the file.
     
 ---
+### ULS does not start due to missing field in config
+If you try to start ULS but it exits with an error similar to 
+```bash
+ULS D Section 'DEFAULT' found.
+ULS C Required configuration value 'host' not found in section / file. Please see: https://github.com/akamai/uls/blob/main/docs/AKAMAI_API_CREDENTIALS.md - Exiting
+```
+There seems to be an issue within the module that actually parses the config (configparser).  
+Please watch out to specify the section exactly the same way (case sensitivity) as you have specified it in your .edgerc file.  
+We will follow up on this topic within an [GitHub issue](https://github.com/akamai/uls/issues/20)
+
