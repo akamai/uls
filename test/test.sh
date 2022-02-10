@@ -8,6 +8,7 @@ function do_test() {
     bats test/$1_test.bats $filter
     my_exitcode=$?
     if [ $my_exitcode -ne 0 ] ; then
+      echo "Test \"$1\" failed - exiting"
       exit $my_exitcode
     fi
   else
@@ -15,6 +16,10 @@ function do_test() {
   fi
 }
 
+function do_tag() {
+  my_date=$(date +%Y%M%d-%H%M%S-%Z)
+  git tag "BATS-TEST-SUCCESSFUL__$my_date"
+}
 
 if [ "$1" == "all" ] || [ "$1" == "" ] ; then
   select="all"
@@ -43,4 +48,6 @@ else
   do_test $1
 fi
 
-exit 1
+do_tag
+
+exit 0

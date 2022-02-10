@@ -2,7 +2,6 @@
 ; all settings go into the [default] section
 
 [default]
-
 ; Akamai {OPEN} API credentials (FOR EAA-HEALTH & all ETP logs)
 host = akaa-xxxxxxxxxxxxxxxx-xxxxxxxxxxxxxxxx.luna.akamaiapis.net
 client_token = akab-xxxxxxxxxxxxxxxx-xxxxxxxxxxxxxxxx

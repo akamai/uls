@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: uls-test-deployment-configmap
+data:
+  ULS_LOGLEVEL: "WARN"
+  ULS_INPUT: "ETP"
+  ULS_FEED: "THREAT"
+  ULS_OUTPUT: "RAW"
+---
+# To uplaod your .edgerc to k8s, run the following cmd (adjust values as needed)
+# kubectl create secret generic akamai-edgerc -n uls-dev --from-file=edgerc=./docs/examples/edgerc-sample
+# --from-file=<key name>=<filepath>
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uls-test-deployment
+  labels:
+    app: uls-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: uls-test-deployment
+  template:
+    metadata:
+      labels:
+        app: uls-test-deployment
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: uls
+          image: akamai/uls:latest    # you should rather pin a version here instead of using :latest :D
+          envFrom:
+            - configMapRef:
+                name: uls-test-deployment-configmap
+          resources:
+            requests:
+              memory: 100M
+              cpu: 100m
+          volumeMounts:
+          - name: edgerc
+            mountPath: /opt/akamai-uls/.edgerc
+            readOnly: True
+            subPath: data
+      volumes:
+        - name: edgerc
+          secret:
+            secretName: akamai-edgerc
+            items:
+              - key: edgerc
+                path: data

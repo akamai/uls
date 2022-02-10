@@ -1,14 +1,19 @@
 # Version History
 
-## v.1.3.2
+## v1.3.2
 |||
 |---|---|
-|Date|2022-01-xx
+|Date|2022-02-10
 |Kind| Bugfix release
 |Author|mschiess@akamai.com
+- **Features**
+  - Kubernetes deployment example / Helm charts added ([start here](KUBERNETES_USAGE.md))  
+  
+
 - **Minor improvements**
   - Bumped ETP-CLI to version 0.3.7 in Dockerfile
-  - Bumped EAA-CLI version to 0.4.6 in Dockerfile
+  - Bumped EAA-CLI version to 0.4.6 in Dockerfile  
+  
 
 - **Bugfixes**
   - fixed issue when using file handler and rotation at "midnight" - running back in time for 30 days
