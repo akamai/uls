@@ -55,7 +55,7 @@ Please see the dedicated "[Transformations docs](TRANSFORMATIONS.md)" available.
 
 # AUTORESUME / RESUME
 This feature was introduced in ULS 1.3.0.  
-Different circumstances (network isse, server maintainence, ...) could lead to an interruption of the log stream or ULS itself.
+Different circumstances (network issues, server maintainence, ...) could lead to an interruption of the log stream or ULS itself.
 As this could cause a gap in the continuous log delivery, ULS now offers the option to enable automated resume upon the last recorded checkpoint.
 
 AUTORESUME will create a checkpoint every 1000 lines of log (configureable) to prevent too many FS operations.

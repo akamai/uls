@@ -67,4 +67,4 @@ docker compose up -d
     - [docker-compose.yml](examples/docker-compose/complex/docker-compose.yml)
     - [etp-threat.env](examples/docker-compose/complex/etp-threat.env)
     - [eaa-admin.env](examples/docker-compose/complex/eaa-access.env)
-    - [eaa-access.env](examples/docker-compose/complex/eaa-access.env)
+    - [mfa.env](examples/docker-compose/complex/mfa.env)
