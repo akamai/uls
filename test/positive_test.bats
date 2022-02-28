@@ -81,18 +81,8 @@ load 'test/bats/bats-assert/load.bash'
 }
 
 ## MFA
-@test "MFA - AUTH" {
-    skip "MFA API currently broken"
-    run timeout --preserve-status $uls_test_timeout $uls_bin --input mfa --feed auth --output raw --edgerc $uls_edgerc --section $uls_section
-    assert_output ""
-    #assert_output --partial "The specified directory tmp does not exist or privileges are missing - exiting"
-    #[ "$status" -eq 124 ]      #return value from timeout without --preserve status
-    [ "$status" -eq 100 ]       #return value from uls when interrupted --> with --preserve status on timeout
-}
-
-@test "MFA - POLICY" {
-    skip "MFA API currently broken"
-    run timeout --preserve-status $uls_test_timeout $uls_bin --input mfa --feed policy --output raw --edgerc $uls_edgerc --section $uls_section
+@test "MFA - EVENT" {
+    run timeout --preserve-status $uls_test_timeout $uls_bin --input mfa --feed event --output raw --edgerc $uls_edgerc --section $uls_section
     assert_output ""
     #assert_output --partial "The specified directory tmp does not exist or privileges are missing - exiting"
     #[ "$status" -eq 124 ]      #return value from timeout without --preserve status

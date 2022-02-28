@@ -1,4 +1,4 @@
-# Copyright 2021 Akamai Technologies, Inc. All Rights Reserved
+# Copyright 2022 Akamai Technologies, Inc. All Rights Reserved
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -226,7 +226,7 @@ class UlsInputCli:
                                               self.credentials_file_section,
                                               uls_config.edgerc_mfa)
                     my_feed = self._feed_selector(self.feed, product_feeds)
-                    cli_command = [self.bin_python, '-u', product_path, 'event', my_feed.lower(), '-f']
+                    cli_command = [self.bin_python, '-u', product_path, 'event', '-f']
                     cli_command[3:3] = self._uls_useragent(self.product, my_feed)
                     cli_command[3:3] = edgegrid_auth
                     cli_command[3:3] = self._prep_proxy(self.inproxy)

@@ -12,7 +12,7 @@ ARG             EXT_DIR="$ULS_DIR/ext"
 
 ARG             ETP_CLI_VERSION="0.3.7"
 ARG             EAA_CLI_VERSION="0.4.6"
-ARG             MFA_CLI_VERSION="0.0.6"
+ARG             MFA_CLI_VERSION="0.0.7"
 
 # ENV VARS
 ENV             ULS_DIR=$ULS_DIR
@@ -64,6 +64,7 @@ RUN             git clone --depth 1 -b "${MFA_CLI_VERSION}" --single-branch http
                 pip3 install -r ${EXT_DIR}/cli-mfa/requirements.txt
 
 # ENTRYPOINTS / CMD
+VOLUME          ["${ULS_DIR}/var"]
 ENTRYPOINT      ["/usr/local/bin/python3","-u","bin/uls.py"]
 #CMD             ["--help"]
 # EOF

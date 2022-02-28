@@ -17,7 +17,7 @@ All docker related controls can be found in [docker-compose.yml](docker-compose.
 ## MFA-AUTH
 |IN|OUT|FILE|
 |---|---|---|
-|MFA-AUTH|UDP|[mfa-auth.env](mfa-auth.env)|
+|MFA-AUTH|UDP|[mfa-auth.env](mfa.env)|
 
 
 

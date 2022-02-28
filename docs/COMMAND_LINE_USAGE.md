@@ -91,7 +91,7 @@ All log output will be directed to STDOUT by default.
 - MFA AUTH LOG ==> HTTP LISTENER (SPLUNK) 
   disabled TLS verification
   ```bash
-   python3 bin/uls.py --input=MFA --feed auth --output HTTP --httpformat '{"event": %s}' --httpauthheader '{"Authorization": "Splunk xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"}' --httpurl "https://127.0.0.1:9091/services/collector/event" --httpinsecure
+   python3 bin/uls.py --input=MFA --feed event --output HTTP --httpformat '{"event": %s}' --httpauthheader '{"Authorization": "Splunk xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"}' --httpurl "https://127.0.0.1:9091/services/collector/event" --httpinsecure
   ```
 
 - Logging to a file and sending process to the background

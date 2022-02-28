@@ -43,8 +43,7 @@ It can be run directly as Python code, as a provided Docker container or through
       - [DNS](docs/LOG_OVERVIEW.md#dns)
       - [PROXY](docs/LOG_OVERVIEW.md#proxy)
     - [Akamai Phish-proof Multi Factor Authenticator (AKAMAI-MFA)](https://www.akamai.com/us/en/products/security/akamai-mfa.jsp)
-      - [AUTH](docs/LOG_OVERVIEW.md#authentication-logs-auth)
-      - [POLICY](docs/LOG_OVERVIEW.md#policy-logs-policy)
+      - [EVENT](docs/LOG_OVERVIEW.md#authentication-logs-auth)
   
 
 - Supported data outputs

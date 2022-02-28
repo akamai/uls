@@ -17,7 +17,7 @@ function do_test() {
 }
 
 function do_tag() {
-  my_date=$(date +%Y%M%d-%H%M%S-%Z)
+  my_date=$(date +%Y%m%d-%H%M%S-%Z)
   git tag "BATS-TEST-SUCCESSFUL__$my_date"
 }
 

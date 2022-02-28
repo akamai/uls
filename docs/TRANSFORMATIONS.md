@@ -49,4 +49,9 @@ bin/uls.py --input eaa --feed access --section akamaidemo --output raw --transfo
 
 # EAA ACCESSS logs transformed to output only country, state and city in LIST format (sent to RAW output)
 bin/uls.py --input eaa --feed access --section akamaidemo --output raw --transformation jmespath --transformationpattern '[geo_country, geo_state, geo_city]'
+
+# EAA ACCESS logs transformed to a "NON-JSON" syslog'ish format, joining a static text with dynamic json values (dropping the keys)
+pattern='join(``, [`"<14>uls-hostname {"`, query.time, query.domain, `"}"`])'
+bin/uls.py --section akamaidemo --input etp --feed dns --output raw  --transformation jmespath --transformationpattern "$pattern"
 ```
+
