@@ -1,4 +1,18 @@
 # Version History
+
+## v1.3.4
+|||
+|---|---|
+|Date|2022-03-08
+|Kind| Bugfix release
+|Author|mschiess@akamai.comm adrocho@akamai.com
+- **Minor improvements**
+  - Added QRADAR log source type definitions (thx to bitonio)
+  - Added SUMO Logic (thx to huskar20 for the contribution)
+  - bumped CLI-MFA to v0.0.9
+  - added resources, nodeSelector, tolerations and affinity to the helm values.yaml / template
+
+
 ## v1.3.3
 |||
 |---|---|
