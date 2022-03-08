@@ -1,4 +1,16 @@
 # Version History
+
+## v1.3.4
+|||
+|---|---|
+|Date|2022-xx-xx
+|Kind| Bugfix release
+|Author|mschiess@akamai.comm adrocho@akamai.com
+- **Minor improvements**
+  - Added QRADAR log source type definitions
+  - Added SUMO Logic (thx to huskar20)
+
+
 ## v1.3.3
 |||
 |---|---|
