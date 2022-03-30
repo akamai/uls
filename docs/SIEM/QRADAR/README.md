@@ -16,11 +16,11 @@ Each feed has a corresponding definition file (zip). Use QRadar Extension Manage
 
 ### EAA feeds
 
-The following QRadar DSM version 1.1.1 is able to parse the 3 different EAA feeds coming from a single source (same host running ULS).
+The following QRadar DSM version 1.1.2 is able to parse the 3 different EAA feeds coming from a single source host (which is running ULS).
 
-> Download [EAA Combined feeds QRadar DSM version 1.1.1](akamai-eaa-combined-dsm-v.1.1.1.zip)
+> Download [EAA Combined feeds QRadar DSM version 1.1.2](akamai-eaa-combined-dsm-v1.1.2.zip)
 
-Last update: March 28th, 2022
+Last update: March 30th, 2022
 
 ## ULS output configuration
 
