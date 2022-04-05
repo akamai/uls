@@ -6,5 +6,9 @@ The `.env` files control the ULS via dedicated [ENVIRONMENTAL VARIABLES](../../A
 
 The [simple](simple/README.md) directory provides a simple example running ULS via `docker compose`  
 The [complex](complex/README.md) directory provides a more "real world" example combining multiple feeds and different outputs.  
+<<<<<<< HEAD
 The [example](examples/README.md) directory provides different configuration snippets.
+=======
+The [example](examples/README.md) directory provides different configuration snippets.  
+>>>>>>> v.1.3.5
 The [etp-multi-tenant](etp-tenants/README.md) directory shows how logs from different ETP tenants can be collected.

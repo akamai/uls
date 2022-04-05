@@ -7,31 +7,7 @@
 |Author|mschiess@akamai.com, adrocho@akamai.com
 - **Minor improvements**
   - More QRADAR log source type definitions (thx to bitonio)
-  - Added docker-compose ETP - Tenant example
-
-## v1.3.4
-|||
-|---|---|
-|Date|2022-03-08
-|Kind| Bugfix release
-|Author|mschiess@akamai.comm adrocho@akamai.com
-- **Minor improvements**
-  - Added QRADAR log source type definitions (thx to bitonio)
-  - Added SUMO Logic (thx to huskar20 for the contribution)
-  - bumped CLI-MFA to v0.0.9
-  - added resources, nodeSelector, tolerations and affinity to the helm values.yaml / template
-
-
-## v1.3.3
-|||
-|---|---|
-|Date|2022-02-28
-|Kind| Bugfix release
-|Author|mschiess@akamai.com
-- **Bugfix**
-  - Adopted to new MFA CLI Version (only single feed "EVENT" available anymore)
-  - Amended new dates to the file headers
-  - Added volume to dockerfile as data storage for "autoresume"
+  - Added docker-compose "ETP - Multi Tenant" example
 
 ## v1.3.4
 |||
