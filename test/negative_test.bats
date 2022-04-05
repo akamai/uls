@@ -7,8 +7,8 @@ uls_bin=bin/uls.py
 
 
 # Load support libs
-load 'test/bats/bats-support/load.bash'
-load 'test/bats/bats-assert/load.bash'
+load 'bats/bats-support/load.bash'
+load 'bats/bats-assert/load.bash'
 
 
 

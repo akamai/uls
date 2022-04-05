@@ -1,0 +1,20 @@
+version: "3.0"
+services:
+  etp-threat-tenant-1:
+    image: akamai/uls:latest
+    restart: always
+    env_file: etp-threat-tenant-1.env
+    volumes:
+      - type: bind
+        source: /path/to/your/.edgerc
+        target: /opt/akamai-uls/.edgerc
+        read_only: true
+  etp-threat-tenant-2:
+    image: akamai/uls:latest
+    restart: always
+    env_file: etp-threat-tenant-2.env
+    volumes:
+      - type: bind
+        source: /path/to/your/.edgerc
+        target: /opt/akamai-uls/.edgerc
+        read_only: true

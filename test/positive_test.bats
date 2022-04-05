@@ -19,8 +19,8 @@ uls_test_timeout=30
 
 
 # Load support libs
-load 'test/bats/bats-support/load.bash'
-load 'test/bats/bats-assert/load.bash'
+load 'bats/bats-support/load.bash'
+load 'bats/bats-assert/load.bash'
 
 
 #  POSITIVE tests
