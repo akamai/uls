@@ -2,12 +2,12 @@
 ## v1.3.5
 |||
 |---|---|
-|Date|2022-04-05
+|Date|2022-04-06
 |Kind| Bugfix release
 |Author|mschiess@akamai.com, adrocho@akamai.com
 - **Minor improvements**
   - More QRADAR log source type definitions (thx to bitonio)
-  - Added docker-compose "ETP - Multi Tenant" example
+  - Added docker-compose ETP - Tenant example
 
 ## v1.3.4
 |||
