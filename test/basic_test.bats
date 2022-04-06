@@ -3,14 +3,14 @@
 
 # Variables
     # ULS Binary
-uls_bin=bin/uls.py
+uls_bin="bin/uls.py"
 
 uls2_path="bin"
-uls2_bin=uls.py
+uls2_bin="uls.py"
 
 # Load support libs
-load 'test/bats/bats-support/load.bash'
-load 'test/bats/bats-assert/load.bash'
+load 'bats/bats-support/load.bash'
+load 'bats/bats-assert/load.bash'
 
 uls_bin=bin/uls.py
 uls_edgerc=~/.edgerc
