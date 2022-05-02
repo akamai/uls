@@ -5,10 +5,10 @@
 The Unified Log Streamer (ULS) is designed to simplify SIEM integrations for Akamai Secure Enterprise Access Products
 - [Enterprise Application Access (EAA)](https://www.akamai.com/us/en/products/security/enterprise-application-access.jsp) 
 - [Enterprise Threat Protector (ETP)](https://www.akamai.com/us/en/products/security/enterprise-threat-protector.jsp)
-- [Akamai Phish-proof Multi Factor Authenticator (AKAMAI-MFA)](https://www.akamai.com/us/en/products/security/akamai-mfa.jsp)
+- [Akamai MFA (MFA)](https://www.akamai.com/us/en/products/security/akamai-mfa.jsp)
 
 Thanks to its modular design, ULS allows the connection of many SIEM solutions out-of-the-box.  
-ULS can send data into any SIEM that supports either TCP, UDP or HTTP ingestion.  
+ULS can send data into any SIEM that supports either file, TCP, UDP or HTTP ingestion.  
 It can be run directly as Python code, as a provided Docker container or through `docker compose` scripts.
 
 
@@ -21,10 +21,11 @@ It can be run directly as Python code, as a provided Docker container or through
   - [Table of contents](#table-of-contents)
   - [Key Features](#key-features)
   - [Documentation](#documentation)
+    - [Generic Requirements](#generic-requirements)
     - [Command Line Usage](#command-line-usage)
     - [Docker](#docker)
     - [Docker-compose](#docker-compose)
-    - [kubernetes / k8s](#kubernetes)
+    - [Kubernetes](#kubernetes)
   - [Development](#development)
   - [Changelog](#changelog)
   - [Support](#support)

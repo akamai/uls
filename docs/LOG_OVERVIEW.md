@@ -1,24 +1,33 @@
 # Log Overview
-ULS supports ingestion of different log streams into SIEM. To get the highest value out of the ingested data, it is crucial to understand the delivered data.  
+ULS supports ingestion of different log streams into SIEM. 
+
+To get the highest value out of the ingested data, it is crucial to understand the delivered data.  
+
 Here are some examples (per product) and links to additional information.
 
 ## Table of contents
-- [Enterprise Application Access](#enterprise-application-access)
-  - [Access Logs (ACCESS)](#access-logs-access)
-  - [Admin Logs(ADMIN)](#admin-logs-admin)
-  - [Connector Health(CONHEALTH)](#connector-health-conhealth)
-- [Enterprise Threat Protector](#etp)
-  - [Threat Logs](#threat-log-threat)
-  - [Accceptable Use Policy Logs (AUP)](#accceptable-use-policy-logs-aup)
-  - [DNS Logs](#dns)
-  - [Proxy Logs](#proxy)
-- [Akamai MFA](#akamai-mfa)
-  - [Authentication Logs (AUTH)](#authentication-logs) 
-  - [Policy Logs(POLICY)](#policy-logs)
+- [Log Overview](#log-overview)
+  - [Table of contents](#table-of-contents)
+  - [Enterprise Application Access (EAA)](#enterprise-application-access-eaa)
+    - [Access Logs (ACCESS)](#access-logs-access)
+    - [Admin Logs (ADMIN)](#admin-logs-admin)
+    - [Connector Health (CONHEALTH)](#connector-health-conhealth)
+  - [Enterprise Threat Protector (ETP)](#enterprise-threat-protector-etp)
+    - [Threat Log (THREAT)](#threat-log-threat)
+    - [Accceptable Use Policy Logs (AUP)](#accceptable-use-policy-logs-aup)
+    - [DNS](#dns)
+    - [PROXY](#proxy)
+  - [Akamai MFA (MFA)](#akamai-mfa-mfa)
+    - [Authentication Logs (AUTH)](#authentication-logs-auth)
 
-## Enterprise Application Access
+## Enterprise Application Access (EAA)
+
+When configuring ULS to access EAA these feed, set `input` argument/variable to `EAA` and `feed` as indicated below in parathesis.
+ 
 ### Access Logs (ACCESS)
-Additional information regarding the log fields can be found on [here](https://learn.akamai.com/en-us/webhelp/enterprise-application-access/eaa-logs-from-eaa-api-and-splunk/GUID-8F07B320-2DD7-4035-9A8E-4E7435DFA3EA.html)
+
+Additional information regarding the log fields can be found on [here](https://techdocs.akamai.com/eaa/docs/data-feed-siem#access-logs)
+
 ```json
 {
     "username": "user1",
@@ -54,7 +63,8 @@ Additional information regarding the log fields can be found on [here](https://l
 ```
 
 ### Admin Logs (ADMIN)
-Additional information regarding the log fields can be found on [here](https://learn.akamai.com/en-us/webhelp/enterprise-application-access/eaa-logs-from-eaa-api-and-splunk/GUID-F772F01C-46D1-411C-A41F-D4B780D998FB.html).
+
+Additional information regarding the log fields can be found on [here](https://techdocs.akamai.com/eaa/docs/data-feed-siem#admin-logs).
 ```json
 {
     "datetime": "2021-07-23T05:54:40",
@@ -67,7 +77,8 @@ Additional information regarding the log fields can be found on [here](https://l
 ```
 
 ### Connector Health (CONHEALTH)
-Additional information regarding the log fields can be found on [here](https://learn.akamai.com/en-us/webhelp/enterprise-application-access/eaa-logs-from-eaa-api-and-splunk/GUID-A79FBF43-DE2C-405A-8900-0D77DC8CEAF4.html)
+
+Additional information regarding the log fields can be found on [here](https://techdocs.akamai.com/eaa/docs/data-feed-siem#connector-health)
 ```json
 {
     "connector_uuid": "cht3_GEjQWyMW9LEk7KQfg",
@@ -90,6 +101,7 @@ Additional information regarding the log fields can be found on [here](https://l
 ```
 
 ## Enterprise Threat Protector (ETP)
+
 ### Threat Log (THREAT)
 Additional information regarding the log fields can be found on [here](https://developer.akamai.com/api/enterprise_security/enterprise_threat_protector_reporting/v3.html#threatevent)
 ```json
@@ -1925,44 +1937,40 @@ Additional information regarding the log fields can be found on [here](https://d
 ```
 
 
-## Akamai MFA
-Additional information regarding the log fields can be found on [here](https://learn.akamai.com/en-us/webhelp/enterprise-mfa/akamai-mfa-logs-from-splunk-application/GUID-0F17296F-90F3-483E-AFDE-F98FBC51A8AC.html).
+## Akamai MFA (MFA)
+
+Additional information regarding the MFA log fields can be found on [here](https://techdocs.akamai.com/mfa/docs/splunk-app).
+
 ### Authentication Logs (AUTH)
 Authentication Events Example:  
 ```json
 {
-  "uuid": "aud_JfNqdl6zS23456623434",
-  "created_at": "2021-03-23T19:36:20.047688",
-  "browser_ip": "49.103.18.124",
-  "app_id": "app_3IyJXh2345345345345f8X",
-  "device": "push",
-  "auth_method": "push",
-  "user_id": "user_6Hy1v241221541i5dv3",
-  "username": "mschiess",
-  "is_success": true,
-  "device_metadata": "Android",
-  "receipt": "",
-  "browser_type": "Chrome",
-  "browser_version": "88.0.4324",
-  "browser_os": "MacOS",
-  "browser_os_version": "10.15.7",
-  "device_os": "android",
-  "device_os_version": "10.0.0",
-  "browser_geo_location": "BANGALORE KA, IN",
-  "device_geo_location": "BANGALORE KA, IN",
-  "device_ip": "49.103.18.124"
-}
-```
-
-### Policy Logs (POLICY)
-Policy Denied Events Example:  
-```json
-{
-  "id": "aud_5mRypRCa3456789VJt",
-  "created_at": "2021-03-23T17:20:50.524672",
-  "user_id": "user_3CbCStOKG0uGdjRILocuxW",
-  "principal_id": "Tenant",
-  "policy_id": "policy_5iMncPFO2345678QL4j",
-  "policy_attribute_name": "Existing User"
+    "uuid": "aud_JfNqdl6zSByrU0ovrbJ6m",
+    "created_at": "2021-03-23T19:36:20.047688",
+    "browser_ip": "49.207.58.115",
+    "app_id": "app_3IyJXh2U9Jiws6bvxcf8X",
+    "app_name": "Test Application",
+    "device": "push",
+    "auth_method": "push",
+    "user_id": "user_6Hy1v24DZIr8b0UHYi5dv3",
+    "username": "username",
+    "is_success": true,
+    "device_metadata": "Android",
+    "receipt": "",
+    "browser_type": "Chrome",
+    "browser_version": "88.0.4324",
+    "browser_os": "MacOS",
+    "browser_os_version": "10.15.7",
+    "device_os": "android",
+    "device_os_version": "10.0.0",
+    "browser_geo_location": "BANGALORE KA, IN",
+    "device_geo_location": "BANGALORE KA, IN",
+    "device_ip": "49.207.58.115",
+    "denial_type": null,
+    "device_id": "device_3kbTGOPbHxH3KfYkPzm31e",
+    "policy_attr_name": null,
+    "policy_uuid": null,
+    "principal_type": null,
+    "principal_uuid": null
 }
 ```
