@@ -23,11 +23,11 @@ The output is delivered in JSON format
 {"dt": "2021-06-09T08:15:35.092889", "uls_product": "ETP", "uls_feed": "THREAT", "uls_outpout": "HTTP", "uls_runtime": 300, "event_count": 504, "event_rate": 1.68, "mon_interval": 300}
 ```
 
-## Send docker logs to splunk
-For this we're using the embedded docker - splunk logging module.
+## Send Docker logs to Splunk
+For this we're using the embedded docker - Splunk logging module.
 
 ### Docker-compose
-Example (add to every service in your docker-compose.yml)
+Example (add to every service in your `docker-compose.yml`)
 ```yaml
 version: "3.0"
 ...
@@ -67,8 +67,8 @@ services:
   ...
 ```
 
-More splunk - options for docker can be found [here](https://docs.docker.com/config/containers/logging/splunk/)
-Sidenote: you will still receive logs on the cli running `docker-compose logs -f uls-tool`
+More Splunk - options for docker can be found [here](https://docs.docker.com/config/containers/logging/splunk/)
+Sidenote: you will still receive logs on the CLI running `docker-compose logs -f uls-tool`
 
 ![Docker logs in splunk](images/uls_docker_logs_to_splunk.png)
 

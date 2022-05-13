@@ -8,7 +8,8 @@ bash test/test.sh
 For better testing stability, we packed the required dependencies into the test dir as well.
 
 ### Requirements
-- [bats](https://bats-core.readthedocs.io/en/stable/)
+- [bats](https://bats-core.readthedocs.io/en/stable/)   `bats --version Bats 1.6.0`
 - timeout command is available
 - uls and the cli's are installed
-- working (fully fledged .edgerc file - not necessarily providing logs)
+- working (fully fledged .edgerc file - or the inline MOCKED one) 
+  - mocked edgerc is currently failing with EAA 

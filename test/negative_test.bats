@@ -26,7 +26,7 @@ load 'bats/bats-assert/load.bash'
 }
 @test "Input / Feed mismatch" {
     run  $uls_bin --input eaa --feed auth -o raw
-    assert_output --partial "Feed (AUTH) not available - Available: ['ACCESS', 'ADMIN', 'CONHEALTH']"
+    assert_output --partial "Feed (AUTH) not available - Available:"
     [ "$status" -eq 1 ]
 }
 @test "Checking --feed and --intput etp" {

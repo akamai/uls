@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Common global variables / constants
-__version__ = "1.3.5"
+__version__ = "1.4.0"
 __tool_name_long__ = "Akamai Unified Log Streamer"
 __tool_name_short__ = "ULS"
 
@@ -19,7 +19,7 @@ main_resend_exit_on_fail = False                # Stop program, if a single logl
         # Path to the EAA CLI Executable
 bin_eaa_cli = "ext/cli-eaa/bin/akamai-eaa"
         # Available EAA CLI feeds
-eaa_cli_feeds = ['ACCESS', 'ADMIN', 'CONHEALTH']
+eaa_cli_feeds = ['ACCESS', 'ADMIN', 'CONHEALTH', 'DEVINV']
 
     # ETP
         # Path to the ETP CLI Executable

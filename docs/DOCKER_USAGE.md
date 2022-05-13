@@ -5,7 +5,7 @@ All commands referenced in this document are run from the repositories root leve
 
 ### Table of contents
 - [ULS Docker Usage](#uls-docker-usage)
-    - [Overview](#overview)
+    - [Table of contents](#table-of-contents)
   - [Requirements](#requirements)
   - [Installation](#installation)
     - [Obtaining the Docker image](#obtaining-the-docker-image)
@@ -14,7 +14,7 @@ All commands referenced in this document are run from the repositories root leve
 
 ## Requirements
 - [Docker](https://www.docker.com/) needs to be installed on an **GNU/Linux** OS
-  - Note: Windows is not supported, please use HyperV with a Linux VM
+  - Note: Windows is not supported, please use Hyper-V with a Linux VM
 - Access to the docker image (see [installation](#installation))
 - Akamai API credentials file - `.edgerc` (see [API Credentials](AKAMAI_API_CREDENTIALS.md) for creation instructions)
 - Understanding of available [ULS Environmental Variables and CLI PARAMETERS](ARGUMENTS_ENV_VARS.md)
@@ -50,9 +50,12 @@ docker run ...
 ```
 
 ## Usage
-Using the dockerized approach, you have two different options to set up the options and parameters:
 
-- Docker Command Line Arguments 
+Using the dockerized approach, you have two different ways to set up the options and parameters. 
+
+Below are two examples with our Enterprise Threat Protector product:
+
+- Docker Command Line Arguments:
     ```bash 
     docker run -d --name uls_etp-threat -ti \
         --mount type=bind,source="/path/to/your/.edgerc",target="/opt/akamai-uls/.edgerc",readonly \
@@ -60,7 +63,7 @@ Using the dockerized approach, you have two different options to set up the opti
         --input etp --feed threat --output tcp --host 10.10.10.10 --port 9091
     ```
 
-- Docker Environmental Variables´
+- Docker Environmental Variables:
     ```bash 
     docker run -d --name uls_etp-threat -ti \
         --mount type=bind,source="/path/to/your/.edgerc",target="/opt/akamai-uls/.edgerc",readonly \
@@ -72,8 +75,11 @@ Using the dockerized approach, you have two different options to set up the opti
         akamai/uls
     ```
   
-Both of the above examples would do the exact same thing.
-You can find a full set of command line parameters along with the according ENV variables in this document.
+Both of the above examples would do the exact same thing: getting the Enterprise Threat Protector events part of the threat feed and push them into over `TCP` to the machine `10.10.10.10` on port `9091`.
+
+See the [full list of supported products and feeds](https://github.com/akamai/uls/blob/main/docs/LOG_OVERVIEW.md). You can then set `input` and `feed` argument from the example above.
+
+You can also find a full set of command line parameters along with the according ENV variables [in this document](ARGUMENTS_ENV_VARS.md).
 
 Right now, mounting the `.edgerc` file into the container is the only way applying the authentication. This might get fixed in some later version.  
 Please change the `source=` according to your needs within the mount lines.

@@ -1,8 +1,28 @@
 # Version History
+
+## v1.4.0
+|||
+|---|---|
+|Date|2022-05-XX
+|Kind| FEATURE release
+|Author|mschiess@akamai.com, adrocho@akamai.com
+- **Features**
+  - Device Inventory (DEVINV) feed added for EAA (requires eaa-cli >= 0.4.9.1)
+    
+
+- **Minor improvements**
+  - bumped EAA to version v0.4.9.1
+  - bumped ETP to version v0.3.8
+  - bumped python to version 3.10.4-slim-bullseye
+  
+
+- **Bugfix**
+  - Fixed a bug in the test scripts to support real .edgerc  
+
 ## v1.3.5
 |||
 |---|---|
-|Date|2022-04-06
+|Date|2022-04-05
 |Kind| Bugfix release
 |Author|mschiess@akamai.com, adrocho@akamai.com
 - **Minor improvements**
@@ -32,6 +52,7 @@
   - Adopted to new MFA CLI Version (only single feed "EVENT" available anymore)
   - Amended new dates to the file headers
   - Added volume to dockerfile as data storage for "autoresume"
+
 
 ## v1.3.2
 |||
