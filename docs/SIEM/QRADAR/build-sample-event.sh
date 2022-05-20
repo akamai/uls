@@ -34,6 +34,23 @@ case "$1" in
         echo "Fetching connector health events..."
         akamai eaa connector list --perf --json > $tmp_dir/eaa_conhealth.json
 
+
+stat eaa_feeds_combined_sample.json
+echo "File 'eaa_feeds_combined_sample.json' created in the current directory ($(pwd))."
+function print_usage() {
+    echo "Usage:"
+    echo "$0 [eaa|etp]"
+}
+
+case "$1" in
+
+    "eaa")
+        echo "Fetching access events..."
+        akamai eaa log admin --start $START --json --output $tmp_dir/eaa_admin.json
+        echo "Fetching admin audit events..."
+        akamai eaa log access --start $START --json --output $tmp_dir/eaa_access.json
+        echo "Fetching connector health events..."
+        akamai eaa connector list --perf --json > $tmp_dir/eaa_conhealth.json
         cat $tmp_dir/eaa_admin.json | shuf | head -n 50 > $tmp_dir/eaa_admin_min.json
         cat $tmp_dir/eaa_access.json | shuf | head -n 50 > $tmp_dir/eaa_access_min.json
         cat $tmp_dir/eaa_conhealth.json | shuf > $tmp_dir/eaa_conhealth_min.json
