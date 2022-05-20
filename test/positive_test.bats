@@ -160,3 +160,9 @@ load 'bats/bats-assert/load.bash'
     [ "$status" -eq 100 ]       #return value from uls when interrupted --> with --preserve status on timeout
     rm -f /tmp/uls_eaa_access.ckpt
 }
+## EAA
+@test "LINT the HELM CHART" {
+    run helm lint docs/examples/kubernetes/helm/akamai-uls --strict
+    assert_output --partial "0 chart(s) failed"
+    [ "$status" -eq 0 ]       #return value for Chart Lint: 0
+}
