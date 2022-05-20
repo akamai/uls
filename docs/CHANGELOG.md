@@ -3,7 +3,7 @@
 ## v1.4.0
 |||
 |---|---|
-|Date|2022-05-XX
+|Date|2022-05-20
 |Kind| FEATURE release
 |Author|mschiess@akamai.com, adrocho@akamai.com
 - **Features**
