@@ -11,7 +11,7 @@
     
 
 - **Minor improvements**
-  - bumped EAA to version v0.4.9.1
+  - bumped EAA to version v0.5.0
   - bumped ETP to version v0.3.8
   - bumped python to version 3.10.4-slim-bullseye
   
