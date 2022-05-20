@@ -9,7 +9,9 @@ The Unified Log Streamer (ULS) is designed to simplify SIEM integrations for Aka
 
 Thanks to its modular design, ULS allows the connection of many SIEM solutions out-of-the-box.  
 ULS can send data into any SIEM that supports either file, TCP, UDP or HTTP ingestion.  
-It can be run directly as Python code, as a provided Docker container or through `docker compose` scripts.
+
+It can be run directly as Python code, as a provided Docker container,  through `docker compose` scripts or through helm within kubernetes.
+
 
 
 ![ULS docker compose usage](docs/images/uls_docker-compose_complex_example.png)
@@ -38,6 +40,7 @@ It can be run directly as Python code, as a provided Docker container or through
       - [ACCESS](docs/LOG_OVERVIEW.md#access-logs-access) 
       - [ADMIN](docs/LOG_OVERVIEW.md#admin-logs-admin)
       - [CONHEALTH](docs/LOG_OVERVIEW.md#connector-health-conhealth)
+      - [DEVINV](docs/LOG_OVERVIEW.md#device-inventory-devinv)
     - [Enterprise Threat Protectors (ETP)](https://www.akamai.com/us/en/products/security/enterprise-threat-protector.jsp)
       - [THREAT](docs/LOG_OVERVIEW.md#threat-log-threat)
       - [AUP](docs/LOG_OVERVIEW.md#accceptable-use-policy-logs-aup)
@@ -75,8 +78,9 @@ It can be run directly as Python code, as a provided Docker container or through
   
 ## Documentation
 ULS can be operated in many ways.  
-Before setting up ULS, please understand your SIEM ingestion capabilities and configure an ingest method on your SIEM.
-More information for specific SIEM solutions can be found in [this directory](./docs/SIEM/SIEM_OVERVIEW.md) and in your SIEM documentation.
+Before setting up ULS, please understand your SIEM ingestion capabilities and configure an ingest method on your SIEM.  
+ULS is designed as an abstraction layer to easily ship log data to most SIEMs on the market. It does not create any dashboards / data extractions.  
+Anyway, details for some specific SIEM solutions can be found in [this directory](./docs/SIEM/SIEM_OVERVIEW.md) and in your SIEM documentation.
 
 ### Generic Requirements
 - Python 3.9+ OR docker / docker-compose OR kubernetes / helm
@@ -92,7 +96,7 @@ Example commands:
 python3.9 bin/uls.py --input etp --feed threat --output raw
 
 # EAA - ACCESS to TCP
-python3.0  bin/uls.py --input eaa --feed access -output tcp --host 10.99.10.99 --port 8081
+python3.9  bin/uls.py --input eaa --feed access -output tcp --host 10.99.10.99 --port 8081
 ```
 For more information, please visit [this document](./docs/COMMAND_LINE_USAGE.md)
 
@@ -111,7 +115,7 @@ For more information, please visit [this document](./docs/KUBERNETES_USAGE.md)
 ## Development
 
 For the latest stable version of this software, please check the [release section](https://github.com/akamai/uls/releases) of the repo. The `main` [branch](https://github.com/akamai/uls) will retain the stable versions.
-To ensure a continuous development of this tool, all new updates will go into the `development` [branch](https://github.com/akamai/uls/tree/development) of this repo.  
+To ensure a continuous development of this tool, all new updates will first go into the `development` [branch](https://github.com/akamai/uls/tree/development) of this repo.  
 The `development` branch can be subject to change and could also represent a broken version of this software.
 In parallel, all new versions within the "main" branch will also be available on the [ULS docker hub space](https://hub.docker.com/repository/docker/akamai/uls).
 

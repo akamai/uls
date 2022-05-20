@@ -43,11 +43,11 @@ if [ "$select" == "all" ] ; then
   for i in $tests_available ; do
     echo "> $i"
     do_test $i
+    do_tag
   done
 else
   do_test $1
 fi
 
-do_tag
 
 exit 0

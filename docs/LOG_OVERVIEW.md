@@ -12,6 +12,8 @@ Here are some examples (per product) and links to additional information.
     - [Access Logs (ACCESS)](#access-logs-access)
     - [Admin Logs (ADMIN)](#admin-logs-admin)
     - [Connector Health (CONHEALTH)](#connector-health-conhealth)
+    - [Device Posture Inventory (DEVINV)](#device-posture-inventory-devinv)
+
   - [Enterprise Threat Protector (ETP)](#enterprise-threat-protector-etp)
     - [Threat Log (THREAT)](#threat-log-threat)
     - [Accceptable Use Policy Logs (AUP)](#accceptable-use-policy-logs-aup)
@@ -99,6 +101,149 @@ Additional information regarding the log fields can be found on [here](https://t
     "dialout_active": 1
 }
 ```
+
+### Device Posture Inventory (DEVINV)
+
+When enabled, EAA can provide a full view on the device running EAA Client.
+A report is available in Akamai Control Center and can also be extracted using API.
+This feed uses the [Device Posture Inventory](https://techdocs.akamai.com/eaa-api/reference/get-device-posture-inventory) in EAA API.
+
+Each event will be one device as a JSON document, example provided with the cli-eaa command `akamai eaa dp inventory|head -n1|jq .`
+
+<details>
+    <summary>View device inventory event example (JSON)</summary>
+
+```json
+{
+    "device_id": "5c98021e78e9c393b07145e388c20ace7733ca88ed63ba0790c09e7ed5c58cf7",
+    "device_name": "sfo-mpw9c",
+    "risk_posture_tiers": [
+        {
+        "passed": true,
+        "name": "Low",
+        "id": 13,
+        "tier": true
+        }
+    ],
+    "risk_posture_tags": [
+        {
+        "passed": true,
+        "name": "Healthy iOS",
+        "id": 597,
+        "tier": false
+        },
+        {
+        "passed": true,
+        "name": "latest-of-latest",
+        "id": 949,
+        "tier": false
+        },
+        {
+        "passed": true,
+        "name": "ETP-Healthy-NotCompromised",
+        "id": 1831,
+        "tier": false
+        },
+        {
+        "passed": false,
+        "remediations": [
+            "Unsupported operating system."
+        ],
+        "name": "Demo Tag - CB",
+        "id": 2380,
+        "tier": false
+        },
+        {
+        "passed": false,
+        "remediations": [
+            "Unsupported operating system."
+        ],
+        "name": "Demo - Tag - Anti malware",
+        "id": 2381,
+        "tier": false
+        },
+        {
+        "passed": true,
+        "name": "Device - Not Compromised",
+        "id": 2392,
+        "tier": false
+        },
+        {
+        "passed": true,
+        "name": "Forrester Demo -",
+        "id": 2402,
+        "tier": false
+        },
+        {
+        "passed": true,
+        "name": "Demo - Anti Malware",
+        "id": 2407,
+        "tier": false
+        },
+        {
+        "passed": true,
+        "name": "Demo Tag",
+        "id": 2408,
+        "tier": false
+        }
+    ],
+    "client_version": "2.7.1",
+    "idp_username": "N/A",
+    "user_id": "androcho",
+    "browsers": [
+        {
+        "name": "Edge",
+        "version": "101.0.1210.47"
+        },
+        {
+        "name": "Chrome",
+        "version": "101.0.4951.64"
+        },
+        {
+        "name": "Safari",
+        "version": "15.4"
+        },
+        {
+        "name": "Firefox",
+        "version": "100.0"
+        }
+],
+"os_name": "macOS",
+"os_version": "Monterey 12.3.1 (21E258)",
+"signal_timestamp": "2022-05-16T20:21:33.321539+00:00",
+"os_update_timestamp": "2022-04-15T20:18:43Z",
+"os_auto_update": true,
+"anti_malware_running": [
+    "Sentinel Agent"
+],
+"anti_malware_status": [
+    {
+    "name": "Any Vendor",
+    "passed": true
+    }
+],
+"anti_malware_info": [
+    {
+    "name": "Sentinel Agent",
+    "passed": true
+    }
+],
+"firewall_status": "good",
+"system_disk_encryption": true,
+"etp_client_status": "installed",
+"mobile_device": false,
+"certificate_profile": [
+    {
+    "name": "cert",
+    "passed": false
+    }
+],
+"etp_signals": {
+    "threat_detected": false
+}
+}
+```
+</details>
 
 ## Enterprise Threat Protector (ETP)
 

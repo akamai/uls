@@ -3,5 +3,5 @@ name: akamai-uls
 description: Akamai Universal Log Streamer Helm installation
 
 type: application
-version: 1.3.5
-appVersion: "1.3.5"
+version: 1.4.0
+appVersion: "1.4.0"

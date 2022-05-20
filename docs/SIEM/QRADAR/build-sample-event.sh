@@ -19,18 +19,21 @@ shuf() { awk 'BEGIN {srand(); OFMT="%.17f"} {print rand(), $0}' "$@" |
 tmp_dir=$(mktemp -d -t ak-uls-qradar-XXXXXXXXXX)
 echo "Working in temporary directory $tmp_dir"
 
-echo "Fetching access events..."
-akamai eaa log admin --start $START --json --output $tmp_dir/eaa_admin.json
-echo "Fetching admin audit events..."
-akamai eaa log access --start $START --json --output $tmp_dir/eaa_access.json
-echo "Fetching connector health events..."
-akamai eaa connector list --perf --json > $tmp_dir/eaa_conhealth.json
+function print_usage() {
+    echo "Usage:"
+    echo "$0 [eaa|etp]"
+}
 
-cat $tmp_dir/eaa_admin.json | shuf | head -n 50 > $tmp_dir/eaa_admin_min.json
-cat $tmp_dir/eaa_access.json | shuf | head -n 50 > $tmp_dir/eaa_access_min.json
-cat $tmp_dir/eaa_conhealth.json | shuf > $tmp_dir/eaa_conhealth_min.json
+case "$1" in
 
-cat $tmp_dir/eaa_admin_min.json $tmp_dir/eaa_access_min.json $tmp_dir/eaa_conhealth_min.json | shuf > eaa_feeds_combined_sample.json
+    "eaa")
+        echo "Fetching access events..."
+        akamai eaa log admin --start $START --json --output $tmp_dir/eaa_admin.json
+        echo "Fetching admin audit events..."
+        akamai eaa log access --start $START --json --output $tmp_dir/eaa_access.json
+        echo "Fetching connector health events..."
+        akamai eaa connector list --perf --json > $tmp_dir/eaa_conhealth.json
+
 
 stat eaa_feeds_combined_sample.json
 echo "File 'eaa_feeds_combined_sample.json' created in the current directory ($(pwd))."
@@ -48,7 +51,6 @@ case "$1" in
         akamai eaa log access --start $START --json --output $tmp_dir/eaa_access.json
         echo "Fetching connector health events..."
         akamai eaa connector list --perf --json > $tmp_dir/eaa_conhealth.json
-
         cat $tmp_dir/eaa_admin.json | shuf | head -n 50 > $tmp_dir/eaa_admin_min.json
         cat $tmp_dir/eaa_access.json | shuf | head -n 50 > $tmp_dir/eaa_access_min.json
         cat $tmp_dir/eaa_conhealth.json | shuf > $tmp_dir/eaa_conhealth_min.json
