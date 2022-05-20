@@ -1,5 +1,4 @@
 # ULS DOCKER ETP-TENANT EXAMPLES
-<<<<<<< HEAD
 
 Enterprise Threat Protector (ETP) allows customers and partners to manage multiple ETP tenants each coming with separated data feeds.
 
@@ -16,6 +15,7 @@ This directory contains configuration examples (for simple copy & paste usage)
 
 ## docker-compose.yml
 This file contains examples for 2 different ETP tenants collecting the same "threat" log
+
 
 ## ENV files
 The files contains all available ENV VARS explained in a single file.  
