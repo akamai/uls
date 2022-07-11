@@ -1,5 +1,21 @@
 # Version History
 
+## v1.5.0
+
+|||
+|---|---|
+|Date|2022-07
+|Kind| FEATURE release
+|Author|mschiess@akamai.com, adrocho@akamai.com
+
+- **Performance improvements**
+  - Rework to handle large number of events (100k+ per minute) and fail safe 
+    when the Output can't cope with the pace of incoming message
+- **Minor improvements**
+  - new attributes in monitoring output
+  - `event_ingested_interval` # events read from CLI input
+  - `event_bytes_interval` # total size in bytes processed
+
 ## v1.4.0
 |||
 |---|---|
@@ -17,7 +33,7 @@
   
 
 - **Bugfix**
-  - Fixed a bug in the test scripts to support real .edgerc  
+  - Fixed a bug in the test scripts to support real `.edgerc`
 
 ## v1.3.5
 |||
