@@ -10,11 +10,19 @@
 
 - **Performance improvements**
   - Rework to handle large number of events (100k+ per minute) and fail safe 
-    when the Output can't cope with the pace of incoming message
-- **Minor improvements**
-  - new attributes in monitoring output
-  - `event_ingested_interval` # events read from CLI input
-  - `event_bytes_interval` # total size in bytes processed
+    when the Output can't cope with the pace of incoming events.
+  - New parameters in `bin/config/global_config.py`:
+    - If your output is slower than incoming events, 
+      ULS can buffer `input_queue_size` events. If buffer gets full, ULS will stop with an error message.
+    - HTTP output can now aggregate messages, two options:
+      - `output_http_aggregate_count`
+      - `output_http_aggregate_idle` 
+- **Minor improvements**  
+  - new attributes in monitoring output:
+    - `event_ingested_interval` # events read from CLI input
+    - `event_bytes_interval` # total size in bytes processed
+- **Housekeeping**
+  - Documented missing dependencies in [test/README.md](../test/README.md)
 
 ## v1.4.0
 |||
