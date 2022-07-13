@@ -391,15 +391,13 @@ class UlsOutput:
                 self.clientSocket.sendto(data, (self.host, self.port))
 
             elif self.output_type == "HTTP":
-                # TEST SLOW HTTP COMMENT FOR NORMAL OPERATION
-                # time.sleep(1.0)
                 self.aggregateList.append(data)
                 if len(self.aggregateList) == uls_config.output_http_aggregate_count or (
                     self.aggregateListTick is not None and
                     self.aggregateListTick < time.time() - uls_config.output_http_aggregate_idle
                 ):
-                    # removed the .decode()
-                    data = uls_config.output_line_breaker.join(self.http_out_format % data for data in self.aggregateList)
+                    data = uls_config.output_line_breaker.join(
+                        self.http_out_format % (event.decode()) for event in self.aggregateList)
                     request = requests.Request('POST', url=self.http_url, data=data)
                     prepped = self.httpSession.prepare_request(request)
                     payload_length = prepped.headers["Content-Length"]
