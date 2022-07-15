@@ -382,7 +382,7 @@ class UlsOutput:
         :return: True on successful send, False on error
         """
         try:
-            aka_log.log.info(f"{self.name} Trying to send data via {self.output_type}")
+            aka_log.log.debug(f"{self.name} Trying to send data via {self.output_type}")
 
             if self.output_type == "TCP":
                 self.clientSocket.sendall(data)
@@ -403,9 +403,10 @@ class UlsOutput:
                     payload_length = prepped.headers["Content-Length"]
                     response = self.httpSession.send(prepped, verify=self.http_verify_tls, timeout=self.http_timeout)
                     response.close()  # Free up the underlying TCP connection in the connection pool
-                    aka_log.log.info(f"{self.name} DATA Send {len(self.aggregateList)} event(s), "
-                                     f"payload={payload_length} bytes, HTTP response {response.status_code},"
-                                     f" {response.text} ")
+                    aka_log.log.info(f"{self.name} HTTP POST of {len(self.aggregateList)} event(s) "
+                                     f"completed in {(response.elapsed.total_seconds()*1000):.3f} ms, "
+                                     f"payload={payload_length} bytes, HTTP response {response.status_code}, "
+                                     f"response={response.text} ")
                     self.aggregateList.clear()
                 self.aggregateListTick = time.time()
 
@@ -420,7 +421,7 @@ class UlsOutput:
                 aka_log.log.critical(f"{self.name} target was not defined {self.output_type} ")
                 sys.exit(1)
 
-            aka_log.log.info(f"{self.name} Data successfully sent via {self.output_type}")
+            aka_log.log.debug(f"{self.name} Data successfully sent via {self.output_type}")
             return True
 
         except Exception as my_error:

@@ -192,9 +192,9 @@ def main():
 
                 while not resend_status and\
                         resend_counter < uls_config.main_resend_attempts:
-                    aka_log.log.info(f"MSG[{my_monitor.get_message_count()}]"
-                                     f" Delivery (output) attempt  "
-                                     f"{resend_counter} of {uls_config.main_resend_attempts}")
+                    aka_log.log.debug(f"MSG[{my_monitor.get_message_count()}]"
+                                      f" Delivery (output) attempt  "
+                                      f"{resend_counter} of {uls_config.main_resend_attempts}")
                     # Send the data
                     resend_status = my_output.send_data(out_data)
                     my_monitor.increase_message_count(len(out_data))
