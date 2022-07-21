@@ -1,6 +1,5 @@
 #!/usr/bin/env bats
 
-
 ## THIS Should be run from ULS ROOT DIR
 
 # Variables

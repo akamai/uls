@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Common global variables / constants
-__version__ = "1.4.0"
+__version__ = "1.5.0"
 __tool_name_long__ = "Akamai Unified Log Streamer"
 __tool_name_short__ = "ULS"
 
@@ -52,6 +52,7 @@ input_run_delay = 1                             # Time in seconds to wait for th
 input_rerun_delay = 1                           # Time in seconds between rerun attempts
 input_disable_stderr = True                     # Enable STDERR output disabling (see value below to specify when this should happen)
 input_disable_stderr_after = 25                 # Disable stderr output after x input_cli cycles --> to prevent buffer overflow
+input_queue_size = 10000                        # Maximum number of events we want to store in-memory, default is 10000
 
 # OUTPUT Configuration
 output_reconnect_retries = 10                   # Number of reconnect attempts before giving up
@@ -64,11 +65,13 @@ output_tcp_timeout = 10.0                       # TCP SEND / CONNECT Timeout (se
     ## HTTP
 output_http_header = {'User-Agent': f'{__tool_name_long__}/{__version__}'}  # HTTP Additional Headers to send (requests module KV pairs)
 output_http_timeout = 10                        # Timeout after which a request will be considered as failed
+output_http_aggregate_count = 50                # Number of events to aggregate in POST request to HTTP Collector. 1 mean no aggregation
+output_http_aggregate_idle = 5                  # Aggregate will send the data regardless of the count if the previous event was x secs ago
     ## FILE
 output_file_encoding = "utf-8"                  # FILE Encoding setting
 output_file_handler_choices = ['SIZE', 'TIME']  # Available Choices for the file handler
 output_file_default_backup_count = 3                # Default number of backup files (after rotation)
-output_file_default_maxbytes = 50 * 1024 * 1024      # Default maximum size of a file when rotated by the FILE - handler
+output_file_default_maxbytes = 50 * 1024 * 1024     # Default maximum size of a file when rotated by the FILE - handler
 output_file_default_time_use_utc = False            # Use UTC instead of local system time (Default: False)
 output_file_time_choices = ['S','M','H','D','W0','W1','W2','W3','W4','W5','W6','MIDNIGHT']      # Available choices for the time unit
 output_file_time_default = 'M'                      # Default value for the time unit (Minutes)
@@ -83,10 +86,10 @@ edgerc_openapi = ["host", "client_token", "client_secret", "access_token"]      
 edgerc_eaa_legacy = ["eaa_api_host", "eaa_api_key", "eaa_api_secret"]               # required for EAA - Legacy
 edgerc_mfa = ["mfa_integration_id", "mfa_signing_key"]                              # Required for MFA
 edgerc_documentation_url = "https://github.com/akamai/uls/blob/main/docs/AKAMAI_API_CREDENTIALS.md"
-edgerc_mock_file = "ext/edgerc"                 # Required for display the version if no edgercfile was given
+edgerc_mock_file = "ext/edgerc"                  # Required for display the version if no edgercfile was given
 
 # Autoresume Configuration
 autoresume_checkpoint_path = "var/"              # (Default) Path, where the checkpointfiles should be stored to
-autoresume_supported_inputs = ['ETP', 'EAA']           # Internal Var only, to adjust supported inputs
+autoresume_supported_inputs = ['ETP', 'EAA']     # Internal Var only, to adjust supported inputs
 autoresume_write_after = 1000                    # Write checkpoint only every ${autoresume_write_every} loglines
 
