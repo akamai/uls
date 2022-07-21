@@ -24,22 +24,22 @@
 - **Housekeeping**
   - Documented missing dependencies in [test/README.md](../test/README.md)
 
+
 ## v1.4.0
 |||
 |---|---|
 |Date|2022-05-XX
 |Kind| FEATURE release
 |Author|mschiess@akamai.com, androcho@akamai.com
+
 - **Features**
   - Device Inventory (DEVINV) feed added for EAA (requires eaa-cli >= 0.4.9.1)
-    
 
 - **Minor improvements**
   - bumped EAA to version v0.5.0
   - bumped ETP to version v0.3.8
   - bumped python to version 3.10.4-slim-bullseye
   
-
 - **Bugfix**
   - Fixed a bug in the test scripts to support real `.edgerc`
 
