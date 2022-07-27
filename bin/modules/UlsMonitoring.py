@@ -51,6 +51,8 @@ class UlsMonitoring:
         self.name = "UlsMonitoring"                          # Class Human readable name
         self.overall_messages_handled = 0                    # Define overall number of messages handled
         self.window_messages_handled = 0                     # Define mon_window number of messages handled
+        self.window_messages_bytes = 0                       # Total bytes processed during the window
+        self.window_messages_ingested = 0                    # Message ingested from UlsInputCli module
         self.init_time = time.time()                         # Define the init time
 
         # Define the working thread, daemon allows us to offload
@@ -84,6 +86,8 @@ class UlsMonitoring:
                        'uls_runtime': self._runtime(),
                        'event_count': self.overall_messages_handled,
                        'event_count_interval': self.window_messages_handled,
+                       'event_ingested_interval': self.window_messages_ingested,
+                       'event_bytes_interval': self.window_messages_bytes,
                        'event_rate': round(self.window_messages_handled / self.monitoring_interval, 2),
                        'mon_interval': self.monitoring_interval
                     }
@@ -94,13 +98,21 @@ class UlsMonitoring:
                     # Reset window based vars
                     with self._metricLock:
                         self.window_messages_handled = 0
+                        self.window_messages_bytes = 0
+                        self.window_messages_ingested = 0
         except Exception as e:
             aka_log.log.exception(e)
 
-    def increase_message_count(self):
+    def increase_message_count(self, bytes=0):
         with self._metricLock:
             self.overall_messages_handled = self.overall_messages_handled + 1
             self.window_messages_handled = self.window_messages_handled + 1
+            self.window_messages_bytes += bytes
+
+    def increase_message_ingested(self):
+        with self._metricLock:
+            self.window_messages_ingested += 1
+
 
     def get_message_count(self):
         return self.overall_messages_handled

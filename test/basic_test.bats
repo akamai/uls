@@ -12,21 +12,21 @@ uls2_bin="uls.py"
 load 'bats/bats-support/load.bash'
 load 'bats/bats-assert/load.bash'
 
-uls_bin=bin/uls.py
+uls_bin="bin/uls.py"
 uls_edgerc=~/.edgerc
 uls_section=default
 
-current_version=$(cat docs/CHANGELOG.md | grep "##" | head -n 1 | cut -d "v" -f 2)
+current_version=$(cat docs/CHANGELOG.md | grep "##" | head -n 1 | sed 's/.* v//')
 
 
 # very basic tests
-@test "uls.py w/o parametes" {
+@test "uls.py w/o parameters" {
 	run $uls_bin
 	[ "$status" -eq 1 ]
 }
 
 @test "uls.py --version" {
-	run $uls_bin --version
+	run ${uls_bin} --version
 	assert_output --partial "Akamai Unified Log Streamer Version information"
 	[ "$status" -eq 0 ]
 }
@@ -55,13 +55,13 @@ current_version=$(cat docs/CHANGELOG.md | grep "##" | head -n 1 | cut -d "v" -f 
 	[ "$status" -eq 0 ]
 }
 
-@test "cat helm/akamai-uls/Chart.yaml - Version output should be ($current_version) according to CHANGELOG" {
+@test "cat docs/examples/kubernetes/helm/akamai-uls/Chart.yaml - Version output should be ($current_version) according to CHANGELOG" {
 	run echo $(cat docs/examples/kubernetes/helm/akamai-uls/Chart.yaml | egrep "^version:" | cut -d " " -f 2)
 	assert_output --partial "$current_version"
 	[ "$status" -eq 0 ]
 }
 
-@test "cat helm/akamai-uls/Chart.yaml - appVersion output should be ($current_version) according to CHANGELOG" {
+@test "cat docs/examples/kubernetes/helm/akamai-uls/Chart.yaml - appVersion output should be ($current_version) according to CHANGELOG" {
 	run echo $(cat docs/examples/kubernetes/helm/akamai-uls/Chart.yaml | egrep "^appVersion:" | cut -d " " -f 2)
 	assert_output --partial "$current_version"
 	[ "$status" -eq 0 ]

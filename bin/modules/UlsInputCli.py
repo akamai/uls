@@ -17,6 +17,8 @@ import sys
 import time
 import shlex
 import os
+import threading
+import queue
 
 # ULS modules
 import config.global_config as uls_config
@@ -272,9 +274,10 @@ class UlsInputCli:
                 self.proc = self.cli_proc
                 self.proc_output = self.cli_proc.stdout
 
-                # Unblocking on windows causes trouble so we're avoiding it
-                if not os.name == 'nt':
-                    os.set_blocking(self.proc_output.fileno(), False)
+                # Non-blocking on windows causes trouble so we're avoiding it
+                # 2022-07-08: Disabled completely see EME-588
+                # if not os.name == 'nt':
+                #     os.set_blocking(self.proc_output.fileno(), False)
 
                 time.sleep(1)
 
@@ -337,5 +340,50 @@ class UlsInputCli:
 
             self.proc_create()
             return False
+
+    def ingest(self, stopEvent, event_q, monitor):
+        """
+        Ingest CLI incoming data asynchronously
+        The function will return immediately
+        Args:
+            stopEvent (_type_): Stop Event that will stop the current thread
+            event_q (_type_): The queue where to put the message
+            monitor (): Monitor
+        """
+        self.stopEvent = stopEvent
+        self.event_queue = event_q
+        self.monitor = monitor
+        self.ingest_thread = threading.Thread(target=self.ingest_loop)
+        self.ingest_thread.setName("ingest_loop")
+        self.ingest_thread.start()
+
+    def ingest_loop(self):
+
+        # When reading CLI output, if no data, pause 10ms before retrying
+        # if still no data, then it will backoff exponentially till 60s
+        wait_default = uls_config.main_wait_default
+        wait_max = uls_config.main_wait_max
+        wait = wait_default
+
+        while not self.stopEvent.is_set():
+            try:
+
+                # Ensure the Input handler is still running (rebump if stale)
+                self.check_proc()
+
+                input_data = self.proc_output.readline()
+                if input_data:
+                    self.event_queue.put(input_data, timeout=0.05)
+                    self.monitor.increase_message_ingested()
+                    wait = wait_default  # back to 10ms wait in case of bursty content
+                else:
+                    aka_log.log.debug(f"ingest_loop, wait {wait} seconds [{self.monitor.get_stats()}]")
+                    self.stopEvent.wait(wait)
+                    wait = min(wait * 2, wait_max)  # double the wait till a max of 60s
+            except queue.Full:
+                aka_log.log.fatal("Capacity exceeded, too many incoming data vs. slow output")
+                self.stopEvent.set()
+            except Exception:
+                aka_log.log.exception("Error in ingest_loop")
 
 # EOF

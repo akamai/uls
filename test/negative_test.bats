@@ -1,10 +1,9 @@
 #!/usr/bin/env bats
 
-
 # Variables
-    # ULS Binary
-uls_bin=bin/uls.py
-
+uls_section=akamaidemo
+# ULS Binary + basic args
+uls_bin="bin/uls.py --section $uls_section"
 
 # Load support libs
 load 'bats/bats-support/load.bash'
@@ -61,7 +60,7 @@ load 'bats/bats-assert/load.bash'
     assert_output --partial "Host or Port has not been set Host: 127.0.0.1 Port: 0"
     [ "$status" -eq 1 ]
 }
-@test "TCP output failure (tcp host / port unrrachable)" {
+@test "TCP output failure (tcp host / port unreachable)" {
     run  $uls_bin  --input eaa -f access -o tcp --host 127.0.0.1 --port 7777
     assert_output --partial " UlsOutput not able to connect to 127.0.0.1:7777 - giving up after 10 retries."
     [ "$status" -eq 1 ]

@@ -1,30 +1,54 @@
 # Version History
 
+## v1.5.0
+
+|||
+|---|---|
+|Date|2022-07
+|Kind| FEATURE release
+|Author|mschiess@akamai.com, androcho@akamai.com
+
+- **Performance improvements**
+  - Rework to handle large number of events (100k+ per minute) and fail safe 
+    when the Output can't cope with the pace of incoming events.
+  - New parameters in `bin/config/global_config.py`:
+    - If your output is slower than incoming events, 
+      ULS can buffer `input_queue_size` events. If buffer gets full, ULS will stop with an error message.
+    - HTTP output can now aggregate messages, two options:
+      - `output_http_aggregate_count`
+      - `output_http_aggregate_idle` 
+- **Minor improvements**  
+  - new attributes in monitoring output:
+    - `event_ingested_interval` # events read from CLI input
+    - `event_bytes_interval` # total size in bytes processed
+- **Housekeeping**
+  - Documented missing dependencies in [test/README.md](../test/README.md)
+
+
 ## v1.4.0
 |||
 |---|---|
 |Date|2022-05-20
 |Kind| FEATURE release
-|Author|mschiess@akamai.com, adrocho@akamai.com
+|Author|mschiess@akamai.com, androcho@akamai.com
+
 - **Features**
   - Device Inventory (DEVINV) feed added for EAA (requires eaa-cli >= 0.4.9.1)
-    
 
 - **Minor improvements**
   - bumped EAA to version v0.5.0
   - bumped ETP to version v0.3.8
   - bumped python to version 3.10.4-slim-bullseye
   
-
 - **Bugfix**
-  - Fixed a bug in the test scripts to support real .edgerc  
+  - Fixed a bug in the test scripts to support real `.edgerc`
 
 ## v1.3.5
 |||
 |---|---|
 |Date|2022-04-05
 |Kind| Bugfix release
-|Author|mschiess@akamai.com, adrocho@akamai.com
+|Author|mschiess@akamai.com, androcho@akamai.com
 - **Minor improvements**
   - More QRADAR log source type definitions (thx to bitonio)
   - Added docker-compose ETP - Tenant example
@@ -34,7 +58,7 @@
 |---|---|
 |Date|2022-03-08
 |Kind| Bugfix release
-|Author|mschiess@akamai.comm adrocho@akamai.com
+|Author|mschiess@akamai.comm androcho@akamai.com
 - **Minor improvements**
   - Added QRADAR log source type definitions (thx to bitonio)
   - Added SUMO Logic (thx to huskar20 for the contribution)
@@ -119,7 +143,7 @@
 |---|---|
 |Date|2021-11-02
 |Kind| Feature & Bugfix release
-|Author|mschiess@akamai.com, adrocho@akamai.com
+|Author|mschiess@akamai.com, androcho@akamai.com
 - **Features**
   - [Transformation Support for output format transformation ](TRANSFORMATIONS.md)(additional log formats and integrations) introduced
   - [MCAS transformation](TRANSFORMATIONS.md#microsoft-cloud-application-security-mcas): Microsoft Cloud Application Security
@@ -164,7 +188,7 @@
 |---|---|
 |Date|2021-08-10
 |Kind|Bugfix / Feature
-|Author|mschiess@akamai.com, adrocho@akamai.com
+|Author|mschiess@akamai.com, androcho@akamai.com
 - **Minor improvements**
   - EdgeRC file check (preflight) and "~" expansion to solve some common issues
   - fixed some typos in the "docker-compose" file
@@ -179,7 +203,7 @@
 |---|---|
 |Date|2021-07-26-2021
 |Kind|Bugfix / Feature
-|Author|mschiess@akamai.com, adrocho@akamai.com
+|Author|mschiess@akamai.com, androcho@akamai.com
 - Minor improvements 
   - fixed some typos / instructions
   - bumped EAA version to 0.4.1
@@ -214,7 +238,7 @@
 |---|---|
 |Date|2021-06-15
 |Kind|Bugfix / Feature
-|Author|mschiess@akamai.com <br> adrocho@akamai.com
+|Author|mschiess@akamai.com <br> androcho@akamai.com
 - introduced line breaker variable for output
 - fixed a bug in the "poll" handling
 - fixed a bug that caused Popen PIPE to hang in certain circumstances
@@ -226,7 +250,7 @@
 |---|---|
 |Date|2021-06-10
 |Kind|Bugfix
-|Author|mschiess@akamai.com <br> adrocho@akamai.com
+|Author|mschiess@akamai.com <br> androcho@akamai.com
 - fixed monitoring output bug in docker-compose
 - fixed bug in Dockerfile that prevented development builds
 - fixed a bug in EAA CLI handler
@@ -236,7 +260,7 @@
 |---|---|
 |Date|2021-06-09
 |Kind|Initial Commit
-|Author|mschiess@akamai.com <br> adrocho@akamai.com
+|Author|mschiess@akamai.com <br> androcho@akamai.com
 - INPUT: EAA, ETP, MFA (based on CLI's)
 - OUTPUT: HTTP, TCP, UDP
 - Docker & docker-compose examples

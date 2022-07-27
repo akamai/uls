@@ -21,6 +21,7 @@ import threading
 import requests
 import logging
 import logging.handlers
+import random
 
 # ULS specific modules
 import config.global_config as uls_config
@@ -93,6 +94,12 @@ class UlsOutput:
 
         # HTTP parameters
         elif self.output_type in ['HTTP'] and http_url:
+
+            # ---- Begin change for EME-588 ----
+            self.aggregateList = list()
+            self.aggregateListTick = None # Last time we added items in the list
+            # ---- End change for EME-588 ----
+
             self.http_url = http_url
             # apply other variables if SET
 
@@ -375,7 +382,7 @@ class UlsOutput:
         :return: True on successful send, False on error
         """
         try:
-            aka_log.log.info(f"{self.name} Trying to send data via {self.output_type}")
+            aka_log.log.debug(f"{self.name} Trying to send data via {self.output_type}")
 
             if self.output_type == "TCP":
                 self.clientSocket.sendall(data)
@@ -384,17 +391,28 @@ class UlsOutput:
                 self.clientSocket.sendto(data, (self.host, self.port))
 
             elif self.output_type == "HTTP":
-                response = self.httpSession.post(url=self.http_url,
-                                                 data=self.http_out_format % (data.decode()),
-                                                 verify=self.http_verify_tls,
-                                                 timeout=self.http_timeout)
-                aka_log.log.debug(f"{self.name} DATA Send response {response.status_code},"
-                                  f" {response.text} ")
+                self.aggregateList.append(data)
+                if len(self.aggregateList) == uls_config.output_http_aggregate_count or (
+                    self.aggregateListTick is not None and
+                    self.aggregateListTick < time.time() - uls_config.output_http_aggregate_idle
+                ):
+                    data = uls_config.output_line_breaker.join(
+                        self.http_out_format % (event.decode()) for event in self.aggregateList)
+                    request = requests.Request('POST', url=self.http_url, data=data)
+                    prepped = self.httpSession.prepare_request(request)
+                    payload_length = prepped.headers["Content-Length"]
+                    response = self.httpSession.send(prepped, verify=self.http_verify_tls, timeout=self.http_timeout)
+                    response.close()  # Free up the underlying TCP connection in the connection pool
+                    aka_log.log.info(f"{self.name} HTTP POST of {len(self.aggregateList)} event(s) "
+                                     f"completed in {(response.elapsed.total_seconds()*1000):.3f} ms, "
+                                     f"payload={payload_length} bytes, HTTP response {response.status_code}, "
+                                     f"response={response.text} ")
+                    self.aggregateList.clear()
+                self.aggregateListTick = time.time()
 
             elif self.output_type == "RAW":
                 sys.stdout.write(data.decode())
                 sys.stdout.flush()
-
 
             elif self.output_type == "FILE":
                 self.my_file_writer.info(f"{data.decode().rstrip()}")
@@ -403,11 +421,11 @@ class UlsOutput:
                 aka_log.log.critical(f"{self.name} target was not defined {self.output_type} ")
                 sys.exit(1)
 
-            aka_log.log.info(f"{self.name} Data successfully sent via {self.output_type}")
+            aka_log.log.debug(f"{self.name} Data successfully sent via {self.output_type}")
             return True
 
         except Exception as my_error:
-            aka_log.log.error(f"{self.name} Issue sending data {my_error}")
+            aka_log.log.exception(f"{self.name} Issue sending data {my_error}")
             self.connected = False
             self.connect()
             return False

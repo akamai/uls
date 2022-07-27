@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 2021 Akamai Technologies, Inc. All Rights Reserved
+# Copyright 2022 Akamai Technologies, Inc. All Rights Reserved
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ import signal
 import threading
 import re
 import os
+import queue
 
 
 # ULS specific modules
@@ -143,12 +144,6 @@ def main():
     else:
         filter_pattern = None
 
-    # When reading CLI output, if no data, pause 10ms before retrying
-    # if still no data, then it will backoff exponentially till 60s
-    wait_default = uls_config.main_wait_default
-    wait_max = uls_config.main_wait_max
-    wait = wait_default
-
     # Now let's handle the data and send input to output
 
     # Initiate the Input handler
@@ -157,72 +152,70 @@ def main():
     # Connect the output handler
     my_output.connect()
 
+    # New ULS/1.5: the input module is ingesting messages
+    # into a thread safe queue. The function call will immediately
+    # return
+    event_q = queue.Queue(uls_config.input_queue_size)
+    my_input.ingest(stopEvent, event_q, my_monitor)
+
+    # Now we are back to the main thread to process the message
     while not stopEvent.is_set():
         try:
+            input_data = event_q.get(block=True, timeout=0.05)
+            aka_log.log.debug(f"<IN> {input_data}")
+            for log_line in input_data.splitlines():
 
-            # Ensure the Input handler is still running (rebump if stale)
-            my_input.check_proc()
+                # Write checkpoint to the checkpoint file (if autoresume is enabled) (not after transformation or filter)
+                if uls_args.autoresume and int(my_monitor.get_message_count()) >= autoresume_lastwrite + uls_args.autoresumewriteafter:
+                    UlsTools.write_autoresume_ckpt(uls_args.input, uls_args.feed, autoresume_file, log_line)
+                    autoresume_lastwrite = int(my_monitor.get_message_count())
 
-            input_data = my_input.proc_output.readline()
-            if input_data:
-                wait = wait_default  # back to 10ms wait in case of bursty content
-                aka_log.log.debug(f"<IN> {input_data}")
-                for log_line in input_data.splitlines():
+                # Filter Enhancement
+                if uls_args.filter and not filter_pattern.match(log_line):
+                    aka_log.log.info(f"SKIPPED LINE due to FILTER rule {uls_args.filter}")
+                    aka_log.log.debug(f"SKIPPED the following LOG_LINE "
+                                      f"due to FILTER match: {log_line}")
+                    continue
 
-                    # Write checkpoint to the checkpoint file (if autoresume is enabled) (not after transformation or filter)
-                    if uls_args.autoresume and int(my_monitor.get_message_count()) >= autoresume_lastwrite + uls_args.autoresumewriteafter:
-                        UlsTools.write_autoresume_ckpt(uls_args.input, uls_args.feed, autoresume_file, log_line)
-                        autoresume_lastwrite = int(my_monitor.get_message_count())
+                # Transformation Enhancement
+                if uls_args.transformation:
+                    log_line = my_transformer.transform(log_line)
+                    aka_log.log.debug(f"Transformed Logline via "
+                                      f"({uls_args.transformation}): {log_line}")
 
+                # Attach Linebreak
+                out_data = log_line + uls_config.output_line_breaker.encode()
 
-                    # Filter Enhancement
-                    if uls_args.filter and not filter_pattern.match(log_line):
-                        aka_log.log.info(f"SKIPPED LINE due to FILTER rule {uls_args.filter}")
-                        aka_log.log.debug(f"SKIPPED the folllwoing LOG_LINE "
-                                          f"due to FILTER match: {log_line}")
-                        continue
+                # Send the data (through a loop for retransmission)
+                resend_counter = 1
+                resend_status = False
 
-                    # Transformation Enhancement
-                    if uls_args.transformation:
-                        log_line = my_transformer.transform(log_line)
-                        aka_log.log.debug(f"Transformed Logline via "
-                                          f"({uls_args.transformation}): {log_line}")
+                while not resend_status and\
+                        resend_counter < uls_config.main_resend_attempts:
+                    aka_log.log.debug(f"MSG[{my_monitor.get_message_count()}]"
+                                      f" Delivery (output) attempt  "
+                                      f"{resend_counter} of {uls_config.main_resend_attempts}")
+                    # Send the data
+                    resend_status = my_output.send_data(out_data)
+                    my_monitor.increase_message_count(len(out_data))
+                    aka_log.log.debug(f"<OUT> {out_data}")
+                    resend_counter = resend_counter + 1
 
-                    # Attach Linebreak
-                    out_data = log_line + uls_config.output_line_breaker.encode()
-
-                    # Send the data (through a loop for retransmission)
-                    resend_counter = 1
-                    resend_status = False
-
-                    while not resend_status and\
-                            resend_counter < uls_config.main_resend_attempts:
-                        aka_log.log.info(f"MSG[{my_monitor.get_message_count()}]"
-                                         f" Delivery (output) attepmt  "
-                                         f"{resend_counter} of {uls_config.main_resend_attempts}")
-                        # Send the data
-                        resend_status = my_output.send_data(out_data)
-                        my_monitor.increase_message_count()
-                        aka_log.log.debug(f"<OUT> {out_data}")
-                        resend_counter = resend_counter + 1
-
-                    if resend_counter == uls_config.main_resend_attempts and\
-                            uls_config.main_resend_exit_on_fail:
-                        aka_log.log.critical(f"MSG[{my_monitor.get_message_count()}] "
-                                             f"ULS was not able to deliver the log message "
-                                             f"{out_data.decode()} after {resend_counter} attempts - Exiting!")
-                        sys.exit(1)
-                    elif resend_counter == uls_config.main_resend_attempts and \
-                            not uls_config.main_resend_exit_on_fail:
-                        aka_log.log.warning(
-                            f"MSG[{my_monitor.get_message_count()}] "
-                            f"ULS was not able to deliver the log message "
-                            f"{out_data.decode()} after {resend_counter} attempts - (continuing anyway as my config says)")
-
-            else:
-                aka_log.log.debug(f"Mainloop, wait {wait} seconds [{my_monitor.get_stats()}]")
-                stopEvent.wait(wait)
-                wait = min(wait * 2, wait_max)  # double the wait till a max of 60s
+                if resend_counter == uls_config.main_resend_attempts and\
+                        uls_config.main_resend_exit_on_fail:
+                    aka_log.log.critical(f"MSG[{my_monitor.get_message_count()}] "
+                                        f"ULS was not able to deliver the log message "
+                                        f"{out_data.decode()} after {resend_counter} attempts - Exiting!")
+                    sys.exit(1)
+                elif resend_counter == uls_config.main_resend_attempts and \
+                        not uls_config.main_resend_exit_on_fail:
+                    aka_log.log.warning(
+                        f"MSG[{my_monitor.get_message_count()}] "
+                        f"ULS was not able to deliver the log message "
+                        f"{out_data.decode()} after {resend_counter} attempts - (continuing anyway as my config says)")
+        except queue.Empty:
+            # No data available, we get a chance to capture the StopEvent
+            pass
         except KeyboardInterrupt:
             control_break_handler()
         except Exception as my_error:
