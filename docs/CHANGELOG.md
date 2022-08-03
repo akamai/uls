@@ -1,5 +1,17 @@
 # Version History
 
+## v1.5.0.1
+
+|||
+|---|---|
+|Date|2022-08
+|Kind| BUGFIX release
+|Author|androcho@akamai.com
+
+- **Bugfix**
+  - Use cli-eaa version 0.5.0.2 fixing a timezone issue on the EAA ADMIN feed
+
+
 ## v1.5.0
 
 |||
