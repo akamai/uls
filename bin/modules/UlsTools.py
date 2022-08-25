@@ -50,6 +50,8 @@ def uls_check_sys(root_path):
     _check_cli_installed(root_path + "/" + uls_config.bin_eaa_cli)
     _check_cli_installed(root_path + "/" + uls_config.bin_etp_cli)
     _check_cli_installed(root_path + "/" + uls_config.bin_mfa_cli)
+    _check_cli_installed(root_path + "/" + uls_config.bin_gc_cli)
+    _check_cli_installed(root_path + "/" + uls_config.bin_linode_cli)
 
 
 def uls_version(root_path):
@@ -60,9 +62,14 @@ def uls_version(root_path):
     my_edgerc_mock_file = root_path + "/" + uls_config.edgerc_mock_file
     def _get_cli_version(cli_bin, edgerc_mock_file):
         try:
-            version_proc = subprocess.Popen([uls_config.bin_python, cli_bin, "--edgerc", edgerc_mock_file, "version"],
+            if "gc" in cli_bin or 'linode' in cli_bin:
+               version_proc = subprocess.Popen([uls_config.bin_python, cli_bin, "--edgerc", edgerc_mock_file, "--version"],
                                             stdout=subprocess.PIPE,
                                             stderr=subprocess.PIPE)
+            else:
+                version_proc = subprocess.Popen([uls_config.bin_python, cli_bin, "--edgerc", edgerc_mock_file, "version"],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE)
             my_cli_version = version_proc.communicate()[0].decode().strip('\n')
             version_proc.terminate()
             if my_cli_version:
@@ -84,7 +91,9 @@ def uls_version(root_path):
           f"ULS Version\t\t{uls_config.__version__}\n\n"
           f"EAA Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_eaa_cli, my_edgerc_mock_file)}\n"
           f"ETP Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_etp_cli, my_edgerc_mock_file)}\n"
-          f"MFA Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_mfa_cli, my_edgerc_mock_file)}\n\n"
+          f"MFA Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_mfa_cli, my_edgerc_mock_file)}\n"
+          f"GC Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_gc_cli, my_edgerc_mock_file)}\n"
+          f"LINODE Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_linode_cli, my_edgerc_mock_file)}\n\n"
           f"OS Plattform\t\t{platform.platform()}\n"
           f"OS Version\t\t{platform.release()}\n"
           f"Python Version\t\t{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}\n"

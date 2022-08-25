@@ -13,7 +13,6 @@ Here are some examples (per product) and links to additional information.
     - [Admin Logs (ADMIN)](#admin-logs-admin)
     - [Connector Health (CONHEALTH)](#connector-health-conhealth)
     - [Device Posture Inventory (DEVINV)](#device-posture-inventory-devinv)
-
   - [Enterprise Threat Protector (ETP)](#enterprise-threat-protector-etp)
     - [Threat Log (THREAT)](#threat-log-threat)
     - [Accceptable Use Policy Logs (AUP)](#accceptable-use-policy-logs-aup)
@@ -21,6 +20,12 @@ Here are some examples (per product) and links to additional information.
     - [PROXY](#proxy)
   - [Akamai MFA (MFA)](#akamai-mfa-mfa)
     - [Authentication Logs (AUTH)](#authentication-logs-auth)
+  - [Guardicore](#guardicore)
+    - [NETLOG](#netlog)
+    - [INCIDENT](#incident)
+    - AGENT
+    - SYSTEM
+  - Linode
 
 ## Enterprise Application Access (EAA)
 
@@ -2083,7 +2088,6 @@ Additional information regarding the log fields can be found on [here](https://d
 
 
 ## Akamai MFA (MFA)
-
 Additional information regarding the MFA log fields can be found on [here](https://techdocs.akamai.com/mfa/docs/splunk-app).
 
 ### Authentication Logs (AUTH)
@@ -2119,3 +2123,436 @@ Authentication Events Example:
     "principal_uuid": null
 }
 ```
+
+## Guardicore
+
+### NETLOG
+Guardicore netlog example
+```json
+{
+'flow_id':'XXXXX2045a3630852de54dcb99e86f6b06d3969050e153efaed1cb2c4',
+'bucket_id':'XXXX-62fa-459a-80e1-c96c2eacdee9',
+'source_node_id':'XXXX-3a21-4508-87bd-d0a6512442bc',
+'destination_node_id':'UnknownAsset_Internal_192.168.0.0/16',
+'source_node_type':'asset',
+'destination_node_type':'subnet',
+'source_process':'gc-channel',
+'destination_process':'Unknown Server (443/TCP)',
+'source_process_id':'XXXX491e858806fc17a722c7e93f780e867df4800e6a9bddcc396abf39250',
+'destination_process_id':'7XXXX5aad6d81ebe5037013fded72223e12e2d8a0d4e4823c90232139b',
+'source_process_name':'gc-channel',
+'destination_process_name':'Unknown Server (443/TCP)',
+'destination_port':443,
+'count':2,
+'slot_start_time':XXX72413000,
+'incidents':False,
+'connection_type':'UNKNOWN',
+'source_ip':'192.168.2.76',
+'destination_ip':'192.168.2.68',
+'ip_protocol':'Tcp',
+'source_asset_hash':317458,
+'destination_asset_hash':349875,
+'violates_policy':False,
+'policy_rule':'default',
+'policy_ruleset':None,
+'policy_verdict':'allowed',
+'db_insert_time':'XXXX-11-09T04:09:54.293504',
+'id':'XXXXXX-7d27-48b0-ab66-cdedcbc444c3',
+'source':{
+'vm':{
+'_id':'XXXXXX-3a21-4508-87bd-d0a6512442bc',
+'name':'Gollum Lab Server'
+}
+},
+'has_mismatch_alert':False,
+'original_policy_verdict':'allowed',
+'source_process_full_path':'/var/lib/guardicore/sbin/gc-channel',
+'destination_process_full_path':None
+}
+```
+
+### INCIDENT
+Guardicore incident example
+```json
+{
+      "_cls": "Incident.NetworkVisibilityIncident",
+      "_id": "4506a1ba-15d1-4d10-8299-5c10f34975cb",
+      "affected_assets": [
+        {
+          "country": "Israel",
+          "country_code": "IL",
+          "ip": "172.17.0.3",
+          "is_inner": true,
+          "labels": [
+            "source"
+          ],
+          "vm": {
+            "full_name": "192.168.0.102/Attacker2",
+            "id": "b40db74f-5f2d-4cda-9c9b-c2cdd8158b1f",
+            "name": "Attacker2",
+            "nics": [
+              {
+                "discovered_ip_addresses": [
+                  "192.168.0.1"
+                ],
+                "ip_addresses": [
+                  "192.168.0.1"
+                ],
+                "mac_address": "00:50:56:bb:2d:ab",
+                "network_id": "fe3ef6a8-858f-407d-bd6e-30fb9cc30522",
+                "network_name": "CommandsNet",
+                "network_orchestration_id": "dvportgroup-105",
+                "orchestration_details": [
+                  {}
+                ],
+                "switch_id": "dvs-102",
+                "vif_id": "0",
+                "vlan_id": 1001
+              }
+            ],
+            "orchestration_details": [
+              {
+                "orchestration_id": "7f43c9a2-e8b9-4ce7-a2d1-908bd5182d51",
+                "orchestration_obj_id": "vm-280588",
+                "orchestration_type": "vSphere",
+                "revision_id": 190709142948
+              }
+            ],
+            "recent_domains": [
+              "mydomain.com"
+            ],
+            "tenant_name": "192.168.0.102"
+          },
+          "vm_id": "b40db74f-5f2d-4cda-9c9b-c2cdd8158b1f"
+        }
+      ],
+      "closed_time": 1510979377066,
+      "concatenated_tags": [
+        {
+          "display_name": "Internal",
+          "tag_class": "ENRICHER"
+        }
+      ],
+      "destination_asset": {
+        "ip": "172.17.0.3",
+        "is_inner": true,
+        "labels": [
+          "destination"
+        ],
+        "vm": {
+          "full_name": "192.168.0.102/Attacker2",
+          "id": "b40db74f-5f2d-4cda-9c9b-c2cdd8158b1f",
+          "name": "Attacker2",
+          "nics": [
+            {
+              "discovered_ip_addresses": [
+                "192.168.0.1"
+              ],
+              "ip_addresses": [
+                "192.168.0.1"
+              ],
+              "mac_address": "00:50:56:bb:2d:ab",
+              "network_id": "fe3ef6a8-858f-407d-bd6e-30fb9cc30522",
+              "network_name": "CommandsNet",
+              "network_orchestration_id": "dvportgroup-105",
+              "orchestration_details": [
+                {
+                  "orchestration_id": "7f43c9a2-e8b9-4ce7-a2d1-908bd5182d51",
+                  "orchestration_obj_id": "vm-280588",
+                  "orchestration_type": "vSphere",
+                  "revision_id": 190709142948
+                }
+              ],
+              "switch_id": "dvs-102",
+              "vif_id": "0",
+              "vlan_id": 1001
+            }
+          ],
+          "orchestration_details": [
+            {
+              "orchestration_id": "7f43c9a2-e8b9-4ce7-a2d1-908bd5182d51",
+              "orchestration_obj_id": "vm-280588",
+              "orchestration_type": "vSphere",
+              "revision_id": 190709142948
+            }
+          ],
+          "recent_domains": [
+            "mydomain.com"
+          ],
+          "tenant_name": "192.168.0.102"
+        },
+        "vm_id": "74238291-b85a-42fb-bac9-80c402abee04"
+      },
+      "destination_net": "many",
+      "destinations": [
+        {
+          "ip_int": "1684300813",
+          "ports": [
+            "ARP"
+          ]
+        }
+      ],
+      "direction": "unidirectional",
+      "doc_version": 59,
+      "end_time": 1504689940953,
+      "ended": true,
+      "enriched": true,
+      "events": [
+        {
+          "_id": "a120a1ba-15d1-4d10-8299-5c10f34975cb",
+          "description": "Scanner detected.",
+          "destinations": [
+            [
+              443,
+              "10.0.0.1"
+            ]
+          ],
+          "doc_version": 57,
+          "event_source": "DP-422FB8A7-D525-D1A4-B2B8-1ABAD6137A64",
+          "event_type": "DatapathScanDetectionEvent",
+          "id": "a120a1ba-15d1-4d10-8299-5c10f34975cb",
+          "incident_id": "4506a1ba-15d1-4d10-8299-5c10f34975cb",
+          "is_experimental": false,
+          "processed_time": 1512375007928,
+          "received_time": 1512375006000,
+          "severity": 40,
+          "source_ip": "127.0.0.1",
+          "source_vm": {
+            "full_name": "192.168.0.102/Attacker2",
+            "id": "b40db74f-5f2d-4cda-9c9b-c2cdd8158b1f",
+            "name": "Attacker2",
+            "nics": [
+              {
+                "discovered_ip_addresses": [
+                  "192.168.0.1"
+                ],
+                "ip_addresses": [
+                  "192.168.0.1"
+                ],
+                "mac_address": "00:50:56:bb:2d:ab",
+                "network_id": "fe3ef6a8-858f-407d-bd6e-30fb9cc30522",
+                "network_name": "CommandsNet",
+                "network_orchestration_id": "dvportgroup-105",
+                "orchestration_details": [
+                  {}
+                ],
+                "switch_id": "dvs-102",
+                "vif_id": "0",
+                "vlan_id": 1001
+              }
+            ],
+            "orchestration_details": [
+              {
+                "orchestration_id": "7f43c9a2-e8b9-4ce7-a2d1-908bd5182d51",
+                "orchestration_obj_id": "vm-280588",
+                "orchestration_type": "vSphere",
+                "revision_id": 190709142948
+              }
+            ],
+            "recent_domains": [
+              "mydomain.com"
+            ],
+            "tenant_name": "192.168.0.102"
+          },
+          "tag_refs": [
+            "aa96a1ba-15d1-4d10-8299-5c10f34975cb"
+          ],
+          "time": 1512374896401,
+          "uuid": "a32a528c-293b-4185-80ec-652b435c1297"
+        }
+      ],
+      "experimental_id": "925fd3c9-f933-482f-9eb1-61f61ba4bc3a",
+      "first_asset": {
+        "asset_id": "2.20.153.161",
+        "asset_type": "IP"
+      },
+      "flow_ids": [
+        "17bf0add897bbb7a1bd55c24b9cc7ea5fb92ad6f2dd0be7704734accef4226e6__bd8d287246b85de5334d115adc61a4232fd1d904e6f57cf16c0f7d8adde3eb51__Tcp__80"
+      ],
+      "has_export": true,
+      "has_policy_violations": true,
+      "id": "4506a1ba-15d1-4d10-8299-5c10f34975cb",
+      "incident_group": [
+        {
+          "gid": "a7f870fa-85ab-47fe-8156-f5e45e7208eb",
+          "gname": "GRP-a7f870fa"
+        }
+      ],
+      "incident_type": "Reveal",
+      "iocs": [
+        {
+          "initiating_tags": [
+            "0736307a-8aef-4d42-b4dd-c89da42e9135"
+          ],
+          "ioc_id": "bfc2399e-9546-4d4a-8989-cf9bcf5426e2",
+          "related_tags": [
+            "3d7a9595-f293-4c54-addf-4fa22c29725e"
+          ],
+          "source": "LoginsDetector.detect_successful_logins"
+        }
+      ],
+      "is_experimental": true,
+      "labels": [
+        "source"
+      ],
+      "last_updated_time": 1504689940952,
+      "originl_id": "",
+      "policy_revision": 22,
+      "processed_eventS_count": 1,
+      "recommendations": [
+        {
+          "handle_template": "Quarantine File",
+          "id": "2206a1ba-15d1-4d10-8299-5c10f34975cb",
+          "parts": [
+            {
+              "type": "text",
+              "value": "Quarantine malicious file "
+            }
+          ],
+          "rule_id": "a106a1ba-15d1-4d10-8299-5c10f34975cb",
+          "rule_type": "",
+          "type": "FileQuarantineRecommendation"
+        }
+      ],
+      "reenrich_count": 0,
+      "remote_index": "incidents__2017_12_03_00_00_00",
+      "second_asset": {
+        "asset_id": "2.20.153.161",
+        "asset_type": "IP"
+      },
+      "sensor_name": "DP-422F8CE0-C6A1-D633-52C4-2EDE049F6094",
+      "sensor_type": "VISIBILITY",
+      "severity": 40,
+      "similarity_calculated": false,
+      "source_asset": {
+        "ip": "172.17.0.1",
+        "is_inner": true,
+        "labels": [
+          "source"
+        ],
+        "vm": {
+          "full_name": "192.168.0.102/Attacker2",
+          "id": "b40db74f-5f2d-4cda-9c9b-c2cdd8158b1f",
+          "name": "Attacker2",
+          "nics": [
+            {
+              "discovered_ip_addresses": [
+                "192.168.0.1"
+              ],
+              "ip_addresses": [
+                "192.168.0.1"
+              ],
+              "mac_address": "00:50:56:bb:2d:ab",
+              "network_id": "fe3ef6a8-858f-407d-bd6e-30fb9cc30522",
+              "network_name": "CommandsNet",
+              "network_orchestration_id": "dvportgroup-105",
+              "orchestration_details": [
+                {
+                  "orchestration_id": "7f43c9a2-e8b9-4ce7-a2d1-908bd5182d51",
+                  "orchestration_obj_id": "vm-280588",
+                  "orchestration_type": "vSphere",
+                  "revision_id": 190709142948
+                }
+              ],
+              "switch_id": "dvs-102",
+              "vif_id": "0",
+              "vlan_id": 1001
+            }
+          ],
+          "orchestration_details": [
+            {
+              "orchestration_id": "7f43c9a2-e8b9-4ce7-a2d1-908bd5182d51",
+              "orchestration_obj_id": "vm-280588",
+              "orchestration_type": "vSphere",
+              "revision_id": 190709142948
+            }
+          ],
+          "recent_domains": [
+            "mydomain.com"
+          ],
+          "tenant_name": "192.168.0.102"
+        },
+        "vm_id": "11338291-b85a-42fb-bac9-80c402abee04"
+      },
+      "source_ip": "10.0.0.1",
+      "source_vm": {
+        "full_name": "192.168.0.102/Attacker2",
+        "id": "b40db74f-5f2d-4cda-9c9b-c2cdd8158b1f",
+        "name": "Attacker2",
+        "nics": [
+          {
+            "discovered_ip_addresses": [
+              "192.168.0.1"
+            ],
+            "ip_addresses": [
+              "192.168.0.1"
+            ],
+            "mac_address": "00:50:56:bb:2d:ab",
+            "network_id": "fe3ef6a8-858f-407d-bd6e-30fb9cc30522",
+            "network_name": "CommandsNet",
+            "network_orchestration_id": "dvportgroup-105",
+            "orchestration_details": [
+              {
+                "orchestration_id": "7f43c9a2-e8b9-4ce7-a2d1-908bd5182d51",
+                "orchestration_obj_id": "vm-280588",
+                "orchestration_type": "vSphere",
+                "revision_id": 190709142948
+              }
+            ],
+            "switch_id": "dvs-102",
+            "vif_id": "0",
+            "vlan_id": 1001
+          }
+        ],
+        "orchestration_details": [
+          {
+            "orchestration_id": "7f43c9a2-e8b9-4ce7-a2d1-908bd5182d51",
+            "orchestration_obj_id": "vm-280588",
+            "orchestration_type": "vSphere",
+            "revision_id": 190709142948
+          }
+        ],
+        "recent_domains": [
+          "mydomain.com"
+        ],
+        "tenant_name": "192.168.0.102"
+      },
+      "source_vm_id": "74238291-b85a-42fb-bac9-80c402abee04",
+      "start_time": 1504688829035,
+      "total_events_count": 
+}
+```
+
+## Linode
+### AUDIT Logs
+Additional information regarding the log fields can be found on [here](https://www.linode.com/docs/api/account/#events-list)
+
+```json
+{
+      "action": "ticket_create",
+      "created": "2018-01-01T00:01:01",
+      "duration": 300.56,
+      "entity": {
+        "id": 11111,
+        "label": "Problem booting my Linode",
+        "type": "ticket",
+        "url": "/v4/support/tickets/11111"
+      },
+      "id": 123,
+      "message": "None",
+      "percent_complete": null,
+      "rate": null,
+      "read": true,
+      "secondary_entity": {
+        "id": "linode/debian9",
+        "label": "linode1234",
+        "type": "linode",
+        "url": "/v4/linode/instances/1234"
+      },
+      "seen": true,
+      "status": null,
+      "time_remaining": null,
+      "username": "exampleUser"
+    }
+```
+

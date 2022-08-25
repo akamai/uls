@@ -6,21 +6,18 @@ The Unified Log Streamer (ULS) is designed to simplify SIEM integrations for Aka
 - [Enterprise Application Access (EAA)](https://www.akamai.com/us/en/products/security/enterprise-application-access.jsp) 
 - [Enterprise Threat Protector (ETP)](https://www.akamai.com/us/en/products/security/enterprise-threat-protector.jsp)
 - [Akamai MFA (MFA)](https://www.akamai.com/us/en/products/security/akamai-mfa.jsp)
+- [Guardicore Micro Segmentation](https://www.akamai.com/lp/guardicore)
 
 Thanks to its modular design, ULS allows the connection of many SIEM solutions out-of-the-box.  
 ULS can send data into any SIEM that supports either file, TCP, UDP or HTTP ingestion.  
 
 It can be run directly as Python code, as a provided Docker container,  through `docker compose` scripts or through helm within kubernetes.
 
-
-
 ![ULS docker compose usage](docs/images/uls_docker-compose_complex_example.png)
 
-
-## Table of contents
+## Table of contents<!-- omit in toc -->
 - [Akamai Unified Log Streamer (ULS)](#akamai-unified-log-streamer-uls)
   - [Introduction](#introduction)
-  - [Table of contents](#table-of-contents)
   - [Key Features](#key-features)
   - [Documentation](#documentation)
     - [Generic Requirements](#generic-requirements)
@@ -35,7 +32,7 @@ It can be run directly as Python code, as a provided Docker container,  through 
 
 ## Key Features
 
-- Supported Inputs (Secure Enterprise Access Products)
+- Supported Inputs
     - [Enterprise Application Access (EAA)](https://www.akamai.com/us/en/products/security/enterprise-application-access.jsp)
       - [ACCESS](docs/LOG_OVERVIEW.md#access-logs-access) 
       - [ADMIN](docs/LOG_OVERVIEW.md#admin-logs-admin)
@@ -48,6 +45,13 @@ It can be run directly as Python code, as a provided Docker container,  through 
       - [PROXY](docs/LOG_OVERVIEW.md#proxy)
     - [Akamai Phish-proof Multi Factor Authenticator (AKAMAI-MFA)](https://www.akamai.com/us/en/products/security/akamai-mfa.jsp)
       - [EVENT](docs/LOG_OVERVIEW.md#authentication-logs-auth)
+    - [Akamai Guardicore Segmentation](https://www.akamai.com/lp/guardicore) (experimental)
+      - [NETLOG](docs/LOG_OVERVIEW.md#netlog)
+      - [INCIDENT](docs/LOG_OVERVIEW.md#incident)
+      - AGENT
+      - SYSTEM
+    - [Linode](https://www.linode.com/) (experimental)
+      - AUDIT
   
 
 - Supported data outputs
@@ -122,6 +126,7 @@ In parallel, all new versions within the "main" branch will also be available on
 Contributions to this software can be provided via [Pull Requests](https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests) and will get merged after successful review. 
 
 ## Changelog
+
 Find a full Changelog of all added Features and fixed Bugs here:  
 [ULS - Changelog](./docs/CHANGELOG.md)
 
@@ -130,10 +135,11 @@ Find a full Changelog of all added Features and fixed Bugs here:
 Akamai ULS is provided "as-is". It is not supported by Akamai Support. Akamai is neither liable for the function nor for any caused problems that come along with the usage or caused by this tool. Please refer to the [LICENSE](./LICENSE) document for more information.
 
 To report an issue, feature request or bug, please open a new issue into the [GitHub Issues page](https://github.com/akamai/uls/issues).
-This software is released under the "Apache License". Please read the [frequently asked questions](docs/FAQ.md) and visit the [debugging instructions](./docs/DEBUGGING.md) before opening a bug request.  
+This software is released under the "Apache License". Please read the [frequently asked questions](docs/FAQ.md) and visit the [troubleshooting and debugging instructions](./docs/DEBUGGING.md) before opening a ticket.  
 
 [Pull requests](#development) to improve the code or enhance the functionality are welcome.
 
 ## LINKS / REFERENCES
+
 [The ULS Project on GitHub](https://github.com/akamai/uls)  
 [The ULS Project on Dockerhub](https://hub.docker.com/r/akamai/uls)

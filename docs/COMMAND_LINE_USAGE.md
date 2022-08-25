@@ -3,21 +3,26 @@
 This document describes the "command line usage" of the ULS software.  
 All commands referenced in this document are run from the repositories root level.
 
-### Table of contents
+## Table of contents<!-- omit in toc -->
 
 - [ULS Command Line Usage](#uls-command-line-usage)
-    - [Overview](#overview)
   - [Requirements](#requirements)
   - [Installation](#installation)
-    - [Clone ULS Repo](#clone-uls-repo)
-    - [Enterprise Access CLI's](#enterprise-access-clis)
+    - [Automated Installation](#automated-installation)
+    - [Manual Installation](#manual-installation)
+      - [Clone ULS repository](#clone-uls-repository)
+      - [Akamai Enterprise Access CLI's](#akamai-enterprise-access-clis)
     - [Setup the .EDGERC File](#setup-the-edgerc-file)
     - [Setup the .EDGERC File](#setup-the-edgerc-file-1)
   - [Usage](#usage)
     - [Usage examples](#usage-examples)
   - [ULS as a service: systemd](#uls-as-a-service-systemd)
+- [Updating](#updating)
+  - [Automated Update](#automated-update)
+  - [Manual Update](#manual-update)
 
 ## Requirements
+
 To run the operations within the following documentation, you need to have the following tools installed:
 - git
 - python >= 3.9 (including pip)
@@ -26,7 +31,23 @@ To run the operations within the following documentation, you need to have the f
 - Access to `github.com`, `pypi.org`, `pythonhosted.org` and `pypi.python.org` within your firewall
 
 ## Installation
-### Clone ULS Repo
+
+To install ULS, you can choose 2 different ways: automated or manual
+
+### Automated Installation
+The automated installation actually does everything, the described below in the manual installation but saves you from the copying the blocks.
+
+```bash
+# Got to your preferred installation folder (it will install to a subdirectory ./uls
+# run the following two lines and follow the on - screen guidance
+curl -O https://raw.githubusercontent.com/akamai/uls/main/scripts/get-uls.sh
+bash get-uls.sh
+```
+
+### Manual Installation
+
+#### Clone ULS repository
+
 Clone the ULS repository from github, change into the ULS repository directory afterwards and install requirements.
 ```bash
 git clone https://github.com/akamai/uls.git
@@ -34,7 +55,8 @@ cd uls
 pip3 install -r bin/requirements.txt
 ```
 
-### Enterprise Access CLI's
+#### Akamai Enterprise Access CLI's
+
 The Secure Enterprise Access Products CLI Tools need to be installed into the `ext` directory within this repo.
 Please run the following commands to download the CLI tools and install the requirements.
 ```bash
@@ -52,11 +74,13 @@ pip3 install -r ext/cli-mfa/requirements.txt
 ```
 
 ### Setup the .EDGERC File
+
 Copy the `.edgerc` file ([instructions for creation](AKAMAI_API_CREDENTIALS.md)) to your users home directory (~):
 ```bash
 cp /path/to/your/.edgerc ~/.edgerc
 ```
 ### Setup the .EDGERC File
+
 Copy the `.edgerc` file ([instructions for creation](AKAMAI_API_CREDENTIALS.md)) to your users home directory (~):
 ```bash
 cp /path/to/your/.edgerc ~/.edgerc
@@ -166,3 +190,38 @@ $ systemctl daemon-reload
 ```
 
 For more information on systemd, see man help `man systemd.exec`
+
+# Updating
+
+To update ULS and the required modules, you can choose 2 different ways: automated or manual
+
+## Automated Update
+
+The automated Script will do exactly the steps described in the manual update section below, but saves you from the copying the blocks.
+
+From the root of the ULS directory, run
+```bash
+bash scripts/update-uls.sh
+```
+and follow the on - screen guidance
+
+## Manual Update
+
+```bash
+# make sure you are at the root level of your ULS directory
+# ULS 
+git pull -q
+pip3 install -q -r bin/requirements.txt
+
+# EAA CLI (only if installed)
+git -C ext/cli-eaa pull -q
+pip3 install -q -r ext/cli-eaa/requirements.txt
+
+# ETP CLI (only if installed)
+git -C ext/cli-etppull -q
+pip3 install -q -r ext/cli-etp/requirements.txt
+
+# MFA CLI (only if installed)
+git -C ext/cli-mfa pull -q
+pip3 install -q -r ext/cli-mfa/requirements.txt
+```

@@ -7,7 +7,7 @@ replicaCount: 1
 akamai_uls:
     edgerc_secret:
       name: "akamai-edgerc"
-    # Ourput config
+    # OuTput config
     environment:
       ULS_LOGLEVEL: "WARN"
       ULS_INPUT: "ETP"

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Common global variables / constants
-__version__ = "1.5.1"
+__version__ = "1.6.0"
 __tool_name_long__ = "Akamai Unified Log Streamer"
 __tool_name_short__ = "ULS"
 
@@ -31,8 +31,16 @@ etp_cli_feeds = ['THREAT', 'AUP', 'DNS', 'PROXY']
 bin_mfa_cli = "ext/cli-mfa/bin/akamai-mfa"      # Path to the MFA CLI Executable
 mfa_cli_feeds = ['EVENT']              # Available MFA CLI feeds
 
+    # Guardicore
+bin_gc_cli = "ext/cli-gc/bin/akamai-gc"                                         # Path to the GC CLI Executable
+gc_cli_feeds = ['NETLOG', 'INCIDENT', 'AGENT', 'SYSTEM']                       # Available GC CLI feeds
+
+    # LINODE
+bin_linode_cli = "ext/cli-linode/bin/akamai-linode"         # Path to the LINODE CLI Executable
+linode_cli_feeds = ['AUDIT']                        # Available LINODE CLI feeds
+
     # INPUT Choices
-input_choices = ['EAA', 'ETP', 'MFA']           # Available input types
+input_choices = ['EAA', 'ETP', 'MFA', 'GC', 'LINODE']           # Available input types
 input_format_choices = ['JSON', 'TEXT']         # Available input format choices (need to be supported by cli)
 
     # OUTPUT Choices
@@ -85,6 +93,8 @@ monitoring_interval = 5 * 60                    # Monitoring output interval (se
 edgerc_openapi = ["host", "client_token", "client_secret", "access_token"]          # required fields for OPENAPI
 edgerc_eaa_legacy = ["eaa_api_host", "eaa_api_key", "eaa_api_secret"]               # required for EAA - Legacy
 edgerc_mfa = ["mfa_integration_id", "mfa_signing_key"]                              # Required for MFA
+edgerc_gc = ["gc_username", "gc_password", "gc_hostname"]                           # Required for Guardicore
+edgerc_linode = ["linode_hostname", "linode_token"]                                             # Required for Linode
 edgerc_documentation_url = "https://github.com/akamai/uls/blob/main/docs/AKAMAI_API_CREDENTIALS.md"
 edgerc_mock_file = "ext/edgerc"                  # Required for display the version if no edgercfile was given
 

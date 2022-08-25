@@ -1,5 +1,26 @@
 # Version History
 
+## v1.6.0
+
+|||
+|---|---|
+|Date|2022-08
+|Kind| BUGFIX release
+|Author|mschiess@akamai.com
+- **Features**
+  - Support for Akamai Guardicore Segmentation (experimental)
+    - Available feeds: netlog, incident, agent, system  
+      Please ensure to [update your .edgerc](./AKAMAI_API_CREDENTIALS.md#guardicore-api-integration) file for GC usage
+  - Support for Akamai Linode Cloud (experimental)
+    - Available feed: audit  
+      Please ensure to [update your .edgerc](AKAMAI_API_CREDENTIALS.md#linode-api-credentials) file for GC usage
+
+- **Minor improvements** 
+  - ULS [Install Script](COMMAND_LINE_USAGE.md#automated-installation) allows fully working ULS installation via a single script
+  - ULS [Updater](COMMAND_LINE_USAGE.md#automated-update) helps to maintain a proper updated version of ULS + Modules
+  - Amended [Command Line Usage](COMMAND_LINE_USAGE.md) documentation on how to use the installer / updater
+  - bumped ETP-CLI version to 0.3.9 which should massively reduce the fetch lag
+
 ## v1.5.1
 
 |||
