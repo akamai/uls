@@ -4,8 +4,8 @@
 
 |||
 |---|---|
-|Date|2022-08
-|Kind| BUGFIX release
+|Date|2022-09
+|Kind| FEATURE release
 |Author|mschiess@akamai.com
 - **Features**
   - Support for Akamai Guardicore Segmentation (experimental)
@@ -13,7 +13,7 @@
       Please ensure to [update your .edgerc](./AKAMAI_API_CREDENTIALS.md#guardicore-api-integration) file for GC usage
   - Support for Akamai Linode Cloud (experimental)
     - Available feed: audit  
-      Please ensure to [update your .edgerc](AKAMAI_API_CREDENTIALS.md#linode-api-credentials) file for GC usage
+      Please ensure to [update your .edgerc](AKAMAI_API_CREDENTIALS.md#linode-api-credentials) file for LINODE usage
 
 - **Minor improvements** 
   - ULS [Install Script](COMMAND_LINE_USAGE.md#automated-installation) allows fully working ULS installation via a single script
