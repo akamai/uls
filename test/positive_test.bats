@@ -11,7 +11,7 @@ mocked_edgerc=FALSE
 
   # TIMEOUT
 uls_test_timeout=60
-uls_kill_timeout=65
+uls_kill_timeout=90
 
 
 ### Switch between mocked and real edgerc

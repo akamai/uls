@@ -120,9 +120,10 @@ echo "Installing GC-CLI"
   pip3 install -q -r ${install_dir}/ext/cli-gc/bin/requirements.txt
 fi
 
-## GRAB LN-CLI
+
+## GRAB LINODE-CLI
 if [[ "$install_modules" == *"ln"* ]]  ; then
-echo "Installing LN-CLI"
+echo "Installing LINODE-CLI"
   git clone -q --depth 1 -b dev --single-branch https://github.com/MikeSchiessl/ln-logs.git ${install_dir}/ext/cli-linode
   pip3 install -q -r ${install_dir}/ext/cli-ln/bin/requirements.txt
 fi

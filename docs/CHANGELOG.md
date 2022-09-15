@@ -19,7 +19,10 @@
   - ULS [Install Script](COMMAND_LINE_USAGE.md#automated-installation) allows fully working ULS installation via a single script
   - ULS [Updater](COMMAND_LINE_USAGE.md#automated-update) helps to maintain a proper updated version of ULS + Modules
   - Amended [Command Line Usage](COMMAND_LINE_USAGE.md) documentation on how to use the installer / updater
+  - bumped python container (docker) to version 3.10.7
   - bumped ETP-CLI version to 0.3.9 which should massively reduce the fetch lag
+  - Added [documentation](./HIGH_AVAILABILITY.md) to explain high availability options for ULS
+
 
 ## v1.5.1
 

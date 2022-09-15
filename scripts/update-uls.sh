@@ -94,9 +94,10 @@ else
   echo "NO GC-CLI detected - skipping"
 fi
 
-## LN
+
+## LINODE
 if [[ -d "${uls_dir}/ext/cli-ln" ]] ; then
-  echo "LN-CLI detected, updating"
+  echo "LINODE-CLI detected, updating"
   git -C ${uls_dir}/ext/cli-linode pull -q
   pip3 install -q -r ${uls_dir}/ext/cli-linode/bin/requirements.txt
 else
