@@ -256,6 +256,67 @@ class UlsInputCli:
                                   self._uls_useragent(self.product, "rawcmd") +\
                                   shlex.split(self.rawcmd)
 
+            # Guardicore config
+            elif self.product == "GC":
+                product_path = self.root_path + "/" + uls_config.bin_gc_cli
+                product_feeds = uls_config.gc_cli_feeds
+                if not self.cliformat == "JSON":
+                    aka_log.log.warning(f"{self.name} - Selected LOG Format ({self.cliformat}) "
+                                        f"not available for {product_path}, continuing with JSON.")
+                if not self.rawcmd:
+                    UlsTools.uls_check_edgerc(self.credentials_file,
+                                              self.credentials_file_section,
+                                              uls_config.edgerc_gc)
+                    my_feed = self._feed_selector(self.feed, product_feeds)
+                    cli_command = [self.bin_python, '-u', product_path, 'events', my_feed.lower(), '-f']
+                    cli_command[3:3] = self._uls_useragent(self.product, my_feed)
+                    cli_command[3:3] = edgegrid_auth
+                    cli_command[3:3] = self._prep_proxy(self.inproxy)
+
+                    # Append End and Starttime
+                    if self.endtime:
+                        # We need to remove "-f" from the end of the cli cmd if we work with endtime
+                        cli_command = cli_command[:-1]
+                        cli_command.extend(self._prep_start_endtime('--end', self.endtime))
+                    if self.starttime:
+                        cli_command.extend(self._prep_start_endtime('--start', self.starttime))
+
+                else:
+                    cli_command = [self.bin_python, product_path] +\
+                                  self._uls_useragent(self.product, "rawcmd") +\
+                                  shlex.split(self.rawcmd)
+
+            # LINODE config
+            elif self.product == "LINODE":
+                product_path = self.root_path + "/" + uls_config.bin_linode_cli
+                product_feeds = uls_config.linode_cli_feeds
+                if not self.cliformat == "JSON":
+                    aka_log.log.warning(f"{self.name} - Selected LOG Format ({self.cliformat}) "
+                                        f"not available for {product_path}, continuing with JSON.")
+                if not self.rawcmd:
+                    UlsTools.uls_check_edgerc(self.credentials_file,
+                                              self.credentials_file_section,
+                                              uls_config.edgerc_linode)
+                    my_feed = self._feed_selector(self.feed, product_feeds)
+                    cli_command = [self.bin_python, '-u', product_path, 'events', my_feed.lower(), '-f']
+                    cli_command[3:3] = self._uls_useragent(self.product, my_feed)
+                    cli_command[3:3] = edgegrid_auth
+                    cli_command[3:3] = self._prep_proxy(self.inproxy)
+
+                    # Append End and Starttime
+                    if self.endtime:
+                        # We need to remove "-f" from the end of the cli cmd if we work with endtime
+                        cli_command = cli_command[:-1]
+                        cli_command.extend(self._prep_start_endtime('--end', self.endtime))
+                    if self.starttime:
+                        cli_command.extend(self._prep_start_endtime('--start', self.starttime))
+
+                else:
+                    cli_command = [self.bin_python, product_path] +\
+                                  self._uls_useragent(self.product, "rawcmd") +\
+                                  shlex.split(self.rawcmd)
+
+
             # Everything else (undefined)
             else:
                 aka_log.log.critical(f" {self.name} - No valid product selected "

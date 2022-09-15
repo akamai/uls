@@ -13,6 +13,10 @@ This document describes how to create Akamai API credentials and configure them 
     - [ETP {OPEN} API Reporting](#etp-open-api-reporting)
   - [Akamai MFA](#akamai-mfa)
     - [MFA Integration for logging](#mfa-integration-for-logging)
+  - [Guardicore](#guardicore)
+    - [Guardicore API Integration](#guardicore-api-integration)
+  - [Linode](#linode)
+    - [Linode API Token](#linode-api-credentials)
 - [Advanced .edgerc usage](#advanced-edgerc-usage)
   - [Multiple customer contracts](#multiple-customer-contracts)
   - [Partner & employee enhancement](#partner--employee-enhancement)
@@ -20,17 +24,14 @@ This document describes how to create Akamai API credentials and configure them 
 
 ## Feeds / API overview
 
-|Product long name|Acronym|Feed|API|
-|---|---|---|---|
-|Enterprise Application Access|EAA|ACCESS|[EAA Legacy API](#eaa-legacy-api-for-access-and-admin-audit-feeds)|
-|Enterprise Application Access|EAA|ADMIN|[EAA Legacy API](#eaa-legacy-api-for-access-and-admin-audit-feeds)|
-|Enterprise Application Access|EAA|HEALTH|[{OPEN} API / Enterprise Application Access](#eaa-open-api-for-connector-health-feed)|
-|Enterprise Threat Protector|ETP|THREAT|[{OPEN} API / ETP Report](#etp-open-api-reporting)|
-|Enterprise Threat Protector|ETP|AUP|[{OPEN} API / ETP Report](#etp-open-api-reporting)|
-|Enterprise Threat Protector|ETP|DNS|[{OPEN} API / ETP Report](#etp-open-api-reporting)|
-|Enterprise Threat Protector|ETP|PROXY|[{OPEN} API / ETP Report](#etp-open-api-reporting)|
-|Akamai MFA|MFA|AUTH|[MFA Integration](#mfa-integration-for-logging)|
-|Akamai MFA|MFA|POLICY|[MFA Integration](#mfa-integration-for-logging)|
+|Product long name|Acronym| Feed(s)                         | API                                                                                   |
+|---|---|---------------------------------|---------------------------------------------------------------------------------------|
+|Enterprise Application Access|EAA| ACCESS, ADMIN                   | [EAA Legacy API](#eaa-legacy-api-for-access-and-admin-audit-feeds)                    |
+|Enterprise Application Access|EAA| HEALTH                          | [{OPEN} API / Enterprise Application Access](#eaa-open-api-for-connector-health-feed) |
+|Enterprise Threat Protector|ETP| THREAT, AUP, DNS, PROXY         | [{OPEN} API / ETP Report](#etp-open-api-reporting)                                    |
+|Akamai MFA|MFA| EVENTS                          | [MFA Integration](#mfa-integration-for-logging)                                       |
+|Guardicore|GC| NETLOG, INCIDENT, AGENT, SYSTEM | [Guardicore API Integration](#guardicore-api-integration)                             |
+|Linode|LN| AUDIT                           | [Linode API Credentials](#linode-api-credentials) |                       
 
 ## Setting up API credentials for ULS
 
@@ -137,6 +138,44 @@ mfa_integration_id = app_xxxxxxxxxxxxxxxxxxxxx
 mfa_signing_key = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
+### Guardicore
+
+#### Guardicore API Integration
+Guardicore is using the portal users for API access. Therefore it is recommended to create a "read only" (= GUEST role) user within Centra Administration.
+- Go to Administration
+- Select "Users" in the left navigation tree
+- Click the "Create User" button
+- Enter a username and a password, select "Guest" as permission scheme
+- Confirm by clicking the SAVE button
+- Now logout and login with the newly created user and follow tha password change procedure
+- Note down your guardicore Adminsitration (=API) url without https
+- Add/replace/amend the following section to your `.edgerc` file and replace the data accordingly:
+
+```INI
+[default]
+; Guardicore integration credentials
+gc_hostname = your_hostname.guardicore.com          # Do not prepend https://
+gc_username = XXXXXXXXXXXX
+gc_password = XXXXXXXXXXXXX
+```
+
+### Linode
+#### Linode API Credentials
+- Login into your linode cloud console
+- Click on your user name on the top right
+- Select API Tokens
+- Create a personal Access Token
+- Enter a Label and select all privleges to "READ ONLY"
+- Set expiry to your needs
+- Confirm by clicking the CREATE TOKEN button
+- Copy the token provided in the next field
+- Add/replace/amend the following section to your `.edgerc` file and replace the data accordingly:
+```INI
+[default]
+; Guardicore integration credentials
+linode_hostname = your_hostname.guardicore.com          # Do not prepend https://
+linode_token = XXXXXXXXXXXX
+```
 ## Advanced .edgerc usage
 
 ### Multiple customer contracts

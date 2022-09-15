@@ -1,4 +1,4 @@
-FROM            python:3.10.5-slim-bullseye
+FROM            python:3.10.7-slim-bullseye
 LABEL 	        MAINTAINER="Mike Schiessl - mike.schiessl@akamai.com"
 LABEL	        APP_LONG="Akamai Universal Log Streamer"
 LABEL           APP_SHORT="ULS"
@@ -10,9 +10,11 @@ ARG             HOMEDIR="/opt/akamai-uls"
 ARG             ULS_DIR="$HOMEDIR/uls"
 ARG             EXT_DIR="$ULS_DIR/ext"
 
-ARG             ETP_CLI_VERSION="0.3.8"
+ARG             ETP_CLI_VERSION="0.3.9"
 ARG             EAA_CLI_VERSION="0.5.0.2"
 ARG             MFA_CLI_VERSION="0.0.9"
+ARG             GC_CLI_VERSION="dev"
+ARG             LINODE_CLI_VERSION="dev"
 
 # ENV VARS
 ENV             ULS_DIR=$ULS_DIR
@@ -62,6 +64,16 @@ RUN             git clone --depth 1 -b "${EAA_CLI_VERSION}" --single-branch http
 ENV             MFA-CLI_VERSION=$MFA_CLI_VERSION
 RUN             git clone --depth 1 -b "${MFA_CLI_VERSION}" --single-branch https://github.com/akamai/cli-mfa.git ${EXT_DIR}/cli-mfa && \
                 pip3 install -r ${EXT_DIR}/cli-mfa/requirements.txt
+
+## GC CLI
+ENV             GC_CLI_VERSION=$GC_CLI_VERSION
+RUN             git clone --depth 1 -b "${GC_CLI_VERSION}" --single-branch https://github.com/MikeSchiessl/gc-logs.git ${EXT_DIR}/cli-gc && \
+                pip3 install -r ${EXT_DIR}/cli-gc/bin/requirements.txt
+
+## LINODE CLI
+ENV             LINODE_CLI_VERSION=$LINODE_CLI_VERSION
+RUN             git clone --depth 1 -b "${LINODE_CLI_VERSION}" --single-branch https://github.com/MikeSchiessl/ln-logs.git ${EXT_DIR}/cli-linode && \
+                pip3 install -r ${EXT_DIR}/cli-linode/bin/requirements.txt
 
 # ENTRYPOINTS / CMD
 VOLUME          ["${ULS_DIR}/var"]
