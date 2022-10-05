@@ -186,8 +186,8 @@ load 'bats/bats-assert/load.bash'
 }
 
 @test "AUTORESUME - corrupt file (wrong quoting within file )" {
-    echo "{'aa': 'bb'}" > /tmp/uls_eaa_access.ckpt
-    run $uls_bin --input eaa --feed access --output raw --autoresume --autoresumepath /tmp/
+    echo "{'aa': 'bb'}" > /tmp/uls_eaa_admin.ckpt
+    run $uls_bin --input eaa --feed admin --output raw --autoresume --autoresumepath /tmp/
     assert_output  --partial  "Expecting property name enclosed in double quotes: line 1 column 2 (char 1) - Exiting."
     [ "$status" -eq 1 ]
     rm -fr /tmp/uls_eaa_access.ckpt

@@ -1,5 +1,20 @@
 # Version History
 
+## v1.6.1
+
+|||
+|---|---|
+|Date|2022-09
+|Kind| BUGFIX release
+|Author|mschiess@akamai.com
+
+- **Minor improvements** 
+  - Dropped CLI installation verification for CLI's not used by ULS
+- **Housekeeping**
+  - Added parallel testing processes to speed up testing (see [Testing Readme](../test/README.md))
+  - added randomization tokens for "mocked" edgerc file (to avoid race condition in prallel testing)
+
+
 ## v1.6.0
 
 |||

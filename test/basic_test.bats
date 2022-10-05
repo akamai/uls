@@ -1,5 +1,6 @@
 #!/usr/bin/env bats
 
+#BATS_NO_PARALLELIZE_WITHIN_FILE=true
 
 # Variables
     # ULS Binary
@@ -26,7 +27,7 @@ current_version=$(cat docs/CHANGELOG.md | grep "##" | head -n 1 | sed 's/.* v//'
 }
 
 @test "uls.py --version" {
-	run ${uls_bin} --version
+	run $uls_bin --version
 	assert_output --partial "Akamai Unified Log Streamer Version information"
 	[ "$status" -eq 0 ]
 }
@@ -45,7 +46,7 @@ current_version=$(cat docs/CHANGELOG.md | grep "##" | head -n 1 | sed 's/.* v//'
 
 @test "uls.py --version - Version output should be ($current_version) according to CHANGELOG" {
 	run $uls_bin --version
-	assert_output --partial "$current_version"
+	assert_output --partial $current_version
 	[ "$status" -eq 0 ]
 }
 

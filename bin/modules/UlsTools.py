@@ -26,7 +26,7 @@ import modules.aka_log as aka_log
 import config.global_config as uls_config
 
 
-def uls_check_sys(root_path):
+def uls_check_sys(root_path, uls_input=None):
     """
     Collect ULS requirements information and request input if failing
     """
@@ -36,22 +36,29 @@ def uls_check_sys(root_path):
                 aka_log.log.warning(f"Uhoh - seems like {cli_bin} is not installed. "
                                     f"Please follow docs/COMMAND_LINE_USAGE.md "
                                     f"to setup the required environment cli tools")
-                skip_verification = input("Continue anyway ? (y|N)")
-                if skip_verification.lower() == "y" or skip_verification.lower() == "yes":
-                    print(f"Continuing without {cli_bin} - please be do not use any stream this cli provides")
-                else:
-                    aka_log.log.critical(f"Missing {cli_bin} - exiting")
-                    sys.exit(1)
+                #skip_verification = input("Continue anyway ? (y|N)")
+                #if skip_verification.lower() == "y" or skip_verification.lower() == "yes":
+                #    print(f"Continuing without {cli_bin} - please be do not use any stream this cli provides")
+                #else:
+                aka_log.log.critical(f"Missing {cli_bin} - exiting")
+                sys.exit(1)
             else:
                 return True
         except Exception as my_error:
             aka_log.log.critical(f"Error checking the cli'tools ")
-
-    _check_cli_installed(root_path + "/" + uls_config.bin_eaa_cli)
-    _check_cli_installed(root_path + "/" + uls_config.bin_etp_cli)
-    _check_cli_installed(root_path + "/" + uls_config.bin_mfa_cli)
-    _check_cli_installed(root_path + "/" + uls_config.bin_gc_cli)
-    _check_cli_installed(root_path + "/" + uls_config.bin_linode_cli)
+    if uls_input == "EAA":
+        _check_cli_installed(root_path + "/" + uls_config.bin_eaa_cli)
+    elif uls_input == "ETP":
+        _check_cli_installed(root_path + "/" + uls_config.bin_etp_cli)
+    elif uls_input == "MFA":
+        _check_cli_installed(root_path + "/" + uls_config.bin_mfa_cli)
+    elif uls_input == "GC":
+        _check_cli_installed(root_path + "/" + uls_config.bin_gc_cli)
+    elif uls_input == "LINODE":
+        _check_cli_installed(root_path + "/" + uls_config.bin_linode_cli)
+    else:
+        aka_log.log.critical(f"No input specified: {uls_input} - exiting")
+        sys.exit(1)
 
 
 def uls_version(root_path):
@@ -59,7 +66,7 @@ def uls_version(root_path):
     Collect ULS Version information and display it on STDOUT
     """
 
-    my_edgerc_mock_file = root_path + "/" + uls_config.edgerc_mock_file
+    my_edgerc_mock_file = root_path + "/" + uls_config.edgerc_mock_file + str(round(time.time() * 1000))
     def _get_cli_version(cli_bin, edgerc_mock_file):
         try:
             if "gc" in cli_bin or 'linode' in cli_bin:
