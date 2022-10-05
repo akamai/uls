@@ -85,7 +85,7 @@ def main():
         autoresume_file =  autoresume_data['filename']
 
     # Check CLI Environment
-    UlsTools.uls_check_sys(root_path=root_path)
+    UlsTools.uls_check_sys(root_path=root_path, uls_input=uls_args.input)
 
     # Create & Start monitoring Instance
     my_monitor = UlsMonitoring.UlsMonitoring(stopEvent=stopEvent,

@@ -1,11 +1,16 @@
 #!/bin/bash
 # test.sh [file - $tests_available] [regex merge]
 tests_available="basic positive negative "
+parallel_tests=10
 
 function do_test() {
   if [ -f "test/$1_test.bats" ] ; then
     echo -e "$1 TESTING\n"
-    bats test/$1_test.bats $filter
+    if [ ${parallel_tests} > 1 ] ; then
+      bats --jobs ${parallel_tests} test/$1_test.bats $filter
+    else
+      bats test/$1_test.bats $filter
+    fi
     my_exitcode=$?
     if [ $my_exitcode -ne 0 ] ; then
       echo "Test \"$1\" failed - exiting"
