@@ -40,12 +40,12 @@ RUN 	        groupadd akamai && \
 
 USER            akamai
 WORKDIR         ${HOMEDIR}
-RUN             mkdir -p ${ULS_DIR}
+RUN             mkdir -p ${ULS_DIR} && \
+                mkdir -p ${ULS_DIR}/var
 
 
 # Install ULS
 COPY            bin/ ${ULS_DIR}/bin
-COPY            var/ ${ULS_DIR}/var
 WORKDIR         ${ULS_DIR}
 RUN             pip3 install -r ${ULS_DIR}/bin/requirements.txt
 
