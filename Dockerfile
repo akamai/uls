@@ -11,7 +11,7 @@ ARG             ULS_DIR="$HOMEDIR/uls"
 ARG             EXT_DIR="$ULS_DIR/ext"
 
 ARG             ETP_CLI_VERSION="0.3.9"
-ARG             EAA_CLI_VERSION="0.5.0.2"
+ARG             EAA_CLI_VERSION="0.5.1"
 ARG             MFA_CLI_VERSION="0.0.9"
 ARG             GC_CLI_VERSION="dev"
 ARG             LINODE_CLI_VERSION="dev"
@@ -23,14 +23,15 @@ ENV             HOMEDIR=$HOMEDIR
 
 
 # PREPARE ENVIRONMENT
-# ENV PREP
 RUN	            apt-get update && \
 	            apt-get --no-install-recommends -y install \
 		        ca-certificates \
 		        git \
 		        curl \
                 telnet \
-                gcc libssl-dev libffi-dev  && \
+                gcc \
+                libssl-dev \
+                libffi-dev  && \
 		        rm -rf /var/lib/apt/lists/
 
 # USER & GROUP
@@ -65,7 +66,7 @@ ENV             MFA-CLI_VERSION=$MFA_CLI_VERSION
 RUN             git clone --depth 1 -b "${MFA_CLI_VERSION}" --single-branch https://github.com/akamai/cli-mfa.git ${EXT_DIR}/cli-mfa && \
                 pip3 install -r ${EXT_DIR}/cli-mfa/requirements.txt
 
-## GC CLI
+## GuardiCore CLI
 ENV             GC_CLI_VERSION=$GC_CLI_VERSION
 RUN             git clone --depth 1 -b "${GC_CLI_VERSION}" --single-branch https://github.com/MikeSchiessl/gc-logs.git ${EXT_DIR}/cli-gc && \
                 pip3 install -r ${EXT_DIR}/cli-gc/bin/requirements.txt
@@ -78,5 +79,4 @@ RUN             git clone --depth 1 -b "${LINODE_CLI_VERSION}" --single-branch h
 # ENTRYPOINTS / CMD
 VOLUME          ["${ULS_DIR}/var"]
 ENTRYPOINT      ["/usr/local/bin/python3","-u","bin/uls.py"]
-#CMD             ["--help"]
 # EOF

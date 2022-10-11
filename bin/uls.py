@@ -66,6 +66,9 @@ def main():
     # Determine root directory
     root_path = str(UlsTools.root_path())
 
+    # Check / Create install id
+    UlsTools.create_install_id()
+
     # OUTPUT Version Information
     if uls_args.version:
         UlsTools.uls_version(root_path=root_path)

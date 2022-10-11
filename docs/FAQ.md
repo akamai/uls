@@ -10,7 +10,7 @@
 - [Logs are not showing up in my SIEM](#logs-are-not-showing-up-in-siem)
 - [ULS on Windows error: "[WinError 2] The system cannot find the file specified"](#uls-on-windows-error-winerror-2-the-system-cannot-find-the-file-specified)
 - [ULS does not start due to missing field in config](#uls-does-not-start-due-to-missing-field-in-config)
-
+- [ULS throws TLS an error when connecting towards Guardicore API (--input GC)](#uls-throws-tls-an-error-when-connecting-towards-guardicore-api---input-gc)
 
 ----
 ## FAQ
@@ -109,3 +109,28 @@ There seems to be an issue within the module that actually parses the config (co
 Please watch out to specify the section exactly the same way (case sensitivity) as you have specified it in your .edgerc file.  
 We will follow up on this topic within an [GitHub issue](https://github.com/akamai/uls/issues/20)
 
+---
+### ULS throws TLS an error when connecting towards Guardicore API (--input GC)
+When using an internal Guardicore installation that has no valid TLS certificate, ULS might throw the following error:
+```bash
+self._sslobj.do_handshake()
+[SSL: CERTIFICATE_VERIFY_FAILED]
+```
+
+In order to work with self-signed certificates, you have 2 options:
+- Recommended:  
+  You provide the root CA of your self-signed certifcate to the python process 
+  ```bash
+  export REQUESTS_CA_BUNDLE=/path/to/your/certificate.pem
+  ```
+
+
+- Insecure (not recommended):  
+  You skip the TLS certificate (this is very insecure)
+  Set the following ENV variable on your system
+  ```bash
+  export GC_SKIP_TLS_VALIDATION=True
+  ```
+Both options also work for docker / kubernetes installations 
+
+---

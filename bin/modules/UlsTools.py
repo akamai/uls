@@ -107,6 +107,7 @@ def uls_version(root_path):
           f"Docker Status\t\t{check_docker()}\n"
           f"RootPath \t\t{root_path}\n"
           f"TimeZone (UTC OFST) \t{check_timezone()} ({-time.timezone / 3600})\n"
+          f"Installation ID \t{get_install_id()['install_id']}"
           )
 
     # Delete the mocked edgerc file
@@ -181,7 +182,7 @@ def root_path():
 
 def check_autoresume(input, feed, checkpoint_dir=uls_config.autoresume_checkpoint_path):
     # Check if we're in a supported stream / feed
-    if input not in uls_config.autoresume_supported_inputs or feed == "CONHEALTH":
+    if input not in uls_config.autoresume_supported_inputs or feed == "CONHEALTH" or feed == "DEVINV" :
         aka_log.log.critical(f"Input {input} or feed {feed} currently not supported by AUTORESUME - Exiting.")
         sys.exit(1)
 
@@ -264,3 +265,38 @@ def write_autoresume_ckpt(input, feed, autoresume_file, logline):
     except Exception as write_error:
         aka_log.log.critical(f"AUTORESUME - Failure writing data to {autoresume_file} - Data: {autoresume_data} - error: {write_error} - Exiting")
         sys.exit(1)
+
+
+def create_install_id(install_id_file="./var/uls_install_id"):
+    if os.path.isfile(install_id_file):
+        aka_log.log.info(f"Install ID file - found")
+        install_id = get_install_id(install_id_file)['install_id']
+    else:
+        aka_log.log.info(f"No install ID file found - creating ID + File")
+        import base64
+        import random
+        import string
+        my_time = int(time.strftime("%Y%m%d"))
+        token = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(9))
+        raw_id = f"{token}-{my_time}"
+        install_id = base64.b64encode(raw_id.encode())
+        install_id_json = {'install_date': str(my_time), 'install_id': str(install_id.decode()), 'install_version': str(uls_config.__version__)}
+        try:
+            with open(install_id_file, "w") as inst_f:
+                json.dump(install_id_json, inst_f)
+        except Exception as error:
+            aka_log.log.warning(f"Not able to write install id file - not saving file !! Error: {error}")
+        aka_log.log.info(f"Created & saved a new installation id: {install_id}")
+    return install_id
+
+def get_install_id(install_id_file="./var/uls_install_id"):
+    try:
+        with open(install_id_file, "r") as inst_f:
+            data = json.load(inst_f)
+            #print(data)
+        install_id = data['install_id']
+    except Exception as error:
+        aka_log.log.debug(f"Not able to read install file - returning mocked data. Error: {error}")
+        data = {'install_id': "ERROR-GETTING-INSTALLATION-ID"}
+    #return install_id
+    return data

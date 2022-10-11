@@ -1,7 +1,9 @@
 #!/bin/bash
 # test.sh [file - $tests_available] [regex merge]
 tests_available="basic positive negative "
-parallel_tests=10
+parallel_tests=20
+
+
 
 function do_test() {
   if [ -f "test/$1_test.bats" ] ; then
@@ -26,6 +28,14 @@ function do_tag() {
   git tag "BATS-TEST-SUCCESSFUL__$my_date"
 }
 
+function pre_cleanup() {
+  # We saw some issues with stale (unkilled) processes
+  killall timeout -9
+}
+
+
+# The code
+
 if [ "$1" == "all" ] || [ "$1" == "" ] ; then
   select="all"
 elif [[ $tests_available =~ "$1 " ]] ; then
@@ -43,7 +53,7 @@ else
 fi
 
 
-
+pre_cleanup
 if [ "$select" == "all" ] ; then
   for i in $tests_available ; do
     echo "> $i"
