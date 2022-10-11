@@ -267,7 +267,7 @@ def write_autoresume_ckpt(input, feed, autoresume_file, logline):
         sys.exit(1)
 
 
-def create_install_id(install_id_file="./var/uls_install_id"):
+def create_install_id(install_id_file=str(root_path()) + "/var/uls_install_id"):
     if os.path.isfile(install_id_file):
         aka_log.log.info(f"Install ID file - found")
         install_id = get_install_id(install_id_file)['install_id']
@@ -289,7 +289,7 @@ def create_install_id(install_id_file="./var/uls_install_id"):
         aka_log.log.info(f"Created & saved a new installation id: {install_id}")
     return install_id
 
-def get_install_id(install_id_file="./var/uls_install_id"):
+def get_install_id(install_id_file=str(root_path()) + "/var/uls_install_id"):
     try:
         with open(install_id_file, "r") as inst_f:
             data = json.load(inst_f)
