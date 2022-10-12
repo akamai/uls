@@ -132,10 +132,13 @@ class UlsInputCli:
 
 
     def _uls_useragent(self, product, feed):
+        install_id = UlsTools.get_install_id()['install_id']
+        if install_id:
+            header_install_id = f"-{install_id}"
         if UlsTools.check_docker():
-            my_useragent = f'ULS/{uls_config.__version__}_{product}-{feed}-docker'
+            my_useragent = f'ULS/{uls_config.__version__}_{product}-{feed}{header_install_id}-DKR'
         else:
-            my_useragent = f'ULS/{uls_config.__version__}_{product}-{feed}'
+            my_useragent = f'ULS/{uls_config.__version__}_{product}-{feed}{header_install_id}'
         return ["--user-agent-prefix", my_useragent]
 
     def proc_create(self):
