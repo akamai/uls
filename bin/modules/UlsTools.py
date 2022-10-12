@@ -277,8 +277,8 @@ def create_install_id(install_id_file=str(root_path()) + "/var/uls_install_id"):
         import random
         import string
         my_time = int(time.strftime("%Y%m%d"))
-        token = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(9))
-        raw_id = f"{token}-{my_time}"
+        token = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
+        raw_id = f"{token}-{my_time}-{uls_config.__version__}"
         install_id = base64.b64encode(raw_id.encode())
         install_id_json = {'install_date': str(my_time), 'install_id': str(install_id.decode()), 'install_version': str(uls_config.__version__)}
         try:

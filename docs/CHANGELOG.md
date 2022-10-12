@@ -9,9 +9,9 @@
 |Author|mschiess@akamai.com
 
 - **Minor improvements**
-  - Bumped EAA CLI to version 5.0.1 (additional SIEM fields - EAA release 2022.02)
+  - Bumped EAA CLI to version 0.5.1 (additional SIEM fields - EAA release 2022.02)
   - Amended FAQ to [handle self-signed certificates alongside Guardicore](./FAQ.md#uls-throws-tls-an-error-when-connecting-towards-guardicore-api---input-gc)
-  - Added installation ID (random string + current date YMD) to support debugging process
+  - Added installation ID ("random string" + "current date YMD" + "first installed version") to support debugging process
   - fixed a bug in the Dockerfile that left uls/var unusable
 - **Housekeeping**
   - fixed some bugs in testing (false negative) & speeded up testing process
