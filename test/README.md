@@ -31,11 +31,12 @@ For better testing stability, we packed the required dependencies into the test 
 - helm isntallation (linting)
 
 
-## Installation
+## Installation on a MAC
 
 ```
-cd test
-mkdir bats
-git clone https://github.com/ztombol/bats-assert.git
-git clone https://github.com/ztombol/bats-support.git
+brew install bats-core
+brew install helm
+
+git clone https://github.com/ztombol/bats-assert.git test/bats/bats-assert
+git clone https://github.com/ztombol/bats-support.git test/bats/bats-support
 ```

@@ -38,7 +38,7 @@ fi
 
 ## pip3
 if [[ -z $(which pip3) ]] ; then
-  echo "Python3 binary was not found - exiting"
+  echo "pip3 binary was not found - exiting"
   exit 1
 fi
 
@@ -125,7 +125,7 @@ fi
 if [[ "$install_modules" == *"ln"* ]]  ; then
 echo "Installing LINODE-CLI"
   git clone -q --depth 1 -b dev --single-branch https://github.com/MikeSchiessl/ln-logs.git ${install_dir}/ext/cli-linode
-  pip3 install -q -r ${install_dir}/ext/cli-ln/bin/requirements.txt
+  pip3 install -q -r ${install_dir}/ext/cli-linode/bin/requirements.txt
 fi
 
 # Finishing off

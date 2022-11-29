@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Common global variables / constants
-__version__ = "1.6.2"
+__version__ = "1.6.3"
 __tool_name_long__ = "Akamai Unified Log Streamer"
 __tool_name_short__ = "ULS"
 
@@ -71,10 +71,11 @@ output_udp_timeout = 10.0                       # UDP SEND / CONNECT Timeout (se
 output_tcp_send_buffer = 262144                 # TCP Send buffer in bytes
 output_tcp_timeout = 10.0                       # TCP SEND / CONNECT Timeout (seconds)
     ## HTTP
-output_http_header = {'User-Agent': f'{__tool_name_long__}/{__version__}'}  # HTTP Additional Headers to send (requests module KV pairs)
+output_http_header = {'User-Agent': f'{__tool_name_long__}/{__version__}', 'Content-Type': 'application/json'}  # HTTP Additional Headers to send (requests module KV pairs)
 output_http_timeout = 10                        # Timeout after which a request will be considered as failed
-output_http_aggregate_count = 50                # Number of events to aggregate in POST request to HTTP Collector. 1 mean no aggregation
+output_http_aggregate_count = 500               # Number of events to aggregate in POST request to HTTP Collector. 1 mean no aggregation
 output_http_aggregate_idle = 5                  # Aggregate will send the data regardless of the count if the previous event was x secs ago
+output_http_expected_status_code = 200          # Return Code for successful delivery
     ## FILE
 output_file_encoding = "utf-8"                  # FILE Encoding setting
 output_file_handler_choices = ['SIZE', 'TIME']  # Available Choices for the file handler

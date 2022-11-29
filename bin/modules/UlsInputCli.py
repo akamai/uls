@@ -135,7 +135,7 @@ class UlsInputCli:
         install_id = UlsTools.get_install_id()['install_id']
         if install_id:
             header_install_id = f"-{install_id}"
-        if UlsTools.check_docker():
+        if UlsTools.check_container():
             my_useragent = f'ULS/{uls_config.__version__}_{product}-{feed}{header_install_id}-DKR'
         else:
             my_useragent = f'ULS/{uls_config.__version__}_{product}-{feed}{header_install_id}'
