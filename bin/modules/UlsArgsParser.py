@@ -171,6 +171,15 @@ def init():
                               default=(os.environ.get('ULS_HTTP_FORMAT') or '{"event": %s}'),
                               help='HTTP Message format expected by http receiver '
                                    '(%%s defines the data string). Default \'{\"event\": %%s}\'')
+    ## HTTP AGGREGATE
+    output_group.add_argument('--httpaggregate',
+                              action='store',
+                              type=int,
+                              default=(os.environ.get('ULS_HTTP_AGGREGATE') or uls_config.output_http_aggregate_count),
+                              help=f"Number of events to aggregate for one output request "
+                                   f"the %%s in the httpformat will be replaced by a LIST of events. "
+                                   f"Example: %%s = [{{'event1': 'data1'}},{{'event2': 'data2'}},...] - "
+                                   f"Default: {uls_config.output_http_aggregate_count}")
 
     # FILE STUFF
     ## File Handler

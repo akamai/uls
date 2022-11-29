@@ -95,7 +95,7 @@ load 'bats/bats-assert/load.bash'
 ## HTTP
 @test "HTTP output failure (-o http)" {
     run  $uls_bin -i mfa -f auth --output http
-    assert_output --partial "http_out_format http_out_auth_header http_url or http_insecure missing- exiting"
+    assert_output --partial "--httpurl missing - exiting"
     [ "$status" -eq 1 ]
 }
 @test "HTTP output failure (httpurl unreachable)" {

@@ -116,6 +116,7 @@ def main():
                                     port=uls_args.port,
                                     http_out_format=uls_args.httpformat,
                                     http_out_auth_header=uls_args.httpauthheader,
+                                    http_out_aggregate_count=uls_args.httpaggregate,
                                     http_url=uls_args.httpurl,
                                     http_insecure=uls_args.httpinsecure,
                                     filehandler=uls_args.filehandler,
@@ -124,7 +125,8 @@ def main():
                                     filemaxbytes=uls_args.filemaxbytes,
                                     filetime=uls_args.filetime,
                                     fileinterval=uls_args.fileinterval,
-                                    fileaction=uls_args.fileaction)
+                                    fileaction=uls_args.fileaction,
+                                    stopEvent=stopEvent)
 
 
     # Load a Transformation (if selected) UlsTransformation
@@ -187,7 +189,7 @@ def main():
                                       f"({uls_args.transformation}): {log_line}")
 
                 # Attach Linebreak
-                out_data = log_line + uls_config.output_line_breaker.encode()
+                #out_data = log_line + uls_config.output_line_breaker.encode()
 
                 # Send the data (through a loop for retransmission)
                 resend_counter = 1
@@ -199,23 +201,23 @@ def main():
                                       f" Delivery (output) attempt  "
                                       f"{resend_counter} of {uls_config.main_resend_attempts}")
                     # Send the data
-                    resend_status = my_output.send_data(out_data)
-                    my_monitor.increase_message_count(len(out_data))
-                    aka_log.log.debug(f"<OUT> {out_data}")
+                    resend_status = my_output.send_data(log_line)
+                    my_monitor.increase_message_count(len(log_line))
+                    aka_log.log.debug(f"<OUT> {log_line}")
                     resend_counter = resend_counter + 1
 
                 if resend_counter == uls_config.main_resend_attempts and\
                         uls_config.main_resend_exit_on_fail:
                     aka_log.log.critical(f"MSG[{my_monitor.get_message_count()}] "
                                         f"ULS was not able to deliver the log message "
-                                        f"{out_data.decode()} after {resend_counter} attempts - Exiting!")
+                                        f"{log_line.decode()} after {resend_counter} attempts - Exiting!")
                     sys.exit(1)
                 elif resend_counter == uls_config.main_resend_attempts and \
                         not uls_config.main_resend_exit_on_fail:
                     aka_log.log.warning(
                         f"MSG[{my_monitor.get_message_count()}] "
                         f"ULS was not able to deliver the log message "
-                        f"{out_data.decode()} after {resend_counter} attempts - (continuing anyway as my config says)")
+                        f"{log_line.decode()} after {resend_counter} attempts - (continuing anyway as my config says)")
         except queue.Empty:
             # No data available, we get a chance to capture the StopEvent
             pass

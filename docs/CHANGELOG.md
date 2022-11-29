@@ -1,5 +1,23 @@
 # Version History
 
+## v1.6.3
+
+|||
+|---|---|
+|Date|2022-11-29
+|Kind| Minor release
+|Author|mschiess@akamai.com
+
+- **Minor improvements**
+  - Introduced '--httpaggregate' / 'ULS_HTTP_AGGREGATE' option to allow easier management of the HTTP(S) aggregation function 
+  - fixed concatenation issue on HTTP (multi-event bundle)
+  - [docker] bumped CLI-ETP version to 0.4.0 (future api support fix)
+  - [docker] bumped python version to 3.11.0
+  - fixed a bug in the "file output handler" - reported in [issue#35](https://github.com/akamai/uls/issues/35)
+  - fixed a bug in the "get_uls.sh" script which stated the wrong error message when pip was not found
+  - minor fix to properly detect "podman" as docker alternative
+  - Amendend installation steps for Guardicore and Linode log-fetcher(s)
+
 ## v1.6.2
 
 |||

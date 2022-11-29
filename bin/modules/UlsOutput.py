@@ -22,13 +22,14 @@ import requests
 import logging
 import logging.handlers
 import random
+import json
 
 # ULS specific modules
 import config.global_config as uls_config
 import modules.aka_log as aka_log
 
 
-stopEvent = threading.Event()
+#stopEvent = threading.Event()
 
 
 class UlsOutput:
@@ -40,6 +41,7 @@ class UlsOutput:
                  host=None,
                  port=None,
                  http_out_format=None,
+                 http_out_aggregate_count=None,
                  http_out_auth_header=None,
                  http_url=None,
                  http_insecure=False,
@@ -49,7 +51,8 @@ class UlsOutput:
                  filemaxbytes=None,
                  filetime=None,
                  fileinterval=None,
-                 fileaction=None):
+                 fileaction=None,
+                 stopEvent=None):
         """
         Initialzing a new UlsOutput handler
         :param output_type: The desired output format (TCP/ UDP / HTTP)
@@ -68,11 +71,13 @@ class UlsOutput:
         self.connected = False                  # Internal Connection tracker - do not touch
         # self.output_type = None
         self.http_out_format = None
+        self.http_out_aggregate_count = None
         self.http_url = None
         self.httpSession = None
         self.port = None
         self.host = None
         self.clientSocket = None
+        self.stopEvent = stopEvent
 
         # Handover Parameters
         ## Check & set output type
@@ -97,6 +102,7 @@ class UlsOutput:
 
             # ---- Begin change for EME-588 ----
             self.aggregateList = list()
+            self.http_out_aggregate_count = http_out_aggregate_count        # Added for easier CLI configuration
             self.aggregateListTick = None # Last time we added items in the list
             # ---- End change for EME-588 ----
 
@@ -132,8 +138,7 @@ class UlsOutput:
             self.http_timeout = uls_config.output_http_timeout
 
         elif self.output_type in ['HTTP'] and not http_url:
-            aka_log.log.critical(f"{self.name}  http_out_format http_out_auth_"
-                                 f"header http_url or http_insecure missing- exiting")
+            aka_log.log.critical(f"{self.name} --httpurl missing - exiting")
             sys.exit(1)
 
         # File Parameters
@@ -173,7 +178,7 @@ class UlsOutput:
         """
 
         reconnect_counter = 1
-        while not stopEvent.is_set() and self.connected is False \
+        while not self.stopEvent.is_set() and self.connected is False \
                 and reconnect_counter <= self.reconnect_retries:
             try:
 
@@ -302,8 +307,8 @@ class UlsOutput:
                             sys.exit(1)
 
                         # Due to a inconsitency in python logging handler (https://bugs.python.org/issue46377?) we need to do this
-                        if  self.fileinterval.lower() == "midnight":
-                            self.filetime = 1
+                        if  self.filetime.lower() == "midnight":
+                            self.fileinterval = 1
 
                         file_handler = logging.handlers.TimedRotatingFileHandler(filename=self.filename, when=self.filetime.lower(), interval=self.fileinterval, backupCount=self.filebackupcount, encoding=self.file_encoding, delay=False, utc=uls_config.output_file_default_time_use_utc, atTime=None)
 
@@ -372,6 +377,8 @@ class UlsOutput:
                 else:
                     aka_log.log.critical(f"{self.name} not able to connect to {self.http_url} - "
                                          f"giving up after {reconnect_counter - 1} retries.")
+
+                self.stopEvent.set()
                 sys.exit(1)
 
     def send_data(self, data):
@@ -385,37 +392,62 @@ class UlsOutput:
             aka_log.log.debug(f"{self.name} Trying to send data via {self.output_type}")
 
             if self.output_type == "TCP":
-                self.clientSocket.sendall(data)
+                out_data = data + uls_config.output_line_breaker.encode()
+                self.clientSocket.sendall(out_data)
 
             elif self.output_type == "UDP":
-                self.clientSocket.sendto(data, (self.host, self.port))
+                out_data = data + uls_config.output_line_breaker.encode()
+                self.clientSocket.sendto(out_data, (self.host, self.port))
 
             elif self.output_type == "HTTP":
-                self.aggregateList.append(data)
-                if len(self.aggregateList) == uls_config.output_http_aggregate_count or (
+                if len(self.aggregateList) < self.http_out_aggregate_count:
+                    self.aggregateList.append(json.loads(data.decode()))
+                else:
+                    aka_log.log.warning(
+                        f"{self.name} HTTP Aggregation queue is already full - not adding any more entries. Size: "
+                        f"({len(self.aggregateList)}/{self.http_out_aggregate_count})")
+
+                if len(self.aggregateList) >= self.http_out_aggregate_count or (
                     self.aggregateListTick is not None and
                     self.aggregateListTick < time.time() - uls_config.output_http_aggregate_idle
                 ):
-                    data = uls_config.output_line_breaker.join(
-                        self.http_out_format % (event.decode()) for event in self.aggregateList)
-                    request = requests.Request('POST', url=self.http_url, data=data)
+                    request = requests.Request('POST', url=self.http_url, data=(self.http_out_format % json.dumps(self.aggregateList)))
                     prepped = self.httpSession.prepare_request(request)
                     payload_length = prepped.headers["Content-Length"]
-                    response = self.httpSession.send(prepped, verify=self.http_verify_tls, timeout=self.http_timeout)
-                    response.close()  # Free up the underlying TCP connection in the connection pool
+
+                    response = None
+                    try:
+                        response = self.httpSession.send(prepped, verify=self.http_verify_tls, timeout=self.http_timeout)
+                    except Exception as bluu:
+                        print(f"bluu {bluu}")
+                        return False
+                    finally:
+                        if response:
+
+                            response.close()  # Free up the underlying TCP connection in the connection pool
+
                     aka_log.log.info(f"{self.name} HTTP POST of {len(self.aggregateList)} event(s) "
                                      f"completed in {(response.elapsed.total_seconds()*1000):.3f} ms, "
                                      f"payload={payload_length} bytes, HTTP response {response.status_code}, "
                                      f"response={response.text} ")
+                    if response.status_code != uls_config.output_http_expected_status_code:
+                        return False
                     self.aggregateList.clear()
+                else:
+                    aka_log.log.info(f"{self.name} Data not sent, but added to HTTP aggregation. Size: "
+                                     f"({len(self.aggregateList)}/{self.http_out_aggregate_count})")
+                    self.aggregateListTick = time.time()
+                    return True
                 self.aggregateListTick = time.time()
 
             elif self.output_type == "RAW":
-                sys.stdout.write(data.decode())
+                out_data = data + uls_config.output_line_breaker.encode()
+                sys.stdout.write(out_data.decode())
                 sys.stdout.flush()
 
             elif self.output_type == "FILE":
-                self.my_file_writer.info(f"{data.decode().rstrip()}")
+                out_data = data + uls_config.output_line_breaker.encode()
+                self.my_file_writer.info(f"{out_data.decode().rstrip()}")
 
             else:
                 aka_log.log.critical(f"{self.name} target was not defined {self.output_type} ")
