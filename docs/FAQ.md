@@ -11,6 +11,7 @@
 - [ULS on Windows error: "[WinError 2] The system cannot find the file specified"](#uls-on-windows-error-winerror-2-the-system-cannot-find-the-file-specified)
 - [ULS does not start due to missing field in config](#uls-does-not-start-due-to-missing-field-in-config)
 - [ULS throws TLS an error when connecting towards Guardicore API (--input GC)](#uls-throws-tls-an-error-when-connecting-towards-guardicore-api---input-gc)
+- [WHY JMESPATH and not JSONPATH](#why-jmespath-and-not-jsonpath)
 
 ----
 ## FAQ
@@ -111,6 +112,7 @@ We will follow up on this topic within an [GitHub issue](https://github.com/akam
 
 ---
 ### ULS throws TLS an error when connecting towards Guardicore API (--input GC)
+#### TLS_VERIFY_FAILED  
 When using an internal Guardicore installation that has no valid TLS certificate, ULS might throw the following error:
 ```bash
 self._sslobj.do_handshake()
@@ -132,5 +134,14 @@ In order to work with self-signed certificates, you have 2 options:
   export GC_SKIP_TLS_VALIDATION=True
   ```
 Both options also work for docker / kubernetes installations 
+
+#### SSLCertVerificationError  
+When "trusted" TLS certificates are used on the GC API side, it is crucial to provide the FULL CERTIFICATE CHAIN within the certificate file on the GC API.
+Otherwise an "SSLCertVerificationError" could occur. This also can be sovled with the fix above.
+
+---
+### WHY JMESPATH and not JSONPATH
+JMESPATH has a very stable and [well defined language specification](https://jmespath.org/specification.html).  
+This gives a user way more options than "pure" jsonpath and is also the reason we decided to go along with the more flexible integration.  
 
 ---

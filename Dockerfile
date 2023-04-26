@@ -1,4 +1,4 @@
-FROM            python:3.11.0-slim-bullseye
+FROM            python:3.11.3-slim-bullseye
 LABEL 	        MAINTAINER="Mike Schiessl - mike.schiessl@akamai.com"
 LABEL	        APP_LONG="Akamai Universal Log Streamer"
 LABEL           APP_SHORT="ULS"
@@ -11,7 +11,7 @@ ARG             ULS_DIR="$HOMEDIR/uls"
 ARG             EXT_DIR="$ULS_DIR/ext"
 
 ARG             ETP_CLI_VERSION="0.4.0"
-ARG             EAA_CLI_VERSION="0.5.5"
+ARG             EAA_CLI_VERSION="0.5.7"
 ARG             MFA_CLI_VERSION="0.0.9"
 ARG             GC_CLI_VERSION="dev"
 ARG             LINODE_CLI_VERSION="dev"

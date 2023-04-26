@@ -1,5 +1,16 @@
 # Version History
 
+## 1.6.4
+|||
+|---|---|
+|Date|2023-04-26
+|Kind| Minor release
+|Author|mschiess@akamai.com
+- **Minor improvements**
+  - Updated docs to fix a flaw in the timestamp format
+  - [docker] bumped CLI-EAA version to "0.5.7"
+  - [docker] bumped python version to 3.11.3
+
 ## v1.6.3
 
 |||
