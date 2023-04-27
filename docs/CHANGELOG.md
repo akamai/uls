@@ -3,13 +3,14 @@
 ## 1.6.4
 |||
 |---|---|
-|Date|2023-04-26
+|Date|2023-04-27
 |Kind| Minor release
 |Author|mschiess@akamai.com
 - **Minor improvements**
   - Updated docs to fix a flaw in the timestamp format
   - [docker] bumped CLI-EAA version to "0.5.7"
   - [docker] bumped python version to 3.11.3
+  - [docker] bumped CLI-GC version to "v0.0.1(beta)"
 - **Bugfix**
   - `--endtime <value>` didn't cause ULS to eventually stop ops. This is now fixed.
 
