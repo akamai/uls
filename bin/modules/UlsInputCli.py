@@ -394,6 +394,7 @@ class UlsInputCli:
                 self.rerun_counter += 1
                 if self.run_once:
                     aka_log.log.critical(f"{self.name} - '--endtime' was specified - so stopping now")
+                    self.stopEvent.set()
                     sys.exit(1)
                 elif (self.cycle_counter <= self.disable_stderr_after and self.disable_stderr) or not self.disable_stderr:
                     aka_log.log.error(f'{self.name} - CLI process [{self.proc.pid}]'
