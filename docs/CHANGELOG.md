@@ -10,6 +10,8 @@
   - Updated docs to fix a flaw in the timestamp format
   - [docker] bumped CLI-EAA version to "0.5.7"
   - [docker] bumped python version to 3.11.3
+- **Bugfix**
+  - `--endtime <value>` didn't cause ULS to eventually stop ops. This is now fixed.
 
 ## v1.6.3
 
