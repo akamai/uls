@@ -327,6 +327,7 @@ class UlsInputCli:
                 sys.exit(1)
 
             try:
+                # Lets start the selection
                 self.cycle_counter = 0
                 aka_log.log.info(f'{self.name} - CLI Command:  {" ".join(cli_command)}')
                 os.environ["PYTHONUNBUFFERED"] = "1"
@@ -343,7 +344,12 @@ class UlsInputCli:
                 # if not os.name == 'nt':
                 #     os.set_blocking(self.proc_output.fileno(), False)
 
-                time.sleep(1)
+                if not self.endtime:
+                    time.sleep(1)
+                else:
+                    self.run_once = True
+                #if self.endtime:
+                #    self.run_once = True
 
                 if not self.check_proc():
                     #self.rerun_counter += 1
@@ -357,6 +363,7 @@ class UlsInputCli:
                 self.rerun_counter = 1
                 if self.endtime:
                     self.run_once = True
+
 
                 #self.cli_proc.stderr = subprocess.DEVNULL
 
@@ -376,7 +383,6 @@ class UlsInputCli:
     def check_proc(self):
         try:
             if self.proc.poll() is None:
-
                 if self.cycle_counter == self.disable_stderr_after and self.disable_stderr:
                     aka_log.log.info(f"{self.name} - Disabling STDERR output from now on, after {self.cycle_counter} successful cycles")
                     self.cli_proc.stderr = subprocess.DEVNULL
@@ -386,7 +392,11 @@ class UlsInputCli:
             else:
                 self.running = False
                 self.rerun_counter += 1
-                if (self.cycle_counter <= self.disable_stderr_after and self.disable_stderr) or not self.disable_stderr:
+                if self.run_once:
+                    aka_log.log.critical(f"{self.name} - '--endtime' was specified - so stopping now")
+                    self.stopEvent.set()
+                    sys.exit(1)
+                elif (self.cycle_counter <= self.disable_stderr_after and self.disable_stderr) or not self.disable_stderr:
                     aka_log.log.error(f'{self.name} - CLI process [{self.proc.pid}]'
                                       f' was found stale - Reason:  "{self.proc.stderr.read().decode()}" ')
                 else:
@@ -397,6 +407,7 @@ class UlsInputCli:
         except Exception as my_error:
             if self.run_once:
                 aka_log.log.critical(f"{self.name} - '--endtime' was specified - so stopping now")
+
                 sys.exit(0)
             else:
                 aka_log.log.error(f'{self.name} - Soemthing really '

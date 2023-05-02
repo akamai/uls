@@ -1,5 +1,22 @@
 # Version History
 
+
+## v1.6.4
+|||
+|---|---|
+|Date|2023-05-02
+|Kind| Minor release
+|Author|mschiess@akamai.com
+- **Minor improvements**
+  - Updated docs to clarify the required timestamp format (undefined --> epoch time in seconds)
+  - [docker] bumped CLI-EAA version to "0.5.7"
+  - [docker] bumped python version to 3.11.3
+  - [docker] bumped CLI-GC version to "v0.0.1(beta)"
+  - [docker] bumped CLI-MFA version to 0.1.1
+- **Bugfix**
+  - `--endtime <value>` didn't cause ULS to eventually stop ops. This is now fixed.
+  - improved container detection (only cosmetic improvement)
+
 ## v1.6.3
 
 |||

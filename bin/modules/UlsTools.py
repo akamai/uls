@@ -104,7 +104,7 @@ def uls_version(root_path):
           f"OS Plattform\t\t{platform.platform()}\n"
           f"OS Version\t\t{platform.release()}\n"
           f"Python Version\t\t{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}\n"
-          f"Container Status\t\t{check_container()}\n"
+          f"Container Status\t{check_container()}\n"
           f"RootPath \t\t{root_path}\n"
           f"TimeZone (UTC OFST) \t{check_timezone()} ({-time.timezone / 3600})\n"
           f"Installation ID \t{get_install_id()['install_id']}"
@@ -165,7 +165,7 @@ def uls_check_args(input, output):
 
 
 def check_container():
-    if os.path.isfile('/.dockerenv') or os.path.isfile('/run/.containerenv'):
+    if os.path.isfile('/.dockerenv') or os.path.isfile('/run/.containerenv') or os.getenv('CONTAINERIZED'):
         return True
     else:
         return False

@@ -45,7 +45,7 @@ It can be run directly as Python code, as a provided Docker container,  through 
       - [PROXY](docs/LOG_OVERVIEW.md#proxy)
     - [Akamai Phish-proof Multi Factor Authenticator (AKAMAI-MFA)](https://www.akamai.com/us/en/products/security/akamai-mfa.jsp)
       - [EVENT](docs/LOG_OVERVIEW.md#authentication-logs-auth)
-    - [Akamai Guardicore Segmentation](https://www.akamai.com/lp/guardicore) (experimental)
+    - [Akamai Guardicore Segmentation](https://www.akamai.com/lp/guardicore) (beta)
       - [NETLOG](docs/LOG_OVERVIEW.md#netlog)
       - [INCIDENT](docs/LOG_OVERVIEW.md#incident)
       - AGENT
