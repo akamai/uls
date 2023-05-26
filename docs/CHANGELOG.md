@@ -1,5 +1,12 @@
 # Version History
-
+## v1.6.5
+|||
+|---|---|
+|Date|2023-XX-XX
+|Kind| Minor release
+|Author|mschiess@akamai.com
+- **Minor improvements**
+  - Allow manipulation of the [TCP & UDP output format](ARGUMENTS_ENV_VARS.md#list-of-parameters--environmental-variables) (--tcpudpformat / ULS_TCPUDP_FORMAT).
 
 ## v1.6.4
 |||

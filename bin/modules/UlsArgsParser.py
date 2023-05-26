@@ -139,7 +139,7 @@ def init():
                               help="Port for TCP/UDP")
 
     ## TCP/UDP FORMAT DEFINITION
-    output_group.add_argument('--tcpudp_format',
+    output_group.add_argument('--tcpudpformat',
                               action='store',
                               type=str,
                               default=(os.environ.get('ULS_TCPUDP_FORMAT') or '%s'),
