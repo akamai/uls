@@ -138,6 +138,15 @@ def init():
                               default=int(os.environ.get('ULS_OUTPUT_PORT') or '0' ),
                               help="Port for TCP/UDP")
 
+    ## TCP/UDP FORMAT DEFINITION
+    output_group.add_argument('--tcpudp_format',
+                              action='store',
+                              type=str,
+                              default=(os.environ.get('ULS_TCPUDP_FORMAT') or '%s'),
+                              help='TCP UDP Message format expected by the receiver '
+                                   '(%%s defines the data string). Default \'%%s\'')
+
+
     # HTTP
     ## HTTP URL
     output_group.add_argument('--httpurl',

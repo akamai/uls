@@ -114,6 +114,7 @@ def main():
     my_output = UlsOutput.UlsOutput(output_type=uls_args.output,
                                     host=uls_args.host,
                                     port=uls_args.port,
+                                    tcpudp_out_format=uls_args.tcpudp_format,
                                     http_out_format=uls_args.httpformat,
                                     http_out_auth_header=uls_args.httpauthheader,
                                     http_out_aggregate_count=uls_args.httpaggregate,

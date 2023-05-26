@@ -40,6 +40,7 @@ class UlsOutput:
     def __init__(self, output_type: str,
                  host=None,
                  port=None,
+                 tcpudp_out_format='%s',
                  http_out_format=None,
                  http_out_aggregate_count=None,
                  http_out_auth_header=None,
@@ -76,6 +77,7 @@ class UlsOutput:
         self.httpSession = None
         self.port = None
         self.host = None
+        self.tcpudp_out_format = None
         self.clientSocket = None
         self.stopEvent = stopEvent
 
@@ -92,6 +94,7 @@ class UlsOutput:
         if self.output_type in ['TCP', 'UDP'] and host and port:
             self.host = host
             self.port = port
+            self.tcpudp_out_format = tcpudp_out_format
         elif self.output_type in ['TCP', 'UDP'] and (not host or not port):
             aka_log.log.critical(f"{self.name} - Host or Port has not "
                                  f"been set Host: {host} Port: {port} - exiting")
@@ -392,11 +395,13 @@ class UlsOutput:
             aka_log.log.debug(f"{self.name} Trying to send data via {self.output_type}")
 
             if self.output_type == "TCP":
-                out_data = data + uls_config.output_line_breaker.encode()
+                send_data = bytes(self.tcpudp_out_format, 'utf-8') % data
+                out_data = send_data + uls_config.output_line_breaker.encode()
                 self.clientSocket.sendall(out_data)
 
             elif self.output_type == "UDP":
-                out_data = data + uls_config.output_line_breaker.encode()
+                send_data = bytes(self.tcpudp_out_format, 'utf-8') % data
+                out_data = send_data + uls_config.output_line_breaker.encode()
                 self.clientSocket.sendto(out_data, (self.host, self.port))
 
             elif self.output_type == "HTTP":
