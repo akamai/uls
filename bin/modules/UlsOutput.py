@@ -94,7 +94,13 @@ class UlsOutput:
         if self.output_type in ['TCP', 'UDP'] and host and port:
             self.host = host
             self.port = port
-            self.tcpudp_out_format = tcpudp_out_format
+            if "%s" in tcpudp_out_format:
+                self.tcpudp_out_format = tcpudp_out_format
+            else:
+                aka_log.log.critical(
+                    f"{self.name} The given TCP_UDP_OUT_FORMAT does not contain %s identifier:"
+                    f"given ULS_TCPUDP_FORMAT: {tcpudp_out_format} - exiting")
+                sys.exit(1)
         elif self.output_type in ['TCP', 'UDP'] and (not host or not port):
             aka_log.log.critical(f"{self.name} - Host or Port has not "
                                  f"been set Host: {host} Port: {port} - exiting")
