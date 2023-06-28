@@ -1,4 +1,4 @@
-FROM            python:3.11.3-slim-bullseye
+FROM            python:3.11.4-slim-bookworm
 LABEL 	        MAINTAINER="Mike Schiessl - mike.schiessl@akamai.com"
 LABEL	        APP_LONG="Akamai Universal Log Streamer"
 LABEL           APP_SHORT="ULS"
