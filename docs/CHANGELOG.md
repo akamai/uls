@@ -1,4 +1,14 @@
 # Version History
+
+## v1.6.6
+|||
+|---|---|
+|Date|2023-XX-XX
+|Kind| Minor release
+|Author|mschiess@akamai.com
+- **Minor improvements**
+  - DOC Fix for manual CLI installation 
+  - 
 ## v1.6.5
 |||
 |---|---|
