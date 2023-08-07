@@ -266,7 +266,7 @@ class UlsOutput:
                                                     data='{"event":"connection test"}',
                                                     verify=self.http_verify_tls, timeout=self.http_timeout)
 
-                    if resp.status_code == 200:
+                    if resp.status_code in (200, 204):
                         reconnect_counter = 1
                         self.connected = True
                         aka_log.log.info(f"{self.name} successful connected to {self.http_url} ")
