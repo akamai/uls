@@ -90,7 +90,7 @@ Anyway, details for some specific SIEM solutions can be found in [this directory
 - Python 3.9+ OR docker / docker-compose OR kubernetes / helm
 - AKAMAI .edgerc file ([see further documentation here](docs/AKAMAI_API_CREDENTIALS.md))
 - Outbound Internet access (Akamai API, Dockerhub OR Python repositories)
-
+- Compute resource footprint is minimal: 1 vCPU, 1 GB RAM, 500 MB free disk. See also [High availability](docs/HIGH_AVAILABILITY.md) doc.
 
 ### Command Line Usage
 ![ULS command line usage](docs/images/uls_cli_help_example.png)  

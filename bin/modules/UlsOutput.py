@@ -46,6 +46,7 @@ class UlsOutput:
                  http_out_auth_header=None,
                  http_url=None,
                  http_insecure=False,
+                 http_liveness=True,
                  filehandler=None,
                  filename=None,
                  filebackupcount=None,
@@ -74,6 +75,7 @@ class UlsOutput:
         self.http_out_format = None
         self.http_out_aggregate_count = None
         self.http_url = None
+        self.http_liveness = None
         self.httpSession = None
         self.port = None
         self.host = None
@@ -144,6 +146,7 @@ class UlsOutput:
                 self.http_out_auth_header = http_out_auth_header
 
             self.http_insecure = http_insecure
+            self.http_liveness = http_liveness
             self.http_timeout = uls_config.output_http_timeout
 
         elif self.output_type in ['HTTP'] and not http_url:
@@ -261,22 +264,26 @@ class UlsOutput:
                         aka_log.log.info(f"{self.name} attempting to connect via "
                                          f"HTTP(S) to {self.http_url} ")
 
-                    # Let'S do an options request
-                    resp = self.httpSession.options(url=self.http_url,
-                                                    data='{"event":"connection test"}',
-                                                    verify=self.http_verify_tls, timeout=self.http_timeout)
+                    # Probe the HTTP Server for liveness issuing OPTIONS request
+                    if self.http_liveness:
+                        resp = self.httpSession.options(url=self.http_url,
+                                                        data='{"event":"connection test"}',
+                                                        verify=self.http_verify_tls, timeout=self.http_timeout)
 
-                    if resp.status_code == 200:
-                        reconnect_counter = 1
-                        self.connected = True
-                        aka_log.log.info(f"{self.name} successful connected to {self.http_url} ")
+                        if resp.status_code in (200, 204):
+                            reconnect_counter = 1
+                            self.connected = True
+                            aka_log.log.info(f"{self.name} Liveness check, connected to {self.http_url} ")
+                        else:
+                            aka_log.log.error(f"{self.name} Liveness check, error connecting to {self.http_url}. "
+                                              f"StatusCode: {resp.status_code} Reason: "
+                                              f"{resp.text} [{reconnect_counter}]")
+                            time.sleep(uls_config.output_reconnect_delay)
+                            self.connected = False
+                            reconnect_counter = reconnect_counter + 1
                     else:
-                        aka_log.log.error(f"{self.name} error connecting to {self.http_url}. "
-                                          f"StatusCode: {resp.status_code} Reason: "
-                                          f"{resp.text} [{reconnect_counter}]")
-                        time.sleep(uls_config.output_reconnect_delay)
-                        self.connected = False
-                        reconnect_counter = reconnect_counter + 1
+                        aka_log.log.info("Bypassing HTTP liveness check, reason: disabled.")
+                        self.connected = True
 
                 # RAW OUTPUT
                 elif self.output_type == "RAW":

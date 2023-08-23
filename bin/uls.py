@@ -120,6 +120,7 @@ def main():
                                     http_out_aggregate_count=uls_args.httpaggregate,
                                     http_url=uls_args.httpurl,
                                     http_insecure=uls_args.httpinsecure,
+                                    http_liveness=uls_args.httpliveness,
                                     filehandler=uls_args.filehandler,
                                     filename=uls_args.filename,
                                     filebackupcount=uls_args.filebackupcount,
