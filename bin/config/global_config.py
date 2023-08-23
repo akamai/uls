@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Common global variables / constants
-__version__ = "1.6.5"
+__version__ = "1.6.6"
 __tool_name_long__ = "Akamai Unified Log Streamer"
 __tool_name_short__ = "ULS"
 
@@ -25,7 +25,7 @@ eaa_cli_feeds = ['ACCESS', 'ADMIN', 'CONHEALTH', 'DEVINV']
         # Path to the ETP CLI Executable
 bin_etp_cli = "ext/cli-etp/bin/akamai-etp"
         # Available ETP CLI feeds
-etp_cli_feeds = ['THREAT', 'AUP', 'DNS', 'PROXY']
+etp_cli_feeds = ['THREAT', 'AUP', 'DNS', 'PROXY', 'NETCON']
 
     # MFA
 bin_mfa_cli = "ext/cli-mfa/bin/akamai-mfa"      # Path to the MFA CLI Executable

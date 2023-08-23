@@ -282,7 +282,7 @@ class UlsOutput:
                             self.connected = False
                             reconnect_counter = reconnect_counter + 1
                     else:
-                        aka_log.log.info("Bypassing HTTP liveness check, reason: disabled.")
+                        aka_log.log.info("Bypassing HTTP liveness check, reason: manually disabled.")
                         self.connected = True
 
                 # RAW OUTPUT

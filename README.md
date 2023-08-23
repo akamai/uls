@@ -43,6 +43,7 @@ It can be run directly as Python code, as a provided Docker container,  through 
       - [AUP](docs/LOG_OVERVIEW.md#accceptable-use-policy-logs-aup)
       - [DNS](docs/LOG_OVERVIEW.md#dns)
       - [PROXY](docs/LOG_OVERVIEW.md#proxy)
+      - [NETCON](docs/LOG_OVERVIEW.md#netcon)
     - [Akamai Phish-proof Multi Factor Authenticator (AKAMAI-MFA)](https://www.akamai.com/us/en/products/security/akamai-mfa.jsp)
       - [EVENT](docs/LOG_OVERVIEW.md#authentication-logs-auth)
     - [Akamai Guardicore Segmentation](https://www.akamai.com/lp/guardicore) (beta)

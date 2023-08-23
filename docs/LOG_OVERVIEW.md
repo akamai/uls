@@ -18,6 +18,7 @@ Here are some examples (per product) and links to additional information.
     - [Accceptable Use Policy Logs (AUP)](#accceptable-use-policy-logs-aup)
     - [DNS](#dns)
     - [PROXY](#proxy)
+    - [NETCON](#netcon)
   - [Akamai MFA (MFA)](#akamai-mfa-mfa)
     - [Authentication Logs (AUTH)](#authentication-logs-auth)
   - [Guardicore](#guardicore)
@@ -253,7 +254,7 @@ Each event will be one device as a JSON document, example provided with the cli-
 ## Enterprise Threat Protector (ETP)
 
 ### Threat Log (THREAT)
-Additional information regarding the log fields can be found on [here](https://developer.akamai.com/api/enterprise_security/enterprise_threat_protector_reporting/v3.html#threatevent)
+Additional information regarding the log fields can be found [here](https://techdocs.akamai.com/etp-reporting/reference/post-threat-event-details)
 ```json
 {
     "pageInfo": {
@@ -644,7 +645,7 @@ Additional information regarding the log fields can be found on [here](https://d
 ```
 
 ### Accceptable Use Policy Logs (AUP)
-Additional information regarding the log fields can be found on [here](https://developer.akamai.com/api/enterprise_security/enterprise_threat_protector_reporting/v3.html#event)
+Additional information regarding the log fields can be found [here](https://techdocs.akamai.com/etp-reporting/reference/get-events-details)
 ```json
 {
     "pageInfo": {
@@ -1035,7 +1036,7 @@ Additional information regarding the log fields can be found on [here](https://d
 ```
 
 ### DNS
-Additional information regarding the log fields can be found on [here](https://developer.akamai.com/api/enterprise_security/enterprise_threat_protector_reporting/v3.html#dnsactivityevent)
+Additional information regarding the log fields can be found [here](https://techdocs.akamai.com/etp-reporting/reference/post-dns-activities-details)
 ```json
 {
     "pageInfo": {
@@ -1262,7 +1263,7 @@ Additional information regarding the log fields can be found on [here](https://d
 ```
 
 ### PROXY
-Additional information regarding the log fields can be found on [here](https://developer.akamai.com/api/enterprise_security/enterprise_threat_protector_reporting/v3.html#proxytraffictransaction)
+Additional information regarding the log fields can be found [here](https://techdocs.akamai.com/etp-reporting/reference/post-traffic-transaction-details)
 ```json
 {
     "pageInfo": {
@@ -2086,6 +2087,11 @@ Additional information regarding the log fields can be found on [here](https://d
 }
 ```
 
+### NETCON
+Additional information regarding the log fields can be found [here](https://techdocs.akamai.com/etp-reporting/reference/post-network-traffic-connections-details)
+```json
+{"id": "123", "connectionId": "0xABCDEF1234567890", "domain": "123.123.123.123", "connStartTime": "2023-08-23T07:59:11Z", "connEndTime": "2023-08-23T07:59:11Z", "clientIP": "222.111.222.111", "clientPort": 35593, "destinationIP": "111.222.111.222", "destinationPort": 80, "siteId": 1234536, "siteName": "ETP DEMO", "policyAction": "onramp", "onrampType": "explicit_proxy_tls", "internalClientIP": "", "httpVersion": "N/A", "httpUserAgent": "", "machineId": "", "machineName": "", "clientRequestId": "", "ovfActionId": -1, "ovfActionName": "N/A", "stats": {"httpRequestCount": 1, "inBytes": 0, "outBytes": 0}, "dropInfo": {"wasDropped": true, "droppedReason": "Destination Filter - Internal Host IP"}, "encryptedInternalClientIP": "123123123123123123/ABCDEF", "decryptedInternalClientIP": "192.168.11.168", "sublocationId": "-1", "sublocationName": "N/A", "deviceOwnerId": "", "encryptedInternalClientName": ""}
+```
 
 ## Akamai MFA (MFA)
 Additional information regarding the MFA log fields can be found on [here](https://techdocs.akamai.com/mfa/docs/splunk-app).
