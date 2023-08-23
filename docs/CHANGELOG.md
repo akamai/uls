@@ -15,6 +15,7 @@
   - [docker] bumped CLI-ETP version to "0.4.2"
 - **Housekeeping**
   - Updated the ETP Links from developer.akamai.com to techdocs.akamai.com
+  - Added "docker file liniting" into test scripts
   
 ## v1.6.5
 |||
