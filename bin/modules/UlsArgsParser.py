@@ -194,12 +194,12 @@ def init():
     output_group.add_argument('--httpliveness',
                               action='store',
                               type=lambda x: bool(strtobool(x)),
-                              default=strtobool(os.environ.get('ULS_HTTP_LIVENESS_CHECK',
-                                                               uls_config.output_http_liveness_check)),
+                              default=(os.environ.get('ULS_HTTP_LIVENESS_CHECK') or uls_config.output_http_liveness_check),
                               help=f"ULS to send a OPTIONS request to the HTTP Server "
                                    f"to ensure its liveness. ULS will fail if server is not "
                                    f"responding with HTTP/200 or HTTP/204. Set to False to "
-                                   f"disable. Default: {uls_config.output_http_liveness_check}")
+                                   f"disable. Default: {uls_config.output_http_liveness_check}"
+    )
 
     # FILE STUFF
     ## File Handler
