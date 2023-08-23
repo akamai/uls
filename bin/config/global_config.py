@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Common global variables / constants
-__version__ = "1.6.5"
+__version__ = "1.6.6"
 __tool_name_long__ = "Akamai Unified Log Streamer"
 __tool_name_short__ = "ULS"
 
@@ -25,7 +25,7 @@ eaa_cli_feeds = ['ACCESS', 'ADMIN', 'CONHEALTH', 'DEVINV']
         # Path to the ETP CLI Executable
 bin_etp_cli = "ext/cli-etp/bin/akamai-etp"
         # Available ETP CLI feeds
-etp_cli_feeds = ['THREAT', 'AUP', 'DNS', 'PROXY']
+etp_cli_feeds = ['THREAT', 'AUP', 'DNS', 'PROXY', 'NETCON']
 
     # MFA
 bin_mfa_cli = "ext/cli-mfa/bin/akamai-mfa"      # Path to the MFA CLI Executable
@@ -76,6 +76,7 @@ output_http_timeout = 10                        # Timeout after which a request 
 output_http_aggregate_count = 500               # Number of events to aggregate in POST request to HTTP Collector. 1 mean no aggregation
 output_http_aggregate_idle = 5                  # Aggregate will send the data regardless of the count if the previous event was x secs ago
 output_http_expected_status_code = 200          # Return Code for successful delivery
+output_http_liveness_check = True               # Send an OPTIONS request to probe the HTTP Server is live
     ## FILE
 output_file_encoding = "utf-8"                  # FILE Encoding setting
 output_file_handler_choices = ['SIZE', 'TIME']  # Available Choices for the file handler

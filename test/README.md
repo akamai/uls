@@ -36,6 +36,7 @@ For better testing stability, we packed the required dependencies into the test 
 ```
 brew install bats-core
 brew install helm
+brew install hadolint
 
 git clone https://github.com/ztombol/bats-assert.git test/bats/bats-assert
 git clone https://github.com/ztombol/bats-support.git test/bats/bats-support

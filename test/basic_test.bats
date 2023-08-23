@@ -56,11 +56,11 @@ current_version=$(cat docs/CHANGELOG.md | grep "##" | head -n 1 | sed 's/.* v//'
 	[ "$status" -eq 0 ]
 }
 
-@test "cat docs/examples/kubernetes/helm/akamai-uls/Chart.yaml - Version output should be ($current_version) according to CHANGELOG" {
-	run echo $(cat docs/examples/kubernetes/helm/akamai-uls/Chart.yaml | egrep "^version:" | cut -d " " -f 2)
-	assert_output --partial "$current_version"
-	[ "$status" -eq 0 ]
-}
+#@test "cat docs/examples/kubernetes/helm/akamai-uls/Chart.yaml - Version output should be ($current_version) according to CHANGELOG" {
+#	run echo $(cat docs/examples/kubernetes/helm/akamai-uls/Chart.yaml | egrep "^version:" | cut -d " " -f 2)
+#	assert_output --partial "$current_version"
+#	[ "$status" -eq 0 ]
+#}
 
 @test "cat docs/examples/kubernetes/helm/akamai-uls/Chart.yaml - appVersion output should be ($current_version) according to CHANGELOG" {
 	run echo $(cat docs/examples/kubernetes/helm/akamai-uls/Chart.yaml | egrep "^appVersion:" | cut -d " " -f 2)
@@ -71,5 +71,10 @@ current_version=$(cat docs/CHANGELOG.md | grep "##" | head -n 1 | sed 's/.* v//'
 @test "Helm Lint akamai-uls" {
   run helm lint docs/examples/kubernetes/helm/akamai-uls
   assert_output --partial "1 chart(s) linted, 0 chart(s) failed"
+  [ "$status" -eq 0 ]
+}
+
+@test "Verify Docker file (hadolint)" {
+  run hadolint Dockerfile
   [ "$status" -eq 0 ]
 }

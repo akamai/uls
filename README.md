@@ -43,6 +43,7 @@ It can be run directly as Python code, as a provided Docker container,  through 
       - [AUP](docs/LOG_OVERVIEW.md#accceptable-use-policy-logs-aup)
       - [DNS](docs/LOG_OVERVIEW.md#dns)
       - [PROXY](docs/LOG_OVERVIEW.md#proxy)
+      - [NETCON](docs/LOG_OVERVIEW.md#netcon)
     - [Akamai Phish-proof Multi Factor Authenticator (AKAMAI-MFA)](https://www.akamai.com/us/en/products/security/akamai-mfa.jsp)
       - [EVENT](docs/LOG_OVERVIEW.md#authentication-logs-auth)
     - [Akamai Guardicore Segmentation](https://www.akamai.com/lp/guardicore) (beta)
@@ -90,7 +91,7 @@ Anyway, details for some specific SIEM solutions can be found in [this directory
 - Python 3.9+ OR docker / docker-compose OR kubernetes / helm
 - AKAMAI .edgerc file ([see further documentation here](docs/AKAMAI_API_CREDENTIALS.md))
 - Outbound Internet access (Akamai API, Dockerhub OR Python repositories)
-
+- Compute resource footprint is minimal: 1 vCPU, 1 GB RAM, 500 MB free disk. See also [High availability](docs/HIGH_AVAILABILITY.md) doc.
 
 ### Command Line Usage
 ![ULS command line usage](docs/images/uls_cli_help_example.png)  

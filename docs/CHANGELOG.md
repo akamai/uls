@@ -1,4 +1,22 @@
 # Version History
+
+## v1.6.6
+|||
+|---|---|
+|Date|2023-08-23
+|Kind| Minor release
+|Author|mschiess@akamai.com, androcho@akamai.com
+- **Features**
+  - Added '--httpliveness' to disable HTTP(S) OPTIONS request for liveness checking
+  - Added new feed for ETP: Network traffic connections details (netcon) [Requires CLI-ETP >= 0.4.2]
+- **Minor improvements**
+  - DOC Fix for manual CLI installation
+  - [docker] bumped CLI-EAA version to "0.5.9"
+  - [docker] bumped CLI-ETP version to "0.4.2"
+- **Housekeeping**
+  - Updated the ETP Links from developer.akamai.com to techdocs.akamai.com
+  - Added "docker file liniting" into test scripts
+  
 ## v1.6.5
 |||
 |---|---|

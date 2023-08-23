@@ -226,7 +226,7 @@ git -C ext/cli-eaa pull -q
 pip3 install -q -r ext/cli-eaa/requirements.txt
 
 # ETP CLI (only if installed)
-git -C ext/cli-etppull -q
+git -C ext/cli-etp pull -q
 pip3 install -q -r ext/cli-etp/requirements.txt
 
 # MFA CLI (only if installed)
