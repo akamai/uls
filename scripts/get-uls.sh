@@ -1,6 +1,6 @@
 #!/bin/bash
 # This file will install the latest ULS including all of its modules (latest version) into the current directory/uls
-# bash $(curl https://)
+# curl -O https://raw.githubusercontent.com/akamai/uls/main/scripts/get-uls.sh && bash get-uls.sh
 
 default_modules="eaa,etp,mfa,gc,ln"
 default_install_dir="$(pwd)/uls"
@@ -25,22 +25,47 @@ if [[ -z $(which git) ]] ; then
 fi
 
 ## check python version
+### check python exists
 if [[ -z $(which python3) ]] ; then
   echo "Python3 binary was not found - exiting"
   exit 1
 fi
 
+### check python version is correct for ULS
 py_version=$(python3 --version | cut -d " " -f 2)
 if [[ $(echo ${py_version} | cut -d "." -f 1 ) -ne 3 ]] || [[ $(echo ${py_version} | cut -d "." -f 2 ) -lt 9 ]]; then
   echo "Wrong Python version - exiting"
   exit 1
 fi
 
+
 ## pip3
 if [[ -z $(which pip3) ]] ; then
   echo "pip3 binary was not found - exiting"
   exit 1
 fi
+
+### Show versions to verify the correct binaries for python and pip are being used
+echo "We will use the following python binaries to install ULS:"
+echo -ne "python3: \t $(ls $(which python3))\n"
+echo -ne "pip3: \t\t $(ls $(which pip3))\n\n"
+echo -ne "Is this correct (Y|n)"
+read py_reply
+
+
+case $py_reply in
+  y|Y)
+    echo "Continuing"
+  ;;
+  n|N)
+    echo -e "Not the right version ?\nPlease adjust your ENV and SYMLINK settings to point to the correct binaries."
+    echo -e "EXITING !"
+    exit 1
+  ;;
+  *)
+    echo "Couldn't read your input - exiting !"
+    exit 1
+esac
 
 # ASK for INSTALL DETAILS 
 ## Install DIR 
