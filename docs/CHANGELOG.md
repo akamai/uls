@@ -1,4 +1,12 @@
 # Version History
+## v1.6.7
+|||
+|---|---|
+|Date|2023-XX-XXX
+|Kind| Minor release
+|Author|mschiess@akamai.com, androcho@akamai.com
+- **Minor improvements**
+  - Added additional checking in the auto installer
 
 ## v1.6.6
 |||
