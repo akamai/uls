@@ -121,6 +121,7 @@ def main():
                                     http_url=uls_args.httpurl,
                                     http_insecure=uls_args.httpinsecure,
                                     http_liveness=uls_args.httpliveness,
+                                    http_formattype=uls_args.httpformattype,
                                     filehandler=uls_args.filehandler,
                                     filename=uls_args.filename,
                                     filebackupcount=uls_args.filebackupcount,

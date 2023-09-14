@@ -12,6 +12,7 @@
 - [ULS does not start due to missing field in config](#uls-does-not-start-due-to-missing-field-in-config)
 - [ULS throws TLS an error when connecting towards Guardicore API (--input GC)](#uls-throws-tls-an-error-when-connecting-towards-guardicore-api---input-gc)
 - [WHY JMESPATH and not JSONPATH](#why-jmespath-and-not-jsonpath)
+- [What is HTTP FORMATTYPE](#what-is-http-formattype)
 
 ----
 ## FAQ
@@ -145,3 +146,24 @@ JMESPATH has a very stable and [well defined language specification](https://jme
 This gives a user way more options than "pure" jsonpath and is also the reason we decided to go along with the more flexible integration.  
 
 ---
+### What is HTTP FORMATTYPE
+As some SIEM operate way more performant, when not having to parse JSON to separate log lines when receiving HTTP requests, ULS 1.6.7 introduces a way to actually control the behavior how data is sent within an HTTP request.
+While using the `--httpformattype` flag or the `ULS_HTTP_FORMAT_TYPE` ENV variable the following options can be choosen:
+#### JSON-LIST  
+The HTTP paypload will be a concatenated list of log-lines which will replace the %s variable within the HTTP FORMAT.  
+
+**Example:**   
+HTTP_FORMAT: `'{"event": %s}'`  
+Aggregated list: `[{logline1},{logline2},{logline3},{….},{logline500}]`  
+Final Output Example: `'{"event": [{logline1},{logline2},{logline3},{….},{logline500}]}'`  
+
+
+#### SINGLE-EVENT
+The HTTP payload will be a single HTTP FORMAT type filled with one logline but still containing multiple loglines per paypload  
+
+**Example:**   
+HTTP_FORMAT: `'{"event": %s}'`  
+Aggregated list: `[{logline1},{logline2},{logline3},{….},{logline500}]`    
+Final Output Example: '{"event": {logline1}}{"event": {logline2}}{"event": {….}}{"event": {logline500}}'  
+
+Within the `single-event` mode, you can freely amend line breake configuration like `\n` or others, by amending it to the HTTP_FORMAT e.g. HTTP_FORMAT: `'{"event": %s}\n'` 

@@ -201,6 +201,16 @@ def init():
                                    f"disable. Default: {uls_config.output_http_liveness_check}"
     )
 
+    ## HTTP FORMATTYPE
+    output_group.add_argument('--httpformattype',
+                              action='store',
+                              type=str.lower,
+                              default=(os.environ.get('ULS_HTTP_FORMAT_TYPE') or
+                                       uls_config.output_http_default_formattype),
+                              choices=uls_config.output_http_formattypes,
+                              help=f"Specifies the type how the given http format is being wrapped (controls, how the httpformat is being rendered in http output) "
+                                   f" Default: {uls_config.output_http_default_formattype}, Valid Choices: {uls_config.output_http_formattypes}")
+
     # FILE STUFF
     ## File Handler
     output_group.add_argument('--filehandler',

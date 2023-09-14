@@ -5,6 +5,8 @@
 |Date|2023-XX-XXX
 |Kind| Minor release
 |Author|mschiess@akamai.com, androcho@akamai.com
+- **Features**
+  - Allowing the configuration of the HTTPFORMATTYPE, which controls the building of payloads for aggregated HTTP requests
 - **Minor improvements**
   - Added additional checking in the auto installer
   - [docker] bumped GC-LOGS version to "0.0.2(beta)"
