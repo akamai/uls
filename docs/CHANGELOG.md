@@ -6,7 +6,7 @@
 |Kind| Minor release
 |Author|mschiess@akamai.com, androcho@akamai.com
 - **Features**
-  - Allowing the configuration of the HTTPFORMATTYPE, which controls the building of payloads for aggregated HTTP requests
+  - Allowing the configuration of the HTTPFORMATTYPE, which controls the building of payloads for aggregated HTTP requests (click [here](FAQ.md#what-is-http-formattype) for additional information)
 - **Minor improvements**
   - Added additional checking in the auto installer
   - [docker] bumped GC-LOGS version to "0.0.2(beta)"
