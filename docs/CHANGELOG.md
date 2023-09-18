@@ -10,6 +10,7 @@
 - **Minor improvements**
   - Added additional checking in the auto installer
   - [docker] bumped GC-LOGS version to "0.0.2(beta)"
+  - [docker] bumped CLI-ETP version to "0.4.3" - fixed a bug in output ordering.
   - "get_uls.sh" now allows selection of OS package installation rather than pip3. [See](https://github.com/akamai/uls/issues/46) for more information
 
 ## v1.6.6
