@@ -6,5 +6,7 @@ All contributions in terms of documentation a welcome.
 
 ## SIEM Integration guides (alphabetical)
 - [GRAYLOG](./GRAYLOG/README.md)
-- [QRADAR](./QRADAR/README.md)
+- [MICROSOFT SENTINEL](./SENTINEL/Readme.md)
 - [SPLUNK](./SPLUNK/README.md)
+- [SUMOLOGIC](./SUMOLOGIC/README.md)
+- [QRADAR](./QRADAR/README.md)
