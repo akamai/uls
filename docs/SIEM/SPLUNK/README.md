@@ -3,6 +3,7 @@
 ## Table of contents
 
 - [Introduction](#introduction)
+- [Configuration Options](#configuration-options)
 - [Additional Splunk Documentation](#additional-splunk-documentation)
 - [Key Performance Indicators for EAA](#key-performance-indicators-for-eaa)
   - [[1] No dialout (per connector)](#1-no-dialout-per-connector)
@@ -32,11 +33,44 @@ index=akamai source=uls_etp_threat | spath | top event.actionName
 
 Splunk also works perfectly with the ULS provided [monitoring data](../../MONITORING.md)
 
+## Configuration Options
+### HTTP
+Splunk ingestion via HTTP towards the SPLUNK HEC can be done via multiple ways:
+- LIST of JSON LOG EVENTS
+  This method required JSON parsing on the INPUT - minimizing the HTTP payload size. Payload example:
+  ```json
+  {"event": [{logevent1},{logevent2},{...}]}
+  ```
+  The required ULS settings look as follows:
+  ```bash
+  bin/uls.py \
+  -i eaa \
+  -f access \
+  -o http \
+  --httpurl https://splunk-URL:8088/services/collector/event \
+  --httpauthheader '{"Authorization": "Splunk 123-321-456"}'
+  ```
+- SINGLE EVENT
+  This method allows a raw ingestion of the data, increasing the HTTP payload size. Payload example:
+  ```json
+  {"event": {logevent1}}{"event": {logevent2}}{"event": {...}}
+  ```
+  The required ULS settings look as follows:
+  ```bash
+  bin/uls.py \
+  -i eaa \
+  -f access \
+  -o http \
+  --httpurl https://splunk-URL:8088/services/collector \
+  --httpauthheader '{"Authorization": "Splunk 123-321-456"}' \
+  --httpformattype SINGLE-EVENT
+  ```
+  Take a speacial look at the different HTTP URLS, as we need a different entry point for the single event data.
+
 ## Additional Splunk Documentation
 - [TCP](https://docs.splunk.com/Documentation/SplunkCloud/latest/Data/Monitornetworkports)
 - [HTTP](https://docs.splunk.com/Documentation/Splunk/8.2.0/Data/UsetheHTTPEventCollector)
 - [UDP](https://docs.splunk.com/Documentation/SplunkCloud/latest/Data/Monitornetworkports)
-
 
 ## Key Performance Indicators for EAA
 
