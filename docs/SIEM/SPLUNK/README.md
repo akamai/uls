@@ -61,11 +61,10 @@ Splunk ingestion via HTTP towards the SPLUNK HEC can be done via multiple ways:
   -i eaa \
   -f access \
   -o http \
-  --httpurl https://splunk-URL:8088/services/collector \
+  --httpurl https://splunk-URL:8088/services/collector/event \
   --httpauthheader '{"Authorization": "Splunk 123-321-456"}' \
   --httpformattype SINGLE-EVENT
   ```
-  Take a speacial look at the different HTTP URLS, as we need a different entry point for the single event data.
 
 ## Additional Splunk Documentation
 - [TCP](https://docs.splunk.com/Documentation/SplunkCloud/latest/Data/Monitornetworkports)
