@@ -446,8 +446,8 @@ class UlsOutput:
                         single_event_data = ""
                         for logline in self.aggregateList:
                             #print(f"logline: {self.http_out_format % logline}")
-                            single_event_data = f"{single_event_data}{self.http_out_format % logline}"
-                        request = requests.Request('POST', url=self.http_url,data=(single_event_data))
+                            single_event_data = f"{single_event_data}{self.http_out_format % json.dumps(logline)}"
+                        request = requests.Request('POST', url=self.http_url, data=(single_event_data))
 
                     prepped = self.httpSession.prepare_request(request)
                     payload_length = prepped.headers["Content-Length"]
