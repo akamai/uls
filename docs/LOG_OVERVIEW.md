@@ -6,6 +6,7 @@ To get the highest value out of the ingested data, it is crucial to understand t
 Here are some examples (per product) and links to additional information.
 
 ## Table of contents
+
 - [Log Overview](#log-overview)
   - [Table of contents](#table-of-contents)
   - [Enterprise Application Access (EAA)](#enterprise-application-access-eaa)
@@ -13,10 +14,10 @@ Here are some examples (per product) and links to additional information.
     - [Admin Logs (ADMIN)](#admin-logs-admin)
     - [Connector Health (CONHEALTH)](#connector-health-conhealth)
     - [Device Posture Inventory (DEVINV)](#device-posture-inventory-devinv)
-  - [Enterprise Threat Protector (ETP)](#enterprise-threat-protector-etp)
+  - [Secure Internet Access Enterprise (SIA-E)](#secure-internet-access-enterprise-sia-e)
     - [Threat Log (THREAT)](#threat-log-threat)
     - [Accceptable Use Policy Logs (AUP)](#accceptable-use-policy-logs-aup)
-    - [DNS](#dns)
+    - [DNS Activity](#dns-activity)
     - [PROXY](#proxy)
     - [NETCON](#netcon)
   - [Akamai MFA (MFA)](#akamai-mfa-mfa)
@@ -24,9 +25,8 @@ Here are some examples (per product) and links to additional information.
   - [Guardicore](#guardicore)
     - [NETLOG](#netlog)
     - [INCIDENT](#incident)
-    - AGENT
-    - SYSTEM
-  - Linode
+  - [Linode](#linode)
+    - [AUDIT Logs](#audit-logs)
 
 ## Enterprise Application Access (EAA)
 
@@ -97,6 +97,7 @@ Additional information regarding the log fields can be found on [here](https://t
     "privateip": "10.1.4.206",
     "publicip": "123.123.123.123",
     "debugchan": "Y",
+    "datetime": "2021-07-23T18:06:35.676Z",
     "ts": "2021-07-23T18:06:35.676Z",
     "cpu": 1.3,
     "disk": 34.4,
@@ -251,10 +252,24 @@ Each event will be one device as a JSON document, example provided with the cli-
 ```
 </details>
 
-## Enterprise Threat Protector (ETP)
+## Secure Internet Access Enterprise (SIA-E)
+
+Formerly known as Enterprise Threat Protector (ETP).  
+
+For large volume of security events (multiple 100K per hour), configure the underlying 
+`cli-etp` to issue concurrent API requests.
+
+Depending on your ULS setup you need to pass the `CLIETP_FETCH_CONCURRENT` environment variable.
+We recommend to start with the value `2`, observe, and increase up to `8` if you observe backlog.
+
+This will have a small impact on CPU usage, while increasing the number of events.
 
 ### Threat Log (THREAT)
 Additional information regarding the log fields can be found [here](https://techdocs.akamai.com/etp-reporting/reference/post-threat-event-details)
+
+<details>
+    <summary>Security Threat Event example (JSON)</summary>
+
 ```json
 {
     "pageInfo": {
@@ -643,9 +658,13 @@ Additional information regarding the log fields can be found [here](https://tech
     ]
 }
 ```
+</details>
 
 ### Accceptable Use Policy Logs (AUP)
 Additional information regarding the log fields can be found [here](https://techdocs.akamai.com/etp-reporting/reference/get-events-details)
+
+<details>
+    <summary>Acceptable Use Policy Event example (JSON)</summary>
 ```json
 {
     "pageInfo": {
@@ -1034,9 +1053,13 @@ Additional information regarding the log fields can be found [here](https://tech
     ]
 }
 ```
+</details>
 
-### DNS
+### DNS Activity
 Additional information regarding the log fields can be found [here](https://techdocs.akamai.com/etp-reporting/reference/post-dns-activities-details)
+
+<details>
+    <summary>DNS Activity Event example (JSON)</summary>
 ```json
 {
     "pageInfo": {
@@ -1261,9 +1284,14 @@ Additional information regarding the log fields can be found [here](https://tech
     ]
 }
 ```
+</details>
 
 ### PROXY
+
 Additional information regarding the log fields can be found [here](https://techdocs.akamai.com/etp-reporting/reference/post-traffic-transaction-details)
+
+<details>
+    <summary>Proxy Activity Event example (JSON)</summary>
 ```json
 {
     "pageInfo": {
@@ -2086,12 +2114,54 @@ Additional information regarding the log fields can be found [here](https://tech
     ]
 }
 ```
+</details>
 
 ### NETCON
 Additional information regarding the log fields can be found [here](https://techdocs.akamai.com/etp-reporting/reference/post-network-traffic-connections-details)
+
+<details>
+    <summary>Network Connection Event example (JSON)</summary>
 ```json
-{"id": "123", "connectionId": "0xABCDEF1234567890", "domain": "123.123.123.123", "connStartTime": "2023-08-23T07:59:11Z", "connEndTime": "2023-08-23T07:59:11Z", "clientIP": "222.111.222.111", "clientPort": 35593, "destinationIP": "111.222.111.222", "destinationPort": 80, "siteId": 1234536, "siteName": "ETP DEMO", "policyAction": "onramp", "onrampType": "explicit_proxy_tls", "internalClientIP": "", "httpVersion": "N/A", "httpUserAgent": "", "machineId": "", "machineName": "", "clientRequestId": "", "ovfActionId": -1, "ovfActionName": "N/A", "stats": {"httpRequestCount": 1, "inBytes": 0, "outBytes": 0}, "dropInfo": {"wasDropped": true, "droppedReason": "Destination Filter - Internal Host IP"}, "encryptedInternalClientIP": "123123123123123123/ABCDEF", "decryptedInternalClientIP": "192.168.11.168", "sublocationId": "-1", "sublocationName": "N/A", "deviceOwnerId": "", "encryptedInternalClientName": ""}
+{
+    "id": "123",
+    "connectionId": "0xABCDEF1234567890",
+    "domain": "123.123.123.123",
+    "connStartTime": "2023-08-23T07:59:11Z",
+    "connEndTime": "2023-08-23T07:59:11Z",
+    "clientIP": "222.111.222.111",
+    "clientPort": 35593,
+    "destinationIP": "111.222.111.222",
+    "destinationPort": 80,
+    "siteId": 1234536,
+    "siteName": "ETP DEMO",
+    "policyAction": "onramp",
+    "onrampType": "explicit_proxy_tls",
+    "internalClientIP": "",
+    "httpVersion": "N/A",
+    "httpUserAgent": "",
+    "machineId": "",
+    "machineName": "",
+    "clientRequestId": "",
+    "ovfActionId": -1,
+    "ovfActionName": "N/A",
+    "stats": {
+        "httpRequestCount": 1,
+        "inBytes": 0,
+        "outBytes": 0
+    },
+    "dropInfo": {
+        "wasDropped": true,
+        "droppedReason": "Destination Filter - Internal Host IP"
+    },
+    "encryptedInternalClientIP": "123123123123123123/ABCDEF",
+    "decryptedInternalClientIP": "192.168.11.168",
+    "sublocationId": "-1",
+    "sublocationName": "N/A",
+    "deviceOwnerId": "",
+    "encryptedInternalClientName": ""
+}
 ```
+</details>
 
 ## Akamai MFA (MFA)
 Additional information regarding the MFA log fields can be found on [here](https://techdocs.akamai.com/mfa/docs/splunk-app).
