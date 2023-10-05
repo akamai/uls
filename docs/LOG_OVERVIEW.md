@@ -2206,44 +2206,42 @@ Authentication Events Example:
 Guardicore netlog example
 ```json
 {
-'flow_id':'XXXXX2045a3630852de54dcb99e86f6b06d3969050e153efaed1cb2c4',
-'bucket_id':'XXXX-62fa-459a-80e1-c96c2eacdee9',
-'source_node_id':'XXXX-3a21-4508-87bd-d0a6512442bc',
-'destination_node_id':'UnknownAsset_Internal_192.168.0.0/16',
-'source_node_type':'asset',
-'destination_node_type':'subnet',
-'source_process':'gc-channel',
-'destination_process':'Unknown Server (443/TCP)',
-'source_process_id':'XXXX491e858806fc17a722c7e93f780e867df4800e6a9bddcc396abf39250',
-'destination_process_id':'7XXXX5aad6d81ebe5037013fded72223e12e2d8a0d4e4823c90232139b',
-'source_process_name':'gc-channel',
-'destination_process_name':'Unknown Server (443/TCP)',
-'destination_port':443,
-'count':2,
-'slot_start_time':XXX72413000,
-'incidents':False,
-'connection_type':'UNKNOWN',
-'source_ip':'192.168.2.76',
-'destination_ip':'192.168.2.68',
-'ip_protocol':'Tcp',
-'source_asset_hash':317458,
-'destination_asset_hash':349875,
-'violates_policy':False,
-'policy_rule':'default',
-'policy_ruleset':None,
-'policy_verdict':'allowed',
-'db_insert_time':'XXXX-11-09T04:09:54.293504',
-'id':'XXXXXX-7d27-48b0-ab66-cdedcbc444c3',
-'source':{
-'vm':{
-'_id':'XXXXXX-3a21-4508-87bd-d0a6512442bc',
-'name':'Gollum Lab Server'
-}
-},
-'has_mismatch_alert':False,
-'original_policy_verdict':'allowed',
-'source_process_full_path':'/var/lib/guardicore/sbin/gc-channel',
-'destination_process_full_path':None
+    "id": "123",
+    "connectionId": "0xABCDEF1234567890",
+    "domain": "123.123.123.123",
+    "connStartTime": "2023-08-23T07:59:11Z",
+    "connEndTime": "2023-08-23T07:59:11Z",
+    "clientIP": "222.111.222.111",
+    "clientPort": 35593,
+    "destinationIP": "111.222.111.222",
+    "destinationPort": 80,
+    "siteId": 1234536,
+    "siteName": "ETP DEMO",
+    "policyAction": "onramp",
+    "onrampType": "explicit_proxy_tls",
+    "internalClientIP": "",
+    "httpVersion": "N/A",
+    "httpUserAgent": "",
+    "machineId": "",
+    "machineName": "",
+    "clientRequestId": "",
+    "ovfActionId": -1,
+    "ovfActionName": "N/A",
+    "stats": {
+        "httpRequestCount": 1,
+        "inBytes": 0,
+        "outBytes": 0
+    },
+    "dropInfo": {
+        "wasDropped": true,
+        "droppedReason": "Destination Filter - Internal Host IP"
+    },
+    "encryptedInternalClientIP": "123123123123123123/ABCDEF",
+    "decryptedInternalClientIP": "192.168.11.168",
+    "sublocationId": "-1",
+    "sublocationName": "N/A",
+    "deviceOwnerId": "",
+    "encryptedInternalClientName": ""
 }
 ```
 
