@@ -13,6 +13,7 @@
 - [ULS throws TLS an error when connecting towards Guardicore API (--input GC)](#uls-throws-tls-an-error-when-connecting-towards-guardicore-api---input-gc)
 - [WHY JMESPATH and not JSONPATH](#why-jmespath-and-not-jsonpath)
 - [What is HTTP FORMATTYPE](#what-is-http-formattype)
+- 
 
 ----
 ## FAQ
@@ -166,4 +167,10 @@ HTTP_FORMAT: `'{"event": %s}'`
 Aggregated list: `[{logline1},{logline2},{logline3},{….},{logline500}]`    
 Final Output Example: '{"event": {logline1}}{"event": {logline2}}{"event": {….}}{"event": {logline500}}'  
 
-Within the `single-event` mode, you can freely amend line breake configuration like `\n` or others, by amending it to the HTTP_FORMAT e.g. HTTP_FORMAT: `'{"event": %s}\n'` 
+Within the `single-event` mode, you can freely amend line breake configuration like `\n` or others, by amending it to the HTTP_FORMAT e.g. HTTP_FORMAT: `'{"event": %s}\n'`
+
+---
+### Error: "Capacity exceeded, too many incoming data vs. slow output"
+This error indicates, that more data is coming in to ULS than it can send towards the sepcified output.  
+As this might be an indication for I/O problems either on the ULS output or the receiving system, it could also just be a specific race condition when the API operations with big pages or at a high speed (e.g. within local LAN).  
+If requried, the size can be adjusted by using the "--inputqueuesize" introduced in ULS 1.6.7.
