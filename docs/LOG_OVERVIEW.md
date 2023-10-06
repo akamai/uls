@@ -14,6 +14,7 @@ Here are some examples (per product) and links to additional information.
     - [Admin Logs (ADMIN)](#admin-logs-admin)
     - [Connector Health (CONHEALTH)](#connector-health-conhealth)
     - [Device Posture Inventory (DEVINV)](#device-posture-inventory-devinv)
+    - [Directory Health (DIRHEALTH)](#directory-health-dirhealth)
   - [Secure Internet Access Enterprise (SIA-E)](#secure-internet-access-enterprise-sia-e)
     - [Threat Log (THREAT)](#threat-log-threat)
     - [Accceptable Use Policy Logs (AUP)](#accceptable-use-policy-logs-aup)
@@ -248,6 +249,33 @@ Each event will be one device as a JSON document, example provided with the cli-
 "etp_signals": {
     "threat_detected": false
 }
+}
+```
+</details>
+
+### Directory Health (DIRHEALTH)
+
+Each event will be one directory as a JSON document.  
+Examples provided can be obtained using cli-eaa command `akamai eaa dir list --json|jq .`  
+Schema is documented on the [EAA Directory List API doc](https://techdocs.akamai.com/eaa-api/reference/get-directories).
+
+<details>
+    <summary>View directory health event example (JSON)</summary>
+
+```json
+{
+    "dir_id": "dir://49L59MSsQcyeaRz6N8iKmA",
+    "service": "ActiveDirectory",
+    "name": "gc-eaa-forrestor-ActiveDirectory",
+    "datetime": "2023-10-06T22:02:00.112396+00:00",
+    "status": 1,
+    "connector_count": 1,
+    "directory_status": "ok",
+    "group_count": 3,
+    "user_count": 8,
+    "last_sync": "2023-10-06T15:55:31.026068",
+    "sync_state": "Dirty",
+    "conf_state": 1
 }
 ```
 </details>
