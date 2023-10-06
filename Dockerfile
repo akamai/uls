@@ -11,7 +11,7 @@ ARG             ULS_DIR="$HOMEDIR/uls"
 ARG             EXT_DIR="$ULS_DIR/ext"
 
 ARG             ETP_CLI_VERSION="0.4.4"
-ARG             EAA_CLI_VERSION="0.5.9"
+ARG             EAA_CLI_VERSION="0.6.0"
 ARG             MFA_CLI_VERSION="0.1.1"
 ARG             GC_CLI_VERSION="v0.0.2(beta)"
 ARG             LINODE_CLI_VERSION="dev"
