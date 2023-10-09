@@ -19,7 +19,7 @@ main_resend_exit_on_fail = False                # Stop program, if a single logl
         # Path to the EAA CLI Executable
 bin_eaa_cli = "ext/cli-eaa/bin/akamai-eaa"
         # Available EAA CLI feeds
-eaa_cli_feeds = ['ACCESS', 'ADMIN', 'CONHEALTH', 'DEVINV']
+eaa_cli_feeds = ['ACCESS', 'ADMIN', 'CONHEALTH', 'DEVINV', 'DIRHEALTH']
 
     # ETP
         # Path to the ETP CLI Executable
