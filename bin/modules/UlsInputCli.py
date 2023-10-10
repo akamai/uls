@@ -175,6 +175,16 @@ class UlsInputCli:
                                        'dp',
                                        'inventory',
                                        '--tail']
+                    elif my_feed == "DIRHEALTH":
+                        UlsTools.uls_check_edgerc(self.credentials_file,
+                                                  self.credentials_file_section,
+                                                  uls_config.edgerc_openapi)
+                        cli_command = [self.bin_python,
+                                       '-u',
+                                       product_path,
+                                       'dir',
+                                       'list',
+                                       '--tail']
                     else:
                         UlsTools.uls_check_edgerc(self.credentials_file,
                                                   self.credentials_file_section,

@@ -11,9 +11,9 @@ mocked_edgerc=FALSE
 
 # TIMEOUT
   # How much time is timeout alklowed to run
-  uls_test_timeout=20
+  uls_test_timeout=90
   # Send a kill signal after
-  uls_kill_timeout=30
+  uls_kill_timeout=110
   # Used for regular timeout
   uls_timeout_signal="TERM"
   uls_timeout_params=" --preserve-status --kill-after $uls_kill_timeout --signal ${uls_timeout_signal} ${uls_test_timeout} "
@@ -97,6 +97,16 @@ load 'bats/bats-assert/load.bash'
     #[ "$status" -eq 124 ]      #return value from timeout without --preserve status
     [ "$status" -eq 100 ] || [ "$status" -eq 130 ] || [ "$status" -eq 137 ]        #return value from uls when interrupted --> with --preserve status on timeout
 }
+@test "EAA - DIRHEALTH" {
+    run timeout ${uls_timeout_params} ${uls_bin} --input eaa --feed dirhealth --output raw --edgerc $uls_edgerc --section $uls_section --loglevel info
+    #assert_output --partial $eaa_devinv_assert
+    assert_line --partial "UlsInputCli - started PID"
+    refute_line --partial "was found stale -"
+    #assert_output --partial "The specified directory tmp does not exist or privileges are missing - exiting"
+    #[ "$status" -eq 124 ]      #return value from timeout without --preserve status
+    [ "$status" -eq 100 ] || [ "$status" -eq 130 ] || [ "$status" -eq 137 ]        #return value from uls when interrupted --> with --preserve status on timeout
+}
+
 
 ## ETP
 @test "ETP - THREAT" {
@@ -131,6 +141,16 @@ load 'bats/bats-assert/load.bash'
 
 @test "ETP - PROXY" {
     run timeout ${uls_timeout_params} ${uls_bin} --input etp --feed proxy --output raw --edgerc $uls_edgerc --section $uls_section --loglevel info
+    #assert_output --partial $etp_assert
+    assert_line --partial "UlsInputCli - started PID"
+    refute_line --partial "was found stale -"
+    #assert_output --partial "The specified directory tmp does not exist or privileges are missing - exiting"
+    #[ "$status" -eq 124 ]      #return value from timeout without --preserve status
+    [ "$status" -eq 100 ] || [ "$status" -eq 130 ] || [ "$status" -eq 137 ]        #return value from uls when interrupted --> with --preserve status on timeout
+}
+
+@test "ETP - NETCON" {
+    run timeout ${uls_timeout_params} ${uls_bin} --input etp --feed netcon --output raw --edgerc $uls_edgerc --section $uls_section --loglevel info
     #assert_output --partial $etp_assert
     assert_line --partial "UlsInputCli - started PID"
     refute_line --partial "was found stale -"

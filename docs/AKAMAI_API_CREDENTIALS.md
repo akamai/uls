@@ -16,10 +16,10 @@ This document describes how to create Akamai API credentials and configure them 
   - [Guardicore](#guardicore)
     - [Guardicore API Integration](#guardicore-api-integration)
   - [Linode](#linode)
-    - [Linode API Token](#linode-api-credentials)
+    - [Linode API Credentials](#linode-api-credentials)
 - [Advanced .edgerc usage](#advanced-edgerc-usage)
   - [Multiple customer contracts](#multiple-customer-contracts)
-  - [Partner & employee enhancement](#partner--employee-enhancement)
+  - [Partner \& employee enhancement](#partner--employee-enhancement)
   - [ETP API EVENT Filters](#etp-api-event-filters)
 
 ## Feeds / API overview
@@ -27,8 +27,8 @@ This document describes how to create Akamai API credentials and configure them 
 |Product long name|Acronym| Feed(s)                         | API                                                                                   |
 |---|---|---------------------------------|---------------------------------------------------------------------------------------|
 |Enterprise Application Access|EAA| ACCESS, ADMIN                   | [EAA Legacy API](#eaa-legacy-api-for-access-and-admin-audit-feeds)                    |
-|Enterprise Application Access|EAA| HEALTH                          | [{OPEN} API / Enterprise Application Access](#eaa-open-api-for-connector-health-feed) |
-|Enterprise Threat Protector|ETP| THREAT, AUP, DNS, PROXY         | [{OPEN} API / ETP Report](#etp-open-api-reporting)                                    |
+|Enterprise Application Access|EAA| CONHEALTH, DEVINV, DIRHEALTH                          | [{OPEN} API / Enterprise Application Access](#eaa-open-api-for-connector-health-feed) |
+|Secure Internet Access Enterprise|ETP| THREAT, AUP, DNS, PROXY, NETCON         | [{OPEN} API / ETP Report](#etp-open-api-reporting)                                    |
 |Akamai MFA|MFA| EVENTS                          | [MFA Integration](#mfa-integration-for-logging)                                       |
 |Guardicore|GC| NETLOG, INCIDENT, AGENT, SYSTEM | [Guardicore API Integration](#guardicore-api-integration)                             |
 |Linode|LN| AUDIT                           | [Linode API Credentials](#linode-api-credentials) |                       

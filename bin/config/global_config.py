@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Common global variables / constants
-__version__ = "1.6.6"
+__version__ = "1.7.0"
 __tool_name_long__ = "Akamai Unified Log Streamer"
 __tool_name_short__ = "ULS"
 
@@ -19,7 +19,7 @@ main_resend_exit_on_fail = False                # Stop program, if a single logl
         # Path to the EAA CLI Executable
 bin_eaa_cli = "ext/cli-eaa/bin/akamai-eaa"
         # Available EAA CLI feeds
-eaa_cli_feeds = ['ACCESS', 'ADMIN', 'CONHEALTH', 'DEVINV']
+eaa_cli_feeds = ['ACCESS', 'ADMIN', 'CONHEALTH', 'DEVINV', 'DIRHEALTH']
 
     # ETP
         # Path to the ETP CLI Executable
@@ -60,7 +60,7 @@ input_run_delay = 1                             # Time in seconds to wait for th
 input_rerun_delay = 1                           # Time in seconds between rerun attempts
 input_disable_stderr = True                     # Enable STDERR output disabling (see value below to specify when this should happen)
 input_disable_stderr_after = 25                 # Disable stderr output after x input_cli cycles --> to prevent buffer overflow
-input_queue_size = 10000                        # Maximum number of events we want to store in-memory, default is 10000
+input_queue_size = 15000                        # Maximum number of events we want to store in-memory, default is 10000
 
 # OUTPUT Configuration
 output_reconnect_retries = 10                   # Number of reconnect attempts before giving up
@@ -77,6 +77,10 @@ output_http_aggregate_count = 500               # Number of events to aggregate 
 output_http_aggregate_idle = 5                  # Aggregate will send the data regardless of the count if the previous event was x secs ago
 output_http_expected_status_code = 200          # Return Code for successful delivery
 output_http_liveness_check = True               # Send an OPTIONS request to probe the HTTP Server is live
+output_http_default_formattype = 'json-list'   # The default "formattype" being used in standard operation
+output_http_formattypes = ['json-list', 'single-event']     # List of choices (valid formattypes)
+
+
     ## FILE
 output_file_encoding = "utf-8"                  # FILE Encoding setting
 output_file_handler_choices = ['SIZE', 'TIME']  # Available Choices for the file handler

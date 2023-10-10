@@ -110,6 +110,14 @@ def init():
                              default=(os.environ.get('ULS_ENDTIME') or None),
                              help="End time (EPOCH SECONDS) until when to stop getting logs ('default': cli_default (never), example: '1631556101')")
 
+    # INPUT QUEUE SIZE
+    input_group.add_argument('--inputqueuesize',
+                             action='store',
+                             type=int,
+                             dest="input_queue_size",
+                             default=(os.environ.get('ULS_INPUT_QUEUESIZE') or uls_config.input_queue_size ),
+                             help=f"Maximum threshold of the input queue. (Default: {uls_config.input_queue_size})")
+
     # ----------------------
     # Output GROUP
     output_group = parser.add_argument_group(title="Output",
@@ -200,6 +208,16 @@ def init():
                                    f"responding with HTTP/200 or HTTP/204. Set to False to "
                                    f"disable. Default: {uls_config.output_http_liveness_check}"
     )
+
+    ## HTTP FORMATTYPE
+    output_group.add_argument('--httpformattype',
+                              action='store',
+                              type=str.lower,
+                              default=(os.environ.get('ULS_HTTP_FORMAT_TYPE') or
+                                       uls_config.output_http_default_formattype),
+                              choices=uls_config.output_http_formattypes,
+                              help=f"Specifies the type how the given http format is being wrapped (controls, how the httpformat is being rendered in http output) "
+                                   f" Default: {uls_config.output_http_default_formattype}, Valid Choices: {uls_config.output_http_formattypes}")
 
     # FILE STUFF
     ## File Handler

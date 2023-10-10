@@ -1,6 +1,6 @@
 #!/bin/bash
 # This file will install the latest ULS including all of its modules (latest version) into the current directory/uls
-# bash $(curl https://)
+# curl -O https://raw.githubusercontent.com/akamai/uls/main/scripts/get-uls.sh && bash get-uls.sh
 
 default_modules="eaa,etp,mfa,gc,ln"
 default_install_dir="$(pwd)/uls"
@@ -25,22 +25,43 @@ if [[ -z $(which git) ]] ; then
 fi
 
 ## check python version
+### check python exists
 if [[ -z $(which python3) ]] ; then
   echo "Python3 binary was not found - exiting"
   exit 1
 fi
 
+### check python version is correct for ULS
 py_version=$(python3 --version | cut -d " " -f 2)
 if [[ $(echo ${py_version} | cut -d "." -f 1 ) -ne 3 ]] || [[ $(echo ${py_version} | cut -d "." -f 2 ) -lt 9 ]]; then
   echo "Wrong Python version - exiting"
   exit 1
 fi
 
+
 ## pip3
 if [[ -z $(which pip3) ]] ; then
   echo "pip3 binary was not found - exiting"
   exit 1
 fi
+
+### Show versions to verify the correct binaries for python and pip are being used
+echo "We will use the following python binaries to install ULS:"
+echo -ne "python3: \t $(ls $(which python3))\n"
+echo -ne "pip3: \t\t $(ls $(which pip3))\n\n"
+echo -ne "Is this correct (Y|n)"
+read py_reply
+
+
+case $py_reply in
+  n|N)
+    echo -e "Not the right version ?\nPlease adjust your ENV and SYMLINK settings to point to the correct binaries."
+    echo -e "EXITING !"
+    exit 1
+  ;;
+  *)
+    echo "Continuing"
+esac
 
 # ASK for INSTALL DETAILS 
 ## Install DIR 
@@ -83,19 +104,43 @@ if [[ -f "${install_dir}/bin/uls.py" ]] ; then
   fi
 fi
 
-## Continue anywaY ?
-
-
-# Installation 
+## Continue anyway ?
+# Installation
 ## Grab ULS
 git clone -q https://github.com/akamai/uls.git $install_dir/
 pip3 install -q -r ${install_dir}/bin/requirements.txt
 
 
+function py_reqs() {
+  to_install=$(pip3 install --dry-run -r $1 | grep -vi "satisfied")
+  if [[ ! -z $to_install ]] ; then
+    echo "We are going to install the following python3 requirements:"
+    echo "----"
+    echo $to_install
+    echo "----"
+
+    echo "Do you want to stop here and install OS packages instead [y|N]?"
+    read package_stop
+    case $package_stop in
+      y|Y)
+          echo "Stopping installation - please install the requried packages manually - exiting"
+          exit 1
+      ;;
+      *)
+        echo "installing packages via PIP now"
+      ;;
+    esac
+  fi
+
+
+}
+
 ## Grab EAA-CLI
 if [[ "$install_modules" == *"eaa"* ]]  ; then
 echo "Installing EAA-CLI"
   git clone -q --depth 1 --single-branch https://github.com/akamai/cli-eaa.git ${install_dir}/ext/cli-eaa
+  #echo "${install_dir}/ext/cli-eaa/requirements.txt"
+  py_reqs ${install_dir}/ext/cli-eaa/requirements.txt
   pip3 install -q -r ${install_dir}/ext/cli-eaa/requirements.txt
 fi 
 
@@ -103,6 +148,7 @@ fi
 if [[ "$install_modules" == *"etp"* ]]  ; then
 echo "Installing ETP-CLI"
   git clone -q --depth 1 --single-branch https://github.com/akamai/cli-etp.git ${install_dir}/ext/cli-etp
+ py_reqs ${install_dir}/ext/cli-etp/requirements.txt
   pip3 install -q -r ${install_dir}/ext/cli-etp/requirements.txt
 fi
 
@@ -110,6 +156,7 @@ fi
 if [[ "$install_modules" == *"mfa"* ]]  ; then
 echo "Installing MFA-CLI"
   git clone -q --depth 1 --single-branch https://github.com/akamai/cli-mfa.git ${install_dir}/ext/cli-mfa
+  py_reqs ${install_dir}/ext/cli-mfa/requirements.txt
   pip3 install -q -r ${install_dir}/ext/cli-mfa/requirements.txt
 fi
 
@@ -117,6 +164,7 @@ fi
 if [[ "$install_modules" == *"gc"* ]]  ; then
 echo "Installing GC-CLI"
   git clone -q --depth 1 -b dev --single-branch https://github.com/MikeSchiessl/gc-logs.git ${install_dir}/ext/cli-gc
+  py_reqs ${install_dir}/ext/cli-gc/bin/requirements.txt
   pip3 install -q -r ${install_dir}/ext/cli-gc/bin/requirements.txt
 fi
 
@@ -125,6 +173,7 @@ fi
 if [[ "$install_modules" == *"ln"* ]]  ; then
 echo "Installing LINODE-CLI"
   git clone -q --depth 1 -b dev --single-branch https://github.com/MikeSchiessl/ln-logs.git ${install_dir}/ext/cli-linode
+  py_reqs ${install_dir}/ext/cli-linode/bin/requirements.txt
   pip3 install -q -r ${install_dir}/ext/cli-linode/bin/requirements.txt
 fi
 

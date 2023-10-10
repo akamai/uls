@@ -47,6 +47,7 @@ class UlsOutput:
                  http_url=None,
                  http_insecure=False,
                  http_liveness=True,
+                 http_formattype=None,
                  filehandler=None,
                  filename=None,
                  filebackupcount=None,
@@ -116,6 +117,9 @@ class UlsOutput:
             self.http_out_aggregate_count = http_out_aggregate_count        # Added for easier CLI configuration
             self.aggregateListTick = None # Last time we added items in the list
             # ---- End change for EME-588 ----
+            self.http_formattype = http_formattype
+
+
 
             self.http_url = http_url
             # apply other variables if SET
@@ -406,7 +410,6 @@ class UlsOutput:
         """
         try:
             aka_log.log.debug(f"{self.name} Trying to send data via {self.output_type}")
-
             if self.output_type == "TCP":
                 send_data = bytes(self.tcpudp_out_format, 'utf-8') % data
                 out_data = send_data + uls_config.output_line_breaker.encode()
@@ -429,7 +432,23 @@ class UlsOutput:
                     self.aggregateListTick is not None and
                     self.aggregateListTick < time.time() - uls_config.output_http_aggregate_idle
                 ):
-                    request = requests.Request('POST', url=self.http_url, data=(self.http_out_format % json.dumps(self.aggregateList)))
+
+
+                    # JSON-LIST EVENT FORMAT: '{"event": [{logline1},{logline2},{logline3},{….},{logline500}]}'
+                    # See https://github.com/akamai/uls/issues/45
+                    if self.http_formattype.lower() == "json-list":
+                        request = requests.Request('POST', url=self.http_url, data=(self.http_out_format % json.dumps(self.aggregateList)))
+
+                    # Single EVENT FORMAT: '{"event": {logline1}}{"event": {logline2}}{"event": {….}}{"event": {logline500}}'
+                    # See https://github.com/akamai/uls/issues/45
+                    elif self.http_formattype.lower() == "single-event":
+                        #[print(fruit + " juice") for fruit in fruits]
+                        single_event_data = ""
+                        for logline in self.aggregateList:
+                            #print(f"logline: {self.http_out_format % logline}")
+                            single_event_data = f"{single_event_data}{self.http_out_format % json.dumps(logline)}"
+                        request = requests.Request('POST', url=self.http_url, data=(single_event_data))
+
                     prepped = self.httpSession.prepare_request(request)
                     payload_length = prepped.headers["Content-Length"]
 

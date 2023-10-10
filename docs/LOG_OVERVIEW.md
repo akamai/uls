@@ -6,6 +6,7 @@ To get the highest value out of the ingested data, it is crucial to understand t
 Here are some examples (per product) and links to additional information.
 
 ## Table of contents
+
 - [Log Overview](#log-overview)
   - [Table of contents](#table-of-contents)
   - [Enterprise Application Access (EAA)](#enterprise-application-access-eaa)
@@ -13,10 +14,11 @@ Here are some examples (per product) and links to additional information.
     - [Admin Logs (ADMIN)](#admin-logs-admin)
     - [Connector Health (CONHEALTH)](#connector-health-conhealth)
     - [Device Posture Inventory (DEVINV)](#device-posture-inventory-devinv)
-  - [Enterprise Threat Protector (ETP)](#enterprise-threat-protector-etp)
+    - [Directory Health (DIRHEALTH)](#directory-health-dirhealth)
+  - [Secure Internet Access Enterprise (SIA-E)](#secure-internet-access-enterprise-sia-e)
     - [Threat Log (THREAT)](#threat-log-threat)
     - [Accceptable Use Policy Logs (AUP)](#accceptable-use-policy-logs-aup)
-    - [DNS](#dns)
+    - [DNS Activity](#dns-activity)
     - [PROXY](#proxy)
     - [NETCON](#netcon)
   - [Akamai MFA (MFA)](#akamai-mfa-mfa)
@@ -24,9 +26,8 @@ Here are some examples (per product) and links to additional information.
   - [Guardicore](#guardicore)
     - [NETLOG](#netlog)
     - [INCIDENT](#incident)
-    - AGENT
-    - SYSTEM
-  - Linode
+  - [Linode](#linode)
+    - [AUDIT Logs](#audit-logs)
 
 ## Enterprise Application Access (EAA)
 
@@ -97,6 +98,7 @@ Additional information regarding the log fields can be found on [here](https://t
     "privateip": "10.1.4.206",
     "publicip": "123.123.123.123",
     "debugchan": "Y",
+    "datetime": "2021-07-23T18:06:35.676Z",
     "ts": "2021-07-23T18:06:35.676Z",
     "cpu": 1.3,
     "disk": 34.4,
@@ -251,10 +253,51 @@ Each event will be one device as a JSON document, example provided with the cli-
 ```
 </details>
 
-## Enterprise Threat Protector (ETP)
+### Directory Health (DIRHEALTH)
+
+Each event will be one directory as a JSON document.  
+Examples provided can be obtained using cli-eaa command `akamai eaa dir list --json|jq .`  
+Schema is documented on the [EAA Directory List API doc](https://techdocs.akamai.com/eaa-api/reference/get-directories).
+
+<details>
+    <summary>View directory health event example (JSON)</summary>
+
+```json
+{
+    "dir_id": "dir://49L59MSsQcyeaRz6N8iKmA",
+    "service": "ActiveDirectory",
+    "name": "gc-eaa-forrestor-ActiveDirectory",
+    "datetime": "2023-10-06T22:02:00.112396+00:00",
+    "status": 1,
+    "connector_count": 1,
+    "directory_status": "ok",
+    "group_count": 3,
+    "user_count": 8,
+    "last_sync": "2023-10-06T15:55:31.026068",
+    "sync_state": "Dirty",
+    "conf_state": 1
+}
+```
+</details>
+
+## Secure Internet Access Enterprise (SIA-E)
+
+Formerly known as Enterprise Threat Protector (ETP).  
+
+For large volume of security events (multiple 100K per hour), configure the underlying 
+`cli-etp` to issue concurrent API requests.
+
+Depending on your ULS setup you need to pass the `CLIETP_FETCH_CONCURRENT` environment variable.
+We recommend to start with the value `2`, observe, and increase up to `8` if you observe backlog.
+
+This will have a small impact on CPU usage, while increasing the number of events.
 
 ### Threat Log (THREAT)
 Additional information regarding the log fields can be found [here](https://techdocs.akamai.com/etp-reporting/reference/post-threat-event-details)
+
+<details>
+    <summary>Security Threat Event example (JSON)</summary>
+
 ```json
 {
     "pageInfo": {
@@ -643,9 +686,13 @@ Additional information regarding the log fields can be found [here](https://tech
     ]
 }
 ```
+</details>
 
 ### Accceptable Use Policy Logs (AUP)
 Additional information regarding the log fields can be found [here](https://techdocs.akamai.com/etp-reporting/reference/get-events-details)
+
+<details>
+    <summary>Acceptable Use Policy Event example (JSON)</summary>
 ```json
 {
     "pageInfo": {
@@ -1034,9 +1081,13 @@ Additional information regarding the log fields can be found [here](https://tech
     ]
 }
 ```
+</details>
 
-### DNS
+### DNS Activity
 Additional information regarding the log fields can be found [here](https://techdocs.akamai.com/etp-reporting/reference/post-dns-activities-details)
+
+<details>
+    <summary>DNS Activity Event example (JSON)</summary>
 ```json
 {
     "pageInfo": {
@@ -1261,9 +1312,14 @@ Additional information regarding the log fields can be found [here](https://tech
     ]
 }
 ```
+</details>
 
 ### PROXY
+
 Additional information regarding the log fields can be found [here](https://techdocs.akamai.com/etp-reporting/reference/post-traffic-transaction-details)
+
+<details>
+    <summary>Proxy Activity Event example (JSON)</summary>
 ```json
 {
     "pageInfo": {
@@ -2086,12 +2142,54 @@ Additional information regarding the log fields can be found [here](https://tech
     ]
 }
 ```
+</details>
 
 ### NETCON
 Additional information regarding the log fields can be found [here](https://techdocs.akamai.com/etp-reporting/reference/post-network-traffic-connections-details)
+
+<details>
+    <summary>Network Connection Event example (JSON)</summary>
 ```json
-{"id": "123", "connectionId": "0xABCDEF1234567890", "domain": "123.123.123.123", "connStartTime": "2023-08-23T07:59:11Z", "connEndTime": "2023-08-23T07:59:11Z", "clientIP": "222.111.222.111", "clientPort": 35593, "destinationIP": "111.222.111.222", "destinationPort": 80, "siteId": 1234536, "siteName": "ETP DEMO", "policyAction": "onramp", "onrampType": "explicit_proxy_tls", "internalClientIP": "", "httpVersion": "N/A", "httpUserAgent": "", "machineId": "", "machineName": "", "clientRequestId": "", "ovfActionId": -1, "ovfActionName": "N/A", "stats": {"httpRequestCount": 1, "inBytes": 0, "outBytes": 0}, "dropInfo": {"wasDropped": true, "droppedReason": "Destination Filter - Internal Host IP"}, "encryptedInternalClientIP": "123123123123123123/ABCDEF", "decryptedInternalClientIP": "192.168.11.168", "sublocationId": "-1", "sublocationName": "N/A", "deviceOwnerId": "", "encryptedInternalClientName": ""}
+{
+    "id": "123",
+    "connectionId": "0xABCDEF1234567890",
+    "domain": "123.123.123.123",
+    "connStartTime": "2023-08-23T07:59:11Z",
+    "connEndTime": "2023-08-23T07:59:11Z",
+    "clientIP": "222.111.222.111",
+    "clientPort": 35593,
+    "destinationIP": "111.222.111.222",
+    "destinationPort": 80,
+    "siteId": 1234536,
+    "siteName": "ETP DEMO",
+    "policyAction": "onramp",
+    "onrampType": "explicit_proxy_tls",
+    "internalClientIP": "",
+    "httpVersion": "N/A",
+    "httpUserAgent": "",
+    "machineId": "",
+    "machineName": "",
+    "clientRequestId": "",
+    "ovfActionId": -1,
+    "ovfActionName": "N/A",
+    "stats": {
+        "httpRequestCount": 1,
+        "inBytes": 0,
+        "outBytes": 0
+    },
+    "dropInfo": {
+        "wasDropped": true,
+        "droppedReason": "Destination Filter - Internal Host IP"
+    },
+    "encryptedInternalClientIP": "123123123123123123/ABCDEF",
+    "decryptedInternalClientIP": "192.168.11.168",
+    "sublocationId": "-1",
+    "sublocationName": "N/A",
+    "deviceOwnerId": "",
+    "encryptedInternalClientName": ""
+}
 ```
+</details>
 
 ## Akamai MFA (MFA)
 Additional information regarding the MFA log fields can be found on [here](https://techdocs.akamai.com/mfa/docs/splunk-app).
@@ -2136,44 +2234,42 @@ Authentication Events Example:
 Guardicore netlog example
 ```json
 {
-'flow_id':'XXXXX2045a3630852de54dcb99e86f6b06d3969050e153efaed1cb2c4',
-'bucket_id':'XXXX-62fa-459a-80e1-c96c2eacdee9',
-'source_node_id':'XXXX-3a21-4508-87bd-d0a6512442bc',
-'destination_node_id':'UnknownAsset_Internal_192.168.0.0/16',
-'source_node_type':'asset',
-'destination_node_type':'subnet',
-'source_process':'gc-channel',
-'destination_process':'Unknown Server (443/TCP)',
-'source_process_id':'XXXX491e858806fc17a722c7e93f780e867df4800e6a9bddcc396abf39250',
-'destination_process_id':'7XXXX5aad6d81ebe5037013fded72223e12e2d8a0d4e4823c90232139b',
-'source_process_name':'gc-channel',
-'destination_process_name':'Unknown Server (443/TCP)',
-'destination_port':443,
-'count':2,
-'slot_start_time':XXX72413000,
-'incidents':False,
-'connection_type':'UNKNOWN',
-'source_ip':'192.168.2.76',
-'destination_ip':'192.168.2.68',
-'ip_protocol':'Tcp',
-'source_asset_hash':317458,
-'destination_asset_hash':349875,
-'violates_policy':False,
-'policy_rule':'default',
-'policy_ruleset':None,
-'policy_verdict':'allowed',
-'db_insert_time':'XXXX-11-09T04:09:54.293504',
-'id':'XXXXXX-7d27-48b0-ab66-cdedcbc444c3',
-'source':{
-'vm':{
-'_id':'XXXXXX-3a21-4508-87bd-d0a6512442bc',
-'name':'Gollum Lab Server'
-}
-},
-'has_mismatch_alert':False,
-'original_policy_verdict':'allowed',
-'source_process_full_path':'/var/lib/guardicore/sbin/gc-channel',
-'destination_process_full_path':None
+    "id": "123",
+    "connectionId": "0xABCDEF1234567890",
+    "domain": "123.123.123.123",
+    "connStartTime": "2023-08-23T07:59:11Z",
+    "connEndTime": "2023-08-23T07:59:11Z",
+    "clientIP": "222.111.222.111",
+    "clientPort": 35593,
+    "destinationIP": "111.222.111.222",
+    "destinationPort": 80,
+    "siteId": 1234536,
+    "siteName": "ETP DEMO",
+    "policyAction": "onramp",
+    "onrampType": "explicit_proxy_tls",
+    "internalClientIP": "",
+    "httpVersion": "N/A",
+    "httpUserAgent": "",
+    "machineId": "",
+    "machineName": "",
+    "clientRequestId": "",
+    "ovfActionId": -1,
+    "ovfActionName": "N/A",
+    "stats": {
+        "httpRequestCount": 1,
+        "inBytes": 0,
+        "outBytes": 0
+    },
+    "dropInfo": {
+        "wasDropped": true,
+        "droppedReason": "Destination Filter - Internal Host IP"
+    },
+    "encryptedInternalClientIP": "123123123123123123/ABCDEF",
+    "decryptedInternalClientIP": "192.168.11.168",
+    "sublocationId": "-1",
+    "sublocationName": "N/A",
+    "deviceOwnerId": "",
+    "encryptedInternalClientName": ""
 }
 ```
 
