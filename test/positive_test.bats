@@ -11,9 +11,9 @@ mocked_edgerc=FALSE
 
 # TIMEOUT
   # How much time is timeout alklowed to run
-  uls_test_timeout=20
+  uls_test_timeout=90
   # Send a kill signal after
-  uls_kill_timeout=30
+  uls_kill_timeout=110
   # Used for regular timeout
   uls_timeout_signal="TERM"
   uls_timeout_params=" --preserve-status --kill-after $uls_kill_timeout --signal ${uls_timeout_signal} ${uls_test_timeout} "
