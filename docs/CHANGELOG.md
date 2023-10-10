@@ -1,13 +1,14 @@
 # Version History
-## v1.6.7
+## v1.7.0
 |||
 |---|---|
 |Date|2023-10-XXX
-|Kind| Minor release
+|Kind| FEATURE release
 |Author|mschiess@akamai.com, androcho@akamai.com
 - **Features**
   - Allowing the configuration of the HTTPFORMATTYPE, which controls the building of payloads for aggregated HTTP requests (click [here](FAQ.md#what-is-http-formattype) for additional information)
   - Allow adjustment of the "INPUT QUEUE SIZE" threshold (--inputqueuesize) in order to handle huge API pages and fast API output
+  - New feed for EAA: Directory Health (dirhealth) to fetch health details for configured directories wihtin EAA 
 - **Minor improvements**
   - Added additional checking in the auto installer
   - [docker] bumped python version to "3.12.0"
