@@ -2,7 +2,7 @@
 ## v1.7.0
 |||
 |---|---|
-|Date|2023-10-XXX
+|Date|2023-10-10
 |Kind| FEATURE release
 |Author|mschiess@akamai.com, androcho@akamai.com
 - **Features**
@@ -13,7 +13,7 @@
   - Added additional checking in the auto installer
   - [docker] bumped python version to "3.12.0"
   - [docker] bumped GC-LOGS version to "0.0.2(beta)", now supporting credentials in ENV VARS
-  - [docker] bumped CLI-ETP version to "0.6.0"
+  - [docker] bumped CLI-EAA to "0.6.2"
   - [docker] bumped CLI-ETP version to "0.4.4" - fixed a bug in output ordering + empty response handling.
   - "get_uls.sh" now allows selection of OS package installation rather than pip3. [See](https://github.com/akamai/uls/issues/46) for more information
 - **Housekeeping**
