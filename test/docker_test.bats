@@ -98,6 +98,6 @@ teardown () {
 
 ## REMOVE the local DOCKER IMAGE
 @test "DOCKER IMAGE DELETE" {
-    docker image rm uls:bats
+    run docker image rm uls:bats
     [ "$status" -eq 0 ]
 }
