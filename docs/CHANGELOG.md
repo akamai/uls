@@ -1,18 +1,38 @@
 # Version History
-## v1.6.7
+## v1.7.1
 |||
 |---|---|
-|Date|2023-XX-XXX
-|Kind| Minor release
+|Date|2023-10-11
+|Kind| BUGFIX release
+|Author|mschiess@akamai.com,
+- **BUGFIX**
+  - Fixed a bug in the ETP & EAA CLI that prevented ULS to run properly in docker environment
+    - [docker] bumped CLI-EAA to "0.6.3"
+    - [docker] bumped CLI-ETP version to "0.4.5"
+- **Housekeeping**
+  - Added additional automated testing to the docker release process
+
+## v1.7.0
+|||
+|---|---|
+|Date|2023-10-10
+|Kind| FEATURE release
 |Author|mschiess@akamai.com, androcho@akamai.com
 - **Features**
   - Allowing the configuration of the HTTPFORMATTYPE, which controls the building of payloads for aggregated HTTP requests (click [here](FAQ.md#what-is-http-formattype) for additional information)
+  - Allow adjustment of the "INPUT QUEUE SIZE" threshold (--inputqueuesize) in order to handle huge API pages and fast API output
+  - New feed for EAA: Directory Health (dirhealth) to fetch health details for configured directories wihtin EAA 
 - **Minor improvements**
   - Added additional checking in the auto installer
-  - [docker] bumped python version to "3.11.5"
+  - [docker] bumped python version to "3.12.0"
   - [docker] bumped GC-LOGS version to "0.0.2(beta)", now supporting credentials in ENV VARS
+  - [docker] bumped CLI-EAA to "0.6.2"
   - [docker] bumped CLI-ETP version to "0.4.4" - fixed a bug in output ordering + empty response handling.
   - "get_uls.sh" now allows selection of OS package installation rather than pip3. [See](https://github.com/akamai/uls/issues/46) for more information
+- **Housekeeping**
+  - DocFix Readme.md (thx [@ihommani](https://github.com/akamai/uls/pull/47))
+  - Increased default input_queue_size from 10000 to 15000 to avoid race conditions when an API is answering very fast
+
 
 ## v1.6.6
 |||

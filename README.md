@@ -38,6 +38,7 @@ It can be run directly as Python code, as a provided Docker container,  through 
       - [ADMIN](docs/LOG_OVERVIEW.md#admin-logs-admin)
       - [CONHEALTH](docs/LOG_OVERVIEW.md#connector-health-conhealth)
       - [DEVINV](docs/LOG_OVERVIEW.md#device-inventory-devinv)
+      - [DIRHEALTH](docs/LOG_OVERVIEW.md#directory-health-dirhealth)
     - [Enterprise Threat Protectors (ETP)](https://www.akamai.com/us/en/products/security/enterprise-threat-protector.jsp)
       - [THREAT](docs/LOG_OVERVIEW.md#threat-log-threat)
       - [AUP](docs/LOG_OVERVIEW.md#accceptable-use-policy-logs-aup)
@@ -101,7 +102,7 @@ Example commands:
 python3.9 bin/uls.py --input etp --feed threat --output raw
 
 # EAA - ACCESS to TCP
-python3.9  bin/uls.py --input eaa --feed access -output tcp --host 10.99.10.99 --port 8081
+python3.9  bin/uls.py --input eaa --feed access --output tcp --host 10.99.10.99 --port 8081
 ```
 For more information, please visit [this document](./docs/COMMAND_LINE_USAGE.md)
 

@@ -110,6 +110,14 @@ def init():
                              default=(os.environ.get('ULS_ENDTIME') or None),
                              help="End time (EPOCH SECONDS) until when to stop getting logs ('default': cli_default (never), example: '1631556101')")
 
+    # INPUT QUEUE SIZE
+    input_group.add_argument('--inputqueuesize',
+                             action='store',
+                             type=int,
+                             dest="input_queue_size",
+                             default=(os.environ.get('ULS_INPUT_QUEUESIZE') or uls_config.input_queue_size ),
+                             help=f"Maximum threshold of the input queue. (Default: {uls_config.input_queue_size})")
+
     # ----------------------
     # Output GROUP
     output_group = parser.add_argument_group(title="Output",

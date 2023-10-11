@@ -163,7 +163,7 @@ def main():
     # New ULS/1.5: the input module is ingesting messages
     # into a thread safe queue. The function call will immediately
     # return
-    event_q = queue.Queue(uls_config.input_queue_size)
+    event_q = queue.Queue(uls_args.input_queue_size)
     my_input.ingest(stopEvent, event_q, my_monitor)
 
     # Now we are back to the main thread to process the message
