@@ -1,4 +1,17 @@
 # Version History
+## v1.7.1
+|||
+|---|---|
+|Date|2023-10-11
+|Kind| BUGFIX release
+|Author|mschiess@akamai.com,
+- **BUGFIX**
+  - Fixed a bug in the ETP & EAA CLI that prevented ULS to run properly in docker environment
+    - [docker] bumped CLI-EAA to "0.6.3"
+    - [docker] bumped CLI-ETP version to "0.4.5"
+- **Housekeeping**
+  - Added additional automated testing to the docker release process
+
 ## v1.7.0
 |||
 |---|---|
