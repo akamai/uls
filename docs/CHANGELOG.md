@@ -2,7 +2,7 @@
 ## v1.7.1
 |||
 |---|---|
-|Date|2023-10-10
+|Date|2023-10-11
 |Kind| BUGFIX release
 |Author|mschiess@akamai.com,
 - **BUGFIX**
