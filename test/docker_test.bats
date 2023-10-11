@@ -96,3 +96,8 @@ teardown () {
     #[ "$status" -eq 0 ]
 }
 
+## REMOVE the local DOCKER IMAGE
+@test "DOCKER IMAGE BUILD" {
+    docker image rm uls:bats
+    [ "$status" -eq 0 ]
+}
