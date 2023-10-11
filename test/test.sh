@@ -1,6 +1,6 @@
 #!/bin/bash
 # test.sh [file - $tests_available] [regex merge]
-tests_available="basic positive negative "
+tests_available="basic positive negative docker "
 parallel_tests=20
 
 
@@ -8,7 +8,7 @@ parallel_tests=20
 function do_test() {
   if [ -f "test/$1_test.bats" ] ; then
     echo -e "$1 TESTING\n"
-    if [ ${parallel_tests} -gt 1 ] ; then
+    if [ ${parallel_tests} -gt 1 ] && [ ${1} != "docker" ]; then
       bats --jobs ${parallel_tests} test/$1_test.bats $filter
     else
       bats test/$1_test.bats $filter
