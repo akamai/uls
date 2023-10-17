@@ -4,7 +4,7 @@
 
 The Unified Log Streamer (ULS) is designed to simplify SIEM integrations for Akamai Secure Enterprise Access Products
 - [Enterprise Application Access (EAA)](https://www.akamai.com/us/en/products/security/enterprise-application-access.jsp) 
-- [Enterprise Threat Protector (ETP)](https://www.akamai.com/us/en/products/security/enterprise-threat-protector.jsp)
+- [Secure Internet Access Enterprise (SIA)](https://www.akamai.com/us/en/products/security/enterprise-threat-protector.jsp)
 - [Akamai MFA (MFA)](https://www.akamai.com/us/en/products/security/akamai-mfa.jsp)
 - [Guardicore Micro Segmentation](https://www.akamai.com/lp/guardicore)
 
@@ -39,7 +39,7 @@ It can be run directly as Python code, as a provided Docker container,  through 
       - [CONHEALTH](docs/LOG_OVERVIEW.md#connector-health-conhealth)
       - [DEVINV](docs/LOG_OVERVIEW.md#device-inventory-devinv)
       - [DIRHEALTH](docs/LOG_OVERVIEW.md#directory-health-dirhealth)
-    - [Enterprise Threat Protectors (ETP)](https://www.akamai.com/us/en/products/security/enterprise-threat-protector.jsp)
+    - [Secure Internet Access Enterprise (SIA) (formerly Enterprise Threat Protector)](https://www.akamai.com/products/secure-internet-access-enterprise)
       - [THREAT](docs/LOG_OVERVIEW.md#threat-log-threat)
       - [AUP](docs/LOG_OVERVIEW.md#accceptable-use-policy-logs-aup)
       - [DNS](docs/LOG_OVERVIEW.md#dns)
@@ -53,7 +53,7 @@ It can be run directly as Python code, as a provided Docker container,  through 
       - AGENT
       - SYSTEM
     - [Linode](https://www.linode.com/) (experimental)
-      - AUDIT
+      - [AUDIT](docs/LOG_OVERVIEW.md#audit-logs)
   
 
 - Supported data outputs

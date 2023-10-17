@@ -116,9 +116,9 @@ All log output will be directed to STDOUT by default.
     python3 bin/uls.py --input eaa --feed admin --output tcp --host 10.10.10.200 --port 9090
     ```
 
-- ETP THREAT LOG ==> UDP LISTENER
+- SIA THREAT LOG ==> UDP LISTENER
     ```bash
-    python3 bin/uls.py --input etp --feed threat --output udp --host 10.10.10.200 --port 9090
+    python3 bin/uls.py --input sia --feed threat --output udp --host 10.10.10.200 --port 9090
     ```
 - MFA AUTH LOG ==> HTTP LISTENER (SPLUNK) 
   disabled TLS verification
@@ -128,7 +128,7 @@ All log output will be directed to STDOUT by default.
 
 - Logging to a file and sending process to the background
     ```bash
-    python3 bin/uls.py --input etp --feed threat --output udp --host 10.10.10.200 --port 9090 &> /path/to/my/logfile &
+    python3 bin/uls.py --input sia --feed threat --output udp --host 10.10.10.200 --port 9090 &> /path/to/my/logfile &
     ```
   Rather consider [docker usage](./DOCKER_USAGE.md) instead of this
 
@@ -139,14 +139,14 @@ If you are planning to use multiple Akamai feed with ULS, bear in mind you will 
 We assume you have followed the instruction above to install ULS as command line.
 Before you install the service, make sure it works manually with the configured user.
 
-Create a new file in systemd directory (e.g. `/etc/systemd/system`), use a name that is easy to remember, like `uls-etp-dns.service`
+Create a new file in systemd directory (e.g. `/etc/systemd/system`), use a name that is easy to remember, like `uls-sia-dns.service`
 
 ```INI
 # ULS as systemd service example
-# uls-etp-dns.service
+# uls-sia-dns.service
 
 [Unit]
-Description=Akamai ULS feed ETP/DNS  # << Adjust the description with the feed name
+Description=Akamai ULS feed SIA/DNS  # << Adjust the description with the feed name
 After=network.target
 StartLimitIntervalSec=0
 
@@ -156,7 +156,7 @@ Restart=always
 RestartSec=1
 User=uls  # << Change this to reflect the user on your system 
 WorkingDirectory=/usr/local/uls  # << Change with ULS location
-ExecStart=/usr/bin/python3 /usr/local/uls/bin/uls.py --input etp --feed dns --output tcp --host 127.0.0.1 --port 9090  # << Adjust python path and uls path
+ExecStart=/usr/bin/python3 /usr/local/uls/bin/uls.py --input sia --feed dns --output tcp --host 127.0.0.1 --port 9090  # << Adjust python path and uls path
 
 [Install]
 WantedBy=multi-user.target
@@ -164,25 +164,25 @@ WantedBy=multi-user.target
 
 Test the service with the following command:
 ```
-$ systemctl start uls-etp-dns
+$ systemctl start uls-sia-dns
 ```
 
 Make sure everything is working:
 
 ```
-$ systemctl status uls-etp-dns
+$ systemctl status uls-sia-dns
 ```
 
 Expected output:
 
 ```
-● uls-etp-dns.service - Akamai ULS feed ETP/DNS
-   Loaded: loaded (/etc/systemd/system/uls-etp-dns.service; disabled; vendor preset: disabled)
+● uls-sia-dns.service - Akamai ULS feed SIA/DNS
+   Loaded: loaded (/etc/systemd/system/uls-sia-dns.service; disabled; vendor preset: disabled)
    Active: active (running) since Wed 2021-09-01 23:51:39 UTC; 4s ago
  Main PID: 9428 (python3)
-   CGroup: /system.slice/uls-etp-dns.service
-           ├─9428 /usr/bin/python3 /root/uls/bin/uls.py --input etp --feed dns --output tcp --host 127.0.0.1 --port 9090
-           └─9430 python3 ext/cli-etp/bin/akamai-etp --edgerc /root/.edgerc --section default --user-agent-prefix ULS/1.1.0_ETP-DNS event dns -f
+   CGroup: /system.slice/uls-sia-dns.service
+           ├─9428 /usr/bin/python3 /root/uls/bin/uls.py --input sia --feed dns --output tcp --host 127.0.0.1 --port 9090
+           └─9430 python3 ext/cli-etp/bin/akamai-etp --edgerc /root/.edgerc --section default --user-agent-prefix ULS/1.1.SIA-DNS event dns -f
 ```
 
 To make sure the service will start if the machine restarts, use:
