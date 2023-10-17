@@ -187,7 +187,10 @@ def root_path():
 
 def check_autoresume(input, feed, checkpoint_dir=uls_config.autoresume_checkpoint_path):
     # Check if we're in a supported stream / feed
-    if input not in uls_config.autoresume_supported_inputs or feed == "CONHEALTH" or feed == "DEVINV" :
+    if (input not in uls_config.autoresume_supported_inputs or
+            feed == "CONHEALTH" or
+            feed == "DEVINV" or
+            feed == "DIRHEALTH"):
         aka_log.log.critical(f"Input {input} or feed {feed} currently not supported by AUTORESUME - Exiting.")
         sys.exit(1)
 
@@ -256,6 +259,8 @@ def write_autoresume_ckpt(input, feed, autoresume_file, logline):
         checkpoint_timestamp = json.loads(checkpoint_line)['query']['time']
     elif input == "EAA" and feed == "ACCESS":
         checkpoint_timestamp = json.loads(checkpoint_line)['datetime']
+    elif input == "ETP" and feed == "NETCON":
+        checkpoint_timestamp = json.loads(checkpoint_line)['connStartTime']
     else:
         aka_log.log.critical(
             f"AUTORESUME - Unhandled Input / Feed detected:  '{input} / {feed}' (this should never happen !!)- Exiting")
