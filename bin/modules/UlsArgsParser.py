@@ -23,13 +23,19 @@ def init():
     # Argument Parsing
     parser = argparse.ArgumentParser(description=f"{uls_config.__tool_name_long__}",
                                      formatter_class=argparse.RawTextHelpFormatter)
-    # Common params
+    # Loglevel
     parser.add_argument('-l', '--loglevel',
                         action='store',
                         type=str.upper,
                         default=(os.environ.get('ULS_LOGLEVEL') or uls_config.log_level_default),
                         choices=uls_config.log_levels_available,
                         help=f'Adjust the loglevel Default: {uls_config.log_level_default}')
+    # put loglines into debug log
+    parser.add_argument('--debugloglines',
+                        action='store',
+                        type=bool,
+                        default=(os.environ.get('ULS_DEBUGLOGLINES') or uls_config.log_debugloglines_default),
+                        help=f"Should the log_lines appear in debug log? (Default: {uls_config.log_debugloglines_default})")
 
     # Version Information
     parser.add_argument('-v', '--version',

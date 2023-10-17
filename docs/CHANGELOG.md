@@ -10,6 +10,7 @@
   - added "ETP NETCON" to the autoresume feature
   - prevented "EAA DIRHEALTH" to be mistakenly autoresumed
   - Imrpoved [log overview](LOG_OVERVIEW.md) readability
+  - Added `--debugloglines` to allow control of input loglines being sent to the debug log
 
 ## v1.7.1
 |||

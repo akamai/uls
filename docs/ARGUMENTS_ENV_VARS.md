@@ -1,17 +1,26 @@
 # List of parameters / Environmental variables
 The following tables list all available command line parameters and their corresponding environmental variables (for advanced usage).
 
+## Table of contents
+- [Global](#global)
+- [Input](#input)
+- [Output](#output)
+- [Special Arguments](#special-arguments)
+- [Autoresume](#autoresume)
+
+---
 
 ## Global
+
 | Parameter          | Env - Var    | Options                                         | Default | Description                                               |
 |--------------------|--------------|-------------------------------------------------|---------|-----------------------------------------------------------|
 | -h <br> --help     | n/a          | n/a                                             | None    | Display help / usage information                          |
 | -l <br> --loglevel | ULS_LOGLEVEL | 'DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL' | WARNING | Adjust the overall loglevel                               |
 | -v <br> --version  | n/a          | n/a                                             | None    | Display ULS version information (incl. CLI & OS versions) |
-
-
+| --debugloglines | ULS_DEBUGLOGLINES | 'True', 'False' | False | Should the debug log contain Loglines (useful to debug transformations) |
 
 ## INPUT
+
 | Parameter                 | Env - Var       | Options                                                                                                                                                                                     | Default       | Description                                                                                                                                                                                 |
 |---------------------------|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | -i <br> --input           | ULS_INPUT       | 'EAA', 'ETP', 'MFA', 'GC', 'LINODE'                                                                                                                                                         | None          | Specify the desired INPUT source                                                                                                                                                            |
@@ -27,6 +36,7 @@ The following tables list all available command line parameters and their corres
 
 
 ## OUTPUT
+
 | Parameter        | Output Type | Env - Var            | Options                                | Default                  | Description                                                                                                                                                                                                                                                                                      |
 |------------------|-------------|----------------------|----------------------------------------|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | -o <br> --output |             | ULS_OUTPUT           | 'TCP', 'UDP', 'HTTP', 'RAW', 'FILE'    | None                     | Specify the desired OUTPUT target                                                                                                                                                                                                                                                                |
@@ -53,13 +63,16 @@ The following tables list all available command line parameters and their corres
 
 
 ## Special Arguments
+
 | Parameter               | Env - Var                  | Options                | Default | Description                                                                                                                                                                                                                               |
 |-------------------------|----------------------------|------------------------|---------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | --filter                | ULS_OUTPUT_FILTER          | \<regular expression\> | None    | Filter (regex) to reduce number of OUTPUT log lines<br> Only loglines **matching** the `--filter <expression>` argument will bes sent to the output.<br>[Click here for more information](ADDITIONAL_FEATURES.md#filter---filter-feature) |
 | --transformation        | ULS_TRANSFORMATION         | 'MCAS', 'JMESPATH'     | None    | OPTIONAL: Specify an optional transformation to manipulate the output format<br> [Click here for more information](TRANSFORMATIONS.md)                                                                                                    |
 | --transformationpattern | ULS_TRANSFORMATION_PATTERN | \<pattern\>            | None    | Specifies the pattern used to transform the log event for the selected transformation. [Click here for more information](TRANSFORMATIONS.md)                                                                                              |
 
+
 ## Autoresume
+
 | Parameter              | Env - Var                 | Options                       | Default | Description                                                                                                   |
 |------------------------|---------------------------|-------------------------------|---------|---------------------------------------------------------------------------------------------------------------|
 | --autoresume           | ULS_AUTORESUME            | [True, False]                 | False   | Enable automated resume on based on a checkpoint upon api failure or crash (do not use alongside --starttime) |

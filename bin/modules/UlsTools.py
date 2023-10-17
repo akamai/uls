@@ -248,7 +248,7 @@ def check_autoresume(input, feed, checkpoint_dir=uls_config.autoresume_checkpoin
     return {'filename': checkpoint_full, 'creation_time': creation_time, 'checkpoint': checkpoint}
 
 
-def write_autoresume_ckpt(input, feed, autoresume_file, logline):
+def write_autoresume_ckpt(input, feed, autoresume_file, logline, current_count):
     aka_log.log.info(f"AUTORESUME - IT's time to write a new checkpoint")
 
     # Adopt the field to the stream / feed
@@ -268,7 +268,7 @@ def write_autoresume_ckpt(input, feed, autoresume_file, logline):
 
     # Write out the file
     try:
-        autoresume_data = {'creation_time': str(datetime.datetime.now()), 'checkpoint': str(checkpoint_timestamp), 'input': input, 'feed': feed}
+        autoresume_data = {'creation_time': str(datetime.datetime.now()), 'checkpoint': str(checkpoint_timestamp), 'input': input, 'feed': feed, 'current_count': current_count}
         with open(autoresume_file, "w") as ckpt_fd:
             json.dump(autoresume_data, ckpt_fd)
         aka_log.log.debug(f"AUTORESUME - Wrote a new checkpoint to {autoresume_file}: {autoresume_data}")
