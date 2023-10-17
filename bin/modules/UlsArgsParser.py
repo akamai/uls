@@ -34,7 +34,9 @@ def init():
     parser.add_argument('--debugloglines',
                         action='store',
                         type=bool,
+                        nargs='?',
                         default=(os.environ.get('ULS_DEBUGLOGLINES') or uls_config.log_debugloglines_default),
+                        const=True,
                         help=f"Should the log_lines appear in debug log? (Default: {uls_config.log_debugloglines_default})")
 
     # Version Information

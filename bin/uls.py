@@ -169,7 +169,8 @@ def main():
     while not stopEvent.is_set():
         try:
             input_data = event_q.get(block=True, timeout=0.05)
-            #aka_log.log.debug(f"<IN> {input_data}")
+            if uls_args.debugloglines:
+                aka_log.log.debug(f"<IN> {input_data}")
             for log_line in input_data.splitlines():
 
                 # Write checkpoint to the checkpoint file (if autoresume is enabled) (not after transformation or filter)
@@ -211,7 +212,8 @@ def main():
                     # Send the data
                     resend_status = my_output.send_data(log_line)
                     my_monitor.increase_message_count(len(log_line))
-                    #aka_log.log.debug(f"<OUT> {log_line}")
+                    if uls_args.debugloglines:
+                        aka_log.log.debug(f"<OUT> {log_line}")
                     resend_counter = resend_counter + 1
 
                 if resend_counter == uls_config.main_resend_attempts and\
