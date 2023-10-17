@@ -48,7 +48,7 @@ def uls_check_sys(root_path, uls_input=None):
             aka_log.log.critical(f"Error checking the cli'tools ")
     if uls_input == "EAA":
         _check_cli_installed(root_path + "/" + uls_config.bin_eaa_cli)
-    elif uls_input == "ETP":
+    elif uls_input == "ETP" or uls_input == "SIA":
         _check_cli_installed(root_path + "/" + uls_config.bin_etp_cli)
     elif uls_input == "MFA":
         _check_cli_installed(root_path + "/" + uls_config.bin_mfa_cli)

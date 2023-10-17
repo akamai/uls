@@ -40,7 +40,7 @@ bin_linode_cli = "ext/cli-linode/bin/akamai-linode"         # Path to the LINODE
 linode_cli_feeds = ['AUDIT']                        # Available LINODE CLI feeds
 
     # INPUT Choices
-input_choices = ['EAA', 'ETP', 'MFA', 'GC', 'LINODE']           # Available input types
+input_choices = ['EAA', 'ETP', 'SIA', 'MFA', 'GC', 'LINODE']           # Available input types
 input_format_choices = ['JSON', 'TEXT']         # Available input format choices (need to be supported by cli)
 
     # OUTPUT Choices

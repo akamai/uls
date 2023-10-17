@@ -210,7 +210,7 @@ class UlsInputCli:
                                   shlex.split(self.rawcmd)
 
             # ETP config
-            elif self.product == "ETP":
+            elif self.product == "ETP" or self.product == "SIA":
                 product_path = self.root_path + "/" + uls_config.bin_etp_cli
                 product_feeds = uls_config.etp_cli_feeds
 

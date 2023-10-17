@@ -5,10 +5,10 @@
 |Date|2023-XXXX
 |Kind| MINOR release
 |Author|mschiess@akamai.com
-- **Minor improvements**
+- **Minor improvements** 
+  - Introduced **Secure Internet Access** (formerly ETP) as INPUT specification (as an alias to ETP)  
   - added "ETP NETCON" to the autoresume feature
-  - prevented "EAA DIRHEALTH" to be mistakenly autoresumed 
-- **Minor improvements**
+  - prevented "EAA DIRHEALTH" to be mistakenly autoresumed
   - Imrpoved [log overview](LOG_OVERVIEW.md) readability
 
 ## v1.7.1
