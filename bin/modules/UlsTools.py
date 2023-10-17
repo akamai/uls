@@ -219,13 +219,15 @@ def check_autoresume(input, feed, checkpoint_dir=uls_config.autoresume_checkpoin
                             aka_log.log.critical(
                                 f"Unhandeled input data in checkpointfile  \'{checkpoint_full}\' --> {input} / {feed} - Exiting.")
                             sys.exit(1)
-                        checkpoint = int(datetime.datetime(year=int(mytime.split("T")[0].split("-")[0]),
-                                            month=int(mytime.split("T")[0].split("-")[1]),
-                                            day=int(mytime.split("T")[0].split("-")[2]),
-                                            hour=int(mytime.split("T")[1].split(":")[0]),
-                                            minute=int(mytime.split("T")[1].split(":")[1]),
-                                            second=int(mytime.split("T")[1].split(":")[2]),
-                                            ).timestamp())
+                        my_timestamp = datetime.datetime(year=int(mytime.split("T")[0].split("-")[0]),
+                                                         month=int(mytime.split("T")[0].split("-")[1]),
+                                                         day=int(mytime.split("T")[0].split("-")[2]),
+                                                         hour=int(mytime.split("T")[1].split(":")[0]),
+                                                         minute=int(mytime.split("T")[1].split(":")[1]),
+                                                         second=int(mytime.split("T")[1].split(":")[2]),
+                                                         )
+                        checkpoint = int(my_timestamp.replace(tzinfo=datetime.timezone.utc).timestamp())
+
                         aka_log.log.debug(f"Checkpoint timestamp {data['checkpoint']} converted to epoch time {checkpoint}")
                     else:
                         aka_log.log.critical(f"Inconsitent data in checkpointfile  \'{checkpoint_full}\' --> {data} - Exiting.")

@@ -229,9 +229,11 @@ class UlsInputCli:
                     # Append End and Starttime
                     if self.endtime:
                         # We need to remove "-f" from the end of the cli cmd if we work with endtime
+                        aka_log.log.debug(f"Internally set my starttime to: {self.endtime}")
                         cli_command = cli_command[:-1]
                         cli_command.extend(self._prep_start_endtime('--end', self.endtime))
                     if self.starttime:
+                        aka_log.log.debug(f"Internally set my starttime to: {self.starttime}")
                         cli_command.extend(self._prep_start_endtime('--start', self.starttime))
 
                 else:
