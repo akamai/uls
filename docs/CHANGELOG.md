@@ -11,6 +11,8 @@
   - prevented "EAA DIRHEALTH" to be mistakenly autoresumed
   - Imrpoved [log overview](LOG_OVERVIEW.md) readability
   - Added `--debugloglines` to allow control of input loglines being sent to the debug log
+- **BUGFIX**
+  - Fixed a bug in the autoresume function that created a problem with timezones in certain circumstances
 
 ## v1.7.1
 |||
