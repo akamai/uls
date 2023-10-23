@@ -64,6 +64,19 @@ teardown () {
     [ "$status" -eq 0 ]
 }
 
+## Test container security posture
+@test "DOCKER SECURITY SCAN 1 (scout)" {
+    docker scout quickview uls:bats
+    [ "$status" -eq 0 ]
+}
+
+## Test container security posture
+@test "DOCKER SECURITY SCAN 2 (trivy)" {
+    trivy image akamai/uls --ignore-unfixed
+    [ "$status" -eq 0 ]
+}
+
+
 ## RUN AN EAA TEST
 @test "DOCKER EAA TEST" {
     run timeout ${uls_timeout_params} docker run --rm --name "uls-bats-test" --mount type=bind,source="${uls_edgerc}",target="/opt/akamai-uls/.edgerc",readonly uls:bats --section ${uls_section} --input eaa --feed access --output raw --loglevel info
