@@ -35,7 +35,6 @@ ULS and SYSLOG daemon do not need to reside on the same host.
 - Azure  
   A [Data Collection Rule](https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-collection-rule-overview) needs to be deployed with the following configuration: 
   - Syslog Facility (e.g. LOCAL1)  pointing to the corresponding syslog facility the ULS streams the data into).
-  - Log Transformation (Log Parsing)
+  - Log Transformation (Log Parsing)  
 
-
-
+  As an alternative, here is a [working template](templates/AkamaiETPtableAndDCR.json) that can be [directly imported](https://urldefense.com/v3/__https:/learn.microsoft.com/en-us/azure/azure-resource-manager/templates/quickstart-create-templates-use-the-portal__;!!GjvTz_vk!SRr0pX7Yrgot61PaNJRTJU58jBwERmvbIH2uPFRKwWkYsPM13XYV0MSQ_Kxg1rqKwVjmnOMqORdyCxi4YL2XS2EE$).

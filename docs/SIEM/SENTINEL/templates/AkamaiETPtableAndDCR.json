@@ -1,0 +1,394 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workspaceName": {
+            "defaultValue": "loganalyticsworkspacename",
+            "type": "String",
+            "metadata": {
+                "description": "Workspace name for Log Analytics where Microsoft Sentinel is setup"
+            }
+        },
+        "DataCollectionRuleName": {
+            "defaultValue": "Syslog-AkamaiETP-DCR",
+            "type": "String",
+            "metadata": {
+                "description": "Data Collection Rule Name"
+            }
+        }
+    },
+    "variables": {
+        "logAnalyticsTableName": "akamaiETP_CL",
+        "workspaceResourceId": "[resourceId('microsoft.OperationalInsights/Workspaces', parameters('workspaceName'))]",
+        "location": "[resourceGroup().location]",
+        "subscriptionID": "[last(split(subscription().id, '/'))]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/tables",
+            "apiVersion": "2021-12-01-preview",
+            "name": "[format('{0}/{1}', parameters('workspaceName'),  variables('logAnalyticsTableName'))]",
+            "location": "[variables('location')]",
+            "tags": {},
+            "properties": {
+                "schema": {
+                    "name": "[variables('logAnalyticsTableName')]",
+                    "columns": [
+                        {
+                            "name": "actionId",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "actionName",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "alexaRanking",
+                            "type": "int",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "applicationId",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "applicationName",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "aupCategories",
+                            "type": "dynamic",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "catalogId",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "categoryId",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "categoryName",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "cidr",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "clientAgents",
+                            "type": "dynamic",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "clientIp",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "clientRequestId",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "confidenceName",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "configId",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "deepScanned",
+                            "type": "boolean",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "deviceId",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "deviceName",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "deviceOwnerId",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "dnsIp",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "dohAttribution",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "domain",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "encryptedInternalClientIP",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "encryptedInternalClientName",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "hitCount",
+                            "type": "int",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "etpId",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "internalClientIP",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "listId",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "listName",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "observedAupCategories",
+                            "type": "dynamic",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "onRamp",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "onrampType",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "policyEvaluationSource",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "policyId",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "policyName",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "queryType",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "reason",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "resolved",
+                            "type": "dynamic",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "riskId",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "riskName",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "scId",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "scName",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "securityCategoryId",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "securityCategoryName",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "siteId",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "siteName",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "sublocationId",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "sublocationName",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "TimeGenerated",
+                            "type": "datetime",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        },
+                        {
+                            "name": "transportType",
+                            "type": "string",
+                            "isDefaultDisplay": false,
+                            "isHidden": false
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Insights/dataCollectionRules",
+            "apiVersion": "2022-06-01",
+            "name": "[parameters('DataCollectionRuleName')]",
+            "location": "[variables('location')]",
+            "kind": "Linux",
+            "properties": {
+                "dataSources": {
+                    "syslog": [
+                        {
+                            "streams": [
+                                "Microsoft-Syslog"
+                            ],
+                            "facilityNames": [
+                                "user"
+                            ],
+                            "logLevels": [
+                                "Debug",
+                                "Info",
+                                "Notice",
+                                "Warning",
+                                "Error",
+                                "Critical",
+                                "Alert",
+                                "Emergency"
+                            ],
+                            "name": "sysLogsDataSource-1688419672"
+                        }
+                    ]
+                },
+                "destinations": {
+                    "logAnalytics": [
+                        {
+                            "workspaceResourceId": "[variables('workspaceResourceId')]",
+                            "name": "clv2ws1"
+                        }
+                    ]
+                },
+                "dataFlows": [
+                    {
+                        "streams": [
+                            "Microsoft-Syslog"
+                        ],
+                        "destinations": [
+                            "clv2ws1"
+                        ],
+                        "transformKql": "source | extend SyslogMessage = iff(SyslogMessage endswith_cs '#015', substring(SyslogMessage, 0, strlen(SyslogMessage)-4), SyslogMessage) | extend SyslogMessage = parse_json(SyslogMessage) | extend TimeGenerated = todatetime(SyslogMessage.query['time']) | extend etpId=tostring(SyslogMessage.id), configId=tostring(SyslogMessage.configId) | extend hitCount=toint(SyslogMessage.hitCount) | extend alexaRanking=toint(SyslogMessage.alexaRanking) | extend clientIp=tostring(SyslogMessage.query.clientIp), dnsIp=tostring(SyslogMessage.query.dnsIp) | extend domain=tostring(SyslogMessage.query.domain) | extend queryType=tostring(SyslogMessage.query.queryType) | extend deviceId=tostring(SyslogMessage.query.deviceId), deviceName=tostring(SyslogMessage.query.deviceName) | extend resolved=SyslogMessage.query.resolved | extend siteId=tostring(SyslogMessage.event.siteId), siteName=tostring(SyslogMessage.event.siteName) | extend policyId=tostring(SyslogMessage.event.policyId) | extend listId=tostring(SyslogMessage.event.listId), listName=tostring(SyslogMessage.event.listName) | extend categoryName=tostring(SyslogMessage.event.categoryName) | extend confidenceName=tostring(SyslogMessage.event.confidenceName) | extend actionId=tostring(SyslogMessage.event.actionId), actionName=tostring(SyslogMessage.event.actionName) | extend reason=tostring(SyslogMessage.event.reason) | extend onRamp=tostring(SyslogMessage.event.onRamp), onrampType=tostring(SyslogMessage.event.onrampType) | extend internalClientIP=tostring(SyslogMessage.event.internalClientIP) | extend clientRequestId=tostring(SyslogMessage.event.clientRequestId) | extend policyEvaluationSource=tostring(SyslogMessage.event.policyEvaluationSource) | extend encryptedInternalClientIP=tostring(SyslogMessage.event.encryptedInternalClientIP), encryptedInternalClientName=tostring(SyslogMessage.event.encryptedInternalClientName) | extend scId=tostring(SyslogMessage.event.scId) | extend applicationId=tostring(SyslogMessage.event.applicationId), applicationName=tostring(SyslogMessage.event.applicationName) | extend riskId=tostring(SyslogMessage.event.riskId), riskName=tostring(SyslogMessage.event.riskName) | extend catalogId=tostring(SyslogMessage.event.catalogId) | extend observedAupCategories=SyslogMessage.event.observedAupCategories | extend aupCategories=SyslogMessage.event.aupCategories | extend securityCategoryName=tostring(SyslogMessage.event.securityCategoryName) | extend sublocationId=tostring(SyslogMessage.event.sublocationId) | extend sublocationName=tostring(SyslogMessage.event.sublocationName) | extend clientAgents=SyslogMessage.event.clientAgents | extend transportType=tostring(SyslogMessage.event.transportType) | extend dohAttribution=tostring(SyslogMessage.event.dohAttribution) | extend securityCategoryId=tostring(SyslogMessage.event.securityCategoryId) | extend cidr=tostring(SyslogMessage.event.cidr) | extend deepScanned=tobool(SyslogMessage.event.deepScanned)",
+                        "outputStream": "[concat('Custom-', variables('logAnalyticsTableName'))]"
+                    }
+                ]
+            }
+        }
+    ]
+}
