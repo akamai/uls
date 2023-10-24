@@ -93,6 +93,7 @@ Anyway, details for some specific SIEM solutions can be found in [this directory
 - AKAMAI .edgerc file ([see further documentation here](docs/AKAMAI_API_CREDENTIALS.md))
 - Outbound Internet access (Akamai API, Dockerhub OR Python repositories)
 - Compute resource footprint is minimal: 1 vCPU, 1 GB RAM, 500 MB free disk. See also [High availability](docs/HIGH_AVAILABILITY.md) doc.
+- NTP synchronized time on the OS ULS will be executed.
 
 ### Command Line Usage
 ![ULS command line usage](docs/images/uls_cli_help_example.png)  
