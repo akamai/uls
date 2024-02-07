@@ -13,6 +13,7 @@
   - Added `--debugloglines` to allow control of input loglines being sent to the debug log
   - Added [Microsoft Sentinel SIA / ETP integration](SIEM/SENTINEL/Readme.md) documentation
   - Added a FAQ entry [regarding time synchronization](FAQ.md#error-invalid-timestamp-on-api-call)
+  - [docker] bumped python version to "3.12.1"
 - **BUGFIX**
   - Fixed a bug in the autoresume function that created a problem with timezones in certain circumstances
 

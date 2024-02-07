@@ -330,6 +330,9 @@ class UlsInputCli:
                     cli_command = [self.bin_python, product_path] +\
                                   self._uls_useragent(self.product, "rawcmd") +\
                                   shlex.split(self.rawcmd)
+            # Mocked output
+            elif self.product == "MOCK":
+                print ("Not yet there")
 
 
             # Everything else (undefined)

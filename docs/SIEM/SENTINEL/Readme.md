@@ -38,4 +38,4 @@ ULS and SYSLOG daemon do not need to reside on the same host.
   - Log Transformation (Log Parsing)  
 
   As an alternative, here is a [working template](templates/AkamaiETPtableAndDCR.json) that can be [directly imported](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/quickstart-create-templates-use-the-portal).  
-  
+  (A massive thanks to Joana from Microsoft who shared the template with us)
