@@ -21,7 +21,7 @@ import threading
 import queue
 
 # ULS modules
-import config.global_config as uls_config
+import uls_config.global_config as uls_config
 import modules.aka_log as aka_log
 import modules.UlsTools as UlsTools
 

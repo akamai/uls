@@ -30,7 +30,7 @@ import modules.UlsInputCli as UlsInputCli
 import modules.UlsMonitoring as UlsMonitoring
 import modules.UlsTransformation as UlsTransformation
 import modules.UlsTools as UlsTools
-import config.global_config as uls_config
+import uls_config.global_config as uls_config
 
 stopEvent = threading.Event()
 

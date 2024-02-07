@@ -23,7 +23,7 @@ import time
 
 # ULS modules
 import modules.aka_log as aka_log
-import config.global_config as uls_config
+import uls_config.global_config as uls_config
 
 
 def uls_check_sys(root_path, uls_input=None):

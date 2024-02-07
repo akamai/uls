@@ -18,7 +18,7 @@ import sys
 import time
 
 # ULS modules
-import config.transformation_config as transform_config
+import uls_config.transformation_config as transform_config
 import jmespath
 import modules.aka_log as aka_log
 

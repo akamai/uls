@@ -19,7 +19,7 @@ import datetime
 import sys
 
 import modules.aka_log as aka_log
-import config.global_config as uls_config
+import uls_config.global_config as uls_config
 
 
 class UlsMonitoring:

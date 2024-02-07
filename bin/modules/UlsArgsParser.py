@@ -16,7 +16,7 @@ import argparse
 import os
 from distutils.util import strtobool
 
-import config.global_config as uls_config
+import uls_config.global_config as uls_config
 
 
 def init():

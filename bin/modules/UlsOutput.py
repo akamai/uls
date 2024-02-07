@@ -25,7 +25,7 @@ import random
 import json
 
 # ULS specific modules
-import config.global_config as uls_config
+import uls_config.global_config as uls_config
 import modules.aka_log as aka_log
 
 
