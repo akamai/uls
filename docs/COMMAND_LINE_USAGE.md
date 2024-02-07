@@ -13,7 +13,6 @@ All commands referenced in this document are run from the repositories root leve
       - [Clone ULS repository](#clone-uls-repository)
       - [Akamai Enterprise Access CLI's](#akamai-enterprise-access-clis)
     - [Setup the .EDGERC File](#setup-the-edgerc-file)
-    - [Setup the .EDGERC File](#setup-the-edgerc-file-1)
   - [Usage](#usage)
     - [Usage examples](#usage-examples)
   - [ULS as a service: systemd](#uls-as-a-service-systemd)
@@ -81,12 +80,6 @@ git clone -q --depth 1 -b dev --single-branch https://github.com/MikeSchiessl/ln
 pip3 install -q -r ext/cli-linode/bin/requirements.txt
 ```
 
-### Setup the .EDGERC File
-
-Copy the `.edgerc` file ([instructions for creation](AKAMAI_API_CREDENTIALS.md)) to your users home directory (~):
-```bash
-cp /path/to/your/.edgerc ~/.edgerc
-```
 ### Setup the .EDGERC File
 
 Copy the `.edgerc` file ([instructions for creation](AKAMAI_API_CREDENTIALS.md)) to your users home directory (~):
