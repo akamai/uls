@@ -66,13 +66,14 @@ teardown () {
 
 ## Test container security posture
 @test "DOCKER SECURITY SCAN 1 (scout)" {
-    docker scout quickview uls:bats
+    #run docker scout quickview uls:bats
+    run docker scout cves --only-fixed uls:bats
     [ "$status" -eq 0 ]
 }
 
 ## Test container security posture
 @test "DOCKER SECURITY SCAN 2 (trivy)" {
-    trivy image akamai/uls --ignore-unfixed
+    run trivy image akamai/uls --ignore-unfixed
     [ "$status" -eq 0 ]
 }
 
