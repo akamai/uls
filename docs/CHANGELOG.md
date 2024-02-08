@@ -2,7 +2,7 @@
 ## v1.7.2
 |||
 |---|---|
-|Date|2023-XXXX
+|Date|2024-XXXX
 |Kind| MINOR release
 |Author|mschiess@akamai.com
 - **Minor improvements** 
@@ -14,6 +14,7 @@
   - Added [Microsoft Sentinel SIA / ETP integration](SIEM/SENTINEL/Readme.md) documentation
   - Added a FAQ entry [regarding time synchronization](FAQ.md#error-invalid-timestamp-on-api-call)
   - [docker] bumped python version to "3.12.1"
+  - [docker] bumped gc_logs version to "0.0.3(beta)"
 - **BUGFIX**
   - Fixed a bug in the autoresume function that created a problem with timezones in certain circumstances
 
