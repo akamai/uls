@@ -2,7 +2,7 @@
 ## v1.7.2
 |||
 |---|---|
-|Date|2024-XXXX
+|Date|2024-02-08
 |Kind| MINOR release
 |Author|mschiess@akamai.com
 - **Minor improvements** 
@@ -13,10 +13,13 @@
   - Added `--debugloglines` to allow control of input loglines being sent to the debug log
   - Added [Microsoft Sentinel SIA / ETP integration](SIEM/SENTINEL/Readme.md) documentation
   - Added a FAQ entry [regarding time synchronization](FAQ.md#error-invalid-timestamp-on-api-call)
-  - [docker] bumped python version to "3.12.1"
+  - [docker] bumped python version to "3.12.2"
   - [docker] bumped gc_logs version to "0.0.3(beta)"
+  - Fixed a doc error (PR by @pizza0rodeo ) - thanks for your contribution
 - **BUGFIX**
   - Fixed a bug in the autoresume function that created a problem with timezones in certain circumstances
+- **Housekeeping**
+  - improved local container testing
 
 ## v1.7.1
 |||
