@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Common global variables / constants
-__version__ = "1.7.1"
+__version__ = "1.7.2"
 __tool_name_long__ = "Akamai Unified Log Streamer"
 __tool_name_short__ = "ULS"
 
@@ -40,7 +40,7 @@ bin_linode_cli = "ext/cli-linode/bin/akamai-linode"         # Path to the LINODE
 linode_cli_feeds = ['AUDIT']                        # Available LINODE CLI feeds
 
     # INPUT Choices
-input_choices = ['EAA', 'ETP', 'MFA', 'GC', 'LINODE']           # Available input types
+input_choices = ['EAA', 'ETP', 'SIA', 'MFA', 'GC', 'LINODE']           # Available input types
 input_format_choices = ['JSON', 'TEXT']         # Available input format choices (need to be supported by cli)
 
     # OUTPUT Choices
@@ -53,6 +53,7 @@ transformation_choices = ['MCAS', 'JMESPATH']
     # LogLevels
 log_levels_available = ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']
 log_level_default = 'WARNING'
+log_debugloglines_default = False
 
 # INPUT Configuration
 input_rerun_retries = 3                         # Number of rerun attempts before giving up

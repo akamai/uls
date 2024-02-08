@@ -64,6 +64,20 @@ teardown () {
     [ "$status" -eq 0 ]
 }
 
+## Test container security posture
+@test "DOCKER SECURITY SCAN 1 (scout)" {
+    #run docker scout quickview uls:bats
+    run docker scout cves --only-fixed uls:bats
+    [ "$status" -eq 0 ]
+}
+
+## Test container security posture
+@test "DOCKER SECURITY SCAN 2 (trivy)" {
+    run trivy image akamai/uls --ignore-unfixed
+    [ "$status" -eq 0 ]
+}
+
+
 ## RUN AN EAA TEST
 @test "DOCKER EAA TEST" {
     run timeout ${uls_timeout_params} docker run --rm --name "uls-bats-test" --mount type=bind,source="${uls_edgerc}",target="/opt/akamai-uls/.edgerc",readonly uls:bats --section ${uls_section} --input eaa --feed access --output raw --loglevel info
@@ -97,7 +111,7 @@ teardown () {
 }
 
 ## REMOVE the local DOCKER IMAGE
-@test "DOCKER IMAGE BUILD" {
-    docker image rm uls:bats
+@test "DOCKER IMAGE DELETE" {
+    run docker image rm uls:bats
     [ "$status" -eq 0 ]
 }

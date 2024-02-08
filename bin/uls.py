@@ -30,7 +30,7 @@ import modules.UlsInputCli as UlsInputCli
 import modules.UlsMonitoring as UlsMonitoring
 import modules.UlsTransformation as UlsTransformation
 import modules.UlsTools as UlsTools
-import config.global_config as uls_config
+import uls_config.global_config as uls_config
 
 stopEvent = threading.Event()
 
@@ -86,7 +86,6 @@ def main():
         autoresume_data = UlsTools.check_autoresume(input=uls_args.input, feed=uls_args.feed, checkpoint_dir=uls_args.autoresumepath)
         uls_args.starttime = autoresume_data['checkpoint']
         autoresume_file =  autoresume_data['filename']
-
     # Check CLI Environment
     UlsTools.uls_check_sys(root_path=root_path, uls_input=uls_args.input)
 
@@ -170,12 +169,19 @@ def main():
     while not stopEvent.is_set():
         try:
             input_data = event_q.get(block=True, timeout=0.05)
-            aka_log.log.debug(f"<IN> {input_data}")
+            if uls_args.debugloglines:
+                aka_log.log.debug(f"<IN> {input_data}")
             for log_line in input_data.splitlines():
 
                 # Write checkpoint to the checkpoint file (if autoresume is enabled) (not after transformation or filter)
+
                 if uls_args.autoresume and int(my_monitor.get_message_count()) >= autoresume_lastwrite + uls_args.autoresumewriteafter:
-                    UlsTools.write_autoresume_ckpt(uls_args.input, uls_args.feed, autoresume_file, log_line)
+                    aka_log.log.info(f"WRITING AUTORESUME CHECKPOINT - curr_message_count={int(my_monitor.get_message_count())} - last_write = {autoresume_lastwrite}")
+                    UlsTools.write_autoresume_ckpt(uls_args.input,
+                                                   uls_args.feed,
+                                                   autoresume_file,
+                                                   log_line,
+                                                   current_count=int(my_monitor.get_message_count()))
                     autoresume_lastwrite = int(my_monitor.get_message_count())
 
                 # Filter Enhancement
@@ -206,7 +212,8 @@ def main():
                     # Send the data
                     resend_status = my_output.send_data(log_line)
                     my_monitor.increase_message_count(len(log_line))
-                    aka_log.log.debug(f"<OUT> {log_line}")
+                    if uls_args.debugloglines:
+                        aka_log.log.debug(f"<OUT> {log_line}")
                     resend_counter = resend_counter + 1
 
                 if resend_counter == uls_config.main_resend_attempts and\

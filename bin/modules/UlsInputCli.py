@@ -21,7 +21,7 @@ import threading
 import queue
 
 # ULS modules
-import config.global_config as uls_config
+import uls_config.global_config as uls_config
 import modules.aka_log as aka_log
 import modules.UlsTools as UlsTools
 
@@ -210,7 +210,7 @@ class UlsInputCli:
                                   shlex.split(self.rawcmd)
 
             # ETP config
-            elif self.product == "ETP":
+            elif self.product == "ETP" or self.product == "SIA":
                 product_path = self.root_path + "/" + uls_config.bin_etp_cli
                 product_feeds = uls_config.etp_cli_feeds
 
@@ -229,9 +229,11 @@ class UlsInputCli:
                     # Append End and Starttime
                     if self.endtime:
                         # We need to remove "-f" from the end of the cli cmd if we work with endtime
+                        aka_log.log.debug(f"Internally set my starttime to: {self.endtime}")
                         cli_command = cli_command[:-1]
                         cli_command.extend(self._prep_start_endtime('--end', self.endtime))
                     if self.starttime:
+                        aka_log.log.debug(f"Internally set my starttime to: {self.starttime}")
                         cli_command.extend(self._prep_start_endtime('--start', self.starttime))
 
                 else:
@@ -328,6 +330,9 @@ class UlsInputCli:
                     cli_command = [self.bin_python, product_path] +\
                                   self._uls_useragent(self.product, "rawcmd") +\
                                   shlex.split(self.rawcmd)
+            # Mocked output
+            elif self.product == "MOCK":
+                print ("Not yet there")
 
 
             # Everything else (undefined)

@@ -23,7 +23,7 @@ import time
 
 # ULS modules
 import modules.aka_log as aka_log
-import config.global_config as uls_config
+import uls_config.global_config as uls_config
 
 
 def uls_check_sys(root_path, uls_input=None):
@@ -48,7 +48,7 @@ def uls_check_sys(root_path, uls_input=None):
             aka_log.log.critical(f"Error checking the cli'tools ")
     if uls_input == "EAA":
         _check_cli_installed(root_path + "/" + uls_config.bin_eaa_cli)
-    elif uls_input == "ETP":
+    elif uls_input == "ETP" or uls_input == "SIA":
         _check_cli_installed(root_path + "/" + uls_config.bin_etp_cli)
     elif uls_input == "MFA":
         _check_cli_installed(root_path + "/" + uls_config.bin_mfa_cli)
@@ -97,7 +97,7 @@ def uls_version(root_path):
     print(f"{uls_config.__tool_name_long__} Version information\n"
           f"ULS Version\t\t{uls_config.__version__}\n\n"
           f"EAA Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_eaa_cli, my_edgerc_mock_file)}\n"
-          f"ETP Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_etp_cli, my_edgerc_mock_file)}\n"
+          f"SIA/ETP Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_etp_cli, my_edgerc_mock_file)}\n"
           f"MFA Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_mfa_cli, my_edgerc_mock_file)}\n"
           f"GC Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_gc_cli, my_edgerc_mock_file)}\n"
           f"LINODE Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_linode_cli, my_edgerc_mock_file)}\n\n"
@@ -187,7 +187,10 @@ def root_path():
 
 def check_autoresume(input, feed, checkpoint_dir=uls_config.autoresume_checkpoint_path):
     # Check if we're in a supported stream / feed
-    if input not in uls_config.autoresume_supported_inputs or feed == "CONHEALTH" or feed == "DEVINV" :
+    if (input not in uls_config.autoresume_supported_inputs or
+            feed == "CONHEALTH" or
+            feed == "DEVINV" or
+            feed == "DIRHEALTH"):
         aka_log.log.critical(f"Input {input} or feed {feed} currently not supported by AUTORESUME - Exiting.")
         sys.exit(1)
 
@@ -216,13 +219,15 @@ def check_autoresume(input, feed, checkpoint_dir=uls_config.autoresume_checkpoin
                             aka_log.log.critical(
                                 f"Unhandeled input data in checkpointfile  \'{checkpoint_full}\' --> {input} / {feed} - Exiting.")
                             sys.exit(1)
-                        checkpoint = int(datetime.datetime(year=int(mytime.split("T")[0].split("-")[0]),
-                                            month=int(mytime.split("T")[0].split("-")[1]),
-                                            day=int(mytime.split("T")[0].split("-")[2]),
-                                            hour=int(mytime.split("T")[1].split(":")[0]),
-                                            minute=int(mytime.split("T")[1].split(":")[1]),
-                                            second=int(mytime.split("T")[1].split(":")[2]),
-                                            ).timestamp())
+                        my_timestamp = datetime.datetime(year=int(mytime.split("T")[0].split("-")[0]),
+                                                         month=int(mytime.split("T")[0].split("-")[1]),
+                                                         day=int(mytime.split("T")[0].split("-")[2]),
+                                                         hour=int(mytime.split("T")[1].split(":")[0]),
+                                                         minute=int(mytime.split("T")[1].split(":")[1]),
+                                                         second=int(mytime.split("T")[1].split(":")[2]),
+                                                         )
+                        checkpoint = int(my_timestamp.replace(tzinfo=datetime.timezone.utc).timestamp())
+
                         aka_log.log.debug(f"Checkpoint timestamp {data['checkpoint']} converted to epoch time {checkpoint}")
                     else:
                         aka_log.log.critical(f"Inconsitent data in checkpointfile  \'{checkpoint_full}\' --> {data} - Exiting.")
@@ -245,7 +250,7 @@ def check_autoresume(input, feed, checkpoint_dir=uls_config.autoresume_checkpoin
     return {'filename': checkpoint_full, 'creation_time': creation_time, 'checkpoint': checkpoint}
 
 
-def write_autoresume_ckpt(input, feed, autoresume_file, logline):
+def write_autoresume_ckpt(input, feed, autoresume_file, logline, current_count):
     aka_log.log.info(f"AUTORESUME - IT's time to write a new checkpoint")
 
     # Adopt the field to the stream / feed
@@ -256,6 +261,8 @@ def write_autoresume_ckpt(input, feed, autoresume_file, logline):
         checkpoint_timestamp = json.loads(checkpoint_line)['query']['time']
     elif input == "EAA" and feed == "ACCESS":
         checkpoint_timestamp = json.loads(checkpoint_line)['datetime']
+    elif input == "ETP" and feed == "NETCON":
+        checkpoint_timestamp = json.loads(checkpoint_line)['connStartTime']
     else:
         aka_log.log.critical(
             f"AUTORESUME - Unhandled Input / Feed detected:  '{input} / {feed}' (this should never happen !!)- Exiting")
@@ -263,7 +270,7 @@ def write_autoresume_ckpt(input, feed, autoresume_file, logline):
 
     # Write out the file
     try:
-        autoresume_data = {'creation_time': str(datetime.datetime.now()), 'checkpoint': str(checkpoint_timestamp), 'input': input, 'feed': feed}
+        autoresume_data = {'creation_time': str(datetime.datetime.now()), 'checkpoint': str(checkpoint_timestamp), 'input': input, 'feed': feed, 'current_count': current_count}
         with open(autoresume_file, "w") as ckpt_fd:
             json.dump(autoresume_data, ckpt_fd)
         aka_log.log.debug(f"AUTORESUME - Wrote a new checkpoint to {autoresume_file}: {autoresume_data}")

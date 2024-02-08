@@ -13,7 +13,8 @@
 - [ULS throws TLS an error when connecting towards Guardicore API (--input GC)](#uls-throws-tls-an-error-when-connecting-towards-guardicore-api---input-gc)
 - [WHY JMESPATH and not JSONPATH](#why-jmespath-and-not-jsonpath)
 - [What is HTTP FORMATTYPE](#what-is-http-formattype)
-- 
+- [Error: "Capacity exceeded, too many incoming data vs. slow output"](#error-capacity-exceeded-too-many-incoming-data-vs-slow-output)
+- [Error: "Invalid timestamp" on API call](#error-invalid-timestamp-on-api-call)
 
 ----
 ## FAQ
@@ -174,3 +175,14 @@ Within the `single-event` mode, you can freely amend line breake configuration l
 This error indicates, that more data is coming in to ULS than it can send towards the sepcified output.  
 As this might be an indication for I/O problems either on the ULS output or the receiving system, it could also just be a specific race condition when the API operations with big pages or at a high speed (e.g. within local LAN).  
 If requried, the size can be adjusted by using the "--inputqueuesize" introduced in ULS 1.6.7.
+
+---
+### Error: "Invalid timestamp" on API call
+```bash
+Oct 15 07:00:17 myhost python3[9751453]: 2023-10-24 07:00:17,315 ULS E UlsInputCli - CLI process [712679], sadly stderr has been disabled
+Oct 15 07:00:19 myhost python3[9751453]: 2023-10-24 07:00:19,216 ULS E UlsInputCli - CLI process [712679] was found stale - Reason:  "2023-10-24 07:00:19,175 cli-etp MainThread E API call failed with HTTP/400: b'{\n  "type": "https://problems.luna.akamaiapis.net/-/pep-authn/request-error",\n  "title": "Bad request",\n  "status": 400,\n  "detail": "Invalid timestamp",\n  "
+instance": "https://akab-1234567890ABCDEF-0987654321BAC.luna.akamaiapis.net/etp-report/v3/configs/12345/dns-activities/details",\n  "method": "POST",\n  "serverIp": "10.10.10.10",\n  "
+clientIp": "10.9.9.9",\n  "requestId": "ALC1234",\n  "requestTime": "2023-10-24T07:01:40Z"\n}\n'
+```
+This error points towards a potential issue with the time configuration on the ULS host. The time of the host ULS runs on, should be synced with some NTP service(s).
+As you can see in the above example, the host timestamp is `2023-10-24 07:00:17,315` but the request timestamp (returned from the API) is more than 1 minute ahaed `"2023-10-24T07:01:40Z"`.

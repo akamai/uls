@@ -29,13 +29,15 @@ Here are some examples (per product) and links to additional information.
   - [Linode](#linode)
     - [AUDIT Logs](#audit-logs)
 
+---
 ## Enterprise Application Access (EAA)
-
 When configuring ULS to access EAA these feed, set `input` argument/variable to `EAA` and `feed` as indicated below in parathesis.
- 
+
 ### Access Logs (ACCESS)
 
 Additional information regarding the log fields can be found on [here](https://techdocs.akamai.com/eaa/docs/data-feed-siem#access-logs)
+<details>
+    <summary>EAA access logs example (JSON)</summary>
 
 ```json
 {
@@ -70,10 +72,13 @@ Additional information regarding the log fields can be found on [here](https://t
     "session_id": "1b1c728b-298e-4ebd-ce7c-0c1f99ad943f"
 }
 ```
+</details>
 
 ### Admin Logs (ADMIN)
-
 Additional information regarding the log fields can be found on [here](https://techdocs.akamai.com/eaa/docs/data-feed-siem#admin-logs).
+<details>
+    <summary>EAA admin logs example (JSON)</summary>
+
 ```json
 {
     "datetime": "2021-07-23T05:54:40",
@@ -84,10 +89,14 @@ Additional information regarding the log fields can be found on [here](https://t
     "event_type": "system"
 }
 ```
+</details>
 
 ### Connector Health (CONHEALTH)
 
 Additional information regarding the log fields can be found on [here](https://techdocs.akamai.com/eaa/docs/data-feed-siem#connector-health)
+<details>
+    <summary>EAA connector health example (JSON)</summary>
+
 ```json
 {
     "connector_uuid": "cht3_GEjQWyMW9LEk7KQfg",
@@ -109,6 +118,7 @@ Additional information regarding the log fields can be found on [here](https://t
     "dialout_active": 1
 }
 ```
+</details>
 
 ### Device Posture Inventory (DEVINV)
 
@@ -280,6 +290,7 @@ Schema is documented on the [EAA Directory List API doc](https://techdocs.akamai
 ```
 </details>
 
+--- 
 ## Secure Internet Access Enterprise (SIA-E)
 
 Formerly known as Enterprise Threat Protector (ETP).  
@@ -693,6 +704,7 @@ Additional information regarding the log fields can be found [here](https://tech
 
 <details>
     <summary>Acceptable Use Policy Event example (JSON)</summary>
+
 ```json
 {
     "pageInfo": {
@@ -1081,6 +1093,7 @@ Additional information regarding the log fields can be found [here](https://tech
     ]
 }
 ```
+
 </details>
 
 ### DNS Activity
@@ -1088,6 +1101,7 @@ Additional information regarding the log fields can be found [here](https://tech
 
 <details>
     <summary>DNS Activity Event example (JSON)</summary>
+
 ```json
 {
     "pageInfo": {
@@ -1312,6 +1326,7 @@ Additional information regarding the log fields can be found [here](https://tech
     ]
 }
 ```
+
 </details>
 
 ### PROXY
@@ -1320,6 +1335,7 @@ Additional information regarding the log fields can be found [here](https://tech
 
 <details>
     <summary>Proxy Activity Event example (JSON)</summary>
+
 ```json
 {
     "pageInfo": {
@@ -2142,6 +2158,7 @@ Additional information regarding the log fields can be found [here](https://tech
     ]
 }
 ```
+
 </details>
 
 ### NETCON
@@ -2149,6 +2166,7 @@ Additional information regarding the log fields can be found [here](https://tech
 
 <details>
     <summary>Network Connection Event example (JSON)</summary>
+
 ```json
 {
     "id": "123",
@@ -2191,11 +2209,14 @@ Additional information regarding the log fields can be found [here](https://tech
 ```
 </details>
 
+---
 ## Akamai MFA (MFA)
 Additional information regarding the MFA log fields can be found on [here](https://techdocs.akamai.com/mfa/docs/splunk-app).
 
 ### Authentication Logs (AUTH)
-Authentication Events Example:  
+<details>
+    <summary>Authentication Events Example (JSON)</summary>
+
 ```json
 {
     "uuid": "aud_JfNqdl6zSByrU0ovrbJ6m",
@@ -2227,11 +2248,16 @@ Authentication Events Example:
     "principal_uuid": null
 }
 ```
+</details>
 
+---
 ## Guardicore
 
 ### NETLOG
-Guardicore netlog example
+
+<details>
+    <summary>Guardicore netlog example (JSON)</summary>
+
 ```json
 {
     "id": "123",
@@ -2273,8 +2299,12 @@ Guardicore netlog example
 }
 ```
 
+</details>
+
 ### INCIDENT
-Guardicore incident example
+<details>
+    <summary>Guardicore incident example (JSON)</summary>
+
 ```json
 {
       "_cls": "Incident.NetworkVisibilityIncident",
@@ -2621,13 +2651,19 @@ Guardicore incident example
       },
       "source_vm_id": "74238291-b85a-42fb-bac9-80c402abee04",
       "start_time": 1504688829035,
-      "total_events_count": 
+      "total_events_count": 3
 }
 ```
 
+</details>
+
+---
 ## Linode
 ### AUDIT Logs
 Additional information regarding the log fields can be found on [here](https://www.linode.com/docs/api/account/#events-list)
+<details>
+    <summary>Linode audit example (JSON)</summary>
+
 
 ```json
 {
@@ -2657,4 +2693,4 @@ Additional information regarding the log fields can be found on [here](https://w
       "username": "exampleUser"
     }
 ```
-
+</details>

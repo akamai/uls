@@ -51,7 +51,7 @@ current_version=$(cat docs/CHANGELOG.md | grep "##" | head -n 1 | sed 's/.* v//'
 }
 
 @test "cat bin/config/global - Version output should be ($current_version) according to CHANGELOG" {
-	run echo $(cat bin/config/global_config.py | grep "__version__ =" | cut -d " " -f 3)
+	run echo $(cat bin/uls_config/global_config.py | grep "__version__ =" | cut -d " " -f 3)
 	assert_output --partial "$current_version"
 	[ "$status" -eq 0 ]
 }
