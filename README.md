@@ -52,6 +52,7 @@ It can be run directly as Python code, as a provided Docker container,  through 
       - [INCIDENT](docs/LOG_OVERVIEW.md#incident)
       - AGENT
       - SYSTEM
+      - AUDIT
     - [Linode](https://www.linode.com/) (experimental)
       - [AUDIT](docs/LOG_OVERVIEW.md#audit-logs)
   

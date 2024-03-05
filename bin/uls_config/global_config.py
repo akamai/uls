@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Common global variables / constants
-__version__ = "1.7.2"
+__version__ = "1.7.3"
 __tool_name_long__ = "Akamai Unified Log Streamer"
 __tool_name_short__ = "ULS"
 
@@ -33,7 +33,7 @@ mfa_cli_feeds = ['EVENT']              # Available MFA CLI feeds
 
     # Guardicore
 bin_gc_cli = "ext/cli-gc/bin/akamai-gc"                                         # Path to the GC CLI Executable
-gc_cli_feeds = ['NETLOG', 'INCIDENT', 'AGENT', 'SYSTEM']                       # Available GC CLI feeds
+gc_cli_feeds = ['NETLOG', 'INCIDENT', 'AGENT', 'SYSTEM', 'AUDIT']                       # Available GC CLI feeds
 
     # LINODE
 bin_linode_cli = "ext/cli-linode/bin/akamai-linode"         # Path to the LINODE CLI Executable
