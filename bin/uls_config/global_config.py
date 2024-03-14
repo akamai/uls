@@ -107,6 +107,6 @@ edgerc_mock_file = "ext/edgerc"                  # Required for display the vers
 
 # Autoresume Configuration
 autoresume_checkpoint_path = "var/"              # (Default) Path, where the checkpointfiles should be stored to
-autoresume_supported_inputs = ['ETP', 'EAA']     # Internal Var only, to adjust supported inputs
+autoresume_supported_inputs = ['ETP', 'EAA', 'GC']     # Internal Var only, to adjust supported inputs
 autoresume_write_after = 1000                    # Write checkpoint only every ${autoresume_write_every} loglines
 

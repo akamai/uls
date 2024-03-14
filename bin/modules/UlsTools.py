@@ -190,6 +190,7 @@ def check_autoresume(input, feed, checkpoint_dir=uls_config.autoresume_checkpoin
     if (input not in uls_config.autoresume_supported_inputs or
             feed == "CONHEALTH" or
             feed == "DEVINV" or
+            feed == "AGENT" or
             feed == "DIRHEALTH"):
         aka_log.log.critical(f"Input {input} or feed {feed} currently not supported by AUTORESUME - Exiting.")
         sys.exit(1)
@@ -215,6 +216,8 @@ def check_autoresume(input, feed, checkpoint_dir=uls_config.autoresume_checkpoin
                             mytime = data['checkpoint'].split("Z")[0]
                         elif data['input'] == "EAA":
                             mytime = data['checkpoint'].split("+")[0]
+                        elif data['input'] == "GC":
+                            mytime = data['checkpoint'].split(".")[0]
                         else:
                             aka_log.log.critical(
                                 f"Unhandeled input data in checkpointfile  \'{checkpoint_full}\' --> {input} / {feed} - Exiting.")
@@ -263,6 +266,12 @@ def write_autoresume_ckpt(input, feed, autoresume_file, logline, current_count):
         checkpoint_timestamp = json.loads(checkpoint_line)['datetime']
     elif input == "ETP" and feed == "NETCON":
         checkpoint_timestamp = json.loads(checkpoint_line)['connStartTime']
+    elif input == "GC" and feed == "AUDIT":
+        checkpoint_timestamp = json.loads(checkpoint_line)['time']
+    elif input == "GC" and feed == "INCIDENT":
+        checkpoint_timestamp = json.loads(checkpoint_line)['closed_time']
+    elif input == "GC" and feed == "NETLOG":
+        checkpoint_timestamp = json.loads(checkpoint_line)['db_insert_time']
     else:
         aka_log.log.critical(
             f"AUTORESUME - Unhandled Input / Feed detected:  '{input} / {feed}' (this should never happen !!)- Exiting")
