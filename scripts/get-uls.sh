@@ -5,6 +5,21 @@
 default_modules="eaa,etp,mfa,gc,ln"
 default_install_dir="$(pwd)/uls"
 
+function min_version() {
+  # Test if a given version string matches the requirements
+  # Usage:
+  #   min_version required_min_version version
+  # Function returns:
+  #   0 if the version is equal or greater than the requirement
+  #   1 if the version is lower
+  local required_ver="$1"
+  local current_ver="$2"
+  if [ "$(printf '%s\n' "$required_ver" "$current_ver" | sort -V | head -n1)" = "$required_ver" ]; then 
+    return 0
+  else
+    return 1
+  fi
+}
 
 echo -e "
 	   AKAMAI
@@ -14,7 +29,17 @@ echo -e "
 _/    _/  _/              _/      
  _/_/    _/_/_/_/  _/_/_/         
                                   
-Universal Log Stream - Installer"
+Unified Log Streamer - Installer
+
+Available ULS modules:
+  eaa: Enterprise Application Access
+  etp: Secure Internet Access Enterprise
+  mfa: Akamai phishproof MFA
+  gc:  Akamai Guardicore Segmentation
+  ln:  Linode Audit log
+
+More about supported feed: 
+https://github.com/akamai/uls/blob/main/docs/LOG_OVERVIEW.md"
 echo -e "\n\n\n"
 
 # Preflight checks
@@ -32,18 +57,28 @@ if [[ -z $(which python3) ]] ; then
 fi
 
 ### check python version is correct for ULS
+py_min_version="3.9"
 py_version=$(python3 --version | cut -d " " -f 2)
-if [[ $(echo ${py_version} | cut -d "." -f 1 ) -ne 3 ]] || [[ $(echo ${py_version} | cut -d "." -f 2 ) -lt 9 ]]; then
-  echo "Wrong Python version - exiting"
+min_version "${py_min_version}" "${py_version}" || {
+  echo "Python version must be >= ${py_min_version}, found ${py_version} - exiting"
   exit 1
-fi
-
+}
 
 ## pip3
 if [[ -z $(which pip3) ]] ; then
   echo "pip3 binary was not found - exiting"
   exit 1
 fi
+
+### Check PIP version
+pip3_min_version="22.2"
+pip3_version="$(pip3 --version|cut -d' ' -f2)"
+min_version "${pip3_min_version}" "${pip3_version}" || {
+  echo "pip3 version must be >= ${pip3_min_version}, version detected: ${pip3_version}"
+  echo "Consider upgrading your PIP version with command:"
+  echo "  $(which pip3) install --upgrade pip"
+  exit 1
+}
 
 ### Show versions to verify the correct binaries for python and pip are being used
 echo "We will use the following python binaries to install ULS:"
@@ -131,8 +166,6 @@ function py_reqs() {
       ;;
     esac
   fi
-
-
 }
 
 ## Grab EAA-CLI
