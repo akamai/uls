@@ -78,3 +78,17 @@ The following tables list all available command line parameters and their corres
 | --autoresume           | ULS_AUTORESUME            | [True, False]                 | False   | Enable automated resume on based on a checkpoint upon api failure or crash (do not use alongside --starttime) |
 | --autoresumepath       | ULS_AUTORESUME_PATH       | '/path/to/store/checkpoints/' | var/    | Specify the path where checkpoint files should be written to. (Trailing /)                                    |
 | --autoresumewriteafter | ULS_AUTORESUME_WRITEAFTER | <int>                         | 1000    | Specify after how many loglines a checkpoint should be written.                                               |
+
+
+## Replacement vars in HTTP & TCPUDP Format
+Some customers were asking for more "variables" in the HTTP & TCPUDP format strings '%s'.  
+We start adding more and more variables, moving forward. 
+
+| Variable | Description |
+|---|---|
+| {api_hostname} | This variable will be replace with the actually used Akamai api_hostname |
+
+### Examples
+```bash
+'{"api_host": {api_hostname}, "ulsfeed": "Akamai-GC-NETLOG", "event": %s}'
+```

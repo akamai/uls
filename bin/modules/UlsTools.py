@@ -121,9 +121,11 @@ def uls_check_edgerc(configfile, configsection, configvalues):
     Verify the given "edgerc" file to contain all required variables (for the desired stream) within the given section
     see https://github.com/akamai/uls/blob/main/docs/AKAMAI_API_CREDENTIALS.md for more information
     :param configfile: The path to the config file
+
     :param configsection: The section within the config file [default]
     :param configvalues: A list of desiresd config values ["val1", "val2", ...]
     :return:
+    api_hostname
     """
     config = configparser.ConfigParser()
     # Load config file
@@ -141,13 +143,21 @@ def uls_check_edgerc(configfile, configsection, configvalues):
         aka_log.log.debug(f"Section '{configsection}' found.")
 
     # check for specified values
+    my_hostname = None
     for configvalue in configvalues:
         if not configvalue in config[configsection]:
             aka_log.log.critical(f"Required configuration value '{configvalue}' not found in section / file. Please see: {uls_config.edgerc_documentation_url} - Exiting")
             sys.exit(1)
         else:
+
+            ### FEATURE REQ 20240318
+            if 'host' in configvalue:
+                my_hostname = config[configsection][configvalue]
+                #print(f"HOSTNAME{my_hostname}")
+            ### FEATURE REQ 20240318
+
             aka_log.log.debug(f"Required configuration value '{configvalue}' found.")
-    return 0
+    return my_hostname
 
 
 def uls_check_args(input, output):
@@ -206,7 +216,7 @@ def check_autoresume(input, feed, checkpoint_dir=uls_config.autoresume_checkpoin
             checkpoint = None
         else:
             try:
-                with open (checkpoint_full, "r") as ckpt_f:
+                with open(checkpoint_full, "r") as ckpt_f:
                     data = json.load(ckpt_f)
                     if data['creation_time'] and data['checkpoint']:
                         aka_log.log.debug(f"Autoresume Checkpoint successfully loaded. Checkpoint Time: {data['checkpoint']}, Creation_time: {data['creation_time']}")
@@ -321,3 +331,5 @@ def get_install_id(install_id_file=str(root_path()) + "/var/uls_install_id"):
         data = {'install_id': "ERROR-GETTING-INSTALLATION-ID"}
     #return install_id
     return data
+
+

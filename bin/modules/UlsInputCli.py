@@ -86,6 +86,9 @@ class UlsInputCli:
         self.disable_stderr = uls_config.input_disable_stderr    #Specify if STDERR should be disabled at all after $disable_stderr_after cycles
         self.disable_stderr_after = uls_config.input_disable_stderr_after   # Disable StdErr Output after # cycles
 
+        # Generic vars
+        self.edgerc_hostname = None
+
     def _feed_selector(self, feed, product_feeds):
         if feed in product_feeds:
             # feed matches the given list
@@ -155,7 +158,7 @@ class UlsInputCli:
                 if not self.rawcmd:
                     my_feed = self._feed_selector(self.feed, product_feeds)
                     if my_feed == "CONHEALTH":
-                        UlsTools.uls_check_edgerc(self.credentials_file,
+                        self.edgerc_hostname = UlsTools.uls_check_edgerc(self.credentials_file,
                                                   self.credentials_file_section,
                                                   uls_config.edgerc_openapi)
                         cli_command = [self.bin_python,
@@ -166,7 +169,7 @@ class UlsInputCli:
                                        '--perf',
                                        '--tail']
                     elif my_feed == "DEVINV":
-                        UlsTools.uls_check_edgerc(self.credentials_file,
+                        self.edgerc_hostname = UlsTools.uls_check_edgerc(self.credentials_file,
                                                   self.credentials_file_section,
                                                   uls_config.edgerc_openapi)
                         cli_command = [self.bin_python,
@@ -176,7 +179,7 @@ class UlsInputCli:
                                        'inventory',
                                        '--tail']
                     elif my_feed == "DIRHEALTH":
-                        UlsTools.uls_check_edgerc(self.credentials_file,
+                        self.edgerc_hostname = UlsTools.uls_check_edgerc(self.credentials_file,
                                                   self.credentials_file_section,
                                                   uls_config.edgerc_openapi)
                         cli_command = [self.bin_python,
@@ -186,7 +189,7 @@ class UlsInputCli:
                                        'list',
                                        '--tail']
                     else:
-                        UlsTools.uls_check_edgerc(self.credentials_file,
+                        self.edgerc_hostname = UlsTools.uls_check_edgerc(self.credentials_file,
                                                   self.credentials_file_section,
                                                   uls_config.edgerc_eaa_legacy)
                         cli_command = [self.bin_python, '-u', product_path, 'log', my_feed.lower(), '-f']
@@ -218,7 +221,7 @@ class UlsInputCli:
                     aka_log.log.warning(f"{self.name} - Selected LOG Format ({self.cliformat}) "
                                         f"not available for {product_path}, continuing with JSON.")
                 if not self.rawcmd:
-                    UlsTools.uls_check_edgerc(self.credentials_file, self.credentials_file_section,
+                    self.edgerc_hostname = UlsTools.uls_check_edgerc(self.credentials_file, self.credentials_file_section,
                                               uls_config.edgerc_openapi + ["etp_config_id"])
                     my_feed = self._feed_selector(self.feed, product_feeds)
                     cli_command = [self.bin_python, '-u', product_path, 'event', my_feed.lower(), '-f']
@@ -249,7 +252,7 @@ class UlsInputCli:
                     aka_log.log.warning(f"{self.name} - Selected LOG Format ({self.cliformat}) "
                                         f"not available for {product_path}, continuing with JSON.")
                 if not self.rawcmd:
-                    UlsTools.uls_check_edgerc(self.credentials_file,
+                    self.edgerc_hostname = UlsTools.uls_check_edgerc(self.credentials_file,
                                               self.credentials_file_section,
                                               uls_config.edgerc_mfa)
                     my_feed = self._feed_selector(self.feed, product_feeds)
@@ -279,7 +282,7 @@ class UlsInputCli:
                     aka_log.log.warning(f"{self.name} - Selected LOG Format ({self.cliformat}) "
                                         f"not available for {product_path}, continuing with JSON.")
                 if not self.rawcmd:
-                    UlsTools.uls_check_edgerc(self.credentials_file,
+                    self.edgerc_hostname = UlsTools.uls_check_edgerc(self.credentials_file,
                                               self.credentials_file_section,
                                               uls_config.edgerc_gc)
                     my_feed = self._feed_selector(self.feed, product_feeds)
@@ -309,7 +312,7 @@ class UlsInputCli:
                     aka_log.log.warning(f"{self.name} - Selected LOG Format ({self.cliformat}) "
                                         f"not available for {product_path}, continuing with JSON.")
                 if not self.rawcmd:
-                    UlsTools.uls_check_edgerc(self.credentials_file,
+                    self.edgerc_hostname = UlsTools.uls_check_edgerc(self.credentials_file,
                                               self.credentials_file_section,
                                               uls_config.edgerc_linode)
                     my_feed = self._feed_selector(self.feed, product_feeds)
@@ -476,4 +479,7 @@ class UlsInputCli:
             except Exception:
                 aka_log.log.exception("Error in ingest_loop")
 
-# EOF
+    def get_edgerc_hostname(self):
+        return self.edgerc_hostname
+
+    # EOF

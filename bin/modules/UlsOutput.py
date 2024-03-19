@@ -97,7 +97,7 @@ class UlsOutput:
         if self.output_type in ['TCP', 'UDP'] and host and port:
             self.host = host
             self.port = port
-            if "%s" in tcpudp_out_format:
+            if "%s" in str(tcpudp_out_format):
                 self.tcpudp_out_format = tcpudp_out_format
             else:
                 aka_log.log.critical(
@@ -513,4 +513,19 @@ class UlsOutput:
                 self.httpSession.close()
         self.connected = False
 
+### FEATURE REQ 20240318 - https://github.com/akamai/uls/issues/57
+    def ingest_vars_into_output_format(self, api_hostname: str = None):
+
+        my_http_str = self.http_out_format
+        if "{api_hostname}" in str(self.tcpudp_out_format):
+            self.tcpudp_out_format = str(self.tcpudp_out_format).replace('{api_hostname}', api_hostname)
+            aka_log.log.info(f"{self.name} Replacing TCPUDP OUTPUT string API_HOSTNAME with: {api_hostname} ")
+
+        if "{api_hostname}" in str(self.http_out_format):
+            self.http_out_format = str(self.http_out_format).replace('{api_hostname}', api_hostname)
+            aka_log.log.info(f"{self.name} Replacing HTTP OUTPUT string API_HOSTNAME with: {api_hostname} ")
+
+        aka_log.log.info(f"{self.name} new TCPUDP output string: {self.tcpudp_out_format} ")
+        aka_log.log.info(f"{self.name} new HTTP output string: {self.http_out_format} ")
+        return True
 # EOF

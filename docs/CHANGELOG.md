@@ -8,7 +8,8 @@
 - **Features**
   - introduced "audit logs" for Guardicore
   - introduced "AUTORESUME" functionality for GC: NETLOG, INCIDENTS and AUDIT
-  
+  - TCPUDP/HTTP format string varialbe replacement: {api_hostname}
+
 - **Minor improvements*
   - [docker] bumped CLI-ETP to "0.4.6"
   - [docker] bumped CLI-EAA to "0.6.3"
