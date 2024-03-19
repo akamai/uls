@@ -528,4 +528,7 @@ class UlsOutput:
         aka_log.log.info(f"{self.name} new TCPUDP output string: {self.tcpudp_out_format} ")
         aka_log.log.info(f"{self.name} new HTTP output string: {self.http_out_format} ")
         return True
+
+    ### / FEATURE REQ 20240318 - https://github.com/akamai/uls/issues/57
+
 # EOF
