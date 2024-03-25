@@ -84,10 +84,11 @@ The following tables list all available command line parameters and their corres
 Some customers were asking for more "variables" in the HTTP & TCPUDP format strings '%s'.  
 We start adding more and more variables, moving forward. 
 
-| Variable | Description |
-|---|---|
-| {api_hostname} | This variable will be replace with the actually used Akamai api_hostname |
-
+| Variable       | Description                                                            |
+|----------------|------------------------------------------------------------------------|
+| {api_hostname} | This variable will be replace with the actual used Akamai api_hostname |
+| {uls_input}    | This variable will be replaced with the actual used ULS Input          |
+| {uls_feed}     | This variable will be replaced with the actual used ULS Feed           |
 ### Examples
 ```bash
 '{"api_host": "{api_hostname}", "ulsfeed": "Akamai-GC-NETLOG", "event": %s}'

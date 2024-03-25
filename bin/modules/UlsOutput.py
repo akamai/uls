@@ -514,19 +514,22 @@ class UlsOutput:
         self.connected = False
 
 ### FEATURE REQ 20240318 - https://github.com/akamai/uls/issues/57
-    def ingest_vars_into_output_format(self, api_hostname: str = None):
 
-        my_http_str = self.http_out_format
-        if "{api_hostname}" in str(self.tcpudp_out_format):
-            self.tcpudp_out_format = str(self.tcpudp_out_format).replace('{api_hostname}', api_hostname)
-            aka_log.log.info(f"{self.name} Replacing TCPUDP OUTPUT string API_HOSTNAME with: {api_hostname} ")
+    def ingest_vars_into_output_format(self, placeholder: str = None, replacement: str = None):
+        if not placeholder or not replacement:
+            aka_log.log.critical(f"{self.name} Variable substition triggered but no value given (inline code issue)")
+            sys.exit(1)
 
-        if "{api_hostname}" in str(self.http_out_format):
-            self.http_out_format = str(self.http_out_format).replace('{api_hostname}', api_hostname)
-            aka_log.log.info(f"{self.name} Replacing HTTP OUTPUT string API_HOSTNAME with: {api_hostname} ")
+        if placeholder in str(self.tcpudp_out_format):
+            self.tcpudp_out_format = str(self.tcpudp_out_format).replace(placeholder, replacement)
+            aka_log.log.debug(f"{self.name} Replacing {placeholder} in TCPUDP string with: {replacement} ")
 
-        aka_log.log.info(f"{self.name} new TCPUDP output string: {self.tcpudp_out_format} ")
-        aka_log.log.info(f"{self.name} new HTTP output string: {self.http_out_format} ")
+        if placeholder in str(self.http_out_format):
+            self.http_out_format = str(self.http_out_format).replace(placeholder, replacement)
+            aka_log.log.debug(f"{self.name} Replacing {placeholder} in HTTP string with: {replacement} ")
+
+        #aka_log.log.info(f"{self.name} new TCPUDP output string: {self.tcpudp_out_format} ")
+        #aka_log.log.info(f"{self.name} new HTTP output string: {self.http_out_format} ")
         return True
 
     ### / FEATURE REQ 20240318 - https://github.com/akamai/uls/issues/57

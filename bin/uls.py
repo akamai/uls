@@ -159,8 +159,11 @@ def main():
     # Initiate the Input handler
     my_input.proc_create()
 
-    # Set extra vars to the output
-    my_output.ingest_vars_into_output_format(api_hostname=my_input.get_edgerc_hostname())
+    # Append extra vars to the output
+    #my_output.ingest_vars_into_output_format(api_hostname=my_input.get_edgerc_hostname())
+    my_output.ingest_vars_into_output_format(placeholder='{api_hostname}', replacement=my_input.get_edgerc_hostname())
+    my_output.ingest_vars_into_output_format(placeholder='{uls_input}', replacement=uls_args.input)
+    my_output.ingest_vars_into_output_format(placeholder='{uls_feed}', replacement=uls_args.feed)
 
     # Connect the output handler
     my_output.connect()
