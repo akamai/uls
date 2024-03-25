@@ -90,5 +90,5 @@ We start adding more and more variables, moving forward.
 
 ### Examples
 ```bash
-'{"api_host": {api_hostname}, "ulsfeed": "Akamai-GC-NETLOG", "event": %s}'
+'{"api_host": "{api_hostname}", "ulsfeed": "Akamai-GC-NETLOG", "event": %s}'
 ```
