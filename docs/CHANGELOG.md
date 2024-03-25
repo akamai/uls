@@ -4,7 +4,8 @@
 |---|---|
 |Date|2024-XX-XX
 |Kind| MINOR release
-|Author|mschiess@akamai.com
+|Author|mschiess@akamai.com, androcho@akamai.com
+
 - **Features**
   - introduced "audit logs" for Guardicore
   - introduced "AUTORESUME" functionality for GC: NETLOG, INCIDENTS and AUDIT
@@ -14,6 +15,7 @@
   - [docker] bumped CLI-ETP to "0.4.6"
   - [docker] bumped CLI-EAA to "0.6.3"
   - [docker] bumped CLI-GC to "v0.0.4(beta)"
+  - [CLI] Fixed an auto installer [Issue #58](https://github.com/akamai/uls/issues/58) - thx @Antoine
 
 
 ## v1.7.2
