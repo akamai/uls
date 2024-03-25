@@ -80,15 +80,34 @@ The following tables list all available command line parameters and their corres
 | --autoresumewriteafter | ULS_AUTORESUME_WRITEAFTER | <int>                         | 1000    | Specify after how many loglines a checkpoint should be written.                                               |
 
 
-## Replacement vars in HTTP & TCPUDP Format
-Some customers were asking for more "variables" in the HTTP & TCPUDP format strings '%s'.  
-We start adding more and more variables, moving forward. 
+## Customizing HTTP & TCPUDP Formatting
+
+Applicable to argument `--tcpudpformat` or environment variable `ULS_TCPUDP_FORMAT`.
+
+By default ULS will write the exact payload received from the API to 
+the configured ULS output. Thus, `%s` is the default value.
+
+### Payload decoration
+
+If you need to surround the payload with extra information (i.e. metadata for your SIEM), 
+you can surround the `%s`. In the example below, didn't surround the `%s` by double-quote
+since we want the output to remain a valid JSON:
+
+```json
+{"event": %s}
+```
+
+### Variables
+
+While customizing you might want to use dynamic variable. Substitution happens when ULS
+software is starting, if you change your configuration file API hostname, you'll need
+to restart ULS so it can take effect.
 
 | Variable | Description |
 |---|---|
-| {api_hostname} | This variable will be replace with the actually used Akamai api_hostname |
+| `{api_hostname}` | This variable will be replaced with the Akamai API Hostname |
 
 ### Examples
-```bash
-'{"api_host": {api_hostname}, "ulsfeed": "Akamai-GC-NETLOG", "event": %s}'
+```json
+{"api_host": "{api_hostname}", "ulsfeed": "Akamai-GC-NETLOG", "event": %s}
 ```
