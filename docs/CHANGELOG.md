@@ -9,10 +9,12 @@
 - **Features**
   - introduced "audit logs" for Guardicore
   - introduced "AUTORESUME" functionality for GC: NETLOG, INCIDENTS and AUDIT
-  - TCPUDP/HTTP format string varialbe replacement: {api_hostname}
-
+  - TCPUDP/HTTP format string now support varialbe substitution:
+    - Substitution: {api_hostname}, {uls_input}, {uls_feed} 
+    - OS ENV VARS: $VAR $
+  
 - **Minor improvements*
-  - [docker] bumped CLI-ETP to "0.4.6"
+  - [docker] bumped CLI-ETP to "0.4.7" - thx to @Antoine for a couple of bugfixes
   - [docker] bumped CLI-EAA to "0.6.3"
   - [docker] bumped CLI-GC to "v0.0.4(beta)"
   - [CLI] Fixed an auto installer [Issue #58](https://github.com/akamai/uls/issues/58) - thx @Antoine

@@ -99,17 +99,25 @@ since we want the output to remain a valid JSON:
 
 ### Output Variables
 
-While customizing you might want to use dynamic variable. Substitution happens when ULS
+While customizing you might want to use dynamic variables. Substitution happens when ULS
 software is starting, if you change your configuration file API hostname, you'll need
 to restart ULS so it can take effect.
+Besides the below replacements, ULS will also interprete OS (or DOCKER) ENV Vars.
 
-| Variable       | Description                                                            |
-|----------------|------------------------------------------------------------------------|
-| {api_hostname} | This variable will be replace with the actual used Akamai api_hostname |
-| {uls_input}    | This variable will be replaced with the actual used ULS Input          |
-| {uls_feed}     | This variable will be replaced with the actual used ULS Feed           |
+
+| Variable       | Description                                                  |
+|----------------|--------------------------------------------------------------|
+| {api_hostname} | This variable will be replaced with the Akamai API Hostname  |
+| {uls_input}    | This variable will be replaced with the ULS Input |
+| {uls_feed}     | This variable will be replaced with the ULS Feed |
+
 
 ### Example
 ```bash
+# Substitution example
 '{"api_host": "{api_hostname}", "input_feed": "{uls_input}-{uls_feed}", "event": %s}'
+
+# OS ENV Var example
+export MY_ENV_VAR="THIS IS MY ENV VAR"
+'{"api_host": "{api_hostname}", "input_feed": "{uls_input}-{uls_feed}", "additional_env": "$MY_ENV_VAR", "event": %s}'
 ```

@@ -164,6 +164,8 @@ def main():
     my_output.ingest_vars_into_output_format(placeholder='{api_hostname}', replacement=my_input.get_edgerc_hostname())
     my_output.ingest_vars_into_output_format(placeholder='{uls_input}', replacement=uls_args.input)
     my_output.ingest_vars_into_output_format(placeholder='{uls_feed}', replacement=uls_args.feed)
+    my_output.ingest_os_vars_into_output_format()
+
 
     # Connect the output handler
     my_output.connect()
