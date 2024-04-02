@@ -6,7 +6,7 @@ All commands referenced in this document are run from the repositories root leve
 ## Table of contents<!-- omit in toc -->
 
 - [ULS Command Line Usage](#uls-command-line-usage)
-  - [Requirements](#requirements)
+  - [Pre-requisites](#pre-requisites)
   - [Installation](#installation)
     - [Automated Installation](#automated-installation)
     - [Manual Installation](#manual-installation)
@@ -20,18 +20,19 @@ All commands referenced in this document are run from the repositories root leve
   - [Automated Update](#automated-update)
   - [Manual Update](#manual-update)
 
-## Requirements
+## Pre-requisites
 
-To run the operations within the following documentation, you need to have the following tools installed:
+To run the operations in this documentation, make sure you have the following tools installed:
+
 - git
-- python >= 3.9 (including pip)
+- python >= `3.9` (including pip >= `22.2`)
 - Akamai API credentials file - `.edgerc` (see [API Credentials](AKAMAI_API_CREDENTIALS.md) for creation instructions)
 - Understanding of available [ULS CLI PARAMETERS](ARGUMENTS_ENV_VARS.md)
 - Access to `github.com`, `pypi.org`, `pythonhosted.org` and `pypi.python.org` within your firewall
 
 ## Installation
 
-To install ULS, you can choose 2 different ways: automated or manual
+To install ULS, you can choose 2 different ways: automated or manual.
 
 ### Automated Installation
 The automated installation actually does everything, the described below in the manual installation but saves you from the copying the blocks.

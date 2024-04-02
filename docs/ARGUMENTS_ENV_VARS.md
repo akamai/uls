@@ -21,18 +21,18 @@ The following tables list all available command line parameters and their corres
 
 ## INPUT
 
-| Parameter                 | Env - Var       | Options                                                                                                                                                                                     | Default       | Description                                                                                                                                                                                 |
-|---------------------------|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| -i <br> --input           | ULS_INPUT       | 'EAA', 'ETP', 'MFA', 'GC', 'LINODE'                                                                                                                                                         | None          | Specify the desired INPUT source                                                                                                                                                            |
-| --feed                    | ULS_FEED        | EAA: 'ACCESS', 'ADMIN', 'CONHEALTH', 'DEVINV'<br><br> ETP: 'THREAT', 'AUP', 'DNS', 'PROXY'<br><br> MFA: 'EVENT'<br><br> GC: 'NETLOG', 'INCIDENT', 'AGENT', 'SYSTEM'<br><br> LINODE: 'AUDIT' | None          | Specify the desired INPUT feed                                                                                                                                                              |
-| --format                  | ULS_FORMAT      | 'JSON', 'TEXT'                                                                                                                                                                              | JSON          | Specify the desired INPUT (=OUTPUT) format                                                                                                                                                  |
-| --inproxy<br>--inputproxy | ULS_INPUT_PROXY | HOST:PORT                                                                                                                                                                                   | None          | Adjust proxy usage for INPUT data collection (cli) <br>If this parameter does not work as expected, [please read more about it here](./FAQ.md#--inputproxy-proxy-does-not-work-as-expected) |
-| --rawcmd                  | ULS_RAWCMD      | \<cli command\>                                                                                                                                                                             | None          | USE with caution /!\ <br> This is meant only to be used when told by AKAMAI [Click here for more information](ADDITIONAL_FEATURES.md#rawcmd---rawcmd-feature)                               |
-| --edgerc                  | ULS_EDGERC      | /path/to/your/.edgerc                                                                                                                                                                       | '~/.edgerc'   | Specify the location of the .edgerc EDGE GRID AUTH file                                                                                                                                     |
-| --section                 | ULS_SECTION     | edgerc_config_section                                                                                                                                                                       | 'default'     | Specify the desired section within the .edgerc file                                                                                                                                         |
-| --starttime               | ULS_STARTTIME   | EPOCH timestamp (in seconds)                                                                                                                                                                | `cli_default` | Specify an EPOCH timestamp from where to start the log collection.                                                                                                                          |
-| --endtime                 | ULS_ENDTIME     | EPOCH timestamp (in seconds)                                                                                                                                                                | None          | Specify an EPOCH timestamp up until where to fetch logs. ULS will exit after reaching this point.<br>ULS will not continue reading logs on CLI errors !!!                                   |
-| --inputqueuesize | ULS_INPUT_QUEUESIZE | INPUT_QUEUE_SIZE(int)                                                                                                                                                                       | 15000 | Maximum threshold of the input queue. When threshold is reached, ULS will stop operations and exit "Capacity exceeded, too many incoming data vs. slow output" |
+| Parameter                 | Env - Var       | Options                                                                                                                                                                                             | Default       | Description                                                                                                                                                                                 |
+|---------------------------|-----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| -i <br> --input           | ULS_INPUT       | 'EAA', 'ETP', 'MFA', 'GC', 'LINODE'                                                                                                                                                                 | None          | Specify the desired INPUT source                                                                                                                                                            |
+| --feed                    | ULS_FEED        | EAA: 'ACCESS', 'ADMIN', 'CONHEALTH', 'DEVINV'<br><br> ETP: 'THREAT', 'AUP', 'DNS', 'PROXY'<br><br> MFA: 'EVENT'<br><br> GC: 'NETLOG', 'INCIDENT', 'AGENT', 'SYSTEM', 'AUDIT'<br><br> LINODE: 'AUDIT' | None          | Specify the desired INPUT feed                                                                                                                                                              |
+| --format                  | ULS_FORMAT      | 'JSON', 'TEXT'                                                                                                                                                                                      | JSON          | Specify the desired INPUT (=OUTPUT) format                                                                                                                                                  |
+| --inproxy<br>--inputproxy | ULS_INPUT_PROXY | HOST:PORT                                                                                                                                                                                           | None          | Adjust proxy usage for INPUT data collection (cli) <br>If this parameter does not work as expected, [please read more about it here](./FAQ.md#--inputproxy-proxy-does-not-work-as-expected) |
+| --rawcmd                  | ULS_RAWCMD      | \<cli command\>                                                                                                                                                                                     | None          | USE with caution /!\ <br> This is meant only to be used when told by AKAMAI [Click here for more information](ADDITIONAL_FEATURES.md#rawcmd---rawcmd-feature)                               |
+| --edgerc                  | ULS_EDGERC      | /path/to/your/.edgerc                                                                                                                                                                               | '~/.edgerc'   | Specify the location of the .edgerc EDGE GRID AUTH file                                                                                                                                     |
+| --section                 | ULS_SECTION     | edgerc_config_section                                                                                                                                                                               | 'default'     | Specify the desired section within the .edgerc file                                                                                                                                         |
+| --starttime               | ULS_STARTTIME   | EPOCH timestamp (in seconds)                                                                                                                                                                        | `cli_default` | Specify an EPOCH timestamp from where to start the log collection.                                                                                                                          |
+| --endtime                 | ULS_ENDTIME     | EPOCH timestamp (in seconds)                                                                                                                                                                        | None          | Specify an EPOCH timestamp up until where to fetch logs. ULS will exit after reaching this point.<br>ULS will not continue reading logs on CLI errors !!!                                   |
+| --inputqueuesize | ULS_INPUT_QUEUESIZE | INPUT_QUEUE_SIZE(int)                                                                                                                                                                               | 15000 | Maximum threshold of the input queue. When threshold is reached, ULS will stop operations and exit "Capacity exceeded, too many incoming data vs. slow output" |
 
 
 ## OUTPUT
@@ -78,3 +78,46 @@ The following tables list all available command line parameters and their corres
 | --autoresume           | ULS_AUTORESUME            | [True, False]                 | False   | Enable automated resume on based on a checkpoint upon api failure or crash (do not use alongside --starttime) |
 | --autoresumepath       | ULS_AUTORESUME_PATH       | '/path/to/store/checkpoints/' | var/    | Specify the path where checkpoint files should be written to. (Trailing /)                                    |
 | --autoresumewriteafter | ULS_AUTORESUME_WRITEAFTER | <int>                         | 1000    | Specify after how many loglines a checkpoint should be written.                                               |
+
+
+## Customizing HTTP & TCPUDP Formatting
+
+Applicable to argument `--tcpudpformat` or environment variable `ULS_TCPUDP_FORMAT`.
+
+By default ULS will write the exact payload received from the API to 
+the configured ULS output. Thus, `%s` is the default value.
+
+### Payload decoration (Variable Substition)
+
+If you need to surround the payload with extra information (i.e. metadata for your SIEM), 
+you can surround the `%s`. In the example below, didn't surround the `%s` by double-quote
+since we want the output to remain a valid JSON:
+
+```json
+{"event": %s}
+```
+
+### Output Variables
+
+While customizing you might want to use dynamic variables. Substitution happens when ULS
+software is starting, if you change your configuration file API hostname, you'll need
+to restart ULS so it can take effect.
+Besides the below replacements, ULS will also interprete OS (or DOCKER) ENV Vars.
+
+
+| Variable       | Description                                                  |
+|----------------|--------------------------------------------------------------|
+| {api_hostname} | This variable will be replaced with the Akamai API Hostname  |
+| {uls_input}    | This variable will be replaced with the ULS Input |
+| {uls_feed}     | This variable will be replaced with the ULS Feed |
+
+
+### Example
+```bash
+# Substitution example
+'{"api_host": "{api_hostname}", "input_feed": "{uls_input}-{uls_feed}", "event": %s}'
+
+# OS ENV Var example
+export MY_ENV_VAR="THIS IS MY ENV VAR"
+'{"api_host": "{api_hostname}", "input_feed": "{uls_input}-{uls_feed}", "additional_env": "$MY_ENV_VAR", "event": %s}'
+```

@@ -1,4 +1,25 @@
 # Version History
+## v1.7.3
+|||
+|---|---|
+|Date|2024-04-02
+|Kind| MINOR release
+|Author|mschiess@akamai.com, androcho@akamai.com
+
+- **Features**
+  - introduced "audit logs" for Guardicore
+  - introduced "AUTORESUME" functionality for GC: NETLOG, INCIDENTS and AUDIT
+  - TCPUDP/HTTP format string now support [varialbe substitution](ARGUMENTS_ENV_VARS.md#payload-decoration-variable-substition):
+    - Substitution: {api_hostname}, {uls_input}, {uls_feed} 
+    - OS ENV VARS: $VAR_NAME 
+  
+- **Minor improvements**
+  - [docker] bumped CLI-ETP to "0.4.7" - thx to @Antoine for a couple of bugfixes
+  - [docker] bumped CLI-EAA to "0.6.3"
+  - [docker] bumped CLI-GC to "v0.0.4(beta)"
+  - [CLI] Fixed an auto installer [Issue #58](https://github.com/akamai/uls/issues/58) - thx @Antoine
+---
+
 ## v1.7.2
 |||
 |---|---|
@@ -20,6 +41,7 @@
   - Fixed a bug in the autoresume function that created a problem with timezones in certain circumstances
 - **Housekeeping**
   - improved local container testing
+---
 
 ## v1.7.1
 |||
@@ -33,6 +55,7 @@
     - [docker] bumped CLI-ETP version to "0.4.5"
 - **Housekeeping**
   - Added additional automated testing to the docker release process
+---
 
 ## v1.7.0
 |||
@@ -54,7 +77,7 @@
 - **Housekeeping**
   - DocFix Readme.md (thx [@ihommani](https://github.com/akamai/uls/pull/47))
   - Increased default input_queue_size from 10000 to 15000 to avoid race conditions when an API is answering very fast
-
+---
 
 ## v1.6.6
 |||
@@ -72,7 +95,8 @@
 - **Housekeeping**
   - Updated the ETP Links from developer.akamai.com to techdocs.akamai.com
   - Added "docker file liniting" into test scripts
-  
+---
+
 ## v1.6.5
 |||
 |---|---|
@@ -82,6 +106,7 @@
 - **Minor improvements**
   - Allow manipulation of the [TCP & UDP output format](ARGUMENTS_ENV_VARS.md#list-of-parameters--environmental-variables) (--tcpudpformat / ULS_TCPUDP_FORMAT).
   - [docker] bumped source image to 3.11.4-slim-bookworm (new debian release)
+---
 
 ## v1.6.4
 |||
@@ -98,6 +123,7 @@
 - **Bugfix**
   - `--endtime <value>` didn't cause ULS to eventually stop ops. This is now fixed.
   - improved container detection (only cosmetic improvement)
+---
 
 ## v1.6.3
 
@@ -116,6 +142,7 @@
   - fixed a bug in the "get_uls.sh" script which stated the wrong error message when pip was not found
   - minor fix to properly detect "podman" as docker alternative
   - Amendend installation steps for Guardicore and Linode log-fetcher(s)
+---
 
 ## v1.6.2
 
@@ -132,6 +159,7 @@
   - fixed a bug in the Dockerfile that left uls/var unusable
 - **Housekeeping**
   - fixed some bugs in testing (false negative) & speeded up testing process
+---
 
 ## v1.6.1
 
@@ -146,7 +174,7 @@
 - **Housekeeping**
   - Added parallel testing processes to speed up testing (see [Testing Readme](../test/README.md))
   - added randomization tokens for "mocked" edgerc file (to avoid race condition in prallel testing)
-
+---
 
 ## v1.6.0
 
@@ -170,6 +198,7 @@
   - bumped python container (docker) to version 3.10.7
   - bumped ETP-CLI version to 0.3.9 which should massively reduce the fetch lag
   - Added [documentation](./HIGH_AVAILABILITY.md) to explain high availability options for ULS
+---
 
 
 ## v1.5.1
@@ -182,6 +211,7 @@
 
 - **Bugfix**
   - Use cli-eaa version 0.5.0.2 fixing a timezone issue on the EAA ADMIN feed
+---
 
 
 ## v1.5.0
@@ -207,7 +237,7 @@
     - `event_bytes_interval` # total size in bytes processed
 - **Housekeeping**
   - Documented missing dependencies in [test/README.md](../test/README.md)
-
+---
 
 ## v1.4.0
 |||
@@ -226,6 +256,7 @@
   
 - **Bugfix**
   - Fixed a bug in the test scripts to support real `.edgerc`
+---
 
 ## v1.3.5
 |||
@@ -236,6 +267,7 @@
 - **Minor improvements**
   - More QRADAR log source type definitions (thx to bitonio)
   - Added docker-compose ETP - Tenant example
+---
 
 ## v1.3.4
 |||
@@ -248,6 +280,7 @@
   - Added SUMO Logic (thx to huskar20 for the contribution)
   - bumped CLI-MFA to v0.0.9
   - added resources, nodeSelector, tolerations and affinity to the helm values.yaml / template
+---
 
 
 ## v1.3.3
@@ -260,7 +293,7 @@
   - Adopted to new MFA CLI Version (only single feed "EVENT" available anymore)
   - Amended new dates to the file headers
   - Added volume to dockerfile as data storage for "autoresume"
-
+---
 
 ## v1.3.2
 |||
@@ -284,6 +317,7 @@
   - added a sanity check for "HTTP_OUT_FORMAT" to avoid issues with the ´%s´ seclector
   - removed forced http authentication token "--httpauthheader" (allow None)
   - discovered a bug in configparser -> [see FAQ entry](FAQ.md#uls-does-not-start-due-to-missing-field-in-config)
+---
 
 
 ## v1.3.1
@@ -295,6 +329,7 @@
 - **Bugfixes**
   - fixed a checkpoint issue when using ETP / THREAD 
   - some doc fixes
+---
 
 ## v1.3.0
 |||
@@ -320,7 +355,7 @@
   - Fixed an output issue on "CLI failure", added configureable output handling to the config
   - replaced pip with pip3 in CLI usage docs
   - Fixed a windows bug (bypass blocking on windows) + added a [FAQ entry on how fix a installation specific bug](FAQ.md#uls-on-windows-error-winerror-2-the-system-cannot-find-the-file-specified)
-
+---
 
 ## v1.2.0
 |||
@@ -349,6 +384,7 @@
   - bumped EAA CLI Version to 0.4.4 (docker only)
   - Introduced dedicated ["OUTPUT" documentation](OUTPUTS.md)
   - introduced uls own requirements.txt in the [bin directory](../bin/requirements.txt) - still trying to keep req's as low as possible. 
+---
   
 ## v1.1.0
 |||
@@ -366,6 +402,7 @@
   - added better error guidance when basic stuff is unset (input / output)
   - moved docker-compose from root dir to /docs
   - added `read_only: true` to the docker-compose.yml files (security enhancement)
+---
 
 ## v1.0.0
 |||
@@ -380,7 +417,7 @@
   - simplified cli - command re-usage (visual parsing of subprocess cmd)
   - cleaned up the Dockerfile
   - added [Log_Overview](LOG_OVERVIEW.md) page to extend background on logged data
-
+---
 
 ## v0.9.0
 |||
@@ -399,7 +436,7 @@
   - added FAQ documents
 - Feature:
   - [FILTER (--filter) feature](ADDITIONAL_FEATURES.md#filter---filter-feature) introduced to reduce number of sent log lines towards SIEM
-  
+---  
 
 ## v0.0.4
 |||
@@ -416,6 +453,7 @@
 - Feature:
   - EAA CONNECTOR HEALTH (CONHEALTH) now available
   - Preflight (forced) check for available cli's
+---
 
 ## v0.0.3
 |||
@@ -428,6 +466,7 @@
 - fixed a bug that caused Popen PIPE to hang in certain circumstances
 - bumped Dockerfile to newer CLI versions
 - [introduced RAW output](ADDITIONAL_FEATURES.md#rawcmd---rawcmd-feature) (send data to stdout)
+---
 
 ## v0.0.2
 |||
@@ -438,6 +477,7 @@
 - fixed monitoring output bug in docker-compose
 - fixed bug in Dockerfile that prevented development builds
 - fixed a bug in EAA CLI handler
+---
 
 ## v0.0.1 (Initial Commit)
 |version|v0.0.1|

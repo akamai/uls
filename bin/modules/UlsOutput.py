@@ -97,7 +97,7 @@ class UlsOutput:
         if self.output_type in ['TCP', 'UDP'] and host and port:
             self.host = host
             self.port = port
-            if "%s" in tcpudp_out_format:
+            if "%s" in str(tcpudp_out_format):
                 self.tcpudp_out_format = tcpudp_out_format
             else:
                 aka_log.log.critical(
@@ -512,5 +512,42 @@ class UlsOutput:
             if self.httpSession:
                 self.httpSession.close()
         self.connected = False
+
+### FEATURE REQ 20240318 - https://github.com/akamai/uls/issues/57
+
+    def ingest_vars_into_output_format(self, placeholder: str = None, replacement: str = None):
+        if not placeholder or not replacement:
+            aka_log.log.debug(f"{self.name} Variable substition triggered but no value given (inline code issue)")
+            #print(f"PLACEHOLDER: {placeholder}")
+            #print(f"REPLACEMENT: {replacement}")
+            #return True
+            sys.exit(1)
+
+        if placeholder in str(self.tcpudp_out_format) and self.tcpudp_out_format:
+            self.tcpudp_out_format = str(self.tcpudp_out_format).replace(placeholder, replacement)
+            aka_log.log.debug(f"{self.name} Replacing {placeholder} in TCPUDP string with: {replacement} ")
+            aka_log.log.debug(f"{self.name} SUBSTITUTION new TCPUDP output string: {self.tcpudp_out_format} ")
+
+        if placeholder in str(self.http_out_format) and self.http_out_format:
+            self.http_out_format = str(self.http_out_format).replace(placeholder, replacement)
+            aka_log.log.debug(f"{self.name} Replacing {placeholder} in HTTP string with: {replacement} ")
+            aka_log.log.debug(f"{self.name} SUBSTITUTION new HTTP output string: {self.http_out_format} ")
+
+
+        return True
+
+    def ingest_os_vars_into_output_format(self):
+        aka_log.log.debug(f"{self.name} Replacing ENV VARS in output FORMAT")
+        if self.tcpudp_out_format:
+            self.tcpudp_out_format = os.path.expandvars(self.tcpudp_out_format)
+            aka_log.log.debug(f"{self.name} OS_ENV_VARS new TCPUDP output string: {self.tcpudp_out_format} ")
+        if self.http_out_format:
+            self.http_out_format = os.path.expandvars(self.http_out_format)
+            aka_log.log.debug(f"{self.name} OS_ENV_VARS new HTTP output string: {self.http_out_format} ")
+
+
+        return True
+
+    ### / FEATURE REQ 20240318 - https://github.com/akamai/uls/issues/57
 
 # EOF

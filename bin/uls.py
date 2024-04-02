@@ -89,6 +89,7 @@ def main():
     # Check CLI Environment
     UlsTools.uls_check_sys(root_path=root_path, uls_input=uls_args.input)
 
+
     # Create & Start monitoring Instance
     my_monitor = UlsMonitoring.UlsMonitoring(stopEvent=stopEvent,
                                              product=uls_args.input,
@@ -108,6 +109,7 @@ def main():
                                        starttime=uls_args.starttime,
                                        endtime=uls_args.endtime,
                                        root_path=root_path)
+
 
     # Connect to the selected input UlsOutput
     my_output = UlsOutput.UlsOutput(output_type=uls_args.output,
@@ -151,10 +153,19 @@ def main():
     else:
         filter_pattern = None
 
+
     # Now let's handle the data and send input to output
 
     # Initiate the Input handler
     my_input.proc_create()
+
+    # Append extra vars to the output
+    #my_output.ingest_vars_into_output_format(api_hostname=my_input.get_edgerc_hostname())
+    my_output.ingest_vars_into_output_format(placeholder='{api_hostname}', replacement=my_input.get_edgerc_hostname())
+    my_output.ingest_vars_into_output_format(placeholder='{uls_input}', replacement=uls_args.input)
+    my_output.ingest_vars_into_output_format(placeholder='{uls_feed}', replacement=uls_args.feed)
+    my_output.ingest_os_vars_into_output_format()
+
 
     # Connect the output handler
     my_output.connect()
