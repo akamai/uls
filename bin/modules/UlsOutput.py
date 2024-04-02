@@ -533,8 +533,10 @@ class UlsOutput:
         return True
 
     def ingest_os_vars_into_output_format(self):
-        self.tcpudp_out_format = os.path.expandvars(self.tcpudp_out_format)
-        self.http_out_format = os.path.expandvars(self.http_out_format)
+        if self.tcpudp_out_format:
+            self.tcpudp_out_format = os.path.expandvars(self.tcpudp_out_format)
+        if self.http_out_format:
+            self.http_out_format = os.path.expandvars(self.http_out_format)
 
         return True
 
