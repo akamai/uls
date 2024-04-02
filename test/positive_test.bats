@@ -256,6 +256,14 @@ load 'bats/bats-assert/load.bash'
     rm -f /tmp/uls_eaa_access.ckpt
 }
 
+## OUTPUTFORMAT SUBSITUTION
+@test "OUTPUTFORMAT SUBSITUTION" {
+    export BATS_VAR="BATSTEST123"
+    run timeout ${uls_timeout_params} ${uls_bin} --input eaa --feed access --output tcp --host 127.0.0.1 --port 1234 --edgerc $uls_edgerc --section $uls_section --loglevel debug --tcpudpformat '$BATS_VAR - {api_hostname} %s'
+    assert_output --partial "OS_ENV_VARS new TCPUDP output string: BATSTEST123 - manage.akamai-access.com %s"
+    unset BATS_VAR
+}
+
 ## HELM LINT
 @test "LINT the HELM CHART" {
     run helm lint docs/examples/kubernetes/helm/akamai-uls --strict

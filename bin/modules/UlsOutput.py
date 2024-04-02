@@ -526,21 +526,25 @@ class UlsOutput:
         if placeholder in str(self.tcpudp_out_format) and self.tcpudp_out_format:
             self.tcpudp_out_format = str(self.tcpudp_out_format).replace(placeholder, replacement)
             aka_log.log.debug(f"{self.name} Replacing {placeholder} in TCPUDP string with: {replacement} ")
+            aka_log.log.debug(f"{self.name} SUBSTITUTION new TCPUDP output string: {self.tcpudp_out_format} ")
 
         if placeholder in str(self.http_out_format) and self.http_out_format:
             self.http_out_format = str(self.http_out_format).replace(placeholder, replacement)
             aka_log.log.debug(f"{self.name} Replacing {placeholder} in HTTP string with: {replacement} ")
+            aka_log.log.debug(f"{self.name} SUBSTITUTION new HTTP output string: {self.http_out_format} ")
 
-        #aka_log.log.info(f"{self.name} new TCPUDP output string: {self.tcpudp_out_format} ")
-        #aka_log.log.info(f"{self.name} new HTTP output string: {self.http_out_format} ")
+
         return True
 
     def ingest_os_vars_into_output_format(self):
         aka_log.log.debug(f"{self.name} Replacing ENV VARS in output FORMAT")
         if self.tcpudp_out_format:
             self.tcpudp_out_format = os.path.expandvars(self.tcpudp_out_format)
+            aka_log.log.debug(f"{self.name} OS_ENV_VARS new TCPUDP output string: {self.tcpudp_out_format} ")
         if self.http_out_format:
             self.http_out_format = os.path.expandvars(self.http_out_format)
+            aka_log.log.debug(f"{self.name} OS_ENV_VARS new HTTP output string: {self.http_out_format} ")
+
 
         return True
 
