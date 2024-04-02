@@ -87,7 +87,7 @@ Applicable to argument `--tcpudpformat` or environment variable `ULS_TCPUDP_FORM
 By default ULS will write the exact payload received from the API to 
 the configured ULS output. Thus, `%s` is the default value.
 
-### Payload decoration
+### Payload decoration (Variable Substition)
 
 If you need to surround the payload with extra information (i.e. metadata for your SIEM), 
 you can surround the `%s`. In the example below, didn't surround the `%s` by double-quote
