@@ -157,6 +157,8 @@ def uls_check_edgerc(configfile, configsection, configvalues):
             ### FEATURE REQ 20240318
 
             aka_log.log.debug(f"Required configuration value '{configvalue}' found.")
+        if not my_hostname:
+            my_hostname = "no_hostname_available"
     return my_hostname
 
 

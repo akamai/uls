@@ -517,14 +517,17 @@ class UlsOutput:
 
     def ingest_vars_into_output_format(self, placeholder: str = None, replacement: str = None):
         if not placeholder or not replacement:
-            aka_log.log.critical(f"{self.name} Variable substition triggered but no value given (inline code issue)")
+            aka_log.log.debug(f"{self.name} Variable substition triggered but no value given (inline code issue)")
+            #print(f"PLACEHOLDER: {placeholder}")
+            #print(f"REPLACEMENT: {replacement}")
+            #return True
             sys.exit(1)
 
-        if placeholder in str(self.tcpudp_out_format):
+        if placeholder in str(self.tcpudp_out_format) and self.tcpudp_out_format:
             self.tcpudp_out_format = str(self.tcpudp_out_format).replace(placeholder, replacement)
             aka_log.log.debug(f"{self.name} Replacing {placeholder} in TCPUDP string with: {replacement} ")
 
-        if placeholder in str(self.http_out_format):
+        if placeholder in str(self.http_out_format) and self.http_out_format:
             self.http_out_format = str(self.http_out_format).replace(placeholder, replacement)
             aka_log.log.debug(f"{self.name} Replacing {placeholder} in HTTP string with: {replacement} ")
 
@@ -533,6 +536,7 @@ class UlsOutput:
         return True
 
     def ingest_os_vars_into_output_format(self):
+        aka_log.log.debug(f"{self.name} Replacing ENV VARS in output FORMAT")
         if self.tcpudp_out_format:
             self.tcpudp_out_format = os.path.expandvars(self.tcpudp_out_format)
         if self.http_out_format:
