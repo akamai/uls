@@ -1,6 +1,6 @@
 # Hydrolix integration
 
-ULS is able to send any [supported feeds](../LOG_OVERVIEW.md) to Hydrolix with HTTP Output.  
+ULS is able to send any [supported feeds](../../LOG_OVERVIEW.md) to Hydrolix with HTTP Output.  
 Make sure you turn off the HTTP Liveness check since Hydrolix Ingestion endpoints do not accept HTTP HEAD requests.
 
 ## Example ULS pushing to Hydrolix
