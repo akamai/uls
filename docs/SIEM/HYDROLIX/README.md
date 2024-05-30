@@ -23,4 +23,4 @@ docker run -d --name uls_gc_netlog -ti \
 
 ## More information
 
-See Hydrolix website [https://www.hydrolix.com ](https://hydrolix.io/)
+See Hydrolix website [https://www.hydrolix.io](https://hydrolix.io/)
