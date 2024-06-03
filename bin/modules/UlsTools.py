@@ -224,7 +224,7 @@ def check_autoresume(input, feed, checkpoint_dir=uls_config.autoresume_checkpoin
                         aka_log.log.debug(f"Autoresume Checkpoint successfully loaded. Checkpoint Time: {data['checkpoint']}, Creation_time: {data['creation_time']}")
                         creation_time = data['creation_time']
                         # Convert the Checkpoint to "epoch Timestamp", depending on the input
-                        if data['input'] == "ETP":
+                        if data['input'] == "ETP" or data['input'] == "SIA":
                             mytime = data['checkpoint'].split("Z")[0]
                         elif data['input'] == "EAA":
                             mytime = data['checkpoint'].split("+")[0]
@@ -270,13 +270,13 @@ def write_autoresume_ckpt(input, feed, autoresume_file, logline, current_count):
 
     # Adopt the field to the stream / feed
     checkpoint_line = logline.decode()
-    if input == "ETP" and (feed == "THREAT" or feed =="PROXY" or feed == "AUP"):
+    if (input == "ETP" or input == "SIA") and (feed == "THREAT" or feed =="PROXY" or feed == "AUP"):
         checkpoint_timestamp = json.loads(checkpoint_line)['event']['detectionTime']
-    elif input == "ETP" and feed == "DNS":
+    elif (input == "ETP" or input == "SIA") and feed == "DNS":
         checkpoint_timestamp = json.loads(checkpoint_line)['query']['time']
     elif input == "EAA" and feed == "ACCESS":
         checkpoint_timestamp = json.loads(checkpoint_line)['datetime']
-    elif input == "ETP" and feed == "NETCON":
+    elif (input == "ETP" or input == "SIA") and feed == "NETCON":
         checkpoint_timestamp = json.loads(checkpoint_line)['connStartTime']
     elif input == "GC" and feed == "AUDIT":
         checkpoint_timestamp = json.loads(checkpoint_line)['time']

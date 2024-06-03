@@ -1,4 +1,15 @@
 # Version History
+## v1.7.4
+|||
+|---|---|
+|Date|2024-06-03
+|Kind| MINOR release
+|Author|mschiess@akamai.com, androcho@akamai.com
+
+- **BUGFIX**
+  - Fixed a bug in the autoresume function where SIA does not equal ETP properly
+
+
 ## v1.7.3
 |||
 |---|---|
