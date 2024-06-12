@@ -6,6 +6,10 @@
 |Kind| MINOR release
 |Author|mschiess@akamai.com, androcho@akamai.com
 
+- **Minor improvements**
+  - [docker] Bumped Python version to 3.12.3
+
+
 - **BUGFIX**
   - Fixed a bug in the autoresume function where SIA does not equal ETP properly
 
