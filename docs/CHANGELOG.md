@@ -2,16 +2,17 @@
 ## v1.7.4
 |||
 |---|---|
-|Date|2024-06-03
+|Date|2024-06-XX
 |Kind| MINOR release
 |Author|mschiess@akamai.com, androcho@akamai.com
+- **Features**
+  - New Input & Feed available - Akamai Control Center Events
 
 - **Minor improvements**
   - [docker] Bumped Python version to 3.12.3
 
-
 - **BUGFIX**
-  - Fixed a bug in the autoresume function where SIA does not equal ETP properly
+  - Fixed a bug in the autoresume function where SIA does not equal it's alias ETP properly
 
 
 ## v1.7.3

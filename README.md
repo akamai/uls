@@ -55,6 +55,8 @@ It can be run directly as Python code, as a provided Docker container,  through 
       - AUDIT
     - [Linode](https://www.linode.com/) (experimental)
       - [AUDIT](docs/LOG_OVERVIEW.md#audit-logs)
+    - Akamai Control Center (experimental)
+      - EVENTS
   
 
 - Supported data outputs

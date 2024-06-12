@@ -56,6 +56,8 @@ def uls_check_sys(root_path, uls_input=None):
         _check_cli_installed(root_path + "/" + uls_config.bin_gc_cli)
     elif uls_input == "LINODE":
         _check_cli_installed(root_path + "/" + uls_config.bin_linode_cli)
+    elif uls_input == "ACC":
+        _check_cli_installed(root_path + "/" + uls_config.bin_acc_logs)
     else:
         aka_log.log.critical(f"No input specified: {uls_input} - exiting")
         sys.exit(1)
@@ -100,7 +102,8 @@ def uls_version(root_path):
           f"SIA/ETP Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_etp_cli, my_edgerc_mock_file)}\n"
           f"MFA Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_mfa_cli, my_edgerc_mock_file)}\n"
           f"GC Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_gc_cli, my_edgerc_mock_file)}\n"
-          f"LINODE Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_linode_cli, my_edgerc_mock_file)}\n\n"
+          f"LINODE Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_linode_cli, my_edgerc_mock_file)}\n"
+          f"ACC-LOGS Version\t{_get_cli_version(root_path + '/' + uls_config.bin_linode_cli, my_edgerc_mock_file)}\n\n"
           f"OS Plattform\t\t{platform.platform()}\n"
           f"OS Version\t\t{platform.release()}\n"
           f"Python Version\t\t{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}\n"
