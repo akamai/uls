@@ -231,7 +231,7 @@ def check_autoresume(input, feed, checkpoint_dir=uls_config.autoresume_checkpoin
                             mytime = data['checkpoint'].split("Z")[0]
                         elif data['input'] == "EAA":
                             mytime = data['checkpoint'].split("+")[0]
-                        elif data['input'] == "GC":
+                        elif data['input'] == "GC"  or data['input'] == "ACC":
                             mytime = data['checkpoint'].split(".")[0]
                         else:
                             aka_log.log.critical(
@@ -287,6 +287,8 @@ def write_autoresume_ckpt(input, feed, autoresume_file, logline, current_count):
         checkpoint_timestamp = json.loads(checkpoint_line)['closed_time']
     elif input == "GC" and feed == "NETLOG":
         checkpoint_timestamp = json.loads(checkpoint_line)['db_insert_time']
+    elif input == "ACC" and feed == "EVENTS":
+        checkpoint_timestamp = json.loads(checkpoint_line)['eventTime']
     else:
         aka_log.log.critical(
             f"AUTORESUME - Unhandled Input / Feed detected:  '{input} / {feed}' (this should never happen !!)- Exiting")
