@@ -13,7 +13,7 @@ ARG             EXT_DIR="$ULS_DIR/ext"
 ARG             ETP_CLI_VERSION="0.4.7"
 ARG             EAA_CLI_VERSION="0.6.9"
 ARG             MFA_CLI_VERSION="0.1.1"
-ARG             GC_CLI_VERSION="v0.0.4(beta)"
+ARG             GC_CLI_VERSION="v0.0.5"
 ARG             LINODE_CLI_VERSION="dev"
 ARG             ACC_CLI_VERSION="v0.0.1-alpha"
 

@@ -1,4 +1,14 @@
 # Version History
+## v1.7.5
+|||
+|---|---|
+|Date|2024-XX-XX
+|Kind| MINOR release
+|Author|mschiess@akamai.com
+
+- **Minor improvements**
+  - [docker] bumped GC-LOGS to version "0.0.5"
+
 ## v1.7.4
 |||
 |---|---|
