@@ -1,4 +1,4 @@
-FROM            python:3.12.2-slim-bookworm
+FROM            python:3.12.4-slim-bookworm
 LABEL           MAINTAINER="Mike Schiessl - mike.schiessl@akamai.com"
 LABEL	        APP_LONG="Akamai Universal Log Streamer"
 LABEL           APP_SHORT="ULS"
@@ -11,10 +11,11 @@ ARG             ULS_DIR="$HOMEDIR/uls"
 ARG             EXT_DIR="$ULS_DIR/ext"
 
 ARG             ETP_CLI_VERSION="0.4.7"
-ARG             EAA_CLI_VERSION="0.6.3"
+ARG             EAA_CLI_VERSION="0.6.9"
 ARG             MFA_CLI_VERSION="0.1.1"
 ARG             GC_CLI_VERSION="v0.0.4(beta)"
 ARG             LINODE_CLI_VERSION="dev"
+ARG             ACC_CLI_VERSION="v0.0.1-alpha"
 
 # ENV VARS
 ENV             ULS_DIR=$ULS_DIR
@@ -76,6 +77,11 @@ RUN             git clone --depth 1 -b "${GC_CLI_VERSION}" --single-branch https
 ENV             LINODE_CLI_VERSION=$LINODE_CLI_VERSION
 RUN             git clone --depth 1 -b "${LINODE_CLI_VERSION}" --single-branch https://github.com/MikeSchiessl/ln-logs.git ${EXT_DIR}/cli-linode && \
                 pip3 install --no-cache-dir -r ${EXT_DIR}/cli-linode/bin/requirements.txt
+
+## ACC CLI
+ENV             ACC_CLI_VERSION=$ACC_CLI_VERSION
+RUN             git clone --depth 1 -b "${ACC_CLI_VERSION}" --single-branch https://github.com/MikeSchiessl/acc-logs.git ${EXT_DIR}/acc-logs && \
+                pip3 install --no-cache-dir -r ${EXT_DIR}/acc-logs/bin/requirements.txt
 
 # ENTRYPOINTS / CMD
 VOLUME          ["${ULS_DIR}/var"]

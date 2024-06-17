@@ -205,6 +205,18 @@ load 'bats/bats-assert/load.bash'
     [ "$status" -eq 100 ] || [ "$status" -eq 130 ] || [ "$status" -eq 137 ]        #return value from uls when interrupted --> with --preserve status on timeout
 }
 
+## ACC-LOGS
+@test "ACC - EVENTS" {
+    run timeout ${uls_timeout_params} ${uls_bin} --input acc --feed events --output raw --edgerc $uls_edgerc --loglevel info
+    #assert_output --partial $gc_assert
+    assert_line --partial "UlsInputCli - started PID"
+    refute_line --partial "was found stale -"
+    #assert_output --partial "The specified directory tmp does not exist or privileges are missing - exiting"
+    #[ "$status" -eq 124 ]      #return value from timeout without --preserve status
+    [ "$status" -eq 100 ] || [ "$status" -eq 130 ] || [ "$status" -eq 137 ]         #return value from uls when interrupted --> with --preserve status on timeout
+}
+
+
 ## FILE OUTPUT
 @test "FILE: ETP - THREAT" {
     run timeout ${uls_timeout_params} ${uls_bin} --input etp --feed threat --output file --filename "/tmp/uls_tmplogfile1.log" --edgerc $uls_edgerc --section $uls_section --loglevel info

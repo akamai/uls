@@ -56,6 +56,8 @@ def uls_check_sys(root_path, uls_input=None):
         _check_cli_installed(root_path + "/" + uls_config.bin_gc_cli)
     elif uls_input == "LINODE":
         _check_cli_installed(root_path + "/" + uls_config.bin_linode_cli)
+    elif uls_input == "ACC":
+        _check_cli_installed(root_path + "/" + uls_config.bin_acc_logs)
     else:
         aka_log.log.critical(f"No input specified: {uls_input} - exiting")
         sys.exit(1)
@@ -100,7 +102,8 @@ def uls_version(root_path):
           f"SIA/ETP Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_etp_cli, my_edgerc_mock_file)}\n"
           f"MFA Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_mfa_cli, my_edgerc_mock_file)}\n"
           f"GC Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_gc_cli, my_edgerc_mock_file)}\n"
-          f"LINODE Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_linode_cli, my_edgerc_mock_file)}\n\n"
+          f"LINODE Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_linode_cli, my_edgerc_mock_file)}\n"
+          f"ACC-LOGS Version\t{_get_cli_version(root_path + '/' + uls_config.bin_linode_cli, my_edgerc_mock_file)}\n\n"
           f"OS Plattform\t\t{platform.platform()}\n"
           f"OS Version\t\t{platform.release()}\n"
           f"Python Version\t\t{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}\n"
@@ -224,11 +227,11 @@ def check_autoresume(input, feed, checkpoint_dir=uls_config.autoresume_checkpoin
                         aka_log.log.debug(f"Autoresume Checkpoint successfully loaded. Checkpoint Time: {data['checkpoint']}, Creation_time: {data['creation_time']}")
                         creation_time = data['creation_time']
                         # Convert the Checkpoint to "epoch Timestamp", depending on the input
-                        if data['input'] == "ETP":
+                        if data['input'] == "ETP" or data['input'] == "SIA":
                             mytime = data['checkpoint'].split("Z")[0]
                         elif data['input'] == "EAA":
                             mytime = data['checkpoint'].split("+")[0]
-                        elif data['input'] == "GC":
+                        elif data['input'] == "GC"  or data['input'] == "ACC":
                             mytime = data['checkpoint'].split(".")[0]
                         else:
                             aka_log.log.critical(
@@ -270,13 +273,13 @@ def write_autoresume_ckpt(input, feed, autoresume_file, logline, current_count):
 
     # Adopt the field to the stream / feed
     checkpoint_line = logline.decode()
-    if input == "ETP" and (feed == "THREAT" or feed =="PROXY" or feed == "AUP"):
+    if (input == "ETP" or input == "SIA") and (feed == "THREAT" or feed =="PROXY" or feed == "AUP"):
         checkpoint_timestamp = json.loads(checkpoint_line)['event']['detectionTime']
-    elif input == "ETP" and feed == "DNS":
+    elif (input == "ETP" or input == "SIA") and feed == "DNS":
         checkpoint_timestamp = json.loads(checkpoint_line)['query']['time']
     elif input == "EAA" and feed == "ACCESS":
         checkpoint_timestamp = json.loads(checkpoint_line)['datetime']
-    elif input == "ETP" and feed == "NETCON":
+    elif (input == "ETP" or input == "SIA") and feed == "NETCON":
         checkpoint_timestamp = json.loads(checkpoint_line)['connStartTime']
     elif input == "GC" and feed == "AUDIT":
         checkpoint_timestamp = json.loads(checkpoint_line)['time']
@@ -284,6 +287,8 @@ def write_autoresume_ckpt(input, feed, autoresume_file, logline, current_count):
         checkpoint_timestamp = json.loads(checkpoint_line)['closed_time']
     elif input == "GC" and feed == "NETLOG":
         checkpoint_timestamp = json.loads(checkpoint_line)['db_insert_time']
+    elif input == "ACC" and feed == "EVENTS":
+        checkpoint_timestamp = json.loads(checkpoint_line)['eventTime']
     else:
         aka_log.log.critical(
             f"AUTORESUME - Unhandled Input / Feed detected:  '{input} / {feed}' (this should never happen !!)- Exiting")

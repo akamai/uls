@@ -28,6 +28,8 @@ Here are some examples (per product) and links to additional information.
     - [INCIDENT](#incident)
   - [Linode](#linode)
     - [AUDIT Logs](#audit-logs)
+  - [AKAMAI ACC](#akamai-acc)
+    - [Events](#events)
 
 ---
 ## Enterprise Application Access (EAA)
@@ -2692,5 +2694,18 @@ Additional information regarding the log fields can be found on [here](https://w
       "time_remaining": null,
       "username": "exampleUser"
     }
+```
+</details>
+
+
+---
+## Akamai ACC
+### EVENTS
+Additional information regarding the log fields can be found on [here](https://techdocs.akamai.com/event-viewer/reference/get-events)
+<details>
+<summary>EVENT logs example (json)</summary>
+
+```json
+{"eventId": "1234567890-abcd-efab-badc-1234567890abcdef", "eventTime": "2024-06-17T09:23:17.976Z", "eventData": [{"key": "userIdAttributeName", "value": "uid"}, {"key": "method", "value": "sp_init"}, {"key": "authenticationMethod", "value": "https://sso.akamai.com/saml2/idp"}, {"key": "requestId", "value": "_12345667890-abcd-efab-cdef-1234567890abcd"}, {"key": "domain", "value": "control.akamai.com"}, {"key": "notOnOrAfter", "value": "2024-06-17T09:28:17.669Z"}, {"key": "entityId", "value": "https://sso.akamai.com/saml2/idp"}, {"key": "details", "value": "User testuser has been successfully logged in using https://sso.akamai.com/saml2/idp IDP"}, {"key": "notBefore", "value": "2024-06-17T09:18:17.669Z"}, {"key": "pulsar_host", "value": "10.10.10.10"}, {"key": "arrivalDate", "value": "2024-06-17T09:23:17.901497Z"}], "eventType": {"eventTypeId": "16", "eventTypeName": "All Logins", "eventDefinition": {"eventDefinitionId": "1234567", "eventName": "Successful SSO Login", "eventDescription": "A user successfully authenticated using Single Sign-on (SSO)"}}, "impersonator": true, "username": "testuser"}
 ```
 </details>

@@ -1,4 +1,22 @@
 # Version History
+## v1.7.4
+|||
+|---|---|
+|Date|2024-06-17
+|Kind| MINOR release
+|Author|mschiess@akamai.com, androcho@akamai.com
+- **Features**
+  - New Input & Feed available - Akamai Control Center Events
+
+- **Minor improvements**
+  - [docker] Bumped Python version to 3.12.4
+  - [docker] bumped CLI-EAA to "0.6.9"
+  - [HYDROLIX documentation](SIEM/HYDROLIX/README.md) added to the SIEM integrations
+
+- **BUGFIX**
+  - Fixed a bug in the autoresume function where SIA does not equal it's alias ETP properly
+
+
 ## v1.7.3
 |||
 |---|---|

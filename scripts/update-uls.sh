@@ -105,6 +105,16 @@ else
 fi
 
 
+## ACC
+if [[ -d "${uls_dir}/ext/acc-logs" ]] ; then
+  echo "ACC-CLI detected, updating"
+  git -C ${uls_dir}/ext/acc-logs pull -q
+  pip3 install -q -r ${uls_dir}/ext/acc-logs/bin/requirements.txt
+else
+  echo "NO ACC-CLI detected - skipping"
+fi
+
+
 echo -e "\n\n\nUpdate is complete."
 echo "Updated versions (post update)"
 ${uls_dir}/bin/uls.py --version

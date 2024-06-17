@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Common global variables / constants
-__version__ = "1.7.3"
+__version__ = "1.7.4"
 __tool_name_long__ = "Akamai Unified Log Streamer"
 __tool_name_short__ = "ULS"
 
@@ -16,15 +16,11 @@ main_resend_exit_on_fail = False                # Stop program, if a single logl
 
 
     # EAA
-        # Path to the EAA CLI Executable
 bin_eaa_cli = "ext/cli-eaa/bin/akamai-eaa"
-        # Available EAA CLI feeds
 eaa_cli_feeds = ['ACCESS', 'ADMIN', 'CONHEALTH', 'DEVINV', 'DIRHEALTH']
 
     # ETP
-        # Path to the ETP CLI Executable
 bin_etp_cli = "ext/cli-etp/bin/akamai-etp"
-        # Available ETP CLI feeds
 etp_cli_feeds = ['THREAT', 'AUP', 'DNS', 'PROXY', 'NETCON']
 
     # MFA
@@ -39,8 +35,12 @@ gc_cli_feeds = ['NETLOG', 'INCIDENT', 'AGENT', 'SYSTEM', 'AUDIT']               
 bin_linode_cli = "ext/cli-linode/bin/akamai-linode"         # Path to the LINODE CLI Executable
 linode_cli_feeds = ['AUDIT']                        # Available LINODE CLI feeds
 
+    # ACC-LOGS
+bin_acc_logs = "ext/acc-logs/bin/akamai-acc"
+acc_logs_feeds = ['EVENTS']
+
     # INPUT Choices
-input_choices = ['EAA', 'ETP', 'SIA', 'MFA', 'GC', 'LINODE']           # Available input types
+input_choices = ['EAA', 'ETP', 'SIA', 'MFA', 'GC', 'LINODE', 'ACC']           # Available input types
 input_format_choices = ['JSON', 'TEXT']         # Available input format choices (need to be supported by cli)
 
     # OUTPUT Choices
@@ -107,6 +107,6 @@ edgerc_mock_file = "ext/edgerc"                  # Required for display the vers
 
 # Autoresume Configuration
 autoresume_checkpoint_path = "var/"              # (Default) Path, where the checkpointfiles should be stored to
-autoresume_supported_inputs = ['ETP', 'EAA', 'GC']     # Internal Var only, to adjust supported inputs
+autoresume_supported_inputs = ['ETP', 'EAA', 'GC', 'SIA', 'ACC']     # Internal Var only, to adjust supported inputs
 autoresume_write_after = 1000                    # Write checkpoint only every ${autoresume_write_every} loglines
 

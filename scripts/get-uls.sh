@@ -2,7 +2,7 @@
 # This file will install the latest ULS including all of its modules (latest version) into the current directory/uls
 # curl -O https://raw.githubusercontent.com/akamai/uls/main/scripts/get-uls.sh && bash get-uls.sh
 
-default_modules="eaa,etp,mfa,gc,ln"
+default_modules="eaa,etp,mfa,gc,ln,acc"
 default_install_dir="$(pwd)/uls"
 
 function min_version() {
@@ -201,14 +201,22 @@ echo "Installing GC-CLI"
   pip3 install -q -r ${install_dir}/ext/cli-gc/bin/requirements.txt
 fi
 
-
 ## GRAB LINODE-CLI
-if [[ "$install_modules" == *"ln"* ]]  ; then
-echo "Installing LINODE-CLI"
-  git clone -q --depth 1 -b dev --single-branch https://github.com/MikeSchiessl/ln-logs.git ${install_dir}/ext/cli-linode
+if [[ "$install_modules" == *"acc"* ]]  ; then
+echo "Installing ACC-CLI"
+  git clone -q --depth 1 -b dev --single-branch https://github.com/MikeSchiessl/acc-logs.git ${install_dir}/ext/cli-linode
   py_reqs ${install_dir}/ext/cli-linode/bin/requirements.txt
   pip3 install -q -r ${install_dir}/ext/cli-linode/bin/requirements.txt
 fi
+
+## GRAB GC-CLI
+if [[ "$install_modules" == *"gc"* ]]  ; then
+echo "Installing ACC-CLI"
+  git clone -q --depth 1 -b dev --single-branch https://github.com/MikeSchiessl/gc-logs.git ${install_dir}/ext/acc-logs
+  py_reqs ${install_dir}/ext/acc-logs/bin/requirements.txt
+  pip3 install -q -r ${install_dir}/ext/acc-logs/bin/requirements.txt
+fi
+
 
 # Finishing off
 echo -e "\n\n\n"

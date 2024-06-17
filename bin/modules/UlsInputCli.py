@@ -333,6 +333,38 @@ class UlsInputCli:
                     cli_command = [self.bin_python, product_path] +\
                                   self._uls_useragent(self.product, "rawcmd") +\
                                   shlex.split(self.rawcmd)
+
+            # Akamai Control Center config
+            elif self.product == "ACC":
+                product_path = self.root_path + "/" + uls_config.bin_acc_logs
+                product_feeds = uls_config.acc_logs_feeds
+                if not self.cliformat == "JSON":
+                    aka_log.log.warning(f"{self.name} - Selected LOG Format ({self.cliformat}) "
+                                        f"not available for {product_path}, continuing with JSON.")
+                if not self.rawcmd:
+                    self.edgerc_hostname = UlsTools.uls_check_edgerc(self.credentials_file,
+                                              self.credentials_file_section,
+                                              uls_config.edgerc_openapi)
+                    my_feed = self._feed_selector(self.feed, product_feeds)
+                    if my_feed == "EVENTS":
+                        my_feed = "getevents"
+                    cli_command = [self.bin_python, '-u', product_path, 'events', my_feed.lower(), '-f']
+                    cli_command[3:3] = self._uls_useragent(self.product, my_feed)
+                    cli_command[3:3] = edgegrid_auth
+                    cli_command[3:3] = self._prep_proxy(self.inproxy)
+
+                    # Append End and Starttime
+                    if self.endtime:
+                        # We need to remove "-f" from the end of the cli cmd if we work with endtime
+                        cli_command = cli_command[:-1]
+                        cli_command.extend(self._prep_start_endtime('--end', self.endtime))
+                    if self.starttime:
+                        cli_command.extend(self._prep_start_endtime('--start', self.starttime))
+                else:
+                    cli_command = [self.bin_python, product_path] +\
+                                  self._uls_useragent(self.product, "rawcmd") +\
+                                  shlex.split(self.rawcmd)
+
             # Mocked output
             elif self.product == "MOCK":
                 print ("Not yet there")
