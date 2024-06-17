@@ -9,7 +9,7 @@
   - New Input & Feed available - Akamai Control Center Events
 
 - **Minor improvements**
-  - [docker] Bumped Python version to 3.12.3
+  - [docker] Bumped Python version to 3.12.4
   - [docker] bumped CLI-EAA to "0.6.9"
   - [HYDROLIX documentation](SIEM/HYDROLIX/README.md) added to the SIEM integrations
 
