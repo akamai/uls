@@ -2701,6 +2701,7 @@ Additional information regarding the log fields can be found on [here](https://w
 ---
 ## Akamai ACC
 ### EVENTS
+Additional information regarding the log fields can be found on [here](https://techdocs.akamai.com/event-viewer/reference/get-events)
 <details>
 <summary>EVENT logs example (json)</summary>
 
