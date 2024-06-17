@@ -2,7 +2,7 @@
 ## v1.7.4
 |||
 |---|---|
-|Date|2024-06-XX
+|Date|2024-06-17
 |Kind| MINOR release
 |Author|mschiess@akamai.com, androcho@akamai.com
 - **Features**
@@ -10,6 +10,8 @@
 
 - **Minor improvements**
   - [docker] Bumped Python version to 3.12.3
+  - [docker] bumped CLI-EAA to "0.6.9"
+  - [HYDROLIX documentation](SIEM/HYDROLIX/README.md) added to the SIEM integrations
 
 - **BUGFIX**
   - Fixed a bug in the autoresume function where SIA does not equal it's alias ETP properly
