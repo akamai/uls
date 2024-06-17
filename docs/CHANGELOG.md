@@ -7,8 +7,9 @@
 |Author|mschiess@akamai.com
 
 - **Minor improvements**
-  - [docker] bumped GC-LOGS to version "0.0.5"
+  - [docker] bumped GC-LOGS to version "0.0.5"  
 
+---
 ## v1.7.4
 |||
 |---|---|
@@ -26,6 +27,7 @@
 - **BUGFIX**
   - Fixed a bug in the autoresume function where SIA does not equal it's alias ETP properly
 
+---
 
 ## v1.7.3
 |||
