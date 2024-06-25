@@ -2,12 +2,13 @@
 ## v1.7.5
 |||
 |---|---|
-|Date|2024-XX-XX
+|Date|2024-06-25
 |Kind| MINOR release
 |Author|mschiess@akamai.com
 
 - **Minor improvements**
-  - [docker] bumped GC-LOGS to version "0.0.5"  
+  - [docker] bumped GC-LOGS to version "0.0.5" 
+  - [docker] bumped CLI-EAA to version "0.6.10" 
 
 ---
 ## v1.7.4
