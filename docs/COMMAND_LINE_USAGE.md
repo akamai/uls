@@ -72,13 +72,17 @@ pip3 install -r ext/cli-etp/requirements.txt
 git clone --depth 1 --single-branch https://github.com/akamai/cli-mfa.git ext/cli-mfa && \
 pip3 install -r ext/cli-mfa/requirements.txt
 
-# Guardicore Log-fetcher (experimental)
+# Guardicore Log-fetcher (beta)
 git clone -q --depth 1 -b dev --single-branch https://github.com/MikeSchiessl/gc-logs.git ext/cli-gc && \
 pip3 install -q -r ext/cli-gc/bin/requirements.txt
 
-# Linode Log fetcher (experimental)
+# Linode Log fetcher (alpha)
 git clone -q --depth 1 -b dev --single-branch https://github.com/MikeSchiessl/ln-logs.git ext/cli-linode && \
 pip3 install -q -r ext/cli-linode/bin/requirements.txt
+
+# Akamai Control Center Events (experimental)
+git clone -q --depth 1 -b dev --single-branch https://github.com/MikeSchiessl/acc-logs.git ext/acc-logs && \
+pip3 install -q -r ext/acc-logs/bin/requirements.txt
 ```
 
 ### Setup the .EDGERC File
