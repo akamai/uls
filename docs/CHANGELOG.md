@@ -2,14 +2,15 @@
 ## v1.7.5
 |||
 |---|---|
-|Date|2024-06-25
+|Date|2024-07-XX
 |Kind| MINOR release
 |Author|mschiess@akamai.com
 
 - **Minor improvements**
+  - Updated Command Line usage docs (ACC logs installation)
   - [docker] bumped GC-LOGS to version "0.0.5" 
   - [docker] bumped CLI-EAA to version "0.6.10" 
-
+  
 ---
 ## v1.7.4
 |||
