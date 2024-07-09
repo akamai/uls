@@ -11,7 +11,7 @@ ARG             ULS_DIR="$HOMEDIR/uls"
 ARG             EXT_DIR="$ULS_DIR/ext"
 
 ARG             ETP_CLI_VERSION="0.4.7"
-ARG             EAA_CLI_VERSION="0.6.11"
+ARG             EAA_CLI_VERSION="0.6.10"
 ARG             MFA_CLI_VERSION="0.1.1"
 ARG             GC_CLI_VERSION="v0.0.5"
 ARG             LINODE_CLI_VERSION="dev"
@@ -33,23 +33,32 @@ RUN	            apt-get update && \
                 telnet \
                 gcc \
                 libssl-dev \
-                libffi-dev  && \
+                libffi-dev \
+                acl && \
 		        rm -rf /var/lib/apt/lists/
+
+
 
 # USER & GROUP
 RUN 	        groupadd akamai && \
                 useradd -g akamai -s /bin/bash -m -d ${HOMEDIR} akamai
 
-USER            akamai
+# Applying the root group to the akamai-uls directory to match openshift security requirements
+#RUN             setfacl -m g:root:rx ${HOMEDIR} && \
+#                setfacl -dm g:root:rx ${HOMEDIR}
+
+# Installing now as root and switching later to the akamai user
+
 WORKDIR         ${HOMEDIR}
 RUN             mkdir -p ${ULS_DIR} && \
-                mkdir -p ${ULS_DIR}/var
+                mkdir -pm 777 ${ULS_DIR}/var
 
 
 # Install ULS
 COPY            bin/ ${ULS_DIR}/bin
 WORKDIR         ${ULS_DIR}
 RUN             pip3 install --no-cache-dir -r ${ULS_DIR}/bin/requirements.txt
+
 
 # Install external CLI'S
 ## ETP CLI
@@ -82,6 +91,12 @@ RUN             git clone --depth 1 -b "${LINODE_CLI_VERSION}" --single-branch h
 ENV             ACC_CLI_VERSION=$ACC_CLI_VERSION
 RUN             git clone --depth 1 -b "${ACC_CLI_VERSION}" --single-branch https://github.com/MikeSchiessl/acc-logs.git ${EXT_DIR}/acc-logs && \
                 pip3 install --no-cache-dir -r ${EXT_DIR}/acc-logs/bin/requirements.txt
+
+
+# Preparing user - switch
+#RUN             chown -R akamai:root ${HOMEDIR}
+USER            akamai
+
 
 # ENTRYPOINTS / CMD
 VOLUME          ["${ULS_DIR}/var"]

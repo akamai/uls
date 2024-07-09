@@ -10,6 +10,8 @@
   - Updated Command Line usage docs (ACC logs installation)
   - [docker] bumped GC-LOGS to version "0.0.5" 
   - [docker] bumped CLI-EAA to version "0.6.10" 
+  - [docker] changed the privligeges within the docker (installation as root - then dropping to unpriv user) - fix for openshift
+  - changed the path for the edgerc mock to uls/var (instead of uls/ext)
   
 ---
 ## v1.7.4
