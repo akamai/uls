@@ -209,10 +209,10 @@ echo "Installing ACC-CLI"
   pip3 install -q -r ${install_dir}/ext/cli-linode/bin/requirements.txt
 fi
 
-## GRAB GC-CLI
+## GRAB ACC-CLI
 if [[ "$install_modules" == *"gc"* ]]  ; then
 echo "Installing ACC-CLI"
-  git clone -q --depth 1 -b dev --single-branch https://github.com/MikeSchiessl/gc-logs.git ${install_dir}/ext/acc-logs
+  git clone -q --depth 1 -b dev --single-branch https://github.com/MikeSchiessl/acc-logs.git ${install_dir}/ext/acc-logs
   py_reqs ${install_dir}/ext/acc-logs/bin/requirements.txt
   pip3 install -q -r ${install_dir}/ext/acc-logs/bin/requirements.txt
 fi

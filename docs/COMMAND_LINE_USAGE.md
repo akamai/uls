@@ -72,13 +72,17 @@ pip3 install -r ext/cli-etp/requirements.txt
 git clone --depth 1 --single-branch https://github.com/akamai/cli-mfa.git ext/cli-mfa && \
 pip3 install -r ext/cli-mfa/requirements.txt
 
-# Guardicore Log-fetcher (experimental)
+# Guardicore Log-fetcher (beta)
 git clone -q --depth 1 -b dev --single-branch https://github.com/MikeSchiessl/gc-logs.git ext/cli-gc && \
 pip3 install -q -r ext/cli-gc/bin/requirements.txt
 
-# Linode Log fetcher (experimental)
+# Linode Log fetcher (alpha)
 git clone -q --depth 1 -b dev --single-branch https://github.com/MikeSchiessl/ln-logs.git ext/cli-linode && \
 pip3 install -q -r ext/cli-linode/bin/requirements.txt
+
+# Akamai Control Center Events (experimental)
+git clone -q --depth 1 -b dev --single-branch https://github.com/MikeSchiessl/acc-logs.git ext/acc-logs && \
+pip3 install -q -r ext/acc-logs/bin/requirements.txt
 ```
 
 ### Setup the .EDGERC File
@@ -124,8 +128,13 @@ All log output will be directed to STDOUT by default.
     ```bash
     python3 bin/uls.py --input sia --feed threat --output udp --host 10.10.10.200 --port 9090 &> /path/to/my/logfile &
     ```
-  Rather consider [docker usage](./DOCKER_USAGE.md) instead of this
+  Rather consider [docker usage](./DOCKER_USAGE.md) instead of this  
 
+
+- ACC EventViewer LOG ==> RAW with starting time
+    ```bash
+    python3 bin/uls.py --input ACC -f events --section default --starttime 1719852040 --output raw
+    ``` 
 ## ULS as a service: systemd
 
 If you are planning to use multiple Akamai feed with ULS, bear in mind you will need to repeat the instruction below multiple times. We built this guide with CentOS 7.
@@ -226,4 +235,8 @@ pip3 install -q -r ext/cli-etp/requirements.txt
 # MFA CLI (only if installed)
 git -C ext/cli-mfa pull -q
 pip3 install -q -r ext/cli-mfa/requirements.txt
+
+# ACC EventViewer (only if installed)
+git -C ext/acc-logs pull -q
+pip3 install -q -r ext/acc-logs/requirements.txt 
 ```

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Common global variables / constants
-__version__ = "1.7.4"
+__version__ = "1.7.5"
 __tool_name_long__ = "Akamai Unified Log Streamer"
 __tool_name_short__ = "ULS"
 
@@ -103,7 +103,7 @@ edgerc_mfa = ["mfa_integration_id", "mfa_signing_key"]                          
 edgerc_gc = ["gc_username", "gc_password", "gc_hostname"]                           # Required for Guardicore
 edgerc_linode = ["linode_hostname", "linode_token"]                                             # Required for Linode
 edgerc_documentation_url = "https://github.com/akamai/uls/blob/main/docs/AKAMAI_API_CREDENTIALS.md"
-edgerc_mock_file = "ext/edgerc"                  # Required for display the version if no edgercfile was given
+edgerc_mock_file = "var/edgerc"                  # Required for display the version if no edgercfile was given
 
 # Autoresume Configuration
 autoresume_checkpoint_path = "var/"              # (Default) Path, where the checkpointfiles should be stored to
