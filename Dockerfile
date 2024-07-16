@@ -51,7 +51,7 @@ RUN 	        groupadd akamai && \
 
 WORKDIR         ${HOMEDIR}
 RUN             mkdir -p ${ULS_DIR} && \
-                mkdir -pm 777 ${ULS_DIR}/var
+                mkdir -p ${ULS_DIR}/var && chmod 777 ${ULS_DIR}/var
 
 
 # Install ULS
