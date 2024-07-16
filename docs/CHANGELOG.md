@@ -2,16 +2,16 @@
 ## v1.7.5
 |||
 |---|---|
-|Date|2024-07-XX
+|Date|2024-07-16
 |Kind| MINOR release
 |Author|mschiess@akamai.com
 
 - **Minor improvements**
   - Updated Command Line usage docs (ACC logs installation)
   - [docker] bumped GC-LOGS to version "0.0.5" 
-  - [docker] bumped CLI-EAA to version "0.6.10" 
-  - [docker] changed the privligeges within the docker (installation as root - then dropping to unpriv user) - fix for openshift
-  - changed the path for the edgerc mock to uls/var (instead of uls/ext)
+  - [docker] bumped CLI-EAA to version "0.6.10" - fixed the bug that crashed the EAA logs in ULS-Docker Container v1.7.4
+  - [docker] changed the privilege within the docker (installation as root - then dropping to unprivileged user) - fix for Openshift + adding higher security
+  - changed the path for the .edgerc mock to uls/var (instead of uls/ext)
   
 ---
 ## v1.7.4
