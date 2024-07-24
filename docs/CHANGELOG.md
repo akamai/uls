@@ -8,7 +8,7 @@
 |Author|mschiess@akamai.com
 
 - **Features**
-  - CallHome (opt-out) function to enable the ULS team to collect statistics & usage information - more information [here](./FAQ.md#i-do-not-want-to-send-any-data-to-akamai)
+  - CallHome (opt-out) function to enable the ULS team to collect anonymous statistics & usage information - more information [here](./FAQ.md#i-do-not-want-to-send-any-data-to-akamai)
 
 - **Minor improvements**
 
