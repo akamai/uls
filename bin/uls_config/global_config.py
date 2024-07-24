@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Common global variables / constants
-__version__ = "1.8.0-.alpha"
+__version__ = "1.8.0-alpha"
 __tool_name_long__ = "Akamai Unified Log Streamer"
 __tool_name_short__ = "ULS"
 
@@ -110,3 +110,7 @@ autoresume_checkpoint_path = "var/"              # (Default) Path, where the che
 autoresume_supported_inputs = ['ETP', 'EAA', 'GC', 'SIA', 'ACC']     # Internal Var only, to adjust supported inputs
 autoresume_write_after = 1000                    # Write checkpoint only every ${autoresume_write_every} loglines
 
+# CAllHome Configuration
+callhome_enabled = "True"                           # CallHome Functionality is enabled / disabled
+callhome_url = "https://uls-beacon.akamaized.net"   # CallHome URL Target
+callhome_timeout = "2"                              # Callhome Timeout in seconds

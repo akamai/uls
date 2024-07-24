@@ -12,12 +12,13 @@ The following tables list all available command line parameters and their corres
 
 ## Global
 
-| Parameter          | Env - Var    | Options                                         | Default | Description                                               |
-|--------------------|--------------|-------------------------------------------------|---------|-----------------------------------------------------------|
-| -h <br> --help     | n/a          | n/a                                             | None    | Display help / usage information                          |
-| -l <br> --loglevel | ULS_LOGLEVEL | 'DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL' | WARNING | Adjust the overall loglevel                               |
-| -v <br> --version  | n/a          | n/a                                             | None    | Display ULS version information (incl. CLI & OS versions) |
-| --debugloglines | ULS_DEBUGLOGLINES | 'True', 'False' | False | Should the debug log contain Loglines (useful to debug transformations) |
+| Parameter          | Env - Var    | Options                                         | Default | Description                                                                                                    |
+|--------------------|--------------|-------------------------------------------------|---------|----------------------------------------------------------------------------------------------------------------|
+| -h <br> --help     | n/a          | n/a                                             | None    | Display help / usage information                                                                               |
+| -l <br> --loglevel | ULS_LOGLEVEL | 'DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL' | WARNING | Adjust the overall loglevel                                                                                    |
+| -v <br> --version  | n/a          | n/a                                             | None    | Display ULS version information (incl. CLI & OS versions)                                                      |
+| --debugloglines | ULS_DEBUGLOGLINES | 'True', 'False' | False | Should the debug log contain Loglines (useful to debug transformations)                                        |
+| --nocallhome | ULS_NOCALLHOME | 'True', 'False' | False | Disable the ULS CallHome feature that helps the ULS developers to continue improving ULS. (enabled by default) |
 
 ## INPUT
 

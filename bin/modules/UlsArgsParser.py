@@ -48,6 +48,15 @@ def init():
                         const=True,
                         help=f'Display {uls_config.__tool_name_short__} version and operational information')
 
+    parser.add_argument('--nocallhome',
+                        action='store',
+                        type=bool,
+                        default=os.environ.get('ULS_NOCALLHOME') or not uls_config.callhome_enabled,
+                        nargs='?',
+                        const=True,
+                        help=f"Disable the ULS CallHome feature that helps the ULS developers to continue improving ULS. Default: {not uls_config.callhome_enabled}")
+
+
     # ----------------------
     # Input GROUP
     input_group = parser.add_argument_group(title="Input",
@@ -346,6 +355,8 @@ def init():
                               dest='autoresumewriteafter',
                               default=(os.environ.get('ULS_AUTORESUME_WRITEAFTER') or uls_config.autoresume_write_after),
                               help=f'Specify after how many loglines a checkpoint should be written [Default: {uls_config.autoresume_write_after}]')
+
+
 
     return parser.parse_args()
 

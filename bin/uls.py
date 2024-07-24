@@ -170,11 +170,17 @@ def main():
     # Connect the output handler
     my_output.connect()
 
+
+    # Send CallHome Request, if not opted_out
+    UlsTools.callhome(nocallhome_state=uls_args.nocallhome, position="uls_start", input=uls_args.input, feed=uls_args.feed, output=uls_args.output)
+
     # New ULS/1.5: the input module is ingesting messages
     # into a thread safe queue. The function call will immediately
     # return
     event_q = queue.Queue(uls_args.input_queue_size)
     my_input.ingest(stopEvent, event_q, my_monitor)
+
+
 
     # Now we are back to the main thread to process the message
     while not stopEvent.is_set():
