@@ -10,7 +10,7 @@
 - **Features**
 
 - **Bugfixes**
-  - 
+  - issue when using jmespath transformation the result was not proper json - big thanks to @bart-parka for coming up with a PR to fix this 
 
 ## v1.7.5
 |||
