@@ -1,4 +1,17 @@
 # Version History
+
+## v1.8.0
+|||
+|---|---|
+|Date|2024-XX-XX
+|Kind| MINOR release
+|Author|mschiess@akamai.com
+
+- **Features**
+
+- **Bugfixes**
+  - 
+
 ## v1.7.5
 |||
 |---|---|
