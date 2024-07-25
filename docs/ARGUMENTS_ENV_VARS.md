@@ -80,6 +80,14 @@ The following tables list all available command line parameters and their corres
 | --autoresumepath       | ULS_AUTORESUME_PATH       | '/path/to/store/checkpoints/' | var/    | Specify the path where checkpoint files should be written to. (Trailing /)                                    |
 | --autoresumewriteafter | ULS_AUTORESUME_WRITEAFTER | <int>                         | 1000    | Specify after how many loglines a checkpoint should be written.                                               |
 
+## Prometheus
+| Parameter                             | Env - Var               | Options                   | Default   | Description                                                 |
+|---------------------------------------|-------------------------|---------------------------|-----------|-------------------------------------------------------------|
+| --prometheus                          | ULS_PROMETHEUS          | [True, False]             | False     | Enable prometheues monitoring support                       |
+| --prometheus-port <br> --promport     | ULS_PROMETHEUS_PORT     | <int>                     | 8000      | Prometheues port to listen on                               |
+| --prometheus-addr <br> --promaddr     | ULS_PROMETHEUS_ADDR     | xxx.xxx.xxx.xxx           | 127.0.0.1 | Prometheues bind address to listen on                       |
+| --prometheus-certfile <br> --promcert | ULS_PROMETHEUS_CERTFILE | '/path/to/store/promcert' | None      | Prometheues certificate file (required alongside a keyfile) |
+| --prometheus-keyfile <br>  --promkey  | ULS_PROMETHEUS_KEYFILE  | '/path/to/store/promkey'  | None      | Prometheues key file (required alongside a certfile)        |
 
 ## Customizing HTTP & TCPUDP Formatting
 
