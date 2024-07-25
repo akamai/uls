@@ -94,7 +94,12 @@ def main():
     my_monitor = UlsMonitoring.UlsMonitoring(stopEvent=stopEvent,
                                              product=uls_args.input,
                                              feed=uls_args.feed,
-                                             output=uls_args.output)
+                                             output=uls_args.output,
+                                             prom_enabled=uls_args.prometheus_enabled,
+                                             prom_port=uls_args.prometheus_port,
+                                             prom_host=uls_args.prometheus_addr,
+                                             prom_certfile=uls_args.prometheus_certfile,
+                                             prom_keyfile=uls_args.prometheus_keyfile)
     my_monitor.start()
 
     # Connect to an Input Handler UlsInputCli

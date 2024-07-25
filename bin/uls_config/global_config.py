@@ -114,3 +114,11 @@ autoresume_write_after = 1000                    # Write checkpoint only every $
 callhome_enabled = "True"                           # CallHome Functionality is enabled / disabled
 callhome_url = "https://uls-beacon.akamaized.net"   # CallHome URL Target
 callhome_timeout = "2"                              # Callhome Timeout in seconds
+
+# Prometheus Monitoring basics
+prometheus_enabled = "False"                               # Do not eneable prometheues by default
+prometheus_port = 8000                                     # Default Prometheus port
+prometheus_addr = "127.0.0.1"                            # Default Prometheus bind address
+prometheus_certfile = None                                 # Prometheus Cert file
+prometheus_keyfile = None                                  # Prometheus Key file
+# prometheus_client_cafile
