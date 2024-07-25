@@ -1,3 +1,4 @@
 jmespath>=0.10.0
 requests>=2.25.1
 pytz>=2021.1
+prometheus_client>=0.20.0
