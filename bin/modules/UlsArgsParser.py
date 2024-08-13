@@ -30,6 +30,16 @@ def init():
                         default=(os.environ.get('ULS_LOGLEVEL') or uls_config.log_level_default),
                         choices=uls_config.log_levels_available,
                         help=f'Adjust the loglevel Default: {uls_config.log_level_default}')
+
+    parser.add_argument('--json-log',
+                        action='store',
+                        dest='jsonlog',
+                        type=bool,
+                        nargs='?',
+                        default=(os.environ.get('ULS_JSONLOG') or uls_config.log_jsonlog),
+                        const=True,
+                        help=f"Should ULS write its own logdata in JSON format  instead of plain text output ? (Default: {uls_config.log_jsonlog})")
+
     # put loglines into debug log
     parser.add_argument('--debugloglines',
                         action='store',

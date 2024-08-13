@@ -10,11 +10,17 @@
 - **Features**
   - Prometheus monitoring support added to allow smoother monitoring into third party (prometheus compatible) monitoring sytems. More information [here](MONITORING.md#prometheus)
   - CallHome (opt-out) function to enable the ULS team to collect anonymous statistics & usage information - more information [here](./FAQ.md#i-do-not-want-to-send-any-data-to-akamai)
+  
 
 - **Minor improvements**
+  - Updated all required packages to the latest version(s)
+  - 
+  
 
 - **Bugfixes**
   - issue when using jmespath transformation the result was not proper json - big thanks to @bart-parka for coming up with a PR to fix this 
+
+---
 
 ## v1.7.5
 |||
