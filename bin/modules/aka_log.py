@@ -21,7 +21,7 @@ def init(loglevel='WARNING', loggername=None, jsonlogs: bool = False):
     console_handler = logging.StreamHandler()
 
     if jsonlogs:
-        formatter = logging.Formatter('{"timestamp": "%(asctime)s", "log_level": "%(levelname)s", "component": "%(name)s" "message": "%(message)s"}')
+        formatter = logging.Formatter('{"timestamp": "%(asctime)s", "log_level": "%(levelname)s", "component": "%(name)s", "message": "%(message)s"}')
     else:
         formatter = logging.Formatter('%(asctime)s %(name)s %(levelname)s %(message)s')
     console_handler.setFormatter(formatter)
