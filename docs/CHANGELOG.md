@@ -10,12 +10,11 @@
 - **Features**
   - Prometheus monitoring support added to allow smoother monitoring into third party (prometheus compatible) monitoring sytems. More information [here](MONITORING.md#prometheus)
   - CallHome (opt-out) function to enable the ULS team to collect anonymous statistics & usage information - more information [here](./FAQ.md#i-do-not-want-to-send-any-data-to-akamai)
-  
+  - Added the option to toggle Log Output towards "JSON" format ([see feature request](https://github.com/akamai/uls/issues/66))
 
 - **Minor improvements**
   - Updated all required packages to the latest version(s)
-  - 
-  
+  - [docker] Bumped Python version to 3.12.5
 
 - **Bugfixes**
   - issue when using jmespath transformation the result was not proper json - big thanks to @bart-parka for coming up with a PR to fix this 
