@@ -61,7 +61,7 @@ def main():
     uls_args = ArgsParser.init()
 
     # Load the LOG system
-    aka_log.init(uls_args.loglevel, uls_config.__tool_name_short__, jsonlogs=uls_args.jsonlog)
+    aka_log.init(uls_args.loglevel, uls_config.__tool_name_short__, jsonlogs=uls_args.jsonlog, logformat=uls_args.logformat)
 
     # Determine root directory
     root_path = str(UlsTools.root_path())

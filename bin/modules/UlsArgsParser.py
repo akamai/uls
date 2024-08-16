@@ -40,6 +40,13 @@ def init():
                         const=True,
                         help=f"Should ULS write its own logdata in JSON format  instead of plain text output ? (Default: {uls_config.log_jsonlog})")
 
+    parser.add_argument('--ulslogformat',
+                        action='store',
+                        dest='logformat',
+                        type=str,
+                        default=(os.environ.get('ULS_LOGFORMAT') or False),
+                        help=f"Custom logging format (ULS internal logs) see additional features documentation for more information -  (Default: False)")
+
     # put loglines into debug log
     parser.add_argument('--debugloglines',
                         action='store',

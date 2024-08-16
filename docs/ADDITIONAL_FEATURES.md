@@ -7,6 +7,7 @@ This document handles the usage of features not explained anywhere else.
 - [ULS TRANSFORMATIONS](#uls-transformations)
 - [AUTORESUME / RESUME](#autoresume--resume)
 - [POST PROCESSING OF FILES (FileOutput only)](#post-processing-of-files-fileoutput-only)
+- [ULS LOGFORMAT](ADDITIONAL_FEATURES.md#uls-logformat)
 
 
 ## FILTER (--filter) Feature
@@ -119,4 +120,33 @@ Run ULS using the fileaction script
 Here's  a recommendation on how to use this feature to avoid any "glitches":  
 Use the --fileaction handler to move the file into an observed queue directory and start a new process from there.
 This will ensure a "fast handling" within ULS and provide even more flexibility/stability towards the worklfow and its error handling.
+
+# ULS Logformat
+We had customers asking for a JSON logformat (ULS logs) and the additional capability of modifying the logformat.  
+To accomplish an easy (consumeable way) for json, we have introduced a new command line argument in ULS v1.8.0 `--json-log` in order to make ULS log in a standard JSON format.  
+The default ULS JSON logformat looks like the following:
+```json
+{
+  "timestamp": "%(asctime)s",
+  "log_level": "%(levelname)s",
+  "component": "%(name)s",
+  "message": "%(message)s"
+}
+```
+
+If this is not sufficient for your use-case - the format can actually be configured as well by using the following argument (or ENV var): `--ulslogformat "<format>"`  
+As default attributes, the following variables can be used: https://docs.python.org/3/library/logging.html#logrecord-attributes  
+
+Here are some examples:
+
+**Replicate the original "format"**
+```bash
+--ulslogformat '{"timestamp": "%(asctime)s", "log_level": "%(levelname)s", "component": "%(name)s", "message": "%(message)s"}'
+```
+
+**Additional logfields"**
+```bash
+--ulslogformat '{"timestamp": "%(asctime)s", "log_level": "%(levelname)s", "component": "%(name)s", "message": "%(message)s", "pathname": "%(pathname)s"}'
+```
+You can freely adjust the format to your needs  
 

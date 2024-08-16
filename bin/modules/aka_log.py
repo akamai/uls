@@ -15,15 +15,22 @@
 import logging
 
 
-def init(loglevel='WARNING', loggername=None, jsonlogs: bool = False):
+def init(loglevel='WARNING', loggername=None, jsonlogs: bool = False, logformat=None):
     global log
     log = logging.getLogger(loggername)
     console_handler = logging.StreamHandler()
 
     if jsonlogs:
-        formatter = logging.Formatter('{"timestamp": "%(asctime)s", "log_level": "%(levelname)s", "component": "%(name)s", "message": "%(message)s"}')
+        if not logformat:
+            formatter = logging.Formatter('{"timestamp": "%(asctime)s", "log_level": "%(levelname)s", "component": "%(name)s", "message": "%(message)s"}')
+        else:
+            formatter = logging.Formatter(logformat)
     else:
-        formatter = logging.Formatter('%(asctime)s %(name)s %(levelname)s %(message)s')
+        if not logformat:
+            formatter = logging.Formatter('%(asctime)s %(name)s %(levelname)s %(message)s')
+        else:
+            formatter = logging.Formatter(logformat)
+
     console_handler.setFormatter(formatter)
     log.addHandler(console_handler)
     log.setLevel(loglevel)
