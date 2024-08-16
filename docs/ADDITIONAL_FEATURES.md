@@ -148,5 +148,7 @@ Here are some examples:
 ```bash
 --ulslogformat '{"timestamp": "%(asctime)s", "log_level": "%(levelname)s", "component": "%(name)s", "message": "%(message)s", "pathname": "%(pathname)s"}'
 ```
-You can freely adjust the format to your needs  
+You can freely adjust the format to your needs.There is no need to use JSON format, you can also simply use the `%(message)s` format to just show the log message.  
+
+
 
