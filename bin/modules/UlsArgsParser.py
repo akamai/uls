@@ -47,6 +47,14 @@ def init():
                         default=(os.environ.get('ULS_LOGFORMAT') or False),
                         help=f"Custom logging format (ULS internal logs) see additional features documentation for more information -  (Default: False)")
 
+    parser.add_argument('--ulslogdatefmt',
+                        action='store',
+                        dest='logdatefmt',
+                        type=str,
+                        default=(os.environ.get('ULS_LOG_DATEFORMAT') or uls_config.log_datefmt),
+                        help=f"Adjust the logging date/time format to your needs, (Default: {uls_config.log_datefmt.replace("%", "%%")})")
+                        # Added double %% to have argsparser display proper string as it tries do to % replacement :D
+
     # put loglines into debug log
     parser.add_argument('--debugloglines',
                         action='store',

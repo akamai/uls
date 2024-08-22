@@ -12,6 +12,7 @@
   - CallHome (opt-out) function to enable the ULS team to collect anonymous statistics & usage information - more information [here](./FAQ.md#i-do-not-want-to-send-any-data-to-akamai)
   - Added the option to toggle Log Output towards "JSON" format ([see feature request](https://github.com/akamai/uls/issues/66))
   - Added an option to manipulate the ULS internal logging format ([see feature request](https://github.com/akamai/uls/issues/66) and the [Additional Features section](ADDITIONAL_FEATURES.md#uls-logformat))
+  - Added an option to manipulate the ULS internal logging date/time format ([see feature request](https://github.com/akamai/uls/issues/66)
   
 
 - **Minor improvements**

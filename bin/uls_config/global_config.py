@@ -55,6 +55,7 @@ log_levels_available = ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']
 log_level_default = 'WARNING'
 log_debugloglines_default = False
 log_jsonlog = False
+log_datefmt = "%Y-%m-%d %H:%M:%S%z"
 
 # INPUT Configuration
 input_rerun_retries = 3                         # Number of rerun attempts before giving up
