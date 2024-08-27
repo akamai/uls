@@ -12,12 +12,16 @@ The following tables list all available command line parameters and their corres
 
 ## Global
 
-| Parameter          | Env - Var    | Options                                         | Default | Description                                               |
-|--------------------|--------------|-------------------------------------------------|---------|-----------------------------------------------------------|
-| -h <br> --help     | n/a          | n/a                                             | None    | Display help / usage information                          |
-| -l <br> --loglevel | ULS_LOGLEVEL | 'DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL' | WARNING | Adjust the overall loglevel                               |
-| -v <br> --version  | n/a          | n/a                                             | None    | Display ULS version information (incl. CLI & OS versions) |
-| --debugloglines | ULS_DEBUGLOGLINES | 'True', 'False' | False | Should the debug log contain Loglines (useful to debug transformations) |
+| Parameter          | Env - Var           | Options                                                                                      | Default                | Description                                                                                                                                                      |
+|--------------------|---------------------|----------------------------------------------------------------------------------------------|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| -h <br> --help     | n/a                 | n/a                                                                                          | None                   | Display help / usage information                                                                                                                                 |
+| -l <br> --loglevel | ULS_LOGLEVEL        | 'DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'                                              | WARNING                | Adjust the overall loglevel                                                                                                                                      |
+| --json-log         | ULS_JSONLOG         | 'True', 'False'                                                                              | False                  | Should ULS write its own logdata in JSON format  instead of plain text output ?                                                                                  |
+| --ulslogformat     | ULS_LOGFORMAT       | 'yourlogformatstring'                                                                        | False                  | Custom logging format (ULS internal logs) see [additional features documentation](ADDITIONAL_FEATURES.md#uls-logformat) for more information -  (Default: False) |
+| --ulslogdatefmt    | ULS_LOG_DATEFORMAT  | All [STRFTIME](https://docs.python.org/3/library/time.html#time.strftime) option             | "%Y-%m-%d %H:%M:%S%z"  | djust the logging date/time format to your needs,                                                                                                                |
+| -v <br> --version  | n/a                 | n/a                                                                                          | None                   | Display ULS version information (incl. CLI & OS versions)                                                                                                        |
+| --debugloglines    | ULS_DEBUGLOGLINES   | 'True', 'False'                                                                              | False                  | Should the debug log contain Loglines (useful to debug transformations)                                                                                          |
+| --nocallhome       | ULS_NOCALLHOME      | 'True', 'False'                                                                              | False                  | Disable the ULS CallHome feature that helps the ULS developers to continue improving ULS. (enabled by default)                                                   |
 
 ## INPUT
 
@@ -79,6 +83,14 @@ The following tables list all available command line parameters and their corres
 | --autoresumepath       | ULS_AUTORESUME_PATH       | '/path/to/store/checkpoints/' | var/    | Specify the path where checkpoint files should be written to. (Trailing /)                                    |
 | --autoresumewriteafter | ULS_AUTORESUME_WRITEAFTER | <int>                         | 1000    | Specify after how many loglines a checkpoint should be written.                                               |
 
+## Prometheus
+| Parameter                             | Env - Var               | Options                   | Default   | Description                                                 |
+|---------------------------------------|-------------------------|---------------------------|-----------|-------------------------------------------------------------|
+| --prometheus                          | ULS_PROMETHEUS          | [True, False]             | False     | Enable prometheues monitoring support                       |
+| --prometheus-port <br> --promport     | ULS_PROMETHEUS_PORT     | <int>                     | 8000      | Prometheues port to listen on                               |
+| --prometheus-addr <br> --promaddr     | ULS_PROMETHEUS_ADDR     | xxx.xxx.xxx.xxx           | 127.0.0.1 | Prometheues bind address to listen on                       |
+| --prometheus-certfile <br> --promcert | ULS_PROMETHEUS_CERTFILE | '/path/to/store/promcert' | None      | Prometheues certificate file (required alongside a keyfile) |
+| --prometheus-keyfile <br>  --promkey  | ULS_PROMETHEUS_KEYFILE  | '/path/to/store/promkey'  | None      | Prometheues key file (required alongside a certfile)        |
 
 ## Customizing HTTP & TCPUDP Formatting
 

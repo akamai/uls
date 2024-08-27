@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Common global variables / constants
-__version__ = "1.7.5"
+__version__ = "1.8.0-alpha"
 __tool_name_long__ = "Akamai Unified Log Streamer"
 __tool_name_short__ = "ULS"
 
@@ -50,10 +50,12 @@ output_choices = ['TCP', 'HTTP', 'UDP', 'RAW', 'FILE']         # Definition of O
 transformation_choices = ['MCAS', 'JMESPATH']
 
 
-    # LogLevels
+    # ULS Logging & LogLevels
 log_levels_available = ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']
 log_level_default = 'WARNING'
 log_debugloglines_default = False
+log_jsonlog = False
+log_datefmt = "%Y-%m-%d %H:%M:%S%z"
 
 # INPUT Configuration
 input_rerun_retries = 3                         # Number of rerun attempts before giving up
@@ -110,3 +112,15 @@ autoresume_checkpoint_path = "var/"              # (Default) Path, where the che
 autoresume_supported_inputs = ['ETP', 'EAA', 'GC', 'SIA', 'ACC']     # Internal Var only, to adjust supported inputs
 autoresume_write_after = 1000                    # Write checkpoint only every ${autoresume_write_every} loglines
 
+# CAllHome Configuration
+callhome_enabled = "True"                           # CallHome Functionality is enabled / disabled
+callhome_url = "https://uls-beacon.akamaized.net"   # CallHome URL Target
+callhome_timeout = "2"                              # Callhome Timeout in seconds
+
+# Prometheus Monitoring basics
+prometheus_enabled = "False"                               # Do not eneable prometheues by default
+prometheus_port = 8000                                     # Default Prometheus port
+prometheus_addr = "127.0.0.1"                            # Default Prometheus bind address
+prometheus_certfile = None                                 # Prometheus Cert file
+prometheus_keyfile = None                                  # Prometheus Key file
+# prometheus_client_cafile

@@ -213,7 +213,17 @@ class UlsTransformation:
         data = json.loads(log_line.decode())
         my_output = expression.search(data)
 
-
-        return str(my_output)
+        try:
+            # Attempt to convert the variable to a JSON string
+            json_data = json.dumps(my_output)
+        except (TypeError, ValueError) as e:
+            # This block executes if a TypeError or ValueError occurs during conversion
+            aka_log.log.debug(f'{self.name} - Transformation ({self.transformation}) '
+                                f'transformation triggered but '
+                                f'final json conversion failed ... ')
+            return str(my_output)
+        else:
+            # This block executes if no exceptions are raised
+            return json_data
 
 # EOF

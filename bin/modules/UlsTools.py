@@ -23,6 +23,7 @@ import time
 
 # ULS modules
 import modules.aka_log as aka_log
+import requests
 import uls_config.global_config as uls_config
 
 
@@ -340,3 +341,14 @@ def get_install_id(install_id_file=str(root_path()) + "/var/uls_install_id"):
     return data
 
 
+def callhome(nocallhome_state: bool, input: str = "n/a", feed: str = "n/a", output: str = "n/a", position: str = "n/a"):
+    if not nocallhome_state:
+        try:
+            url = f"/{position}?version={uls_config.__version__}&input={input}&feed={feed}&output={output}&install_id={get_install_id()['install_id']}&os_platform={platform.platform()}&pyhton={sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}&container={check_container()}"
+            aka_log.log.debug(f"Sending a CallHome request containing the following data: {url}")
+            result = requests.get(uls_config.callhome_url + url, timeout=int(uls_config.callhome_timeout))
+            aka_log.log.debug(f"Callhome response code: {result.status_code}")
+        except:
+            aka_log.log.debug(f"Callhome went wrong ...")
+    else:
+        aka_log.log.debug(f"Callhome functionality has been disabled - not sending any data")

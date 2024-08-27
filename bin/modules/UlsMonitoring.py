@@ -24,7 +24,12 @@ import uls_config.global_config as uls_config
 
 class UlsMonitoring:
 
-    def __init__(self, stopEvent, product, feed, output):
+    def __init__(self, stopEvent, product, feed, output,
+                 prom_enabled: bool = False,
+                 prom_port: int = 8000,
+                 prom_host: str = '127.0.0.1',
+                 prom_certfile: str = None,
+                 prom_keyfile: str = None):
         """
         Hanlde ULS self monitoring, spills out performance counter on stdout.
 
@@ -34,11 +39,24 @@ class UlsMonitoring:
             feed (string): specific data feed being consumed by ULS
         """
 
+        # Core monitoring stuff
         self._stopEvent = stopEvent
         self._product = product
         self._feed = feed
         self._output = output
 
+        # Prometheues
+        self.prometheues_enabled = prom_enabled
+        self.promeuteheus_port = prom_port
+        self.promeuteheus_host = prom_host
+        self.promeuteheus_cert = prom_certfile
+        self.promeuteheus_key = prom_keyfile
+
+
+
+        self.prom_overall_messages = None
+        self.prom_overall_bytes = None
+        self.prom_overall_messages_ingested = None
         # Prevent other thread interact with the performance counters
         self._metricLock = threading.Lock()
 
@@ -46,6 +64,7 @@ class UlsMonitoring:
         self.monitoring_enabled = uls_config.monitoring_enabled                     # Monitoring enable Flag
         self.monitoring_interval = uls_config.monitoring_interval                    # Monitoring interval
         self._version = uls_config.__version__
+
 
         # Definitions
         self.name = "UlsMonitoring"                          # Class Human readable name
@@ -66,6 +85,42 @@ class UlsMonitoring:
             self.mon_thread.start()
         else:
             aka_log.log.debug(f"{self.name} monitoring was disabled - not starting.")
+
+        if self.prometheues_enabled:
+            aka_log.log.debug(f"{self.name} Prometheus monitoring started...")
+            self.start_prometheus(port=self.promeuteheus_port, host=self.promeuteheus_host, cert=self.promeuteheus_cert, key=self.promeuteheus_key)
+
+    def start_prometheus(self, port, host="127.0.0.1", cert=None, key=None):
+        from prometheus_client import start_http_server
+        from prometheus_client import Info, Counter, Gauge
+        from prometheus_client import REGISTRY, PROCESS_COLLECTOR, PLATFORM_COLLECTOR
+
+        # Disable unwanted collectors
+        REGISTRY.unregister(PROCESS_COLLECTOR)
+        REGISTRY.unregister(PLATFORM_COLLECTOR)
+        REGISTRY.unregister(REGISTRY._names_to_collectors['python_gc_objects_collected_total'])
+
+        # Start the Server
+        server, t = start_http_server(port=port, addr=host, certfile=cert, keyfile=key)
+        server.base_environ.clear()
+
+        # Show the version
+        version = Info('uls_version', 'The current ULS Version')
+        version.info({'version': uls_config.__version__})
+
+        uls_stream_info = Info('uls_stream_info', "The selected ULS input product")
+        uls_stream_info.info({'product': self._product, 'feed': self._feed, 'output': self._output})
+
+        starttime = Info('uls_starttime', "The time, the uls process was started")
+        starttime.info({'starttime': f'{self.init_time}'})
+
+
+
+        # Counters
+        self.prom_overall_messages = Counter('uls_overall_messages_incoming', 'Number of all handled incoming log lines')
+        self.prom_overall_bytes = Counter('uls_overall_bytes_incoming', 'Size of all handled incoming log lines')
+        self.prom_overall_messages_ingested = Counter('uls_overall_messages_ingested', 'Number of all handled outgoing log lines')
+
 
     def display(self):
         """
@@ -109,9 +164,14 @@ class UlsMonitoring:
             self.window_messages_handled = self.window_messages_handled + 1
             self.window_messages_bytes += bytes
 
+            # Also increase the prom counters
+            self.prom_overall_messages.inc()
+            self.prom_overall_bytes.inc(bytes)
+
     def increase_message_ingested(self):
         with self._metricLock:
             self.window_messages_ingested += 1
+            self.prom_overall_messages_ingested.inc()
 
 
     def get_message_count(self):
@@ -123,6 +183,7 @@ class UlsMonitoring:
 
     def _runtime(self):
         return int(time.time() - self.init_time)
+
 
 # EOF
 

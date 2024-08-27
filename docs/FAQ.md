@@ -15,6 +15,7 @@
 - [What is HTTP FORMATTYPE](#what-is-http-formattype)
 - [Error: "Capacity exceeded, too many incoming data vs. slow output"](#error-capacity-exceeded-too-many-incoming-data-vs-slow-output)
 - [Error: "Invalid timestamp" on API call](#error-invalid-timestamp-on-api-call)
+- [I do not want to send any data to Akamai](#i-do-not-want-to-send-any-data-to-akamai)
 
 ----
 ## FAQ
@@ -186,3 +187,27 @@ clientIp": "10.9.9.9",\n  "requestId": "ALC1234",\n  "requestTime": "2023-10-24T
 ```
 This error points towards a potential issue with the time configuration on the ULS host. The time of the host ULS runs on, should be synced with some NTP service(s).
 As you can see in the above example, the host timestamp is `2023-10-24 07:00:17,315` but the request timestamp (returned from the API) is more than 1 minute ahaed `"2023-10-24T07:01:40Z"`.
+
+---
+### I do not want to send any data to Akamai
+With ULS Version 1.8.0 we introduced a call home functionality that once sends data to AKAMAI upon starting ULS.  
+This data helps us continue the ULS development in the future. So if possible, please allow ULS to send this data.  
+We are not sending any sensitive or PII data. The Debug logs show the exact data that has been sent.
+
+The data includes:
+- current ULS version
+- ULS input
+- ULS feed
+- ULS output
+- ULS installation ID
+- OS platform type & version
+- Python version
+- container status
+
+Example data:
+```curl
+/uls_start?version=1.8.0-alpha&input=EAA&feed=ACCESS&output=RAW&install_id=OU5UR0RHLTIwMjIxMTI4LTEuNi4y&os_platform=macOS-14.5-arm64-arm-64bit&pyhton=3.12.4&container=False
+```
+
+If you still want to disable the CallHome functionality within ULS,  
+you can do so by setting the `--nocallhome` command line parameter OR by using the ENV VAR: `export ULS_NOCALLHOME=TRUE`

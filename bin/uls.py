@@ -61,7 +61,7 @@ def main():
     uls_args = ArgsParser.init()
 
     # Load the LOG system
-    aka_log.init(uls_args.loglevel, uls_config.__tool_name_short__)
+    aka_log.init(uls_args.loglevel, uls_config.__tool_name_short__, jsonlogs=uls_args.jsonlog, logformat=uls_args.logformat, logdatefmt=uls_args.logdatefmt)
 
     # Determine root directory
     root_path = str(UlsTools.root_path())
@@ -94,7 +94,12 @@ def main():
     my_monitor = UlsMonitoring.UlsMonitoring(stopEvent=stopEvent,
                                              product=uls_args.input,
                                              feed=uls_args.feed,
-                                             output=uls_args.output)
+                                             output=uls_args.output,
+                                             prom_enabled=uls_args.prometheus_enabled,
+                                             prom_port=uls_args.prometheus_port,
+                                             prom_host=uls_args.prometheus_addr,
+                                             prom_certfile=uls_args.prometheus_certfile,
+                                             prom_keyfile=uls_args.prometheus_keyfile)
     my_monitor.start()
 
     # Connect to an Input Handler UlsInputCli
@@ -170,11 +175,17 @@ def main():
     # Connect the output handler
     my_output.connect()
 
+
+    # Send CallHome Request, if not opted_out
+    UlsTools.callhome(nocallhome_state=uls_args.nocallhome, position="uls_start", input=uls_args.input, feed=uls_args.feed, output=uls_args.output)
+
     # New ULS/1.5: the input module is ingesting messages
     # into a thread safe queue. The function call will immediately
     # return
     event_q = queue.Queue(uls_args.input_queue_size)
     my_input.ingest(stopEvent, event_q, my_monitor)
+
+
 
     # Now we are back to the main thread to process the message
     while not stopEvent.is_set():

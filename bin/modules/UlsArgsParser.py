@@ -30,6 +30,31 @@ def init():
                         default=(os.environ.get('ULS_LOGLEVEL') or uls_config.log_level_default),
                         choices=uls_config.log_levels_available,
                         help=f'Adjust the loglevel Default: {uls_config.log_level_default}')
+
+    parser.add_argument('--json-log',
+                        action='store',
+                        dest='jsonlog',
+                        type=bool,
+                        nargs='?',
+                        default=(os.environ.get('ULS_JSONLOG') or uls_config.log_jsonlog),
+                        const=True,
+                        help=f"Should ULS write its own logdata in JSON format  instead of plain text output ? (Default: {uls_config.log_jsonlog})")
+
+    parser.add_argument('--ulslogformat',
+                        action='store',
+                        dest='logformat',
+                        type=str,
+                        default=(os.environ.get('ULS_LOGFORMAT') or False),
+                        help=f"Custom logging format (ULS internal logs) see additional features documentation for more information -  (Default: False)")
+
+    parser.add_argument('--ulslogdatefmt',
+                        action='store',
+                        dest='logdatefmt',
+                        type=str,
+                        default=(os.environ.get('ULS_LOG_DATEFORMAT') or uls_config.log_datefmt),
+                        help=f"Adjust the logging date/time format to your needs, (Default: {uls_config.log_datefmt.replace("%", "%%")})")
+                        # Added double %% to have argsparser display proper string as it tries do to % replacement :D
+
     # put loglines into debug log
     parser.add_argument('--debugloglines',
                         action='store',
@@ -47,6 +72,15 @@ def init():
                         nargs='?',
                         const=True,
                         help=f'Display {uls_config.__tool_name_short__} version and operational information')
+
+    parser.add_argument('--nocallhome',
+                        action='store',
+                        type=bool,
+                        default=os.environ.get('ULS_NOCALLHOME') or not uls_config.callhome_enabled,
+                        nargs='?',
+                        const=True,
+                        help=f"Disable the ULS CallHome feature that helps the ULS developers to continue improving ULS. Default: {not uls_config.callhome_enabled}")
+
 
     # ----------------------
     # Input GROUP
@@ -347,6 +381,47 @@ def init():
                               default=(os.environ.get('ULS_AUTORESUME_WRITEAFTER') or uls_config.autoresume_write_after),
                               help=f'Specify after how many loglines a checkpoint should be written [Default: {uls_config.autoresume_write_after}]')
 
+
+    #-------------------------
+    prometheus_group = parser.add_argument_group(title="Prometheus",
+                                             description="Define Prometheus Monitoring Settings")
+    # Prometheues switch
+    prometheus_group.add_argument('--prometheus',
+                        action='store',
+                        type=bool,
+                        dest='prometheus_enabled',
+                        default=(os.environ.get('ULS_PROMETHEUS') or uls_config.prometheus_enabled),
+                        nargs='?',
+                        const=True,
+                        help=f'Enable prometheues monitoring support - Default: {uls_config.prometheus_enabled}')
+
+    prometheus_group.add_argument('--promport', '--prometheus-port',
+                        action='store',
+                        dest='prometheus_port',
+                        type=int,
+                        default=(os.environ.get('ULS_PROMETHEUS_PORT') or uls_config.prometheus_port),
+                        help=f'Prometheues port to listen on [Default: {uls_config.prometheus_port}]')
+
+    prometheus_group.add_argument('--promaddr', '--prometheus-addr',
+                        action='store',
+                        dest='prometheus_addr',
+                        type=str,
+                        default=(os.environ.get('ULS_PROMETHEUS_ADDR') or uls_config.prometheus_addr),
+                        help=f'Prometheues bind address to listen on [Default: {uls_config.prometheus_addr}]')
+
+    prometheus_group.add_argument('--promcert', '--prometheus-certfile',
+                        action='store',
+                        dest='prometheus_certfile',
+                        type=str,
+                        default=(os.environ.get('ULS_PROMETHEUS_CERTFILE') or uls_config.prometheus_certfile),
+                        help=f'Prometheues certificate file (required alongside a keyfile) [Default: {uls_config.prometheus_certfile}]')
+
+    prometheus_group.add_argument('--promkey', '--prometheus-keyfile',
+                        action='store',
+                        dest='prometheus_keyfile',
+                        type=str,
+                        default=(os.environ.get('ULS_PROMETHEUS_KEYFILE') or uls_config.prometheus_keyfile),
+                        help=f'Prometheues key file (required alongside a certfile) [Default: {uls_config.prometheus_keyfile}]')
     return parser.parse_args()
 
 

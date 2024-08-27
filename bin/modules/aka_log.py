@@ -13,13 +13,25 @@
 # limitations under the License.
 
 import logging
+import uls_config.global_config as uls_config
 
-
-def init(loglevel='WARNING', loggername=None):
+def init(loglevel='WARNING', loggername=None, jsonlogs: bool = False, logformat=None, logdatefmt=uls_config.log_datefmt):
     global log
     log = logging.getLogger(loggername)
     console_handler = logging.StreamHandler()
-    formatter = logging.Formatter('%(asctime)s %(name)s %(levelname).1s %(message)s')
+
+
+    if jsonlogs:
+        if not logformat:
+            formatter = logging.Formatter('{"timestamp": "%(asctime)s", "log_level": "%(levelname)s", "component": "%(name)s", "message": "%(message)s"}', datefmt=logdatefmt)
+        else:
+            formatter = logging.Formatter(logformat, datefmt=logdatefmt)
+    else:
+        if not logformat:
+            formatter = logging.Formatter('%(asctime)s %(name)s %(levelname)s %(message)s', datefmt=logdatefmt)
+        else:
+            formatter = logging.Formatter(logformat, datefmt=logdatefmt)
+
     console_handler.setFormatter(formatter)
     log.addHandler(console_handler)
     log.setLevel(loglevel)
