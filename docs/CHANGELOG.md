@@ -3,8 +3,8 @@
 ## v1.8.0
 |||
 |---|---|
-|Date|2024-XX-XX
-|Kind| MINOR release
+|Date|2024-08-27
+|Kind| MAJOR release
 |Author|mschiess@akamai.com
 
 - **Features**
