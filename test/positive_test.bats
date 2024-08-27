@@ -287,6 +287,11 @@ load 'bats/bats-assert/load.bash'
    assert_output --partial '"log_level": "DEBUG", "component": "ULS", "message": "UlsMonitoring monitoring thread started...", "ulsrocks": "yes"'
 }
 
+## Prometheus
+@test "PROMETHEUS - starting test" {
+   run timeout 5 ${uls_bin} --section ${uls_section} --input etp --feed dns --output raw --loglevel debug --prometheus
+   assert_output --partial 'DEBUG UlsMonitoring Prometheus monitoring started...'
+}
 
 ## HELM LINT
 @test "LINT the HELM CHART" {
