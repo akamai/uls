@@ -276,6 +276,18 @@ load 'bats/bats-assert/load.bash'
     unset BATS_VAR
 }
 
+## JSON LOGGING
+@test "JSON Logging test - unmodified logline" {
+   run timeout 5 ${uls_bin} --section ${uls_section} --input etp --feed dns --output raw --loglevel debug --json-log
+   assert_output --partial '"log_level": "DEBUG", "component": "ULS", "message": "UlsMonitoring monitoring thread started..."'
+}
+
+@test "JSON Logging test - modified logline" {
+   run timeout 5 ${uls_bin} --section ${uls_section} --input etp --feed dns --output raw --loglevel debug --json-log --ulslogformat '{"timestamp": "%(asctime)s", "log_level": "%(levelname)s", "component": "%(name)s", "message": "%(message)s", "ulsrocks": "yes"}'
+   assert_output --partial '"log_level": "DEBUG", "component": "ULS", "message": "UlsMonitoring monitoring thread started...", "ulsrocks": "yes"'
+}
+
+
 ## HELM LINT
 @test "LINT the HELM CHART" {
     run helm lint docs/examples/kubernetes/helm/akamai-uls --strict
