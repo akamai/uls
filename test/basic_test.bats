@@ -40,7 +40,7 @@ current_version=$(cat docs/CHANGELOG.md | grep "##" | head -n 1 | sed 's/.* v//'
 
 @test "uls.py --loglevel debug" {
 	run $uls_bin --loglevel debug
-	assert_output --partial "ULS D Logging initialized"
+	assert_output --partial "ULS DEBUG Logging initialized"
 	[ "$status" -eq 1 ]
 }
 
