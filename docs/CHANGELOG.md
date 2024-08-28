@@ -1,10 +1,20 @@
 # Version History
 
+## v1.8.1
+|||
+|---|---|
+|Date|2024-08-28
+|Kind| MINOR release
+|Author|mschiess@akamai.com
+
+- **Bugfixes**
+  - Merged a missing fix from the development branch
+
 ## v1.8.0
 |||
 |---|---|
-|Date|2024-XX-XX
-|Kind| MINOR release
+|Date|2024-08-27
+|Kind| MAJOR release
 |Author|mschiess@akamai.com
 
 - **Features**

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Common global variables / constants
-__version__ = "1.8.0-alpha"
+__version__ = "1.8.0"
 __tool_name_long__ = "Akamai Unified Log Streamer"
 __tool_name_short__ = "ULS"
 
@@ -118,7 +118,7 @@ callhome_url = "https://uls-beacon.akamaized.net"   # CallHome URL Target
 callhome_timeout = "2"                              # Callhome Timeout in seconds
 
 # Prometheus Monitoring basics
-prometheus_enabled = "False"                               # Do not eneable prometheues by default
+prometheus_enabled = False                               # Do not eneable prometheues by default
 prometheus_port = 8000                                     # Default Prometheus port
 prometheus_addr = "127.0.0.1"                            # Default Prometheus bind address
 prometheus_certfile = None                                 # Prometheus Cert file

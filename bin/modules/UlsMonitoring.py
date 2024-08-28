@@ -165,13 +165,16 @@ class UlsMonitoring:
             self.window_messages_bytes += bytes
 
             # Also increase the prom counters
-            self.prom_overall_messages.inc()
-            self.prom_overall_bytes.inc(bytes)
+            if self.prometheues_enabled:
+                self.prom_overall_messages.inc()
+                self.prom_overall_bytes.inc(bytes)
 
     def increase_message_ingested(self):
         with self._metricLock:
             self.window_messages_ingested += 1
-            self.prom_overall_messages_ingested.inc()
+
+            if self.prometheues_enabled:
+                self.prom_overall_messages_ingested.inc()
 
 
     def get_message_count(self):
