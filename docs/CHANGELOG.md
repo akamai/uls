@@ -4,7 +4,7 @@
 |||
 |---|---|
 |Date|2024-08-27
-|Kind| MINOR release
+|Kind| Major release
 |Author|mschiess@akamai.com
 
 - **Features**
