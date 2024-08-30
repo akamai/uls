@@ -28,14 +28,17 @@ To run the operations in this documentation, make sure you have the following to
 - python >= `3.9` (including pip >= `22.2`)
 - Akamai API credentials file - `.edgerc` (see [API Credentials](AKAMAI_API_CREDENTIALS.md) for creation instructions)
 - Understanding of available [ULS CLI PARAMETERS](ARGUMENTS_ENV_VARS.md)
-- Access to `github.com`, `pypi.org`, `pythonhosted.org` and `pypi.python.org` within your firewall
+- Access to `github.com`, `uls-beacon.akamaized.net`, `pypi.org`, `pythonhosted.org`, `pypi.python.org` as well as your Akamai API hostname (see edgerc) within your firewall
+
+The above apploes as well for Linux and Windows OS.
 
 ## Installation
 
 To install ULS, you can choose 2 different ways: automated or manual.
 
 ### Automated Installation
-The automated installation actually does everything, the described below in the manual installation but saves you from the copying the blocks.
+The automated installation actually does everything, the described below in the manual installation but saves you from the copying the blocks.  
+It will likely only work on "Linux" based operating systems. 
 
 ```bash
 # Got to your preferred installation folder (it will install to a subdirectory ./uls
@@ -45,6 +48,7 @@ bash get-uls.sh
 ```
 
 ### Manual Installation
+Those steps are the same on windows and linux based operating systems. Please make sure you have properly installed the above [requirements](#pre-requisites) according to your OS in order to follow the next steps. 
 
 #### Clone ULS repository
 
