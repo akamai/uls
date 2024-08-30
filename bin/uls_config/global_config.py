@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-
+import sys
 # Common global variables / constants
-__version__ = "1.8.1"
+__version__ = "1.8.2-alpha"
 __tool_name_long__ = "Akamai Unified Log Streamer"
 __tool_name_short__ = "ULS"
 
 
 # Generic config
-bin_python = "python3"                          # Python binary to use (use OS standard when not using path)
+bin_python = sys.executable                     # Python binary to use (use OS standard when not using path)
 output_line_breaker = '\r\n'                    # Line breaking type (to split messages when streaming data)
 main_wait_default = 0.01                        # Default wait time within the main loop
 main_wait_max = 60                              # Maximum wait time for the main loop

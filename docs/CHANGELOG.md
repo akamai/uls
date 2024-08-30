@@ -1,21 +1,31 @@
 # Version History
 
+## v1.8.2
+|        |                     |
+|--------|---------------------|
+| Date   | 2024-XX-XX          |
+| Kind   | MINOR release       |
+| Author | mschiess@akamai.com |
+
+- **Features**
+  - Enabled Windows Support (natively run in python 3.12+ on Windows)
+
 ## v1.8.1
-|||
-|---|---|
-|Date|2024-08-28
-|Kind| MINOR release
-|Author|mschiess@akamai.com
+|        |                     |
+|--------|---------------------|
+| Date   | 2024-08-28          |
+| Kind   | MINOR release       |     
+| Author | mschiess@akamai.com | 
 
 - **Bugfixes**
   - Merged a missing fix from the development branch
 
 ## v1.8.0
-|||
-|---|---|
-|Date|2024-08-27
-|Kind| MAJOR release
-|Author|mschiess@akamai.com
+|        |                     |
+|--------|---------------------|
+| Date   | 2024-08-27          |
+| Kind   | MAJOR release       |
+| Author | mschiess@akamai.com |
 
 - **Features**
   - Prometheus monitoring support added to allow smoother monitoring into third party (prometheus compatible) monitoring sytems. More information [here](MONITORING.md#prometheus)
@@ -36,11 +46,11 @@
 ---
 
 ## v1.7.5
-|||
-|---|---|
-|Date|2024-07-16
-|Kind| MINOR release
-|Author|mschiess@akamai.com
+|        |                     |
+|--------|---------------------|
+| Date   | 2024-07-16          |
+| Kind   | MINOR release       |
+| Author | mschiess@akamai.com |
 
 - **Minor improvements**
   - Updated Command Line usage docs (ACC logs installation)
@@ -51,11 +61,11 @@
   
 ---
 ## v1.7.4
-|||
-|---|---|
-|Date|2024-06-17
-|Kind| MINOR release
-|Author|mschiess@akamai.com, androcho@akamai.com
+|        |                                          |
+|--------|------------------------------------------|
+| Date   | 2024-06-17                               |
+| Kind   | MINOR release                            |
+| Author | mschiess@akamai.com, androcho@akamai.com |
 - **Features**
   - New Input & Feed available - Akamai Control Center Events
 
@@ -70,11 +80,11 @@
 ---
 
 ## v1.7.3
-|||
-|---|---|
-|Date|2024-04-02
-|Kind| MINOR release
-|Author|mschiess@akamai.com, androcho@akamai.com
+|        |                                          |
+|--------|------------------------------------------|
+| Date   | 2024-04-02                               |
+| Kind   | MINOR release                            |
+| Author | mschiess@akamai.com, androcho@akamai.com |
 
 - **Features**
   - introduced "audit logs" for Guardicore
@@ -91,11 +101,11 @@
 ---
 
 ## v1.7.2
-|||
-|---|---|
-|Date|2024-02-08
-|Kind| MINOR release
-|Author|mschiess@akamai.com
+|        |                     |
+|--------|---------------------|
+| Date   | 2024-02-08          |
+| Kind   | MINOR release       |
+| Author | mschiess@akamai.com |
 - **Minor improvements** 
   - Introduced **Secure Internet Access** (formerly ETP) as INPUT specification (as an alias to ETP)  
   - added "ETP NETCON" to the autoresume feature
@@ -114,11 +124,11 @@
 ---
 
 ## v1.7.1
-|||
-|---|---|
-|Date|2023-10-11
-|Kind| BUGFIX release
-|Author|mschiess@akamai.com
+|        |                     |
+|--------|---------------------|
+| Date   | 2023-10-11          |
+| Kind   | BUGFIX release      |
+| Author | mschiess@akamai.com |
 - **BUGFIX**
   - Fixed a bug in the ETP & EAA CLI that prevented ULS to run properly in docker environment
     - [docker] bumped CLI-EAA to "0.6.3"
@@ -128,11 +138,11 @@
 ---
 
 ## v1.7.0
-|||
-|---|---|
-|Date|2023-10-10
-|Kind| FEATURE release
-|Author|mschiess@akamai.com, androcho@akamai.com
+|        |                                          |
+|--------|------------------------------------------|
+| Date   | 2023-10-10                               |
+| Kind   | FEATURE release                          |
+| Author | mschiess@akamai.com, androcho@akamai.com |
 - **Features**
   - Allowing the configuration of the HTTPFORMATTYPE, which controls the building of payloads for aggregated HTTP requests (click [here](FAQ.md#what-is-http-formattype) for additional information)
   - Allow adjustment of the "INPUT QUEUE SIZE" threshold (--inputqueuesize) in order to handle huge API pages and fast API output
@@ -150,11 +160,11 @@
 ---
 
 ## v1.6.6
-|||
-|---|---|
-|Date|2023-08-23
-|Kind| Minor release
-|Author|mschiess@akamai.com, androcho@akamai.com
+|        |                                          |
+|--------|------------------------------------------|
+| Date   | 2023-08-23                               |
+| Kind   | Minor release                            |
+| Author | mschiess@akamai.com, androcho@akamai.com |
 - **Features**
   - Added '--httpliveness' to disable HTTP(S) OPTIONS request for liveness checking
   - Added new feed for ETP: Network traffic connections details (netcon) [Requires CLI-ETP >= 0.4.2]
@@ -168,22 +178,22 @@
 ---
 
 ## v1.6.5
-|||
-|---|---|
-|Date|2023-07-28
-|Kind| Minor release
-|Author|mschiess@akamai.com
+|        |                     |
+|--------|---------------------|
+| Date   | 2023-07-28          |
+| Kind   | Minor release       |
+| Author | mschiess@akamai.com |
 - **Minor improvements**
   - Allow manipulation of the [TCP & UDP output format](ARGUMENTS_ENV_VARS.md#list-of-parameters--environmental-variables) (--tcpudpformat / ULS_TCPUDP_FORMAT).
   - [docker] bumped source image to 3.11.4-slim-bookworm (new debian release)
 ---
 
 ## v1.6.4
-|||
-|---|---|
-|Date|2023-05-02
-|Kind| Minor release
-|Author|mschiess@akamai.com
+|        |                     |
+|--------|---------------------|
+| Date   | 2023-05-02          |
+| Kind   | Minor release       |
+| Author | mschiess@akamai.com |
 - **Minor improvements**
   - Updated docs to clarify the required timestamp format (undefined --> epoch time in seconds)
   - [docker] bumped CLI-EAA version to "0.5.7"
@@ -197,11 +207,11 @@
 
 ## v1.6.3
 
-|||
-|---|---|
-|Date|2022-11-29
-|Kind| Minor release
-|Author|mschiess@akamai.com
+|        |                     |
+|--------|---------------------|
+| Date   | 2022-11-29          |
+| Kind   | Minor release       |
+| Author | mschiess@akamai.com |
 
 - **Minor improvements**
   - Introduced '--httpaggregate' / 'ULS_HTTP_AGGREGATE' option to allow easier management of the HTTP(S) aggregation function 
@@ -216,11 +226,11 @@
 
 ## v1.6.2
 
-|||
-|---|---|
-|Date|2022-10
-|Kind| Minor release
-|Author|mschiess@akamai.com
+|        |                     |
+|--------|---------------------|
+| Date   | 2022-10             |
+| Kind   | Minor release       |
+| Author | mschiess@akamai.com |
 
 - **Minor improvements**
   - Bumped EAA CLI to version 0.5.1 (additional SIEM fields - EAA release 2022.02)
@@ -233,11 +243,11 @@
 
 ## v1.6.1
 
-|||
-|---|---|
-|Date|2022-10
-|Kind| BUGFIX release
-|Author|mschiess@akamai.com
+|        |                     |
+|--------|---------------------|
+| Date   | 2022-10             |
+| Kind   | BUGFIX release      |
+| Author | mschiess@akamai.com |
 
 - **Minor improvements** 
   - Dropped CLI installation verification for CLI's not used by ULS
@@ -248,11 +258,11 @@
 
 ## v1.6.0
 
-|||
-|---|---|
-|Date|2022-09
-|Kind| FEATURE release
-|Author|mschiess@akamai.com
+|        |                     |
+|--------|---------------------|
+| Date   | 2022-09             |
+| Kind   | FEATURE release     |
+| Author | mschiess@akamai.com |
 - **Features**
   - Support for Akamai Guardicore Segmentation (experimental)
     - Available feeds: netlog, incident, agent, system  
@@ -273,11 +283,11 @@
 
 ## v1.5.1
 
-|||
-|---|---|
-|Date|2022-08
-|Kind| BUGFIX release
-|Author|androcho@akamai.com
+|        |                     |
+|--------|---------------------|
+| Date   | 2022-08             |
+| Kind   | BUGFIX release      |
+| Author | androcho@akamai.com |
 
 - **Bugfix**
   - Use cli-eaa version 0.5.0.2 fixing a timezone issue on the EAA ADMIN feed
@@ -286,11 +296,11 @@
 
 ## v1.5.0
 
-|||
-|---|---|
-|Date|2022-07
-|Kind| FEATURE release
-|Author|mschiess@akamai.com, androcho@akamai.com
+|        |                                          |
+|--------|------------------------------------------|
+| Date   | 2022-07                                  |
+| Kind   | FEATURE release                          |
+| Author | mschiess@akamai.com, androcho@akamai.com |
 
 - **Performance improvements**
   - Rework to handle large number of events (100k+ per minute) and fail safe 
@@ -310,11 +320,11 @@
 ---
 
 ## v1.4.0
-|||
-|---|---|
-|Date|2022-05-20
-|Kind| FEATURE release
-|Author|mschiess@akamai.com, androcho@akamai.com
+|        |                                          |
+|--------|------------------------------------------|
+| Date   | 2022-05-20                               |
+| Kind   | FEATURE release                          |
+| Author | mschiess@akamai.com, androcho@akamai.com |
 
 - **Features**
   - Device Inventory (DEVINV) feed added for EAA (requires eaa-cli >= 0.4.9.1)
@@ -329,22 +339,22 @@
 ---
 
 ## v1.3.5
-|||
-|---|---|
-|Date|2022-04-05
-|Kind| Bugfix release
-|Author|mschiess@akamai.com, androcho@akamai.com
+|        |                                          |
+|--------|------------------------------------------|
+| Date   | 2022-04-05                               |
+| Kind   | Bugfix release                           |
+| Author | mschiess@akamai.com, androcho@akamai.com |
 - **Minor improvements**
   - More QRADAR log source type definitions (thx to bitonio)
   - Added docker-compose ETP - Tenant example
 ---
 
 ## v1.3.4
-|||
-|---|---|
-|Date|2022-03-08
-|Kind| Bugfix release
-|Author|mschiess@akamai.comm androcho@akamai.com
+|        |                                          |
+|--------|------------------------------------------|
+| Date   | 2022-03-08                               |
+| Kind   | Bugfix release                           |
+| Author | mschiess@akamai.comm androcho@akamai.com |
 - **Minor improvements**
   - Added QRADAR log source type definitions (thx to bitonio)
   - Added SUMO Logic (thx to huskar20 for the contribution)
@@ -354,11 +364,11 @@
 
 
 ## v1.3.3
-|||
-|---|---|
-|Date|2022-02-28
-|Kind| Bugfix release
-|Author|mschiess@akamai.com
+|        |                     |
+|--------|---------------------|
+| Date   | 2022-02-28          |
+| Kind   | Bugfix release      |
+| Author | mschiess@akamai.com |
 - **Bugfix**
   - Adopted to new MFA CLI Version (only single feed "EVENT" available anymore)
   - Amended new dates to the file headers
@@ -366,11 +376,11 @@
 ---
 
 ## v1.3.2
-|||
-|---|---|
-|Date|2022-02-10
-|Kind| Bugfix release
-|Author|mschiess@akamai.com
+|        |                     |
+|--------|---------------------|
+| Date   | 2022-02-10          |
+| Kind   | Bugfix release      |
+| Author | mschiess@akamai.com |
 - **Features**
   - Kubernetes deployment example / Helm charts added ([start here](KUBERNETES_USAGE.md))  
   
@@ -391,22 +401,22 @@
 
 
 ## v1.3.1
-|||
-|---|---|
-|Date|2021-12-20
-|Kind| Bugfix release
-|Author|mschiess@akamai.com
+|        |                     |
+|--------|---------------------|
+| Date   | 2021-12-20          |
+| Kind   | Bugfix release      |
+| Author | mschiess@akamai.com |
 - **Bugfixes**
   - fixed a checkpoint issue when using ETP / THREAD 
   - some doc fixes
 ---
 
 ## v1.3.0
-|||
-|---|---|
-|Date|2021-12-17
-|Kind| Feature & Bugfix release
-|Author|mschiess@akamai.com
+|        |                          |
+|--------|--------------------------|
+| Date   | 2021-12-17               |
+| Kind   | Feature & Bugfix release |
+| Author | mschiess@akamai.com      |
 - **Features**
   - [internal] Added automated test scripts to improve continuous release quality
   - [AUTO-RESUME feature](ADDITIONAL_FEATURES.md#autoresume--resume) enables ULS to automatically continue operation starting from the last saved checkpoint.
@@ -428,11 +438,11 @@
 ---
 
 ## v1.2.0
-|||
-|---|---|
-|Date|2021-11-02
-|Kind| Feature & Bugfix release
-|Author|mschiess@akamai.com, androcho@akamai.com
+|        |                                          |
+|--------|------------------------------------------|
+| Date   | 2021-11-02                               |
+| Kind   | Feature & Bugfix release                 |
+| Author | mschiess@akamai.com, androcho@akamai.com |
 - **Features**
   - [Transformation Support for output format transformation ](TRANSFORMATIONS.md)(additional log formats and integrations) introduced
   - [MCAS transformation](TRANSFORMATIONS.md#microsoft-cloud-application-security-mcas): Microsoft Cloud Application Security
@@ -457,11 +467,11 @@
 ---
   
 ## v1.1.0
-|||
-|---|---|
-|Date|2021-08-18
-|Kind|Bugfix / Feature
-|Author|mschiess@akamai.com
+|        |                     |
+|--------|---------------------|
+| Date   | 2021-08-18          |
+| Kind   | Bugfix / Feature    |
+| Author | mschiess@akamai.com |
 - **Features**
   - Added **DNS** and **PROXY** feeds to ETP Input (<3 Sara)
 - **Minor improvements**
@@ -475,11 +485,11 @@
 ---
 
 ## v1.0.0
-|||
-|---|---|
-|Date|2021-08-10
-|Kind|Bugfix / Feature
-|Author|mschiess@akamai.com, androcho@akamai.com
+|        |                                          |
+|--------|------------------------------------------|
+| Date   | 2021-08-10                               |
+| Kind   | Bugfix / Feature                         |
+| Author | mschiess@akamai.com, androcho@akamai.com |
 - **Minor improvements**
   - EdgeRC file check (preflight) and "~" expansion to solve some common issues
   - fixed some typos in the "docker-compose" file
@@ -490,11 +500,11 @@
 ---
 
 ## v0.9.0
-|||
-|---|---|
-|Date|2021-07-26-2021
-|Kind|Bugfix / Feature
-|Author|mschiess@akamai.com, androcho@akamai.com
+|        |                                          |
+|--------|------------------------------------------|
+| Date   | 2021-07-26-2021                          |
+| Kind   | Bugfix / Feature                         |
+| Author | mschiess@akamai.com, androcho@akamai.com |
 - Minor improvements 
   - fixed some typos / instructions
   - bumped EAA version to 0.4.1
@@ -509,11 +519,11 @@
 ---  
 
 ## v0.0.4
-|||
-|---|---|
-|Date|2021-06-17
-|Kind|Bugfix / Feature
-|Author|mschiess@akamai.com
+|        |                     |
+|--------|---------------------|
+| Date   | 2021-06-17          |
+| Kind   | Bugfix / Feature    |
+| Author | mschiess@akamai.com |
 - Minor improvements 
   - Wait_time and wait_max shifted to config
   - added -f flag as alternative to --flag
@@ -526,11 +536,11 @@
 ---
 
 ## v0.0.3
-|||
-|---|---|
-|Date|2021-06-15
-|Kind|Bugfix / Feature
-|Author|mschiess@akamai.com <br> androcho@akamai.com
+|        |                                              |
+|--------|----------------------------------------------|
+| Date   | 2021-06-15                                   |
+| Kind   | Bugfix / Feature                             |
+| Author | mschiess@akamai.com <br> androcho@akamai.com |
 - introduced line breaker variable for output
 - fixed a bug in the "poll" handling
 - fixed a bug that caused Popen PIPE to hang in certain circumstances
@@ -539,22 +549,22 @@
 ---
 
 ## v0.0.2
-|||
-|---|---|
-|Date|2021-06-10
-|Kind|Bugfix
-|Author|mschiess@akamai.com <br> androcho@akamai.com
+|        |                                              |
+|--------|----------------------------------------------|
+| Date   | 2021-06-10                                   |
+| Kind   | Bugfix                                       |
+| Author | mschiess@akamai.com <br> androcho@akamai.com |
 - fixed monitoring output bug in docker-compose
 - fixed bug in Dockerfile that prevented development builds
 - fixed a bug in EAA CLI handler
 ---
 
 ## v0.0.1 (Initial Commit)
-|version|v0.0.1|
-|---|---|
-|Date|2021-06-09
-|Kind|Initial Commit
-|Author|mschiess@akamai.com <br> androcho@akamai.com
+| version | v0.0.1                                       |
+|---------|----------------------------------------------|
+| Date    | 2021-06-09                                   |
+| Kind    | Initial Commit                               |
+| Author  | mschiess@akamai.com <br> androcho@akamai.com |
 - INPUT: EAA, ETP, MFA (based on CLI's)
 - OUTPUT: HTTP, TCP, UDP
 - Docker & docker-compose examples
