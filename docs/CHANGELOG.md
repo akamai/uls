@@ -9,6 +9,10 @@
 
 - **Features**
   - Enabled Windows Support (natively run in python 3.12+ on Windows)
+  
+
+- **Minor improvements**
+  - - [docker] bumped CLI-ETP version to 0.4.8 (future api support fix)
 
 ## v1.8.1
 |        |                     |
