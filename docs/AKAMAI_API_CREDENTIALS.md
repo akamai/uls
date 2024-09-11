@@ -145,7 +145,7 @@ Guardicore is using the portal users for API access. Therefore it is recommended
 - Go to Administration
 - Select "Users" in the left navigation tree
 - Click the "Create User" button
-- Enter a username and a password, select "Guest" as permission scheme
+- Enter a username and a password, select "Support" as permission scheme
 - Confirm by clicking the SAVE button
 - Now logout and login with the newly created user and follow tha password change procedure
 - Note down your guardicore Adminsitration (=API) url without https

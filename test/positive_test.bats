@@ -31,7 +31,7 @@ if [ "$mocked_edgerc"=="FALSE" ] ; then
   etp_assert="configId"
   gc_assert="flow_id"
   linode_assert=""
-  jmespath_assert="['"
+  jmespath_assert='["'
 else
   # TESTING EDGERC FILE & section
   uls_edgerc=test/_mocked_edgerc

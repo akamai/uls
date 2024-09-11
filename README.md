@@ -11,7 +11,8 @@ The Unified Log Streamer (ULS) is designed to simplify SIEM integrations for Aka
 Thanks to its modular design, ULS allows the connection of many SIEM solutions out-of-the-box.  
 ULS can send data into any SIEM that supports either file, TCP, UDP or HTTP ingestion.  
 
-It can be run directly as Python code, as a provided Docker container,  through `docker compose` scripts or through helm within kubernetes.
+ULS can be run directly as Python code, as a Docker container,  through `docker compose` scripts or through helm within kubernetes.  
+Running ULS on Windows (python) is also supported (but not extensively tested, yet).
 
 ![ULS docker compose usage](docs/images/uls_docker-compose_complex_example.png)
 

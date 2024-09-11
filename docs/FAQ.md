@@ -8,7 +8,6 @@
 - [What environmental variables (ENV VARS) are available](#what-environmental-variables-env-vars-are-available-#)
 - [--inputproxy <proxy> does not work as expected](#--inputproxy-proxy-does-not-work-as-expected)
 - [Logs are not showing up in my SIEM](#logs-are-not-showing-up-in-siem)
-- [ULS on Windows error: "[WinError 2] The system cannot find the file specified"](#uls-on-windows-error-winerror-2-the-system-cannot-find-the-file-specified)
 - [ULS does not start due to missing field in config](#uls-does-not-start-due-to-missing-field-in-config)
 - [ULS throws TLS an error when connecting towards Guardicore API (--input GC)](#uls-throws-tls-an-error-when-connecting-towards-guardicore-api---input-gc)
 - [WHY JMESPATH and not JSONPATH](#why-jmespath-and-not-jsonpath)
@@ -16,6 +15,8 @@
 - [Error: "Capacity exceeded, too many incoming data vs. slow output"](#error-capacity-exceeded-too-many-incoming-data-vs-slow-output)
 - [Error: "Invalid timestamp" on API call](#error-invalid-timestamp-on-api-call)
 - [I do not want to send any data to Akamai](#i-do-not-want-to-send-any-data-to-akamai)
+- [Can i run ULS on Windows Operating Systems](#can-i-run-uls-on-windows-operating-systems)
+- [ULS on Windows error: "[WinError 2] The system cannot find the file specified"](#uls-on-windows-error-winerror-2-the-system-cannot-find-the-file-specified)
 
 ----
 ## FAQ
@@ -70,39 +71,6 @@ Those can also be added to the .evn file when using docker / docker-compose.
 - Double check for sanity reasons, that no (additional) filters wihtin your SIEM have been applied
 Some excellent troubleshooting guidance from SPLUNK (but also applies to other SIEM as well) can be found [here](https://docs.splunk.com/Documentation/Splunk/6.4.1/Troubleshooting/Cantfinddata)
 
----
-### ULS on Windows error: "[WinError 2] The system cannot find the file specified"
-ULS requires the OS to provide a python3 executable. The python installation on Windows somehow (unlike other OS) just installs a "python" executable.  
-Luckily this is something that can get sorted easily and in multiple different ways (just pick the one that suites you best):
-
-1) **Copy the binary (recommended)**  
-Go to your python directory on Windows e.g. `C:\Users\Administrator\AppData\Local\Programs\Python\Python310` or `C:\Program Files\Python\Python310`.  
-Now copy the `python.exe` executable to  `python3.exe` within the same folder.  
-
-  
-2) **Create a powershell alias (temproary only)**  
-If you are using powershell, run this before you start ULS.
-    ```text
-    Set-Alias -Name python3 -Value python
-    ```  
-
-3) **Create a symbolic link (requires [mklink](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/mklink))**  
-    ```text
-    mklink "C:\path\to\symlink\python3.exe" "C:\path\to\Python3\python.exe"
-    ```
-   
-4) **Change ULS config (not recommended)**  
-You can modify the bin_python variable within the ULS global config file's `bin/config/global_config.py` 'Generic config' section.#
-Change
-    ```text
-    bin_python = "python3"
-    ```
-    to
-    ```text
-    bin_python = "python"
-    ```
-    **WARNING:** This change prevents the global_config.py file to get updated via GIT in the future. You need to manually take care of updating changes within the file.
-    
 ---
 ### ULS does not start due to missing field in config
 If you try to start ULS but it exits with an error similar to 
@@ -194,6 +162,7 @@ With ULS Version 1.8.0 we introduced a call home functionality that once sends d
 This data helps us continue the ULS development in the future. So if possible, please allow ULS to send this data.  
 We are not sending any sensitive or PII data. The Debug logs show the exact data that has been sent.
 
+
 The data includes:
 - current ULS version
 - ULS input
@@ -209,5 +178,50 @@ Example data:
 /uls_start?version=1.8.0-alpha&input=EAA&feed=ACCESS&output=RAW&install_id=OU5UR0RHLTIwMjIxMTI4LTEuNi4y&os_platform=macOS-14.5-arm64-arm-64bit&pyhton=3.12.4&container=False
 ```
 
+The domain the data will be sent to: `uls-beacon.akamaized.net`
+
 If you still want to disable the CallHome functionality within ULS,  
 you can do so by setting the `--nocallhome` command line parameter OR by using the ENV VAR: `export ULS_NOCALLHOME=TRUE`
+
+---
+### Can I run ULS on Windows Operating Systems
+Generically speaking: Yes - we fixed a couple of bugs and since ULS v1.8.2 you should be able to run the ULS code natively under windows.  
+You need to install the requirements ([see here](COMMAND_LINE_USAGE.md#pre-requisites)) and ULS should run without any issue.
+An alternative to running it natively with python on windows, is to use the docker version which also runs under windows but might be come with additional docker [license cost](https://docs.docker.com/subscription/desktop-license/).  
+
+Please be aware that we're currently unable to test every new ULS version directly on windows, so there might be bugs we're unable to spot at build time of the release.
+Please verify functionality before an update on your staging system.  
+
+---
+### ULS on Windows error: "[WinError 2] The system cannot find the file specified"
+ULS requires the OS to provide a python3 executable. The python installation on Windows somehow (unlike other OS) just installs a "python" executable.  
+Luckily this is something that can get sorted easily and in multiple different ways (just pick the one that suites you best):
+
+1) **Copy the binary (recommended)**  
+Go to your python directory on Windows e.g. `C:\Users\Administrator\AppData\Local\Programs\Python\Python310` or `C:\Program Files\Python\Python310`.  
+Now copy the `python.exe` executable to  `python3.exe` within the same folder.  
+
+  
+2) **Create a powershell alias (temproary only)**  
+If you are using powershell, run this before you start ULS.
+    ```text
+    Set-Alias -Name python3 -Value python
+    ```  
+
+3) **Create a symbolic link (requires [mklink](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/mklink))**  
+    ```text
+    mklink "C:\path\to\symlink\python3.exe" "C:\path\to\Python3\python.exe"
+    ```
+   
+4) **Change ULS config (not recommended)**  
+You can modify the bin_python variable within the ULS global config file's `bin/config/global_config.py` 'Generic config' section.#
+Change
+    ```text
+    bin_python = "python3"
+    ```
+    to
+    ```text
+    bin_python = "python"
+    ```
+    **WARNING:** This change prevents the global_config.py file to get updated via GIT in the future. You need to manually take care of updating changes within the file.
+    

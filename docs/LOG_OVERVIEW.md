@@ -26,6 +26,7 @@ Here are some examples (per product) and links to additional information.
   - [Guardicore](#guardicore)
     - [NETLOG](#netlog)
     - [INCIDENT](#incident)
+    - [AUDIT](#gc-audit)
   - [Linode](#linode)
     - [AUDIT Logs](#audit-logs)
   - [AKAMAI ACC](#akamai-acc)
@@ -2658,6 +2659,17 @@ Additional information regarding the MFA log fields can be found on [here](https
 ```
 
 </details>
+
+### GC Audit
+<details>
+    <summary>Guardicore AUDIT log example (JSON)</summary>
+
+```json
+{"_id": "fedeabc1230123", "doc_version": 91, "time": 1725952232281, "username": "username", "title": "User authentication", "description": "User description", "path": "/api/v3.0/authenticate", "method": "POST", "remote_addr": "11.22.33.44", "user_agent": "python-requests/2.31.0", "status_code": 200, "expire_at": 1757488232281, "id": "fedeabc1230123"}
+```
+
+</details>
+
 
 ---
 ## Linode
