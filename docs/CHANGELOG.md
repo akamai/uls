@@ -10,13 +10,16 @@
 - **Features**
   - Enabled Windows Support (natively run in python 3.12+ on Windows)
 
-
 - **Minor improvements**
   - [docker] bumped CLI-ETP version to 0.4.8 (future api support fix)
 
-
 - **Bugfixes**
-  - Fixed a bug that caused an incompatibility with python versions < 3.12 
+  - Fixed a bug that caused an incompatibility with python versions < 3.12
+  
+- **Housekeeping**
+  - improved python version testing (sampling py3.9 to 3.12)
+
+---
 
 ## v1.8.1
 |        |                     |
@@ -27,6 +30,8 @@
 
 - **Bugfixes**
   - Merged a missing fix from the development branch
+
+---
 
 ## v1.8.0
 |        |                     |
