@@ -145,14 +145,15 @@ def main():
                                                          cliformat=uls_args.cliformat,
                                                          transformationpattern=uls_args.transformationpattern)
 
+    filter_escaped = uls_args.filter.replace('"', '\\"') if uls_args.filter else None
     # Prepare the Filter
     if uls_args.filter:
         try:
             aka_log.log.info(f"FILTER pattern has been specified: "
-                             f"{uls_args.filter} - will only output matches")
+                             f"{filter_escaped} - will only output matches")
             filter_pattern = re.compile(uls_args.filter.encode())
         except Exception as my_error:
-            aka_log.log.critical(f"Error in filter patter {uls_args.filter}"
+            aka_log.log.critical(f"Error in filter pattern {filter_escaped}"
                                  f" (exiting). Error: {my_error}")
             sys.exit(1)
     else:
@@ -192,11 +193,12 @@ def main():
         try:
             input_data = event_q.get(block=True, timeout=0.05)
             if uls_args.debugloglines:
-                aka_log.log.debug(f"<IN> {input_data}")
+                escaped_data = input_data.decode('utf-8').replace('"', '\\"')
+                aka_log.log.debug(f"<IN> {escaped_data}")
             for log_line in input_data.splitlines():
 
+                log_line_escaped = log_line.decode('utf-8').replace('"', '\\"')
                 # Write checkpoint to the checkpoint file (if autoresume is enabled) (not after transformation or filter)
-
                 if uls_args.autoresume and int(my_monitor.get_message_count()) >= autoresume_lastwrite + uls_args.autoresumewriteafter:
                     aka_log.log.info(f"WRITING AUTORESUME CHECKPOINT - curr_message_count={int(my_monitor.get_message_count())} - last_write = {autoresume_lastwrite}")
                     UlsTools.write_autoresume_ckpt(uls_args.input,
@@ -208,16 +210,17 @@ def main():
 
                 # Filter Enhancement
                 if uls_args.filter and not filter_pattern.match(log_line):
-                    aka_log.log.info(f"SKIPPED LINE due to FILTER rule {uls_args.filter}")
+                    aka_log.log.info(f"SKIPPED LINE due to FILTER rule {filter_escaped}")
                     aka_log.log.debug(f"SKIPPED the following LOG_LINE "
-                                      f"due to FILTER match: {log_line}")
+                                      f"due to FILTER match: {log_line_escaped}")
                     continue
 
                 # Transformation Enhancement
                 if uls_args.transformation:
                     log_line = my_transformer.transform(log_line)
+                    log_line_escaped = log_line.decode('utf-8').replace('"', '\\"')
                     aka_log.log.debug(f"Transformed Logline via "
-                                      f"({uls_args.transformation}): {log_line}")
+                                      f"({uls_args.transformation}): {log_line_escaped}")
 
                 # Attach Linebreak
                 #out_data = log_line + uls_config.output_line_breaker.encode()
@@ -235,21 +238,21 @@ def main():
                     resend_status = my_output.send_data(log_line)
                     my_monitor.increase_message_count(len(log_line))
                     if uls_args.debugloglines:
-                        aka_log.log.debug(f"<OUT> {log_line}")
+                        aka_log.log.debug(f"<OUT> {log_line_escaped}")
                     resend_counter = resend_counter + 1
 
                 if resend_counter == uls_config.main_resend_attempts and\
                         uls_config.main_resend_exit_on_fail:
                     aka_log.log.critical(f"MSG[{my_monitor.get_message_count()}] "
                                         f"ULS was not able to deliver the log message "
-                                        f"{log_line.decode()} after {resend_counter} attempts - Exiting!")
+                                        f"{log_line_escaped} after {resend_counter} attempts - Exiting!")
                     sys.exit(1)
                 elif resend_counter == uls_config.main_resend_attempts and \
                         not uls_config.main_resend_exit_on_fail:
                     aka_log.log.warning(
                         f"MSG[{my_monitor.get_message_count()}] "
                         f"ULS was not able to deliver the log message "
-                        f"{log_line.decode()} after {resend_counter} attempts - (continuing anyway as my config says)")
+                        f"{log_line_escaped} after {resend_counter} attempts - (continuing anyway as my config says)")
         except queue.Empty:
             # No data available, we get a chance to capture the StopEvent
             pass

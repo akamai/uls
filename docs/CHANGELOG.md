@@ -1,9 +1,24 @@
 # Version History
 
+## v1.8.3
+|        |                     |
+|--------|---------------------|
+| Date   | 2024-09-23          |
+| Kind   | MINOR release       |
+| Author | mschiess@akamai.com |
+
+- **Minor improvements**
+  - [docker] bumped CLI-GC version to 0.0.6 
+
+- **Bugfixes**
+  - Improved JSON Log Escaping (massive thx to @sethumadhav07 for the privded PR)
+
+---
+
 ## v1.8.2
 |        |                     |
 |--------|---------------------|
-| Date   | 2024-XX-XX          |
+| Date   | 2024-09-11          |
 | Kind   | MINOR release       |
 | Author | mschiess@akamai.com |
 
