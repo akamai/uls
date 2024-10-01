@@ -193,7 +193,7 @@ def main():
         try:
             input_data = event_q.get(block=True, timeout=0.05)
             if uls_args.debugloglines:
-                escaped_data = input_data.decode('utf-8').replace('"', '\\"')
+                escaped_data = input_data.rstrip().decode('utf-8').replace('"', '\\"')
                 aka_log.log.debug(f"<IN> {escaped_data}")
             for log_line in input_data.splitlines():
 
