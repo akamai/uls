@@ -1,4 +1,19 @@
 # Version History
+## v1.8.4
+|        |                   |
+|--------|-------------------|
+| Date   | 2024-10-xx        |
+| Kind   | MINOR release     |
+| Author | mschiess@akamai.com |
+
+- **Minor improvements**
+
+
+- **Bugfixes**
+  - Bugfix for  JSON Log Escaping (massive thx to @sethumadhav07 for the provded PR)
+
+
+---
 
 ## v1.8.3
 |        |                     |
@@ -11,7 +26,7 @@
   - [docker] bumped CLI-GC version to 0.0.6 
 
 - **Bugfixes**
-  - Improved JSON Log Escaping (massive thx to @sethumadhav07 for the privded PR)
+  - Improved JSON Log Escaping (massive thx to @sethumadhav07 for the provded PR)
 
 ---
 
