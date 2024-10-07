@@ -455,8 +455,9 @@ class UlsOutput:
                     response = None
                     try:
                         response = self.httpSession.send(prepped, verify=self.http_verify_tls, timeout=self.http_timeout)
-                    except Exception as bluu:
-                        print(f"bluu {bluu}")
+                    except Exception as error:
+                        aka_log.log.critical(f"{self.name} HTTP POST of {len(self.aggregateList)} event(s) went wrong. Error: {error}")
+                        #print(f"bluu {error}")
                         return False
                     finally:
                         if response:
@@ -468,6 +469,7 @@ class UlsOutput:
                                      f"payload={payload_length} bytes, HTTP response {response.status_code}, "
                                      f"response={response.text} ")
                     if response.status_code != uls_config.output_http_expected_status_code:
+                        aka_log.log.warning(f"{self.name} HTTP POST of {len(self.aggregateList)} was NOT successful. Statuscode: {response.status_code}, Error: {response.text}")
                         return False
                     self.aggregateList.clear()
                 else:
