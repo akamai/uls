@@ -1,13 +1,13 @@
 # Version History
 ## v1.8.4
-|        |                   |
-|--------|-------------------|
-| Date   | 2024-10-xx        |
-| Kind   | MINOR release     |
+|        |                     |
+|--------|---------------------|
+| Date   | 2025-01-xx          |
+| Kind   | MINOR release       |
 | Author | mschiess@akamai.com |
 
 - **Minor improvements**
-
+  - [docker] bumped Python container version to 3.12.8
 
 - **Bugfixes**
   - Bugfix for  JSON Log Escaping (massive thx to @sethumadhav07 for the provded PR)
