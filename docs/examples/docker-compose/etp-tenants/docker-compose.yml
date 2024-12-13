@@ -9,6 +9,10 @@ services:
         source: /path/to/your/.edgerc
         target: /opt/akamai-uls/.edgerc
         read_only: true
+      - type: bind
+        source: /path/to/your/uls-var-dir1/
+        target: /opt/akamai-uls/uls/var/
+        read_only: false
   etp-threat-tenant-2:
     image: akamai/uls:latest
     restart: always
@@ -18,3 +22,7 @@ services:
         source: /path/to/your/.edgerc
         target: /opt/akamai-uls/.edgerc
         read_only: true
+      - type: bind
+        source: /path/to/your/uls-var-dir2/
+        target: /opt/akamai-uls/uls/var/
+        read_only: false
