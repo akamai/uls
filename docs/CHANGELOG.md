@@ -28,6 +28,12 @@
 - **Bugfixes**
   - Improved JSON Log Escaping (massive thx to @sethumadhav07 for the provded PR)
 
+- **Docfixes**
+  - Introduced "var" directory mount for docker & docker compose usage (allows autoresume within docker)
+
+- **Housekeeping**
+  - improved python version testing (sampling py3.9 to 3.13)
+  - 
 ---
 
 ## v1.8.2
