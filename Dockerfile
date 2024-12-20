@@ -1,6 +1,6 @@
 FROM            python:3.12.4-slim-bookworm
 LABEL           MAINTAINER="Mike Schiessl - mike.schiessl@akamai.com"
-LABEL	        APP_LONG="Akamai Universal Log Streamer"
+LABEL	        APP_LONG="Akamai Unified Log Streamer"
 LABEL           APP_SHORT="ULS"
 LABEL           VENDOR="Akamai Technologies"
 
