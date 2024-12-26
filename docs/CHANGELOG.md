@@ -8,6 +8,7 @@
 
 - **Minor improvements**
   - [docker] bumped Python container version to 3.12.8
+  - [docker] bumped EAA container version to RC0.6.11
 
 - **Bugfixes**
   - Bugfix for  JSON Log Escaping (massive thx to @sethumadhav07 for the provded PR)
