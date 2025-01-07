@@ -2,7 +2,7 @@
 ## v1.8.4
 |        |                     |
 |--------|---------------------|
-| Date   | 2025-01-xx          |
+| Date   | 2025-01-07          |
 | Kind   | MINOR release       |
 | Author | mschiess@akamai.com |
 
