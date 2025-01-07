@@ -10,6 +10,10 @@ services:
         source: /path/to/your/.edgerc
         target: /opt/akamai-uls/.edgerc
         read_only: true
+      - type: bind
+        source: /path/to/your/uls-var-dir/
+        target: /opt/akamai-uls/uls/var/
+        read_only: false
   # AUP
   etp-aup:
     image: akamai/uls:latest
@@ -20,6 +24,10 @@ services:
         source: /path/to/your/.edgerc
         target: /opt/akamai-uls/.edgerc
         read_only: true
+      - type: bind
+        source: /path/to/your/uls-var-dir/
+        target: /opt/akamai-uls/uls/var/
+        read_only: false
   # DNS
   etp-aup:
     image: akamai/uls:latest
@@ -30,6 +38,10 @@ services:
         source: /path/to/your/.edgerc
         target: /opt/akamai-uls/.edgerc
         read_only: true
+      - type: bind
+        source: /path/to/your/uls-var-dir/
+        target: /opt/akamai-uls/uls/var/
+        read_only: false
   # PROXY
   etp-aup:
     image: akamai/uls:latest
@@ -40,6 +52,10 @@ services:
         source: /path/to/your/.edgerc
         target: /opt/akamai-uls/.edgerc
         read_only: true
+      - type: bind
+        source: /path/to/your/uls-var-dir/
+        target: /opt/akamai-uls/uls/var/
+        read_only: false
 # EAA
   # ACCESS
   eaa-access:
@@ -51,6 +67,10 @@ services:
         source: /path/to/your/.edgerc
         target: /opt/akamai-uls/.edgerc
         read_only: true
+      - type: bind
+        source: /path/to/your/uls-var-dir/
+        target: /opt/akamai-uls/uls/var/
+        read_only: false
   # ADMIN
   eaa-admin:
     image: akamai/uls:latest
@@ -61,6 +81,10 @@ services:
         source: /path/to/your/.edgerc
         target: /opt/akamai-uls/.edgerc
         read_only: true
+      - type: bind
+        source: /path/to/your/uls-var-dir/
+        target: /opt/akamai-uls/uls/var/
+        read_only: false
 # MFA
   # AUTH
   mfa-auth:
@@ -72,6 +96,10 @@ services:
         source: /path/to/your/.edgerc
         target: /opt/akamai-uls/.edgerc
         read_only: true
+      - type: bind
+        source: /path/to/your/uls-var-dir/
+        target: /opt/akamai-uls/uls/var/
+        read_only: false
   # POLICY
   mfa-policy:
     image: akamai/uls:latest
@@ -82,3 +110,7 @@ services:
         source: /path/to/your/.edgerc
         target: /opt/akamai-uls/.edgerc
         read_only: true
+      - type: bind
+        source: /path/to/your/uls-var-dir/
+        target: /opt/akamai-uls/uls/var/
+        read_only: false

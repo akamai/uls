@@ -449,27 +449,37 @@ class UlsOutput:
                             single_event_data = f"{single_event_data}{self.http_out_format % json.dumps(logline)}"
                         request = requests.Request('POST', url=self.http_url, data=(single_event_data))
 
-                    prepped = self.httpSession.prepare_request(request)
-                    payload_length = prepped.headers["Content-Length"]
-
+                    # Send the HTTP request
                     response = None
                     try:
+                        aka_log.log.debug(f"{self.name} Sending HTTP Request")
+                        prepped = self.httpSession.prepare_request(request)
+                        payload_length = prepped.headers["Content-Length"]
                         response = self.httpSession.send(prepped, verify=self.http_verify_tls, timeout=self.http_timeout)
-                    except Exception as bluu:
-                        print(f"bluu {bluu}")
-                        return False
+                    except Exception as error:
+                        aka_log.log.critical(f"{self.name} HTTP POST of {len(self.aggregateList)} event(s) went wrong. Error: {error}")
+
                     finally:
                         if response:
-
                             response.close()  # Free up the underlying TCP connection in the connection pool
 
-                    aka_log.log.info(f"{self.name} HTTP POST of {len(self.aggregateList)} event(s) "
+                    if not response:
+                        aka_log.log.warning(
+                            f"{self.name} HTTP POST of {len(self.aggregateList)} was NOT successful. Statuscode: we have not even received a response - see above logs for more details")
+                        return False
+
+                    elif response.status_code == uls_config.output_http_expected_status_code:
+                        aka_log.log.info(f"{self.name} HTTP POST of {len(self.aggregateList)} event(s) "
                                      f"completed in {(response.elapsed.total_seconds()*1000):.3f} ms, "
                                      f"payload={payload_length} bytes, HTTP response {response.status_code}, "
                                      f"response={response.text} ")
-                    if response.status_code != uls_config.output_http_expected_status_code:
+                        self.aggregateList.clear()
+                        return True
+
+                    elif response.status_code != uls_config.output_http_expected_status_code:
+                        aka_log.log.warning(f"{self.name} HTTP POST of {len(self.aggregateList)} was NOT successful. Statuscode: {response.status_code}, Error: {response.text}")
                         return False
-                    self.aggregateList.clear()
+
                 else:
                     aka_log.log.info(f"{self.name} Data not sent, but added to HTTP aggregation. Size: "
                                      f"({len(self.aggregateList)}/{self.http_out_aggregate_count})")
@@ -490,7 +500,7 @@ class UlsOutput:
                 aka_log.log.critical(f"{self.name} target was not defined {self.output_type} ")
                 sys.exit(1)
 
-            aka_log.log.debug(f"{self.name} Data successfully sent via {self.output_type}")
+            aka_log.log.info(f"{self.name} Data successfully sent via {self.output_type}")
             return True
 
         except Exception as my_error:

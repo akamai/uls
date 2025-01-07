@@ -59,6 +59,7 @@ Below are two examples with our Enterprise Threat Protector product:
     ```bash 
     docker run -d --name uls_etp-threat -ti \
         --mount type=bind,source="/path/to/your/.edgerc",target="/opt/akamai-uls/.edgerc",readonly \
+        --mount type=bind,source="/path/to/your/uls-var/",target="/opt/akamai-uls/uls/var",readonly \
         akamai/uls \
         --input etp --feed threat --output tcp --host 10.10.10.10 --port 9091
     ```
@@ -67,6 +68,7 @@ Below are two examples with our Enterprise Threat Protector product:
     ```bash 
     docker run -d --name uls_etp-threat -ti \
         --mount type=bind,source="/path/to/your/.edgerc",target="/opt/akamai-uls/.edgerc",readonly \
+        --mount type=bind,source="/path/to/your/uls-var/",target="/opt/akamai-uls/uls/var",readonly \
         --env ULS_INPUT=ETP \
         --env ULS_FEED=THREAT \
         --env ULS_OUTPUT=TCP \

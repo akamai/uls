@@ -26,11 +26,11 @@ Here are some examples (per product) and links to additional information.
   - [Guardicore](#guardicore)
     - [NETLOG](#netlog)
     - [INCIDENT](#incident)
-    - [AUDIT](#gc-audit)
+    - [GC Audit](#gc-audit)
   - [Linode](#linode)
     - [AUDIT Logs](#audit-logs)
-  - [AKAMAI ACC](#akamai-acc)
-    - [Events](#events)
+  - [Akamai ACC](#akamai-acc)
+    - [EVENTS](#events)
 
 ---
 ## Enterprise Application Access (EAA)
@@ -38,9 +38,10 @@ When configuring ULS to access EAA these feed, set `input` argument/variable to 
 
 ### Access Logs (ACCESS)
 
-Additional information regarding the log fields can be found on [here](https://techdocs.akamai.com/eaa/docs/data-feed-siem#access-logs)
+Latest information regarding the log fields can be found on [here](https://techdocs.akamai.com/eaa/docs/data-feed-siem#access-logs).
+
 <details>
-    <summary>EAA access logs example (JSON)</summary>
+    <summary>User access log example (JSON)</summary>
 
 ```json
 {

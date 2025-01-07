@@ -1,4 +1,20 @@
 # Version History
+## v1.8.4
+|        |                     |
+|--------|---------------------|
+| Date   | 2025-01-07          |
+| Kind   | MINOR release       |
+| Author | mschiess@akamai.com |
+
+- **Minor improvements**
+  - [docker] bumped Python container version to 3.12.8
+  - [docker] bumped EAA container version to RC0.6.11
+
+- **Bugfixes**
+  - Bugfix for  JSON Log Escaping (massive thx to @sethumadhav07 for the provded PR)
+
+
+---
 
 ## v1.8.3
 |        |                     |
@@ -11,8 +27,14 @@
   - [docker] bumped CLI-GC version to 0.0.6 
 
 - **Bugfixes**
-  - Improved JSON Log Escaping (massive thx to @sethumadhav07 for the privded PR)
+  - Improved JSON Log Escaping (massive thx to @sethumadhav07 for the provded PR)
 
+- **Docfixes**
+  - Introduced "var" directory mount for docker & docker compose usage (allows autoresume within docker)
+
+- **Housekeeping**
+  - improved python version testing (sampling py3.9 to 3.13)
+  - 
 ---
 
 ## v1.8.2
