@@ -228,8 +228,10 @@ def check_autoresume(input, feed, checkpoint_dir=uls_config.autoresume_checkpoin
                         aka_log.log.debug(f"Autoresume Checkpoint successfully loaded. Checkpoint Time: {data['checkpoint']}, Creation_time: {data['creation_time']}")
                         creation_time = data['creation_time']
                         # Convert the Checkpoint to "epoch Timestamp", depending on the input
+                        is_unixtimestamp=False
                         if data['input'] == "ETP" or data['input'] == "SIA":
                             mytime = data['checkpoint'].split("Z")[0]
+                            is_unixtimestamp=True
                         elif data['input'] == "EAA":
                             mytime = data['checkpoint'].split("+")[0]
                         elif data['input'] == "GC"  or data['input'] == "ACC":
@@ -238,14 +240,22 @@ def check_autoresume(input, feed, checkpoint_dir=uls_config.autoresume_checkpoin
                             aka_log.log.critical(
                                 f"Unhandeled input data in checkpointfile  \'{checkpoint_full}\' --> {input} / {feed} - Exiting.")
                             sys.exit(1)
-                        my_timestamp = datetime.datetime(year=int(mytime.split("T")[0].split("-")[0]),
-                                                         month=int(mytime.split("T")[0].split("-")[1]),
-                                                         day=int(mytime.split("T")[0].split("-")[2]),
-                                                         hour=int(mytime.split("T")[1].split(":")[0]),
-                                                         minute=int(mytime.split("T")[1].split(":")[1]),
-                                                         second=int(mytime.split("T")[1].split(":")[2]),
-                                                         )
-                        checkpoint = int(my_timestamp.replace(tzinfo=datetime.timezone.utc).timestamp())
+
+                        # Render unixTimeStamp
+                        if not is_unixtimestamp:
+                            my_timestamp = datetime.datetime(year=int(mytime.split("T")[0].split("-")[0]),
+                                                             month=int(mytime.split("T")[0].split("-")[1]),
+                                                             day=int(mytime.split("T")[0].split("-")[2]),
+                                                             hour=int(mytime.split("T")[1].split(":")[0]),
+                                                             minute=int(mytime.split("T")[1].split(":")[1]),
+                                                             second=int(mytime.split("T")[1].split(":")[2]),
+                                                             )
+                            print(f"my_timestamp {my_timestamp}")
+                            checkpoint = int(my_timestamp.replace(tzinfo=datetime.timezone.utc).timestamp())
+                        elif is_unixtimestamp:
+                            my_timestamp = mytime
+                            checkpoint = int(mytime)
+
 
                         aka_log.log.debug(f"Checkpoint timestamp {data['checkpoint']} converted to epoch time {checkpoint}")
                     else:

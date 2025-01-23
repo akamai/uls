@@ -1,4 +1,17 @@
 # Version History
+## v1.8.5
+|        |                     |
+|--------|---------------------|
+| Date   | 2025-               |
+| Kind   | BUGFIX release      |
+| Author | mschiess@akamai.com |
+
+- **Bugfixes**
+  - fixed a bug caused by newer ETP/SIA CLI when using the autoresume function
+
+
+---
+
 ## v1.8.4
 |        |                     |
 |--------|---------------------|
