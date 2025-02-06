@@ -312,11 +312,17 @@ class UlsInputCli:
                     aka_log.log.warning(f"{self.name} - Selected LOG Format ({self.cliformat}) "
                                         f"not available for {product_path}, continuing with JSON.")
                 if not self.rawcmd:
+
                     self.edgerc_hostname = UlsTools.uls_check_edgerc(self.credentials_file,
                                               self.credentials_file_section,
                                               uls_config.edgerc_linode)
                     my_feed = self._feed_selector(self.feed, product_feeds)
-                    cli_command = [self.bin_python, '-u', product_path, 'events', my_feed.lower(), '-f']
+
+                    if my_feed == "AUDIT":
+                        cli_command = [self.bin_python, '-u', product_path, 'events', my_feed.lower(), '-f']
+                    elif my_feed == "UTILIZATION":
+                        cli_command = [self.bin_python, '-u', product_path, 'utilization', '-f']
+
                     cli_command[3:3] = self._uls_useragent(self.product, my_feed)
                     cli_command[3:3] = edgegrid_auth
                     cli_command[3:3] = self._prep_proxy(self.inproxy)

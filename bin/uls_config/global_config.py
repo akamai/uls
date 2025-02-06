@@ -33,7 +33,7 @@ gc_cli_feeds = ['NETLOG', 'INCIDENT', 'AGENT', 'SYSTEM', 'AUDIT']               
 
     # LINODE
 bin_linode_cli = "ext/cli-linode/bin/akamai-linode"         # Path to the LINODE CLI Executable
-linode_cli_feeds = ['AUDIT']                        # Available LINODE CLI feeds
+linode_cli_feeds = ['AUDIT', 'UTILIZATION']                        # Available LINODE CLI feeds
 
     # ACC-LOGS
 bin_acc_logs = "ext/acc-logs/bin/akamai-acc"

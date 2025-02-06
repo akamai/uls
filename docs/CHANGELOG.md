@@ -6,6 +6,13 @@
 | Kind   | BUGFIX release      |
 | Author | mschiess@akamai.com |
 
+- **Features**
+  - New ULS feed for Linode: UTILIZATION
+    ```json
+    {"time": "2025-02-06T15:23:54.048512+00:00", "account": "Akamai Technologies - DEMO", "linode": 17, "lke_cluster": 5, "vpc": 9, "vlan": 21, "cloud_firewall": 41, "node_balancer": 15, "object_storage": 46, "volume": 127}
+    ```
+    This feed helps to understand and track the Linode account usage
+
 - **Bugfixes**
   - fixed a bug caused by newer ETP/SIA CLI when using the autoresume function
 
