@@ -13,8 +13,12 @@
     ```
     This feed helps to understand and track the Linode account usage
 
+- **Minor improvements**
+  - [docker] bumped Python container version to 3.13.2
+
+
 - **Bugfixes**
-  - fixed a bug caused by newer ETP/SIA CLI when using the autoresume function
+  - fixed a bug caused by newer ETP/SIA CLI when using the autoresume function (This is prone to fail again as we were tackling an API issue)
 
 
 ---
