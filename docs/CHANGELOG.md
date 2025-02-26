@@ -18,8 +18,8 @@
 
 
 - **Bugfixes**
-  - fixed a bug caused by newer ETP/SIA CLI when using the autoresume function (This is prone to fail again as we were tackling an API issue)
-
+  - fixed a bug caused by newer ETP/SIA CLI when using the autoresume function (This is prone to fail again as we were tackling an API issue) 
+  - manually merged changes from PR#78  - issue #81 - something went wrong when merging the original PR - sorry for the inconvenience @vasantbala
 
 ---
 
