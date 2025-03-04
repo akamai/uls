@@ -463,6 +463,7 @@ class UlsOutput:
                         if response:
                             response.close()  # Free up the underlying TCP connection in the connection pool
 
+                    response_text_escaped = response.text.replace('"', '\\"')
                     if not response:
                         aka_log.log.warning(
                             f"{self.name} HTTP POST of {len(self.aggregateList)} was NOT successful. Statuscode: we have not even received a response - see above logs for more details")
@@ -472,12 +473,13 @@ class UlsOutput:
                         aka_log.log.info(f"{self.name} HTTP POST of {len(self.aggregateList)} event(s) "
                                      f"completed in {(response.elapsed.total_seconds()*1000):.3f} ms, "
                                      f"payload={payload_length} bytes, HTTP response {response.status_code}, "
-                                     f"response={response.text} ")
+                                     f"response={response_text_escaped} ")
                         self.aggregateList.clear()
-                        return True
+                        # Removed the return here - Issue #82
+                        # return True
 
                     elif response.status_code != uls_config.output_http_expected_status_code:
-                        aka_log.log.warning(f"{self.name} HTTP POST of {len(self.aggregateList)} was NOT successful. Statuscode: {response.status_code}, Error: {response.text}")
+                        aka_log.log.warning(f"{self.name} HTTP POST of {len(self.aggregateList)} was NOT successful. Statuscode: {response.status_code}, Error: {response_text_escaped}")
                         return False
 
                 else:

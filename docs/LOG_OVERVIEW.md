@@ -2710,6 +2710,15 @@ Additional information regarding the log fields can be found on [here](https://w
 ```
 </details>
 
+<details>
+    <summary>Linode Utilization example (JSON)</summary>
+
+```json
+{"time": "2025-02-06T15:23:54.048512+00:00", "account": "Akamai Technologies - DEMO", "linode": 17, "lke_cluster": 5, "vpc": 9, "vlan": 21, "cloud_firewall": 41, "node_balancer": 15, "object_storage": 46, "volume": 127}
+
+```
+</details>
+
 
 ---
 ## Akamai ACC

@@ -1,4 +1,29 @@
 # Version History
+## v1.8.5
+|        |                     |
+|--------|---------------------|
+| Date   | 2025-03-04          |
+| Kind   | BUGFIX release      |
+| Author | mschiess@akamai.com |
+
+- **Features**
+  - New ULS feed for Linode: UTILIZATION
+    ```json
+    {"time": "2025-02-06T15:23:54.048512+00:00", "account": "Akamai Technologies - DEMO", "linode": 17, "lke_cluster": 5, "vpc": 9, "vlan": 21, "cloud_firewall": 41, "node_balancer": 15, "object_storage": 46, "volume": 127}
+    ```
+    This feed helps to understand and track the Linode account usage
+
+- **Minor improvements**
+  - [docker] bumped Python container version to 3.13.2
+
+
+- **Bugfixes**
+  - fixed a bug caused by newer ETP/SIA CLI when using the autoresume function (This is prone to fail again as we were tackling an API issue) 
+  - manually merged changes from PR#78  - issue #81 - something went wrong when merging the original PR - sorry for the inconvenience @vasantbala
+  - Fixed a bug where the successful sending of HTTP was not properly logged - issue #82 - thanks again @vasantbala
+
+---
+
 ## v1.8.4
 |        |                     |
 |--------|---------------------|

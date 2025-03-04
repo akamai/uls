@@ -10,7 +10,7 @@ uls_bin=bin/uls.py
 mocked_edgerc=FALSE
 
 # TIMEOUT
-  # How much time is timeout alklowed to run
+  # How much time is timeout allowed to run
   uls_test_timeout=90
   # Send a kill signal after
   uls_kill_timeout=110
