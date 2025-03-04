@@ -150,3 +150,9 @@ This software is released under the "Apache License". Please read the [frequentl
 
 [The ULS Project on GitHub](https://github.com/akamai/uls)  
 [The ULS Project on Dockerhub](https://hub.docker.com/r/akamai/uls)
+
+## Stargazers over time
+A small graph to show how many stars we collected over the time of this project.
+Feel free to add your star as well.  
+[![Stargazers over time](https://starchart.cc/akamai/uls.svg?variant=adaptive)](https://starchart.cc/akamai/uls)
+
