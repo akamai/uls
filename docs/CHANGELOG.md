@@ -2,7 +2,7 @@
 ## v1.8.5
 |        |                     |
 |--------|---------------------|
-| Date   | 2025-               |
+| Date   | 2025-03-04          |
 | Kind   | BUGFIX release      |
 | Author | mschiess@akamai.com |
 
