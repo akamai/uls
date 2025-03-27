@@ -3,7 +3,7 @@
 This document describes the installation of the ULS [HELM CHART](https://helm.sh/)
 
 ## Requirements
-- You have cloned / checkout out this repository to your local disk
+- You have [cloned / checkout](https://github.com/akamai/uls/blob/main/docs/COMMAND_LINE_USAGE.md#clone-uls-repository) out this repository to your local disk
 - You have installed the following tools: kubectl, helm 
 
 ## Steps
