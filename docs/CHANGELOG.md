@@ -1,4 +1,20 @@
 # Version History
+## v1.8.6
+|        |                     |
+|--------|---------------------|
+| Date   | 2025-0xx-xx         |
+| Kind   |      |
+| Author | mschiess@akamai.com |
+
+- **Features**
+
+- **Minor improvements**
+
+- **Bugfixes**
+
+
+---
+
 ## v1.8.5
 |        |                     |
 |--------|---------------------|
