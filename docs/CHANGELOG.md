@@ -6,11 +6,8 @@
 | Kind   |      |
 | Author | mschiess@akamai.com |
 
-- **Features**
-
-- **Minor improvements**
-
-- **Bugfixes**
+- **Docfixes**
+  - Added requirements and a little more detailed instructions on the helm usage
 
 
 ---
