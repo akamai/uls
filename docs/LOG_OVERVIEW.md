@@ -26,9 +26,11 @@ Here are some examples (per product) and links to additional information.
   - [Guardicore](#guardicore)
     - [NETLOG](#netlog)
     - [INCIDENT](#incident)
+    - [AGENT](#gc-agent)
     - [GC Audit](#gc-audit)
   - [Linode](#linode)
     - [AUDIT Logs](#audit-logs)
+    - [UTILIZATION](#utilization)
   - [Akamai ACC](#akamai-acc)
     - [EVENTS](#events)
 
@@ -2661,12 +2663,50 @@ Additional information regarding the MFA log fields can be found on [here](https
 
 </details>
 
+### GC Agent
+<details>
+<summary>Guardicore AGENT log example (JSON)</summary>
+
+```json
+{
+  "report_time": 1745321952276,
+  "origin": "gc-aggregator-192-168-1-2",
+  "message": "Could not download KO for the following parameters: profile=acc_linux protocol_ver=510002 kernel_version_enc=6.8.0-56 hostname=linux-6 kernel_hash=ab76a03c5d os_type=ubuntu module=enforcement uuid=abcdef123-5c3c-4c37-8349-59542fceb2d5 installation_time_delta=2802802",
+  "severity": "WARNING",
+  "aggregated": [
+    {
+      "hostname": "linux-6",
+      "source": "172.237.144.7",
+      "component_id": null
+    }
+  ],
+  "count": 1,
+  "id": "fedc1231-c77a-4958-900c-622430427758",
+  "db_insert_time": "2025-04-22T11:39:26.087682"
+}
+```
+
+</details>
+
 ### GC Audit
 <details>
     <summary>Guardicore AUDIT log example (JSON)</summary>
 
 ```json
-{"_id": "fedeabc1230123", "doc_version": 91, "time": 1725952232281, "username": "username", "title": "User authentication", "description": "User description", "path": "/api/v3.0/authenticate", "method": "POST", "remote_addr": "11.22.33.44", "user_agent": "python-requests/2.31.0", "status_code": 200, "expire_at": 1757488232281, "id": "fedeabc1230123"}
+{
+  "_id": "fedeabc1230123",
+  "doc_version": 91,
+  "time": 1725952232281,
+  "username": "username",
+  "title": "User authentication",
+  "description": "User description",
+  "path": "/api/v3.0/authenticate",
+  "method": "POST",
+  "remote_addr": "11.22.33.44",
+  "user_agent": "python-requests/2.31.0",
+  "status_code": 200,
+  "expire_at": 1757488232281,
+  "id": "fedeabc1230123"}
 ```
 
 </details>
@@ -2710,11 +2750,25 @@ Additional information regarding the log fields can be found on [here](https://w
 ```
 </details>
 
+### UTILIZATION
+Detailed information about the Linode account utilization
+
 <details>
     <summary>Linode Utilization example (JSON)</summary>
 
 ```json
-{"time": "2025-02-06T15:23:54.048512+00:00", "account": "Akamai Technologies - DEMO", "linode": 17, "lke_cluster": 5, "vpc": 9, "vlan": 21, "cloud_firewall": 41, "node_balancer": 15, "object_storage": 46, "volume": 127}
+{
+  "time": "2025-02-06T15:23:54.048512+00:00",
+  "account": "Akamai Technologies - DEMO",
+  "linode": 17,
+  "lke_cluster": 5,
+  "vpc": 9,
+  "vlan": 21,
+  "cloud_firewall": 41,
+  "node_balancer": 15,
+  "object_storage": 46,
+  "volume": 127
+}
 
 ```
 </details>
@@ -2728,6 +2782,56 @@ Additional information regarding the log fields can be found on [here](https://t
 <summary>EVENT logs example (json)</summary>
 
 ```json
-{"eventId": "1234567890-abcd-efab-badc-1234567890abcdef", "eventTime": "2024-06-17T09:23:17.976Z", "eventData": [{"key": "userIdAttributeName", "value": "uid"}, {"key": "method", "value": "sp_init"}, {"key": "authenticationMethod", "value": "https://sso.akamai.com/saml2/idp"}, {"key": "requestId", "value": "_12345667890-abcd-efab-cdef-1234567890abcd"}, {"key": "domain", "value": "control.akamai.com"}, {"key": "notOnOrAfter", "value": "2024-06-17T09:28:17.669Z"}, {"key": "entityId", "value": "https://sso.akamai.com/saml2/idp"}, {"key": "details", "value": "User testuser has been successfully logged in using https://sso.akamai.com/saml2/idp IDP"}, {"key": "notBefore", "value": "2024-06-17T09:18:17.669Z"}, {"key": "pulsar_host", "value": "10.10.10.10"}, {"key": "arrivalDate", "value": "2024-06-17T09:23:17.901497Z"}], "eventType": {"eventTypeId": "16", "eventTypeName": "All Logins", "eventDefinition": {"eventDefinitionId": "1234567", "eventName": "Successful SSO Login", "eventDescription": "A user successfully authenticated using Single Sign-on (SSO)"}}, "impersonator": true, "username": "testuser"}
+{
+  "eventId": "1234567890-abcd-efab-badc-1234567890abcdef",
+  "eventTime": "2024-06-17T09:23:17.976Z",
+  "eventData": [
+    {
+      "key": "userIdAttributeName",
+      "value": "uid"
+    },{
+      "key": "method",
+      "value": "sp_init"
+    },{
+      "key": "authenticationMethod",
+      "value": "https://sso.akamai.com/saml2/idp"
+    },{
+      "key": "requestId",
+      "value": "_12345667890-abcd-efab-cdef-1234567890abcd"
+    },{
+      "key": "domain", 
+      "value": "control.akamai.com"
+    },{
+      "key": "notOnOrAfter",
+      "value": "2024-06-17T09:28:17.669Z"
+    },{
+      "key": "entityId",
+      "value": "https://sso.akamai.com/saml2/idp"
+    },{
+      "key": "details", 
+      "value": "User testuser has been successfully logged in using https://sso.akamai.com/saml2/idp IDP"
+    },{
+      "key": "notBefore",
+      "value": "2024-06-17T09:18:17.669Z"
+    },{
+      "key": "pulsar_host",
+      "value": "10.10.10.10"
+    },{
+      "key": "arrivalDate", 
+      "value": "2024-06-17T09:23:17.901497Z"
+    }
+  ], 
+  "eventType": {
+    "eventTypeId": "16",
+    "eventTypeName": "All Logins",
+    "eventDefinition": {
+      "eventDefinitionId": "1234567",
+      "eventName": "Successful SSO Login",
+      "eventDescription": "A user successfully authenticated using Single Sign-on (SSO)"
+    }
+  },
+  "impersonator": true,
+  "username": "testuser"
+}
 ```
 </details>
