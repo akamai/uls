@@ -2,19 +2,23 @@
 ## v1.8.6
 |        |                     |
 |--------|---------------------|
-| Date   | 2025-0xx-xx         |
+| Date   | 2025-0x-xx         |
 | Kind   |      |
 | Author | mschiess@akamai.com |
 
 - **Docfixes**
   - Added requirements and a little more detailed instructions on the helm usage
   - Added an information related to an improved SIA (ETP) Log delivery alternative
+    - ULS will show a 3 second warning, when input=sia feed=dns to let the user know that there is alternative
+    - Added a [FAQ section](FAQ.md#is-there-an-alternative-to-stream-high-volume-sia--etp-logs-) to introduce the new SIA capabilities 
 
 - **Minor improvements**
   - [docker] bumped Python container version to 3.13.3
   - [docker] bumped CLI-EAA to version 0.6.11 (removed RC tag)
   - [docker] bumped CLI-LN to version 0.0.5
   - upgraded several "requirement" dependencies
+  
+
 ---
 
 ## v1.8.5

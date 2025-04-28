@@ -17,6 +17,7 @@
 - [I do not want to send any data to Akamai](#i-do-not-want-to-send-any-data-to-akamai)
 - [Can i run ULS on Windows Operating Systems](#can-i-run-uls-on-windows-operating-systems)
 - [ULS on Windows error: "[WinError 2] The system cannot find the file specified"](#uls-on-windows-error-winerror-2-the-system-cannot-find-the-file-specified)
+- [Is there an alternative to stream high volume SIA / ETP logs ?](#is-there-an-alternative-to-stream-high-volume-sia--etp-logs-)
 
 ----
 ## FAQ
@@ -225,3 +226,14 @@ Change
     ```
     **WARNING:** This change prevents the global_config.py file to get updated via GIT in the future. You need to manually take care of updating changes within the file.
     
+---
+### Is there an alternative to stream high volume SIA / ETP logs ?
+
+Yes, as of Q1 2025 Akamai SIA offers a new method of sending log data from SIA towards your SIEM, which evades the known API rate and page limitations completely.  
+
+```text
+Akamai’s Secure Internet Access (SIA) platform offers robust log export capabilities, enabling organizations to efficiently export high-volume event and activity logs to Linode Object Storage or Microsoft Azure Blob Storage.
+This facilitates centralized analysis and long-term retention of critical security data.
+```
+
+More Information can be found [here](https://techdocs.akamai.com/etp/docs/export-logs) 
