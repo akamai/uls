@@ -2,8 +2,8 @@
 ## v1.8.6
 |        |                     |
 |--------|---------------------|
-| Date   | 2025-0x-xx         |
-| Kind   |      |
+| Date   | 2025-05-xx          |
+| Kind   |                     |
 | Author | mschiess@akamai.com |
 
 - **Docfixes**
@@ -16,8 +16,13 @@
   - [docker] bumped Python container version to 3.13.3
   - [docker] bumped CLI-EAA to version 0.6.11 (removed RC tag)
   - [docker] bumped CLI-LN to version 0.0.5
+  - [docker] bumped CLI-GC to version 0.0.7
   - upgraded several "requirement" dependencies
-  
+
+
+- **Bugfixes**
+  - Bugfix in GC-CLI to prevent special char '%' in the password to break the execution
+
 
 ---
 
