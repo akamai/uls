@@ -31,6 +31,7 @@ The Akamai Secure Internet Access now allows a to PUSH the logs to you.
 
 - **Bugfixes**
   - Bugfix in GC-CLI to prevent special char '%' in the password to break the execution (issue #87)
+  - Bugfix to show correct ACC-LOGS version in the `uls --version` output
 
 
 ---

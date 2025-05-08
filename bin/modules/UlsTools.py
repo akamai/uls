@@ -72,7 +72,7 @@ def uls_version(root_path):
     my_edgerc_mock_file = root_path + "/" + uls_config.edgerc_mock_file + str(round(time.time() * 1000))
     def _get_cli_version(cli_bin, edgerc_mock_file):
         try:
-            if "gc" in cli_bin or 'linode' in cli_bin:
+            if "gc" in cli_bin or 'linode' in cli_bin or 'acc-logs' in cli_bin:
                version_proc = subprocess.Popen([uls_config.bin_python, cli_bin, "--edgerc", edgerc_mock_file, "--version"],
                                             stdout=subprocess.PIPE,
                                             stderr=subprocess.PIPE)
@@ -104,7 +104,7 @@ def uls_version(root_path):
           f"MFA Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_mfa_cli, my_edgerc_mock_file)}\n"
           f"GC Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_gc_cli, my_edgerc_mock_file)}\n"
           f"LINODE Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_linode_cli, my_edgerc_mock_file)}\n"
-          f"ACC-LOGS Version\t{_get_cli_version(root_path + '/' + uls_config.bin_linode_cli, my_edgerc_mock_file)}\n\n"
+          f"ACC-LOGS Version\t{_get_cli_version(root_path + '/' + uls_config.bin_acc_logs, my_edgerc_mock_file)}\n\n"
           f"OS Plattform\t\t{platform.platform()}\n"
           f"OS Version\t\t{platform.release()}\n"
           f"Python Version\t\t{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}\n"
