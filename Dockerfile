@@ -10,7 +10,7 @@ ARG             HOMEDIR="/opt/akamai-uls"
 ARG             ULS_DIR="$HOMEDIR/uls"
 ARG             EXT_DIR="$ULS_DIR/ext"
 
-ARG             ETP_CLI_VERSION="0.4.8"
+ARG             ETP_CLI_VERSION="0.4.9"
 ARG             EAA_CLI_VERSION="0.6.11"
 ARG             MFA_CLI_VERSION="0.1.1"
 ARG             GC_CLI_VERSION="v0.0.7"
