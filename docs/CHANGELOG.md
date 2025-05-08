@@ -1,4 +1,41 @@
 # Version History
+## v1.8.6
+|        |                      |
+|--------|----------------------|
+| Date   | 2025-05-08           |
+| Kind   | Bugfix / Improvement |
+| Author | mschiess@akamai.com  |
+
+
+
+- :exclamation::exclamation::exclamation: SIA (former ETP) Users  
+Please make sure to [checkout a new alternative](FAQ.md#is-there-an-alternative-to-stream-high-volume-sia--etp-logs-) to ULS (which pulling the DNS logs from the API).   
+The Akamai Secure Internet Access now allows a to PUSH the logs to you.  
+
+
+
+- **Docfixes**
+  - Added requirements and a little more detailed instructions on the helm usage
+  - Added an information related to an improved SIA (ETP) Log delivery alternative
+    - ULS will show a 3 second warning, when input=sia feed=dns to let the user know that there is alternative
+    - Added a [FAQ section](FAQ.md#is-there-an-alternative-to-stream-high-volume-sia--etp-logs-) to introduce the new SIA capabilities 
+
+- **Minor improvements**
+  - [docker] bumped Python container version to 3.13.3
+  - [docker] bumped CLI-EAA to version 0.6.11 (removed RC tag)
+  - [docker] bumped CLI-LN to version 0.0.5
+  - [docker] bumped CLI-GC to version 0.0.7
+  - [docker] bumped CLI-ETP to version 0.4.9 - now allowing 10x bigger page sizes !!
+  - upgraded several "requirement" dependencies
+
+
+- **Bugfixes**
+  - Bugfix in GC-CLI to prevent special char '%' in the password to break the execution (issue #87)
+  - Bugfix to show correct ACC-LOGS version in the `uls --version` output
+
+
+---
+
 ## v1.8.5
 |        |                     |
 |--------|---------------------|

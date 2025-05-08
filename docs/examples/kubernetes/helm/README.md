@@ -2,11 +2,25 @@
 
 This document describes the installation of the ULS [HELM CHART](https://helm.sh/)
 
+## Requirements
+- You have [cloned / checkout](https://github.com/akamai/uls/blob/main/docs/COMMAND_LINE_USAGE.md#clone-uls-repository) out this repository to your local disk
+- You have installed the following tools: kubectl, helm 
+
 ## Steps
+- [Change directory to the helm dir](#change-directory-to-the-helm-dir)
 - [Create an Akamai namepsace](#create-an-akamai-namepsace)
 - [Upload Akamai EDGERC FILE](#upload-akamai-edgerc-file)
-- 
 
+### Change directory to the helm dir
+As ULS does not (yet) provide a public helm repository in order to use the local helm chart, you need to change the directory into the helm.  
+Let's assume you have checked out the ULS repo to the following path: `/home/akamai/uls/`  
+
+Now change your directory to
+```shell
+cd /home/akamai/uls/docs/examples/kubernetes/helm/
+```
+in order to work with the "akamai-uls" chart.  
+Alternatively, you can also copy the "akamai-uls" directory (which is the actual helm chart) to any place that suits you.
 
 ### Create an Akamai namepsace
 It is strongly recommended to create a dedicated namespace and **not use the "default"** namespace.

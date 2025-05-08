@@ -224,6 +224,10 @@ class UlsInputCli:
                     self.edgerc_hostname = UlsTools.uls_check_edgerc(self.credentials_file, self.credentials_file_section,
                                               uls_config.edgerc_openapi + ["etp_config_id"])
                     my_feed = self._feed_selector(self.feed, product_feeds)
+                    if my_feed == "DNS":
+                        aka_log.log.warning(f"SIA-DNS FEED Improvement: Akamai SIA team has provided a smoother way of delivering huge log streams such as the DNS one to SIEM. Please have a look here: https://github.com/akamai/uls/blob/main/docs/FAQ.md#is-there-an-alternative-to-stream-high-volume-sia--etp-logs-")
+                        time.sleep(3)
+
                     cli_command = [self.bin_python, '-u', product_path, 'event', my_feed.lower(), '-f']
                     cli_command[3:3] = self._uls_useragent(self.product, my_feed)
                     cli_command[3:3] = edgegrid_auth

@@ -1,5 +1,5 @@
 jmespath>=1.0.1
 requests>=2.32.3
-pytz>=2024.1
-prometheus_client>=0.20.0
-setuptools>=72.1.0
+pytz>=2025.2
+prometheus_client>=0.21.1
+setuptools>=79.0.0

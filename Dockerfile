@@ -1,4 +1,4 @@
-FROM            python:3.13.2-slim-bookworm
+FROM            python:3.13.3-slim-bookworm
 LABEL           MAINTAINER="Mike Schiessl - mike.schiessl@akamai.com"
 LABEL	        APP_LONG="Akamai Unified Log Streamer"
 LABEL           APP_SHORT="ULS"
@@ -10,11 +10,11 @@ ARG             HOMEDIR="/opt/akamai-uls"
 ARG             ULS_DIR="$HOMEDIR/uls"
 ARG             EXT_DIR="$ULS_DIR/ext"
 
-ARG             ETP_CLI_VERSION="0.4.8"
-ARG             EAA_CLI_VERSION="rc0.6.11"
+ARG             ETP_CLI_VERSION="0.4.9"
+ARG             EAA_CLI_VERSION="0.6.11"
 ARG             MFA_CLI_VERSION="0.1.1"
-ARG             GC_CLI_VERSION="v0.0.6"
-ARG             LINODE_CLI_VERSION="v0.0.4"
+ARG             GC_CLI_VERSION="v0.0.7"
+ARG             LINODE_CLI_VERSION="v0.0.5"
 ARG             ACC_CLI_VERSION="v0.0.1-alpha"
 
 # ENV VARS
