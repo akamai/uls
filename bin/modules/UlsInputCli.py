@@ -208,6 +208,9 @@ class UlsInputCli:
                         cli_command.extend(self._prep_start_endtime('--start', self.starttime))
 
                 else:
+                    self.edgerc_hostname = UlsTools.uls_check_edgerc(self.credentials_file,
+                                                                     self.credentials_file_section,
+                                                                     uls_config.edgerc_openapi)
                     cli_command = [self.bin_python, product_path] + \
                                   self._uls_useragent(self.product, "rawcmd") +\
                                   shlex.split(self.rawcmd)
@@ -522,6 +525,11 @@ class UlsInputCli:
                 aka_log.log.exception("Error in ingest_loop")
 
     def get_edgerc_hostname(self):
-        return self.edgerc_hostname
+        if self.edgerc_hostname:
+            return self.edgerc_hostname
+        else:
+            return "no_hostname_available"
+
+
 
     # EOF

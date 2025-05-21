@@ -1,4 +1,18 @@
 # Version History
+## v1.8.7
+|        |                      |
+|--------|----------------------|
+| Date   | 2025-xx-xx           |
+| Kind   | Bugfix / Improvement |
+| Author | mschiess@akamai.com  |
+
+- **Bugfixes**
+  - fixed a bug that resulted with a "Variable substition triggered but no value given (inline code issue)" error when using RAWCMD option for EAA
+
+
+---
+
+
 ## v1.8.6
 |        |                      |
 |--------|----------------------|

@@ -529,6 +529,7 @@ class UlsOutput:
 
     def ingest_vars_into_output_format(self, placeholder: str = None, replacement: str = None):
         if not placeholder or not replacement:
+            #print(f"placeholder: {placeholder}, replacement: {replacement}")
             aka_log.log.debug(f"{self.name} Variable substition triggered but no value given (inline code issue)")
             #print(f"PLACEHOLDER: {placeholder}")
             #print(f"REPLACEMENT: {replacement}")
