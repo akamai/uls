@@ -6,9 +6,10 @@
 | Kind   | Bugfix / Improvement |
 | Author | mschiess@akamai.com  |
 
+
 - **Bugfixes**
   - fixed a bug that resulted with a "Variable substition triggered but no value given (inline code issue)" error when using RAWCMD option for EAA
-
+  - [docker] bumped CLI-LN to version 0.0.6 - (fixed a missing inline requirement)
 
 ---
 
