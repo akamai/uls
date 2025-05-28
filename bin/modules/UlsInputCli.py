@@ -196,8 +196,7 @@ class UlsInputCli:
                     cli_command[3:3] = self._uls_useragent(self.product, my_feed)
                     cli_command[3:3] = edgegrid_auth
                     cli_command[3:3] = self._prep_proxy(self.inproxy)
-                    if self._format_selector(self.cliformat) == "JSON":
-                        cli_command.append('--json')
+
 
                     # Append End and Starttime
                     if self.endtime:
@@ -206,6 +205,9 @@ class UlsInputCli:
                         cli_command.extend(self._prep_start_endtime('--end', self.endtime))
                     if self.starttime:
                         cli_command.extend(self._prep_start_endtime('--start', self.starttime))
+
+                    if self._format_selector(self.cliformat) == "JSON":
+                        cli_command.append('--json')
 
                 else:
                     self.edgerc_hostname = UlsTools.uls_check_edgerc(self.credentials_file,
