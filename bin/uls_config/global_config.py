@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import sys
 # Common global variables / constants
-__version__ = "1.8.6-alpha"
+__version__ = "1.9.0"
 __tool_name_long__ = "Akamai Unified Log Streamer"
 __tool_name_short__ = "ULS"
 
@@ -13,7 +13,7 @@ main_wait_default = 0.01                        # Default wait time within the m
 main_wait_max = 60                              # Maximum wait time for the main loop
 main_resend_attempts = 10                       # Maximum number of attempts to deliver the data
 main_resend_exit_on_fail = False                # Stop program, if a single logline was not able to be delivered after $main_resend_attempts
-
+cli_debug_default = False                       # default value for CLI DEBUG
 
     # EAA
 bin_eaa_cli = "ext/cli-eaa/bin/akamai-eaa"

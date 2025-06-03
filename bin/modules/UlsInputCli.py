@@ -41,7 +41,8 @@ class UlsInputCli:
                  inproxy=None,
                  starttime: int=None,
                  endtime: int=None,
-                 root_path: str=None):
+                 root_path: str=None,
+                 cli_debug: bool=False):
         """
         Initialzing a new UlsInput handler
         :param product: Input product
@@ -77,6 +78,7 @@ class UlsInputCli:
         self.starttime = starttime
         self.endtime = endtime
         self.root_path = root_path
+        self.cli_debug = cli_debug
 
         # Variables (load from uls_config)
         self.run_delay = uls_config.input_run_delay              # Time in seconds to wait for the first health check
@@ -144,236 +146,342 @@ class UlsInputCli:
             my_useragent = f'ULS/{uls_config.__version__}_{product}-{feed}{header_install_id}'
         return ["--user-agent-prefix", my_useragent]
 
+    def _cli_debug_cmd(self, debug_cmd: list):
+        """Craft the CLI Debug command, if required"""
+        if self.cli_debug:
+            aka_log.log.debug(f"{self.name} - Enabling the CLI DEBUG MODE")
+            return debug_cmd
+        else:
+            return None
+
+    def _gen_cli_cmd(self,
+                     cli_bin: str=None,
+                     cli_feeds: list=None,
+                     eventtrigger: str=None,
+                     cli_debug: list=None,
+                     edgerc_file: list=None,
+                     proxy: list=None,
+                     starttime: list=None,
+                     endtime: list=None,
+                     skip_feed: bool=False,
+                     follow_sign: str="-f",
+                     feed_override: list=None,
+                     outformat: list=None
+                     ):
+            """ Craft the CLI Command"""
+            product_path = self.root_path + "/" + cli_bin
+
+            # If there needs to be an adoption of the feed name (feed != the real feed)
+            if not feed_override:
+                tmp_feed = self._feed_selector(self.feed, cli_feeds).lower()
+                feed = [tmp_feed]
+
+            else:
+                feed = feed_override
+
+            # Craft the base command
+            my_cli_cmd = [self.bin_python, '-u', product_path]
+
+            if not self.rawcmd:
+                # Add CLI DEBUGGING if required
+                if cli_debug:
+                    my_cli_cmd = my_cli_cmd + cli_debug
+
+                # add the useragent
+                my_cli_cmd = my_cli_cmd + self._uls_useragent(self.product, "_".join(feed))
+                #my_cli_cmd = my_cli_cmd + self._uls_useragent(self.product, [feed])
+
+                # Add the edgerc, if provided
+                if edgerc_file:
+                    my_cli_cmd = my_cli_cmd + edgerc_file
+
+                if proxy:
+                    my_cli_cmd = my_cli_cmd + proxy
+
+                # Generating the rest of the command
+                if not skip_feed:
+                    my_cli_cmd = my_cli_cmd + [eventtrigger] + feed
+
+                if outformat:
+                    my_cli_cmd = my_cli_cmd + outformat
+
+                elif skip_feed:
+                    my_cli_cmd = my_cli_cmd + [eventtrigger]
+
+                if starttime:
+                    my_cli_cmd = my_cli_cmd + starttime
+
+                if endtime:
+                    my_cli_cmd = my_cli_cmd + endtime
+                else:
+                    my_cli_cmd = my_cli_cmd + [follow_sign]
+
+            elif self.rawcmd:
+                my_cli_cmd = my_cli_cmd + self._uls_useragent(self.product, "rawcmd")
+                my_cli_cmd = my_cli_cmd + shlex.split(self.rawcmd)
+
+            #print(my_cli_cmd)
+            #sys.exit(1)
+            return my_cli_cmd
+
+
     def proc_create(self):
 
         while self.running is False and self.rerun_counter <= self.rerun_retries and not self.run_once:
             edgegrid_auth = self._prep_edgegridauth(self.credentials_file,
                                                     self.credentials_file_section)
+
+
             aka_log.log.info(f'{self.name} - selected product: {self.product}')
 
-            # EAA config
+
+            # Enterprise Application Access
             if self.product == "EAA":
-                product_path = self.root_path + "/" + uls_config.bin_eaa_cli
-                product_feeds = uls_config.eaa_cli_feeds
-                if not self.rawcmd:
-                    my_feed = self._feed_selector(self.feed, product_feeds)
-                    if my_feed == "CONHEALTH":
-                        self.edgerc_hostname = UlsTools.uls_check_edgerc(self.credentials_file,
-                                                  self.credentials_file_section,
-                                                  uls_config.edgerc_openapi)
-                        cli_command = [self.bin_python,
-                                       '-u',
-                                       product_path,
-                                       'connector',
-                                       'list',
-                                       '--perf',
-                                       '--tail']
-                    elif my_feed == "DEVINV":
-                        self.edgerc_hostname = UlsTools.uls_check_edgerc(self.credentials_file,
-                                                  self.credentials_file_section,
-                                                  uls_config.edgerc_openapi)
-                        cli_command = [self.bin_python,
-                                       '-u',
-                                       product_path,
-                                       'dp',
-                                       'inventory',
-                                       '--tail']
-                    elif my_feed == "DIRHEALTH":
-                        self.edgerc_hostname = UlsTools.uls_check_edgerc(self.credentials_file,
-                                                  self.credentials_file_section,
-                                                  uls_config.edgerc_openapi)
-                        cli_command = [self.bin_python,
-                                       '-u',
-                                       product_path,
-                                       'dir',
-                                       'list',
-                                       '--tail']
-                    else:
-                        self.edgerc_hostname = UlsTools.uls_check_edgerc(self.credentials_file,
-                                                  self.credentials_file_section,
-                                                  uls_config.edgerc_eaa_legacy)
-                        cli_command = [self.bin_python, '-u', product_path, 'log', my_feed.lower(), '-f']
-                    cli_command[3:3] = self._uls_useragent(self.product, my_feed)
-                    cli_command[3:3] = edgegrid_auth
-                    cli_command[3:3] = self._prep_proxy(self.inproxy)
-                    if self._format_selector(self.cliformat) == "JSON":
-                        cli_command.append('--json')
+                my_feed = self._feed_selector(self.feed, uls_config.eaa_cli_feeds)
+                feed_format = None
+                if self.cliformat == "JSON":
+                    feed_format = ["--json"]
 
-                    # Append End and Starttime
-                    if self.endtime:
-                        # We need to remove "-f" from the end of the cli cmd if we work with endtime
-                        cli_command = cli_command[:-1]
-                        cli_command.extend(self._prep_start_endtime('--end', self.endtime))
-                    if self.starttime:
-                        cli_command.extend(self._prep_start_endtime('--start', self.starttime))
 
+                # Connection health
+                if my_feed == "CONHEALTH":
+                    self.edgerc_hostname = UlsTools.uls_check_edgerc(
+                        self.credentials_file,
+                        self.credentials_file_section,
+                        uls_config.edgerc_openap
+                    )
+
+                    cli_command = self._gen_cli_cmd(
+                        cli_bin=uls_config.bin_eaa_cli,
+                        cli_feeds=uls_config.eaa_cli_feeds,
+                        eventtrigger="connector",
+                        cli_debug=self._cli_debug_cmd(["--debug"]),
+                        edgerc_file=edgegrid_auth,
+                        proxy=self._prep_proxy(self.inproxy),
+                        starttime=self._prep_start_endtime('--start', self.starttime),
+                        endtime=self._prep_start_endtime('--end', self.endtime),
+                        feed_override=["list", "--perf"],
+                        follow_sign="--tail",
+                        outformat=feed_format
+                    )
+
+                # Device Inventory
+                elif my_feed == "DEVINV":
+                    self.edgerc_hostname = UlsTools.uls_check_edgerc(
+                        self.credentials_file,
+                        self.credentials_file_section,
+                        uls_config.edgerc_openapi
+                    )
+
+                    cli_command = self._gen_cli_cmd(
+                        cli_bin=uls_config.bin_eaa_cli,
+                        cli_feeds=uls_config.eaa_cli_feeds,
+                        eventtrigger="dp",
+                        cli_debug=self._cli_debug_cmd(["--debug"]),
+                        edgerc_file=edgegrid_auth,
+                        proxy=self._prep_proxy(self.inproxy),
+                        starttime=self._prep_start_endtime('--start', self.starttime),
+                        endtime=self._prep_start_endtime('--end', self.endtime),
+                        feed_override=["inventory"],
+                        follow_sign="--tail"
+                    )
+
+                # Directory Health
+                elif my_feed == "DIRHEALTH":
+                    self.edgerc_hostname = UlsTools.uls_check_edgerc(
+                        self.credentials_file,
+                        self.credentials_file_section,
+                        uls_config.edgerc_openapi
+                    )
+
+                    cli_command = self._gen_cli_cmd(
+                        cli_bin=uls_config.bin_eaa_cli,
+                        cli_feeds=uls_config.eaa_cli_feeds,
+                        eventtrigger="dir",
+                        cli_debug=self._cli_debug_cmd(["--debug"]),
+                        edgerc_file=edgegrid_auth,
+                        proxy=self._prep_proxy(self.inproxy),
+                        starttime=self._prep_start_endtime('--start', self.starttime),
+                        endtime=self._prep_start_endtime('--end', self.endtime),
+                        feed_override=["list"],
+                        follow_sign="--tail",
+                        outformat=feed_format
+                    )
+
+                # All olhter (standard) feeds
                 else:
-                    cli_command = [self.bin_python, product_path] + \
-                                  self._uls_useragent(self.product, "rawcmd") +\
-                                  shlex.split(self.rawcmd)
+                    self.edgerc_hostname = UlsTools.uls_check_edgerc(
+                        self.credentials_file,
+                        self.credentials_file_section,
+                        uls_config.edgerc_eaa_legacy
+                    )
 
-            # ETP config
+                    cli_command = self._gen_cli_cmd(
+                        cli_bin=uls_config.bin_eaa_cli,
+                        cli_feeds=uls_config.eaa_cli_feeds,
+                        eventtrigger="log",
+                        cli_debug=self._cli_debug_cmd(["--debug"]),
+                        edgerc_file=edgegrid_auth,
+                        proxy=self._prep_proxy(self.inproxy),
+                        starttime=self._prep_start_endtime('--start', self.starttime),
+                        endtime=self._prep_start_endtime('--end', self.endtime),
+                        outformat=feed_format
+                    )
+
+            # Enterprise Threat Protector / Secure Internet Access)
             elif self.product == "ETP" or self.product == "SIA":
-                product_path = self.root_path + "/" + uls_config.bin_etp_cli
-                product_feeds = uls_config.etp_cli_feeds
+                my_feed = self._feed_selector(self.feed, uls_config.etp_cli_feeds)
 
+                self.edgerc_hostname = UlsTools.uls_check_edgerc(
+                    self.credentials_file,
+                    self.credentials_file_section,
+                    uls_config.edgerc_openapi + ["etp_config_id"])
+
+                # Only JSON format support
                 if not self.cliformat == "JSON":
                     aka_log.log.warning(f"{self.name} - Selected LOG Format ({self.cliformat}) "
-                                        f"not available for {product_path}, continuing with JSON.")
-                if not self.rawcmd:
-                    self.edgerc_hostname = UlsTools.uls_check_edgerc(self.credentials_file, self.credentials_file_section,
-                                              uls_config.edgerc_openapi + ["etp_config_id"])
-                    my_feed = self._feed_selector(self.feed, product_feeds)
-                    if my_feed == "DNS":
-                        aka_log.log.warning(f"SIA-DNS FEED Improvement: Akamai SIA team has provided a smoother way of delivering huge log streams such as the DNS one to SIEM. Please have a look here: https://github.com/akamai/uls/blob/main/docs/FAQ.md#is-there-an-alternative-to-stream-high-volume-sia--etp-logs-")
-                        time.sleep(3)
+                                        f"not available for {self.product}, continuing with JSON.")
+                    self.cliformat = "JSON"
 
-                    cli_command = [self.bin_python, '-u', product_path, 'event', my_feed.lower(), '-f']
-                    cli_command[3:3] = self._uls_useragent(self.product, my_feed)
-                    cli_command[3:3] = edgegrid_auth
-                    cli_command[3:3] = self._prep_proxy(self.inproxy)
+                # Trigger DNS WARNING MESSAGE
+                if my_feed == "DNS":
+                    aka_log.log.warning(f"SIA-DNS FEED Improvement: Akamai SIA team has provided a smoother way of delivering huge log streams such as the DNS one to SIEM. Please have a look here: https://github.com/akamai/uls/blob/main/docs/FAQ.md#is-there-an-alternative-to-stream-high-volume-sia--etp-logs-")
+                    time.sleep(3)
 
-                    # Append End and Starttime
-                    if self.endtime:
-                        # We need to remove "-f" from the end of the cli cmd if we work with endtime
-                        aka_log.log.debug(f"Internally set my starttime to: {self.endtime}")
-                        cli_command = cli_command[:-1]
-                        cli_command.extend(self._prep_start_endtime('--end', self.endtime))
-                    if self.starttime:
-                        aka_log.log.debug(f"Internally set my starttime to: {self.starttime}")
-                        cli_command.extend(self._prep_start_endtime('--start', self.starttime))
+                cli_command = self._gen_cli_cmd(
+                    cli_bin=uls_config.bin_etp_cli,
+                    cli_feeds=uls_config.etp_cli_feeds,
+                    eventtrigger="event",
+                    cli_debug=self._cli_debug_cmd(["--debug"]),
+                    edgerc_file=edgegrid_auth,
+                    proxy=self._prep_proxy(self.inproxy),
+                    starttime=self._prep_start_endtime('--start', self.starttime),
+                    endtime=self._prep_start_endtime('--end', self.endtime),
+                )
 
-                else:
-                    cli_command = [self.bin_python, product_path] +\
-                                  self._uls_useragent(self.product, "rawcmd") +\
-                                  shlex.split(self.rawcmd)
-
-            # MFA config
+            # Akamai MFA
             elif self.product == "MFA":
-                product_path = self.root_path + "/" + uls_config.bin_mfa_cli
-                product_feeds = uls_config.mfa_cli_feeds
+                # Check the EDGERC for the product
+                self.edgerc_hostname = UlsTools.uls_check_edgerc(
+                    self.credentials_file,
+                    self.credentials_file_section,
+                    uls_config.edgerc_mfa
+                )
+
+                # Only JSON format support
                 if not self.cliformat == "JSON":
                     aka_log.log.warning(f"{self.name} - Selected LOG Format ({self.cliformat}) "
-                                        f"not available for {product_path}, continuing with JSON.")
-                if not self.rawcmd:
-                    self.edgerc_hostname = UlsTools.uls_check_edgerc(self.credentials_file,
-                                              self.credentials_file_section,
-                                              uls_config.edgerc_mfa)
-                    my_feed = self._feed_selector(self.feed, product_feeds)
-                    cli_command = [self.bin_python, '-u', product_path, 'event', '-f']
-                    cli_command[3:3] = self._uls_useragent(self.product, my_feed)
-                    cli_command[3:3] = edgegrid_auth
-                    cli_command[3:3] = self._prep_proxy(self.inproxy)
+                                        f"not available for {self.product}, continuing with JSON.")
+                    self.cliformat = "JSON"
 
-                    # Append End and Starttime
-                    if self.endtime:
-                        # We need to remove "-f" from the end of the cli cmd if we work with endtime
-                        cli_command = cli_command[:-1]
-                        cli_command.extend(self._prep_start_endtime('--end', self.endtime))
-                    if self.starttime:
-                        cli_command.extend(self._prep_start_endtime('--start', self.starttime))
-
-                else:
-                    cli_command = [self.bin_python, product_path] +\
-                                  self._uls_useragent(self.product, "rawcmd") +\
-                                  shlex.split(self.rawcmd)
+                cli_command = self._gen_cli_cmd(
+                    cli_bin=uls_config.bin_mfa_cli,
+                    cli_feeds=uls_config.mfa_cli_feeds,
+                    eventtrigger="event",
+                    cli_debug=self._cli_debug_cmd(["--debug"]),
+                    edgerc_file=edgegrid_auth,
+                    proxy=self._prep_proxy(self.inproxy),
+                    starttime=self._prep_start_endtime('--start', self.starttime),
+                    endtime=self._prep_start_endtime('--end', self.endtime),
+                    skip_feed=True
+                )
 
             # Guardicore config
             elif self.product == "GC":
-                product_path = self.root_path + "/" + uls_config.bin_gc_cli
-                product_feeds = uls_config.gc_cli_feeds
+                # Check the EDGERC for the product
+                self.edgerc_hostname = UlsTools.uls_check_edgerc(
+                    self.credentials_file,
+                    self.credentials_file_section,
+                    uls_config.edgerc_gc
+                )
+
+                # Only JSON format support
                 if not self.cliformat == "JSON":
                     aka_log.log.warning(f"{self.name} - Selected LOG Format ({self.cliformat}) "
-                                        f"not available for {product_path}, continuing with JSON.")
-                if not self.rawcmd:
-                    self.edgerc_hostname = UlsTools.uls_check_edgerc(self.credentials_file,
-                                              self.credentials_file_section,
-                                              uls_config.edgerc_gc)
-                    my_feed = self._feed_selector(self.feed, product_feeds)
-                    cli_command = [self.bin_python, '-u', product_path, 'events', my_feed.lower(), '-f']
-                    cli_command[3:3] = self._uls_useragent(self.product, my_feed)
-                    cli_command[3:3] = edgegrid_auth
-                    cli_command[3:3] = self._prep_proxy(self.inproxy)
+                                        f"not available for {self.product}, continuing with JSON.")
+                    self.cliformat = "JSON"
 
-                    # Append End and Starttime
-                    if self.endtime:
-                        # We need to remove "-f" from the end of the cli cmd if we work with endtime
-                        cli_command = cli_command[:-1]
-                        cli_command.extend(self._prep_start_endtime('--end', self.endtime))
-                    if self.starttime:
-                        cli_command.extend(self._prep_start_endtime('--start', self.starttime))
-
-                else:
-                    cli_command = [self.bin_python, product_path] +\
-                                  self._uls_useragent(self.product, "rawcmd") +\
-                                  shlex.split(self.rawcmd)
+                cli_command = self._gen_cli_cmd(
+                    cli_bin=uls_config.bin_gc_cli,
+                    cli_feeds=uls_config.gc_cli_feeds,
+                    eventtrigger="events",
+                    cli_debug=self._cli_debug_cmd(["-l", "debug"]),
+                    edgerc_file=edgegrid_auth,
+                    proxy=self._prep_proxy(self.inproxy),
+                    starttime=self._prep_start_endtime('--start', self.starttime),
+                    endtime=self._prep_start_endtime('--end', self.endtime),
+                )
 
             # LINODE config
             elif self.product == "LINODE":
-                product_path = self.root_path + "/" + uls_config.bin_linode_cli
-                product_feeds = uls_config.linode_cli_feeds
+
+                # Check the EDGERC for the product
+                self.edgerc_hostname = UlsTools.uls_check_edgerc(
+                    self.credentials_file,
+                    self.credentials_file_section,
+                    uls_config.edgerc_linode)
+
+                # Only JSON format support
                 if not self.cliformat == "JSON":
                     aka_log.log.warning(f"{self.name} - Selected LOG Format ({self.cliformat}) "
-                                        f"not available for {product_path}, continuing with JSON.")
-                if not self.rawcmd:
+                                        f"not available for {self.product}, continuing with JSON.")
+                    self.cliformat = "JSON"
 
-                    self.edgerc_hostname = UlsTools.uls_check_edgerc(self.credentials_file,
-                                              self.credentials_file_section,
-                                              uls_config.edgerc_linode)
-                    my_feed = self._feed_selector(self.feed, product_feeds)
+                my_feed = self._feed_selector(self.feed, uls_config.linode_cli_feeds)
+                if my_feed == "AUDIT":
+                    cli_command = self._gen_cli_cmd(
+                        cli_bin = uls_config.bin_linode_cli,
+                        cli_feeds=uls_config.linode_cli_feeds,
+                        eventtrigger="events",
+                        cli_debug=self._cli_debug_cmd(["-l", "debug"]),
+                        edgerc_file=edgegrid_auth,
+                        proxy=self._prep_proxy(self.inproxy),
+                        starttime=self._prep_start_endtime('--start', self.starttime),
+                        endtime=self._prep_start_endtime('--end', self.endtime),
+                    )
 
-                    if my_feed == "AUDIT":
-                        cli_command = [self.bin_python, '-u', product_path, 'events', my_feed.lower(), '-f']
-                    elif my_feed == "UTILIZATION":
-                        cli_command = [self.bin_python, '-u', product_path, 'utilization', '-f']
-
-                    cli_command[3:3] = self._uls_useragent(self.product, my_feed)
-                    cli_command[3:3] = edgegrid_auth
-                    cli_command[3:3] = self._prep_proxy(self.inproxy)
-
-                    # Append End and Starttime
-                    if self.endtime:
-                        # We need to remove "-f" from the end of the cli cmd if we work with endtime
-                        cli_command = cli_command[:-1]
-                        cli_command.extend(self._prep_start_endtime('--end', self.endtime))
-                    if self.starttime:
-                        cli_command.extend(self._prep_start_endtime('--start', self.starttime))
-
-                else:
-                    cli_command = [self.bin_python, product_path] +\
-                                  self._uls_useragent(self.product, "rawcmd") +\
-                                  shlex.split(self.rawcmd)
+                elif my_feed == "UTILIZATION":
+                    cli_command = self._gen_cli_cmd(
+                        cli_bin=uls_config.bin_linode_cli,
+                        cli_feeds=uls_config.linode_cli_feeds,
+                        eventtrigger="utilization",
+                        cli_debug=self._cli_debug_cmd(["-l", "debug"]),
+                        edgerc_file=edgegrid_auth,
+                        proxy=self._prep_proxy(self.inproxy),
+                        starttime=self._prep_start_endtime('--start', self.starttime),
+                        endtime=self._prep_start_endtime('--end', self.endtime),
+                        skip_feed=True
+                    )
 
             # Akamai Control Center config
             elif self.product == "ACC":
-                product_path = self.root_path + "/" + uls_config.bin_acc_logs
-                product_feeds = uls_config.acc_logs_feeds
+
+                # Check the EDGERC for the product
+                self.edgerc_hostname = UlsTools.uls_check_edgerc(
+                    self.credentials_file,
+                    self.credentials_file_section,
+                    uls_config.edgerc_openapi
+                )
+
+                # Only JSON format support
                 if not self.cliformat == "JSON":
                     aka_log.log.warning(f"{self.name} - Selected LOG Format ({self.cliformat}) "
-                                        f"not available for {product_path}, continuing with JSON.")
-                if not self.rawcmd:
-                    self.edgerc_hostname = UlsTools.uls_check_edgerc(self.credentials_file,
-                                              self.credentials_file_section,
-                                              uls_config.edgerc_openapi)
-                    my_feed = self._feed_selector(self.feed, product_feeds)
-                    if my_feed == "EVENTS":
-                        my_feed = "getevents"
-                    cli_command = [self.bin_python, '-u', product_path, 'events', my_feed.lower(), '-f']
-                    cli_command[3:3] = self._uls_useragent(self.product, my_feed)
-                    cli_command[3:3] = edgegrid_auth
-                    cli_command[3:3] = self._prep_proxy(self.inproxy)
+                                        f"not available for {self.product}, continuing with JSON.")
+                    self.cliformat = "JSON"
 
-                    # Append End and Starttime
-                    if self.endtime:
-                        # We need to remove "-f" from the end of the cli cmd if we work with endtime
-                        cli_command = cli_command[:-1]
-                        cli_command.extend(self._prep_start_endtime('--end', self.endtime))
-                    if self.starttime:
-                        cli_command.extend(self._prep_start_endtime('--start', self.starttime))
-                else:
-                    cli_command = [self.bin_python, product_path] +\
-                                  self._uls_useragent(self.product, "rawcmd") +\
-                                  shlex.split(self.rawcmd)
+                my_feed = self._feed_selector(self.feed, uls_config.acc_logs_feeds)
+                if my_feed == "EVENTS":
+                    cli_command = self._gen_cli_cmd(
+                        cli_bin=uls_config.bin_acc_logs,
+                        cli_feeds=uls_config.acc_logs_feeds,
+                        eventtrigger="events",
+                        cli_debug=self._cli_debug_cmd(["-l", "debug"]),
+                        edgerc_file=edgegrid_auth,
+                        proxy=self._prep_proxy(self.inproxy),
+                        starttime=self._prep_start_endtime('--start', self.starttime),
+                        endtime=self._prep_start_endtime('--end', self.endtime),
+                        feed_override=["getevents"]
+                    )
 
             # Mocked output
             elif self.product == "MOCK":
@@ -389,15 +497,25 @@ class UlsInputCli:
             try:
                 # Lets start the selection
                 self.cycle_counter = 0
+                while "" in cli_command:
+                    cli_command.remove("")
                 aka_log.log.info(f'{self.name} - CLI Command:  {" ".join(cli_command)}')
                 os.environ["PYTHONUNBUFFERED"] = "1"
-                self.cli_proc = subprocess.Popen(cli_command,
-                                                 stdout=subprocess.PIPE,
-                                                 stderr=subprocess.PIPE)
+                if not self.cli_debug:
+                    self.cli_proc = subprocess.Popen(cli_command,
+                                                     stdout=subprocess.PIPE,
+                                                     stderr=subprocess.PIPE)
+                elif self.cli_debug:
+                    self.cli_proc = subprocess.Popen(cli_command,
+                                                     stdout=subprocess.PIPE,
+                                                     stderr=sys.stdout.buffer)
+
                 aka_log.log.info(f"{self.name} - started PID[{self.cli_proc.pid}]: "
                                  f"{' '.join(cli_command)}")
                 self.proc = self.cli_proc
                 self.proc_output = self.cli_proc.stdout
+
+
 
                 # Non-blocking on windows causes trouble so we're avoiding it
                 # 2022-07-08: Disabled completely see EME-588
@@ -522,6 +640,11 @@ class UlsInputCli:
                 aka_log.log.exception("Error in ingest_loop")
 
     def get_edgerc_hostname(self):
-        return self.edgerc_hostname
+        if self.edgerc_hostname:
+            return self.edgerc_hostname
+        else:
+            return "no_hostname_available"
+
+
 
     # EOF

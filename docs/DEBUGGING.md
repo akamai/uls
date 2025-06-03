@@ -26,7 +26,8 @@ We strongly encourage to always get the latest version of ULS. You can find the 
       - [Docker](#docker-1)
   - [Debug output from CLI's](#debug-output-from-clis)
     - [Steps to get CLI Debug output](#steps-to-get-cli-debug-output)
-      - [CLI with ULS](#cli-with-uls)
+      - [CLIDEBUG mode](#clidebug-mode)
+      - [manual CLI debugging](#manual-cli-debugging)
       - [DOCKER / DOCKER-COMPOSE](#docker--docker-compose)
 
 ## Version information
@@ -91,7 +92,22 @@ This is helpful when a deeper debugging from within the CLI tool is required.
 
 ### Steps to get CLI Debug output
 
-#### CLI with ULS
+#### CLIDEBUG mode
+In ULS 1.9.0, a new feature `--clidebug` was introduced to simplify debugging.  
+The `--clidebug` option will only work alongside the "RAW" output.  
+This is to prevent sending of any sensitive data outside of the "ULS instance".  
+
+How to use the `--clidebug` flag (Example on GuardiCore):
+```shell
+# This will print loglines AND the CLI debug output
+python3 bin/uls.py --input gc --feed netlog --output raw --clidebug
+
+# This will print the loglines, the CLI debug output and ULS debug output
+python3 bin/uls.py --input gc --feed netlog --output raw --clidebug --loglevel debug
+```
+
+
+#### manual CLI debugging
 
  1) Run the desired stream in [ULS DEBUG mode](#debug-output-from-uls) and grab the command output i.e.
     ```bash

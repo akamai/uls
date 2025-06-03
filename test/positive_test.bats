@@ -172,6 +172,34 @@ load 'bats/bats-assert/load.bash'
     [ "$status" -eq 100 ] || [ "$status" -eq 130 ] || [ "$status" -eq 137 ]        #return value from uls when interrupted --> with --preserve status on timeout
 }
 
+@test "SIA - THREAT" {
+    run timeout ${uls_timeout_params} ${uls_bin} --input sia --feed threat --output raw --edgerc $uls_edgerc --section $uls_section --loglevel info
+    assert_line --partial "UlsInputCli - started PID"
+    refute_line --partial "was found stale -"
+    [ "$status" -eq 100 ] || [ "$status" -eq 130 ] || [ "$status" -eq 137 ]        #return value from uls when interrupted --> with --preserve status on timeout
+}
+
+@test "SIA - AUP" {
+    run timeout ${uls_timeout_params} ${uls_bin} --input sia --feed aup --output raw --edgerc $uls_edgerc --section $uls_section --loglevel info
+    assert_line --partial "UlsInputCli - started PID"
+    refute_line --partial "was found stale -"
+    [ "$status" -eq 100 ] || [ "$status" -eq 130 ] || [ "$status" -eq 137 ]        #return value from uls when interrupted --> with --preserve status on timeout
+}
+
+#@test "SIA - PROXY" {
+#    run timeout ${uls_timeout_params} ${uls_bin} --input sia --feed proxy --output raw --edgerc $uls_edgerc --section $uls_section --loglevel info
+#    assert_line --partial "UlsInputCli - started PID"
+#    refute_line --partial "was found stale -"
+#    [ "$status" -eq 100 ] || [ "$status" -eq 130 ] || [ "$status" -eq 137 ]        #return value from uls when interrupted --> with --preserve status on timeout
+#}
+
+@test "SIA - NETCON" {
+    run timeout ${uls_timeout_params} ${uls_bin} --input sia --feed netcon --output raw --edgerc $uls_edgerc --section $uls_section --loglevel info
+    assert_line --partial "UlsInputCli - started PID"
+    refute_line --partial "was found stale -"
+    [ "$status" -eq 100 ] || [ "$status" -eq 130 ] || [ "$status" -eq 137 ]        #return value from uls when interrupted --> with --preserve status on timeout
+}
+
 ## MFA
 @test "MFA - EVENT" {
     run timeout ${uls_timeout_params} ${uls_bin} --input mfa --feed event --output raw --edgerc $uls_edgerc --section $uls_section --loglevel info
@@ -194,6 +222,34 @@ load 'bats/bats-assert/load.bash'
     [ "$status" -eq 100 ] || [ "$status" -eq 130 ] || [ "$status" -eq 137 ]         #return value from uls when interrupted --> with --preserve status on timeout
 }
 
+@test "GC - INCIDENT" {
+    run timeout ${uls_timeout_params} ${uls_bin} --input gc --feed incident --output raw --edgerc $uls_edgerc --section $uls_section --loglevel info
+    assert_line --partial "UlsInputCli - started PID"
+    refute_line --partial "was found stale -"
+    [ "$status" -eq 100 ] || [ "$status" -eq 130 ] || [ "$status" -eq 137 ]         #return value from uls when interrupted --> with --preserve status on timeout
+}
+
+@test "GC - AGENT" {
+    run timeout ${uls_timeout_params} ${uls_bin} --input gc --feed agent --output raw --edgerc $uls_edgerc --section $uls_section --loglevel info
+    assert_line --partial "UlsInputCli - started PID"
+    refute_line --partial "was found stale -"
+    [ "$status" -eq 100 ] || [ "$status" -eq 130 ] || [ "$status" -eq 137 ]         #return value from uls when interrupted --> with --preserve status on timeout
+}
+
+@test "GC - SYSTEM" {
+    run timeout ${uls_timeout_params} ${uls_bin} --input gc --feed system --output raw --edgerc $uls_edgerc --section $uls_section --loglevel info
+    assert_line --partial "UlsInputCli - started PID"
+    refute_line --partial "was found stale -"
+    [ "$status" -eq 100 ] || [ "$status" -eq 130 ] || [ "$status" -eq 137 ]         #return value from uls when interrupted --> with --preserve status on timeout
+}
+
+@test "GC - AUDIT" {
+    run timeout ${uls_timeout_params} ${uls_bin} --input gc --feed audit --output raw --edgerc $uls_edgerc --section $uls_section --loglevel info
+    assert_line --partial "UlsInputCli - started PID"
+    refute_line --partial "was found stale -"
+    [ "$status" -eq 100 ] || [ "$status" -eq 130 ] || [ "$status" -eq 137 ]         #return value from uls when interrupted --> with --preserve status on timeout
+}
+
 ## LINODE
 @test "LINODE - AUDIT" {
     run timeout ${uls_timeout_params} ${uls_bin} --input linode --feed audit --output raw --edgerc $uls_edgerc --section $uls_section --loglevel info
@@ -202,6 +258,13 @@ load 'bats/bats-assert/load.bash'
     refute_line --partial "was found stale -"
     #assert_output --partial "The specified directory tmp does not exist or privileges are missing - exiting"
     #[ "$status" -eq 124 ]      #return value from timeout without --preserve status
+    [ "$status" -eq 100 ] || [ "$status" -eq 130 ] || [ "$status" -eq 137 ]        #return value from uls when interrupted --> with --preserve status on timeout
+}
+
+@test "LINODE - UTILIZATION" {
+    run timeout ${uls_timeout_params} ${uls_bin} --input linode --feed utilization --output raw --edgerc $uls_edgerc --section $uls_section --loglevel info
+    assert_line --partial "UlsInputCli - started PID"
+    refute_line --partial "was found stale -"
     [ "$status" -eq 100 ] || [ "$status" -eq 130 ] || [ "$status" -eq 137 ]        #return value from uls when interrupted --> with --preserve status on timeout
 }
 
@@ -216,6 +279,11 @@ load 'bats/bats-assert/load.bash'
     [ "$status" -eq 100 ] || [ "$status" -eq 130 ] || [ "$status" -eq 137 ]         #return value from uls when interrupted --> with --preserve status on timeout
 }
 
+# --------------------
+# End feed testes
+
+#---------------------
+# Functional Tests
 
 ## FILE OUTPUT
 @test "FILE: ETP - THREAT" {
@@ -293,9 +361,17 @@ load 'bats/bats-assert/load.bash'
    assert_output --partial 'DEBUG UlsMonitoring Prometheus monitoring started...'
 }
 
+## CLIDEBUG
+@test "CLIDEBUG - starting test" {
+   run timeout 5 ${uls_bin} --section ${uls_section} --input etp --feed dns --output raw --loglevel debug --clidebug
+   assert_output --partial 'CLIDEBUG has been enabled, beside the loglines, you will also see debug information from the underlying CLI'
+}
+
+
 ## HELM LINT
 @test "LINT the HELM CHART" {
     run helm lint docs/examples/kubernetes/helm/akamai-uls --strict
     assert_output --partial "0 chart(s) failed"
     [ "$status" -eq 0 ]       #return value for Chart Lint: 0
 }
+

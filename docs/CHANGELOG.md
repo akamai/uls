@@ -1,4 +1,24 @@
 # Version History
+
+## v1.9.0
+|        |                     |
+|--------|---------------------|
+| Date   | 2025-06-03          |
+| Kind   | MAJOR release       |
+| Author | mschiess@akamai.com |
+
+- **Features**
+  - New `--clidebug` trigger to allow inline debugging of the underlying CLI (only works with RAW output)
+  - Complete rework of the "INPUT CLI" tool to fix a bug related to start- and stoptime
+
+
+- **Bugfixes**
+  - fixed a bug that prevented json output on "EAA" --start & --end time
+  - fixed a bug that resulted with a "Variable substition triggered but no value given (inline code issue)" error when using RAWCMD option for EAA
+  - [docker] bumped CLI-LN to version 0.0.6 - (fixed a missing inline requirement)
+
+---
+
 ## v1.8.6
 |        |                      |
 |--------|----------------------|
