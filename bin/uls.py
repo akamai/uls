@@ -86,6 +86,14 @@ def main():
         autoresume_data = UlsTools.check_autoresume(input=uls_args.input, feed=uls_args.feed, checkpoint_dir=uls_args.autoresumepath)
         uls_args.starttime = autoresume_data['checkpoint']
         autoresume_file =  autoresume_data['filename']
+
+    # Avoid usage of CLI_DEBUG alongside any other output than raw, as this would lead to insecure data injections
+    if uls_args.clidebug and not uls_args.output == "RAW":
+        aka_log.log.critical(f"Error: CLI_DEBUG (--clidebug) can only be used with the raw output (for security reasons). Exiting.")
+        sys.exit(1)
+    else:
+        aka_log.log.warning(f"CLIDEBUG has been enabled, beside the loglines, you will also see debug information from the underlying CLI")
+
     # Check CLI Environment
     UlsTools.uls_check_sys(root_path=root_path, uls_input=uls_args.input)
 
@@ -113,7 +121,8 @@ def main():
                                        rawcmd=uls_args.rawcmd,
                                        starttime=uls_args.starttime,
                                        endtime=uls_args.endtime,
-                                       root_path=root_path)
+                                       root_path=root_path,
+                                       cli_debug=uls_args.clidebug)
 
 
     # Connect to the selected input UlsOutput

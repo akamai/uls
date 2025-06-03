@@ -1,11 +1,14 @@
 # Version History
-## v1.8.7
-|        |                      |
-|--------|----------------------|
-| Date   | 2025-xx-xx           |
-| Kind   | Bugfix / Improvement |
-| Author | mschiess@akamai.com  |
+## v1.9.0
+|        |                     |
+|--------|---------------------|
+| Date   | 2025-xx-xx          |
+| Kind   | MAJOR release       |
+| Author | mschiess@akamai.com |
 
+- **Features**
+  - New `--clidebug` trigger to allow inline debugging of the underlying CLI (only works with RAW output)
+  - Complete rework of the "INPUT CLI" tool to fix a bug related to start- and stoptime
 
 - **Bugfixes**
   - fixed a bug that prevented json output on "EAA" --start & --end time

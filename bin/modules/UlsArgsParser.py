@@ -31,6 +31,15 @@ def init():
                         choices=uls_config.log_levels_available,
                         help=f'Adjust the loglevel Default: {uls_config.log_level_default}')
 
+    parser.add_argument('--clidebug',
+                        action='store',
+                        type=bool,
+                        nargs='?',
+                        default=(os.environ.get('ULS_CLIDEBUG') or uls_config.cli_debug_default),
+                        const=True,
+                        dest='clidebug',
+                        help=f'Turn on/off the CLI DEBUG output. This will work with RAW OUTPUT only ! Default: {uls_config.cli_debug_default}')
+
     parser.add_argument('--json-log',
                         action='store',
                         dest='jsonlog',
