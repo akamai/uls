@@ -52,14 +52,6 @@ load 'bats/bats-assert/load.bash'
 
 #  POSITIVE tests
 ## EAA
-#@test "EAA - ACCESS" {
-#    run timeout  --kill-after=$uls_kill_timeout --signal=2 --preserve-status $uls_test_timeout  $uls_bin --input eaa --feed access --output raw --edgerc $uls_edgerc --section $uls_section
-#    assert_output --partial $eaa_access_assert
-#    #assert_output --partial "The specified directory tmp does not exist or privileges are missing - exiting"
-#    #[ "$status" -eq 124 ]      #return value from timeout without --preserve status
-#    [ "$status" -eq 100 ] || [ "$status" -eq 130 ] || [ "$status" -eq 2 ]        #return value from uls when interrupted --> with --preserve status on timeout
-#}
-
 @test "EAA - ACCESS" {
     run timeout ${uls_timeout_params} ${uls_bin} --input eaa --feed access --output raw --edgerc $uls_edgerc --section $uls_section --loglevel info
     #assert_output --partial $eaa_access_assert
@@ -346,24 +338,24 @@ load 'bats/bats-assert/load.bash'
 
 ## JSON LOGGING
 @test "JSON Logging test - unmodified logline" {
-   run timeout 5 ${uls_bin} --section ${uls_section} --input etp --feed dns --output raw --loglevel debug --json-log
+   run timeout ${uls_timeout_params} ${uls_bin} --section ${uls_section} --input etp --feed dns --output raw --loglevel debug --json-log
    assert_output --partial '"log_level": "DEBUG", "component": "ULS", "message": "UlsMonitoring monitoring thread started..."'
 }
 
 @test "JSON Logging test - modified logline" {
-   run timeout 5 ${uls_bin} --section ${uls_section} --input etp --feed dns --output raw --loglevel debug --json-log --ulslogformat '{"timestamp": "%(asctime)s", "log_level": "%(levelname)s", "component": "%(name)s", "message": "%(message)s", "ulsrocks": "yes"}'
+   run timeout ${uls_timeout_params} ${uls_bin} --section ${uls_section} --input etp --feed dns --output raw --loglevel debug --json-log --ulslogformat '{"timestamp": "%(asctime)s", "log_level": "%(levelname)s", "component": "%(name)s", "message": "%(message)s", "ulsrocks": "yes"}'
    assert_output --partial '"log_level": "DEBUG", "component": "ULS", "message": "UlsMonitoring monitoring thread started...", "ulsrocks": "yes"'
 }
 
 ## Prometheus
 @test "PROMETHEUS - starting test" {
-   run timeout 5 ${uls_bin} --section ${uls_section} --input etp --feed dns --output raw --loglevel debug --prometheus
+   run timeout ${uls_timeout_params} ${uls_bin} --section ${uls_section} --input etp --feed dns --output raw --loglevel debug --prometheus
    assert_output --partial 'DEBUG UlsMonitoring Prometheus monitoring started...'
 }
 
 ## CLIDEBUG
 @test "CLIDEBUG - starting test" {
-   run timeout 5 ${uls_bin} --section ${uls_section} --input etp --feed dns --output raw --loglevel debug --clidebug
+   run timeout ${uls_timeout_params} ${uls_bin} --section ${uls_section} --input etp --feed dns --output raw --loglevel debug --clidebug
    assert_output --partial 'CLIDEBUG has been enabled, beside the loglines, you will also see debug information from the underlying CLI'
 }
 

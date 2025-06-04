@@ -1,4 +1,13 @@
 # Version History
+## v1.9.1
+|        |                     |
+|--------|---------------------|
+| Date   | 2025-06-03          |
+| Kind   | MAJOR release       |
+| Author | mschiess@akamai.com |
+
+- **Features**
+
 
 ## v1.9.0
 |        |                     |

@@ -16,6 +16,7 @@ function do_test() {
     my_exitcode=$?
     if [ $my_exitcode -ne 0 ] ; then
       echo "Test \"$1\" failed - exiting"
+      post_cleanup
       exit $my_exitcode
     fi
   else
@@ -31,6 +32,17 @@ function do_tag() {
 function pre_cleanup() {
   # We saw some issues with stale (unkilled) processes
   killall timeout -9
+}
+
+function post_cleanup() {
+  # We saw some issues with stale (unkilled) processes
+  echo "cleaning up potential stale test processes"
+  for proc in $(ps -ef | egrep -i "uls" | grep -v "grep" | cut -d " " -f 4) ; do
+    if ! [ -z $proc ] ; then
+      echo ">killing< $proc"
+      kill -9 $proc
+    fi
+  done
 }
 
 
@@ -64,5 +76,5 @@ else
   do_test $1
 fi
 
-
+post_cleanup
 exit 0
