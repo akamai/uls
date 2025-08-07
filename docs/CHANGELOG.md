@@ -2,12 +2,18 @@
 ## v1.9.1
 |        |                     |
 |--------|---------------------|
-| Date   | 2025-06-03          |
-| Kind   | MAJOR release       |
+| Date   | 2025-08-XX          |
+| Kind   | Minor release       |
 | Author | mschiess@akamai.com |
 
-- **Features**
-
+- **Minor improvements** 
+  - [docker] bumped Python container version to 3.13.5
+  - [docker] bumped CLI-EAA to branch EME-1167 (new fields added)
+  
+- **Bugfixes**
+  - Fixed a bug in the Inputhandling CLI `AttributeError: module 'uls_config.global_config' has no attribute 'edgerc_openap'`
+  
+---
 
 ## v1.9.0
 |        |                     |

@@ -248,7 +248,7 @@ class UlsInputCli:
                     self.edgerc_hostname = UlsTools.uls_check_edgerc(
                         self.credentials_file,
                         self.credentials_file_section,
-                        uls_config.edgerc_openap
+                        uls_config.edgerc_openapi
                     )
 
                     cli_command = self._gen_cli_cmd(
