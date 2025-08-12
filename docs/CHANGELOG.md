@@ -9,6 +9,7 @@
 - **Minor improvements** 
   - [docker] bumped Python container version to 3.13.5
   - [docker] bumped CLI-EAA to branch EME-1167 (new fields added)
+  - [docker] bumped CLI-LINODE to branch v0.0.7 (more detailed utilization support)
   
 - **Bugfixes**
   - Fixed a bug in the Inputhandling CLI `AttributeError: module 'uls_config.global_config' has no attribute 'edgerc_openap'`
