@@ -1,5 +1,11 @@
 # Version History
 
+## v1.9.1 (in progress)
+
+- **Bugfixes**
+  - fixed a typo preventing some feed to work
+  - remove dependency on distutils strtobool #91
+
 ## v1.9.0
 |        |                     |
 |--------|---------------------|
