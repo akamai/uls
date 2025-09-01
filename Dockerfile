@@ -1,4 +1,4 @@
-FROM            python:3.13.5-slim-bookworm
+FROM            python:3.13-slim-trixie
 LABEL           MAINTAINER="Mike Schiessl - mike.schiessl@akamai.com"
 LABEL	        APP_LONG="Akamai Unified Log Streamer"
 LABEL           APP_SHORT="ULS"
@@ -15,7 +15,7 @@ ARG             ETP_CLI_VERSION="0.4.9"
 ARG             EAA_CLI_VERSION="EME-1167"
 ARG             MFA_CLI_VERSION="0.1.1"
 ARG             GC_CLI_VERSION="v0.0.7"
-ARG             LINODE_CLI_VERSION="v0.0.7"
+ARG             LINODE_CLI_VERSION="v0.0.8"
 ARG             ACC_CLI_VERSION="v0.0.1-alpha"
 
 # ENV VARS

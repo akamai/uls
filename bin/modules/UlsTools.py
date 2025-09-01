@@ -64,7 +64,7 @@ def uls_check_sys(root_path, uls_input=None):
         sys.exit(1)
 
 
-def uls_version(root_path):
+def uls_version(root_path, uls_args):
     """
     Collect ULS Version information and display it on STDOUT
     """
@@ -114,6 +114,33 @@ def uls_version(root_path):
           f"Installation ID \t{get_install_id()['install_id']}"
           )
 
+    # Show some additional output if loglevel debug is enabled :)
+    if uls_args.loglevel == "DEBUG":
+        print("\n\n\n------------------------------------------------")
+        print("ADDITIONAL ULS DEBUGGING VERSION INFORMATION\n\n")
+
+        print("PYTHON MODULE VERSION INFORMATION\n\n")
+        try:
+            with open(root_path + "/bin/requirements.txt", 'r') as requirements_file:
+                #print(requirements_file.read())
+                pip_lines = requirements_file.readlines()
+
+            for line in pip_lines:
+                print(f"\n\nRequirement: {line}")
+                current_tool = line.split(">")[0]
+                #print(current_tool)
+                pip_version_proc = subprocess.Popen(
+                    [uls_config.bin_python, "-m", "pip", "show", current_tool],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE)
+                pip_data = str(pip_version_proc.communicate()[0].decode()).strip()
+                print(pip_data)
+                print(pip_data)
+                pip_version_proc.terminate()
+
+        except Exception as my_err:
+            print(my_err)
+        print("\n\n\n------------------------------------------------")
     # Delete the mocked edgerc file
     os.remove(my_edgerc_mock_file)
 

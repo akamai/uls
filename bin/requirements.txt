@@ -3,3 +3,4 @@ requests>=2.32.3
 pytz>=2025.2
 prometheus_client>=0.21.1
 setuptools>=79.0.0
+argparse>=1.4.0

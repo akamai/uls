@@ -71,7 +71,7 @@ def main():
 
     # OUTPUT Version Information
     if uls_args.version:
-        UlsTools.uls_version(root_path=root_path)
+        UlsTools.uls_version(root_path=root_path, uls_args=uls_args)
 
     # Verify the given core params (at least input and output should be set)
     UlsTools.uls_check_args(uls_args.input, uls_args.output)
