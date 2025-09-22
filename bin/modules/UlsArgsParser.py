@@ -14,9 +14,26 @@
 
 import argparse
 import os
-from distutils.util import strtobool
+# from distutils.util import strtobool
 
 import uls_config.global_config as uls_config
+
+def strtobool(value):
+    """
+    We could do
+    from distutils.util import strtobool
+    Yet, it won't be a good long term solution:
+    https://docs.python.org/3.10/library/distutils.html
+    """
+    if isinstance(value, bool):
+        return value
+    value = value.lower()
+    if value in ('y', 'yes', 't', 'true', 'on', '1'):
+        return True
+    elif value in ('n', 'no', 'f', 'false', 'off', '0'):
+        return False
+    else:
+        raise ValueError("invalid input value %r" % (value,))
 
 
 def init():
