@@ -17,6 +17,7 @@ import threading
 import json
 import datetime
 import sys
+import psutil
 
 import modules.aka_log as aka_log
 import uls_config.global_config as uls_config
@@ -70,6 +71,9 @@ class UlsMonitoring:
         self.callhome_stats_aggregate_count = uls_config.callhome_stats_aggregate_count     # Number of "stat" iteration to pause between sending data
         self.callhome_stat_count = 1                       # Starting point for the callhome stats
 
+            # CPU & Memory
+        self.cpu_samples = []
+        self.mem_samples = []
 
             # Definitions
         self.name = "UlsMonitoring"                          # Class Human readable name
@@ -151,7 +155,10 @@ class UlsMonitoring:
                        'event_ingested_interval': self.window_messages_ingested,
                        'event_bytes_interval': self.window_messages_bytes,
                        'event_rate': round(self.window_messages_handled / self.monitoring_interval, 2),
-                       'mon_interval': self.monitoring_interval
+                       'mon_interval': self.monitoring_interval,
+                       'cpu_usage': round(sum(self.cpu_samples) / (self.window_messages_handled | 1), 2),
+                       'mem_usage': round(sum(self.mem_samples) / (self.window_messages_handled | 1), 2)
+
                     }
 
                     # --- Handle Callhome stats (if enabled)
@@ -169,7 +176,7 @@ class UlsMonitoring:
                                     'runtime': self._runtime(),
                                     'event_count': self.overall_messages_handled,
                                     'event_bytes': self.overall_bytes_handled,
-                                    "mon_interval": self.monitoring_interval * self.callhome_stats_aggregate_count,
+                                    'mon_interval': self.monitoring_interval * self.callhome_stats_aggregate_count,
                                 })
                             self.callhome_stat_count = 1
                         else:
@@ -187,6 +194,9 @@ class UlsMonitoring:
                         self.window_messages_handled = 0
                         self.window_messages_bytes = 0
                         self.window_messages_ingested = 0
+                        self.cpu_samples = []
+                        self.mem_samples = []
+
         except Exception as e:
             aka_log.log.exception(e)
 
@@ -201,6 +211,12 @@ class UlsMonitoring:
             if self.prometheues_enabled:
                 self.prom_overall_messages.inc()
                 self.prom_overall_bytes.inc(bytes)
+
+            # Let's also collect some CPU & MEMORY USAGE
+            # note ty myself: not sure this is the best place to measure the cpu / mem but it's a good start
+            self.cpu_samples.append(psutil.cpu_percent(interval=None))
+            self.mem_samples.append(psutil.virtual_memory().percent)
+
 
     def increase_message_ingested(self):
         with self._metricLock:

@@ -10,6 +10,7 @@
 - **Features**
   - New output type: `None` - This improves debugging and analysing data
   - Complete rework of the "Callhome" functionality (non-blocking integration) + [stats delivery](FAQ.md#stats)
+  - Now also showing average CPU & Memory Usage (in %) within the 5 minute monitoring reoport 
 
 - **Minor improvements** 
   - Show "module version information" in ULS version output (only when --loglevel is set to DEBUG)
