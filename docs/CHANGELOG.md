@@ -14,6 +14,7 @@
 - **Minor improvements** 
   - Show "module version information" in ULS version output (only when --loglevel is set to DEBUG)
   - Removed ACL from Dockerfile
+  - Enhanced "Version" output to show "CPU type, # of cores and the available memory"
   - Upgraded some of the pypi requirements (requests, prometheus_client, pytz, setuptools)
   - [docker] bumped Python container version to 3.13.6
   - [docker] bumped Python container version from debian12 (bookworm) to debian13 (trixie) 

@@ -21,6 +21,8 @@ import pathlib
 import datetime
 import time
 import threading
+import psutil
+import re
 
 # ULS modules
 import modules.aka_log as aka_log
@@ -64,6 +66,20 @@ def uls_check_sys(root_path, uls_input=None):
         aka_log.log.critical(f"No input specified: {uls_input} - exiting")
         sys.exit(1)
 
+def get_processor_name():
+    if platform.system() == "Windows":
+        return platform.processor()
+    elif platform.system() == "Darwin":
+        os.environ['PATH'] = os.environ['PATH'] + os.pathsep + '/usr/sbin'
+        command ="sysctl -n machdep.cpu.brand_string"
+        return subprocess.check_output(command, shell=True).decode().strip()
+    elif platform.system() == "Linux":
+        command = "cat /proc/cpuinfo"
+        all_info = subprocess.check_output(command, shell=True).decode().strip()
+        for line in all_info.split("\n"):
+            if "model name" in line:
+                return re.sub( ".*model name.*:", "", line,1)
+    return ""
 
 def uls_version(root_path, uls_args):
     """
@@ -110,6 +126,9 @@ def uls_version(root_path, uls_args):
           f"OS Version\t\t{platform.release()}\n"
           f"Python Version\t\t{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}\n"
           f"Container Status\t{check_container()}\n"
+          f"Available Memory\t{psutil.virtual_memory().total / 1024 ** 3} GB\n"
+          f"CPU Type\t\t{get_processor_name()}\n"
+          f"Available CPUs\t\t{psutil.cpu_count(logical=False)}\n"
           f"RootPath \t\t{root_path}\n"
           f"TimeZone (UTC OFST) \t{check_timezone()} ({-time.timezone / 3600})\n"
           f"Installation ID \t{get_install_id()['install_id']}"

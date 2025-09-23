@@ -181,7 +181,7 @@ Example data:
 ```
 
 #### Stats
-With ULS 1.9.1 we introduced an additional call home function, that sends anonymous usage stats to Akamai.
+ULS 1.9.1 introduced an additional call home function, that sends anonymous usage stats to Akamai.
 The data includes:
 - ULS input
 - ULS feed
