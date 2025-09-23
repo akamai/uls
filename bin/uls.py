@@ -107,7 +107,8 @@ def main():
                                              prom_port=uls_args.prometheus_port,
                                              prom_host=uls_args.prometheus_addr,
                                              prom_certfile=uls_args.prometheus_certfile,
-                                             prom_keyfile=uls_args.prometheus_keyfile)
+                                             prom_keyfile=uls_args.prometheus_keyfile,
+                                             nocallhome=uls_args.nocallhome)
     my_monitor.start()
 
     # Connect to an Input Handler UlsInputCli
@@ -187,7 +188,7 @@ def main():
 
 
     # Send CallHome Request, if not opted_out
-    UlsTools.callhome(nocallhome_state=uls_args.nocallhome, position="uls_start", input=uls_args.input, feed=uls_args.feed, output=uls_args.output)
+    UlsTools.callhome(nocallhome_state=uls_args.nocallhome, position="uls_start", callhome_data={'input': uls_args.input, 'feed': uls_args.feed, 'output': uls_args.output})
 
     # New ULS/1.5: the input module is ingesting messages
     # into a thread safe queue. The function call will immediately

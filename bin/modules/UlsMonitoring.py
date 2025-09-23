@@ -20,7 +20,7 @@ import sys
 
 import modules.aka_log as aka_log
 import uls_config.global_config as uls_config
-
+import modules.UlsTools as UlsTools
 
 class UlsMonitoring:
 
@@ -29,7 +29,8 @@ class UlsMonitoring:
                  prom_port: int = 8000,
                  prom_host: str = '127.0.0.1',
                  prom_certfile: str = None,
-                 prom_keyfile: str = None):
+                 prom_keyfile: str = None,
+                 nocallhome: bool = False,):
         """
         Hanlde ULS self monitoring, spills out performance counter on stdout.
 
@@ -52,8 +53,6 @@ class UlsMonitoring:
         self.promeuteheus_cert = prom_certfile
         self.promeuteheus_key = prom_keyfile
 
-
-
         self.prom_overall_messages = None
         self.prom_overall_bytes = None
         self.prom_overall_messages_ingested = None
@@ -62,17 +61,25 @@ class UlsMonitoring:
 
         # Variables
         self.monitoring_enabled = uls_config.monitoring_enabled                     # Monitoring enable Flag
-        self.monitoring_interval = uls_config.monitoring_interval                    # Monitoring interval
+        self.monitoring_interval = uls_config.monitoring_interval                   # Monitoring interval
         self._version = uls_config.__version__
 
+            # Callhome
+        self.nocallhome = nocallhome                                                # Callhome enabled or disabled
+        self.callhome_stats_enabled = uls_config.callhome_stats_enabled             # Is the Callhome stats function enabled
+        self.callhome_stats_aggregate_count = uls_config.callhome_stats_aggregate_count     # Number of "stat" iteration to pause between sending data
+        self.callhome_stat_count = 1                       # Starting point for the callhome stats
 
-        # Definitions
+
+            # Definitions
         self.name = "UlsMonitoring"                          # Class Human readable name
         self.overall_messages_handled = 0                    # Define overall number of messages handled
+        self.overall_bytes_handled = 0                       # DEfine overall number of bytes handled
         self.window_messages_handled = 0                     # Define mon_window number of messages handled
         self.window_messages_bytes = 0                       # Total bytes processed during the window
         self.window_messages_ingested = 0                    # Message ingested from UlsInputCli module
         self.init_time = time.time()                         # Define the init time
+
 
         # Define the working thread, daemon allows us to offload
         # of the main program termination to python
@@ -146,7 +153,32 @@ class UlsMonitoring:
                        'event_rate': round(self.window_messages_handled / self.monitoring_interval, 2),
                        'mon_interval': self.monitoring_interval
                     }
-                    #print(json.dumps(mon_msg))
+
+                    # --- Handle Callhome stats (if enabled)
+                    if self.callhome_stats_enabled and not self.nocallhome:
+                        # --- we reached the stats_aggregate_count and need to generate a callhome message now
+                        if self.callhome_stat_count == self.callhome_stats_aggregate_count:
+                            aka_log.log.debug(f"{self.name} Callhome stats agg_count reached - we need to send a stats message now")
+                            UlsTools.callhome(
+                                nocallhome_state=self.nocallhome,
+                                position="stats",
+                                callhome_data={
+                                    'input': self._product,
+                                    'feed': self._feed,
+                                    'output': self._output,
+                                    'runtime': self._runtime(),
+                                    'event_count': self.overall_messages_handled,
+                                    'event_bytes': self.overall_bytes_handled,
+                                    "mon_interval": self.monitoring_interval * self.callhome_stats_aggregate_count,
+                                })
+                            self.callhome_stat_count = 1
+                        else:
+                            self.callhome_stat_count += 1
+                    else:
+                        aka_log.log.debug(f"{self.name} Callhome stats functionality is disabled.")
+                    # --- End of the callhome block
+
+                    # --- Write the logging output to the console / stdout
                     sys.stdout.write(json.dumps(mon_msg) + "\n")
                     sys.stdout.flush()
 
@@ -163,6 +195,7 @@ class UlsMonitoring:
             self.overall_messages_handled = self.overall_messages_handled + 1
             self.window_messages_handled = self.window_messages_handled + 1
             self.window_messages_bytes += bytes
+            self.overall_bytes_handled += bytes
 
             # Also increase the prom counters
             if self.prometheues_enabled:

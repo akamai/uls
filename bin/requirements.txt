@@ -1,6 +1,6 @@
 jmespath>=1.0.1
-requests>=2.32.3
+requests>=2.32.5
 pytz>=2025.2
-prometheus_client>=0.21.1
-setuptools>=79.0.0
+prometheus_client>=0.23.1
+setuptools>=80.9.0
 argparse>=1.4.0

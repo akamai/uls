@@ -11,8 +11,7 @@ ARG             ULS_DIR="$HOMEDIR/uls"
 ARG             EXT_DIR="$ULS_DIR/ext"
 
 ARG             ETP_CLI_VERSION="0.4.9"
-#ARG             EAA_CLI_VERSION="0.6.11"
-ARG             EAA_CLI_VERSION="EME-1167"
+ARG             EAA_CLI_VERSION="0.6.12"
 ARG             MFA_CLI_VERSION="0.1.1"
 ARG             GC_CLI_VERSION="v0.0.7"
 ARG             LINODE_CLI_VERSION="v0.0.8"
@@ -34,8 +33,7 @@ RUN	            apt-get update && \
                 telnet \
                 gcc \
                 libssl-dev \
-                libffi-dev \
-                acl && \
+                libffi-dev && \
 		        rm -rf /var/lib/apt/lists/
 
 
@@ -43,10 +41,6 @@ RUN	            apt-get update && \
 # USER & GROUP
 RUN 	        groupadd akamai && \
                 useradd -g akamai -s /bin/bash -m -d ${HOMEDIR} akamai
-
-# Applying the root group to the akamai-uls directory to match openshift security requirements
-#RUN             setfacl -m g:root:rx ${HOMEDIR} && \
-#                setfacl -dm g:root:rx ${HOMEDIR}
 
 # Installing now as root and switching later to the akamai user
 

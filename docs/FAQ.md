@@ -159,10 +159,11 @@ As you can see in the above example, the host timestamp is `2023-10-24 07:00:17,
 
 ---
 ### I do not want to send any data to Akamai
+
+#### Startup Data
 With ULS Version 1.8.0 we introduced a call home functionality that once sends data to AKAMAI upon starting ULS.  
 This data helps us continue the ULS development in the future. So if possible, please allow ULS to send this data.  
 We are not sending any sensitive or PII data. The Debug logs show the exact data that has been sent.
-
 
 The data includes:
 - current ULS version
@@ -176,9 +177,27 @@ The data includes:
 
 Example data:
 ```curl
-/uls_start?version=1.8.0-alpha&input=EAA&feed=ACCESS&output=RAW&install_id=OU5UR0RHLTIwMjIxMTI4LTEuNi4y&os_platform=macOS-14.5-arm64-arm-64bit&pyhton=3.12.4&container=False
+/uls_start?version=1.8.0-alpha&input=EAA&feed=ACCESS&output=RAW&install_id=OU5UR0RHLTI&os_platform=macOS-14.5-arm64-arm-64bit&pyhton=3.12.4&container=False
 ```
 
+#### Stats
+With ULS 1.9.1 we introduced an additional call home function, that sends anonymous usage stats to Akamai.
+The data includes:
+- ULS input
+- ULS feed
+- ULS output
+- ULS installation ID
+- ULS Runtime (from initial start)
+- overall number of processed events
+- overall number of transferred bytes)
+- Time of the monitoring interval
+
+Example data:
+```curl
+/stats?input=EAA&feed=ACCESS&output=RAW&install_id=OU5UR0RHLTI&runtime=500&evet_count=9513&event_bytes=78612&mon_interval=3000
+```
+
+#### Generic CallHome Info
 The domain the data will be sent to: `uls-beacon.akamaized.net`
 
 If you still want to disable the CallHome functionality within ULS,  

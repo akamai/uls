@@ -289,13 +289,18 @@ class UlsOutput:
                         aka_log.log.info("Bypassing HTTP liveness check, reason: manually disabled.")
                         self.connected = True
 
-                # RAW OUTPUT
+                # --- RAW OUTPUT
                 elif self.output_type == "RAW":
                     aka_log.log.info(f"{self.name} Preparing RAW OUTPUT ... (phew ... done ;D) ")
                     self.connected = True
                     reconnect_counter = 1
 
-                # FILE OUTPUT
+                elif self.output_type == "NONE":
+                    aka_log.log.info(f"{self.name} Preparing NONE OUTPUT ... (this is even more tricky ...) - Oh, I'm done !")
+                    self.connected = True
+                    reconnect_counter = 1
+
+                # --- FILE OUTPUT
                 elif self.output_type == "FILE":
 
                     aka_log.log.info(f"{self.name} preparing FILE output "
@@ -493,6 +498,9 @@ class UlsOutput:
                 out_data = data + uls_config.output_line_breaker.encode()
                 sys.stdout.write(out_data.decode())
                 sys.stdout.flush()
+
+            elif self.output_type == "NONE":
+                should_i_do_something = False
 
             elif self.output_type == "FILE":
                 out_data = data + uls_config.output_line_breaker.encode()

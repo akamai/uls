@@ -20,6 +20,7 @@ import configparser
 import pathlib
 import datetime
 import time
+import threading
 
 # ULS modules
 import modules.aka_log as aka_log
@@ -378,14 +379,59 @@ def get_install_id(install_id_file=str(root_path()) + "/var/uls_install_id"):
     return data
 
 
-def callhome(nocallhome_state: bool, input: str = "n/a", feed: str = "n/a", output: str = "n/a", position: str = "n/a"):
+def callhome(nocallhome_state: bool=True, position: str=None, callhome_data: dict=None):
+    """
+    A new and more "robust" callhome functionaility - offering a non-blocking integration into different places within ULS,
+    whilst allowing more flexible usage of callhome functionality.
+    """
+    # -- Check if Callhome is enabled (nocallhome_state=false) or disabled (nocallhome_state=true)
     if not nocallhome_state:
         try:
-            url = f"/{position}?version={uls_config.__version__}&input={input}&feed={feed}&output={output}&install_id={get_install_id()['install_id']}&os_platform={platform.platform()}&python={sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}&container={check_container()}"
-            aka_log.log.debug(f"Sending a CallHome request containing the following data: {url}")
-            result = requests.get(uls_config.callhome_url + url, timeout=int(uls_config.callhome_timeout))
-            aka_log.log.debug(f"Callhome response code: {result.status_code}")
+            # -- On ULS Start we want detailed system information
+            if position == "uls_start":
+                #if 'input' and 'feed' and 'c' in my:
+                url_params = f"/{position}?version={uls_config.__version__}&input={callhome_data.get('input')}&feed={callhome_data.get('feed')}&output={callhome_data.get('output')}&install_id={get_install_id()['install_id']}&os_platform={platform.platform()}&python={sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}&container={check_container()}"
+
+            # -- We want ULS to send us some monitoring stats (how many messages/how long running)
+            elif position == "stats":
+                url_params = f"/{position}?input={callhome_data.get('input')}&feed={callhome_data.get('feed')}&output={callhome_data.get('output')}&install_id={get_install_id()['install_id']}&runtime={callhome_data.get('runtime')}&evet_count={callhome_data.get('event_count')}&event_bytes={callhome_data.get('event_bytes')}&mon_interval={callhome_data.get('mon_interval')}"
+            # --- No position matching !!!
+            else:
+                aka_log.log.warning(f"Callhome ({position}) was not found - not sending any data")
+
+
+            # --- Ok, lets actually trigger the "Callhome Thread"
+            url = uls_config.callhome_url + url_params
+            timeout = int(uls_config.callhome_timeout)
+            callhome_thread = threading.Thread(
+                target=_send_request_worker,
+                args=(url,position,timeout),
+                name=f"CallhomeThread-{position}-{time.time()}"
+            )
+            callhome_thread.daemon = True
+            callhome_thread.start()
+
         except:
-            aka_log.log.debug(f"Callhome went wrong ...")
+            aka_log.log.debug(f"Callhome ({position}) went wrong ...")
     else:
-        aka_log.log.debug(f"Callhome functionality has been disabled - not sending any data")
+        aka_log.log.debug(f"Callhome function is disabled - not sending any data")
+
+
+
+def _send_request_worker(url: str, position: str="n/a", timeout: int=10):
+    """
+    This function will send the data towards the callhome receiver, but encapsulated within a "thread" to avoid blocking
+    """
+    try:
+        aka_log.log.debug(f"CallHome ({position}) Sending request containing the following data: {url}")
+        response = requests.get(url, timeout=timeout)
+        response.raise_for_status()
+        aka_log.log.debug(f"Callhome ({position}) Received response code: {response.status_code}")
+
+    except requests.exceptions.RequestException as e:
+        aka_log.log.debug(f" Callhome ({position}) Failed [{threading.current_thread().name}] Error: Reason: {e}. Response: {response.text}")
+
+
+
+
+

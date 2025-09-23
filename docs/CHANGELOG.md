@@ -3,16 +3,22 @@
 ## v1.9.1
 |        |                     |
 |--------|---------------------|
-| Date   | 2025-08-XX          |
+| Date   | 2025-08-24          |
 | Kind   | Minor release       |
 | Author | mschiess@akamai.com |
 
+- **Features**
+  - New output type: `None` - This improves debugging and analysing data
+  - Complete rework of the "Callhome" functionality (non-blocking integration) + [stats delivery](FAQ.md#stats)
+
 - **Minor improvements** 
   - Show "module version information" in ULS version output (only when --loglevel is set to DEBUG)
+  - Removed ACL from Dockerfile
+  - Upgraded some of the pypi requirements (requests, prometheus_client, pytz, setuptools)
   - [docker] bumped Python container version to 3.13.6
-  - [docker] bumped Python container version from debian bookworm to trixie
-  - [docker] bumped CLI-EAA to branch EME-1167 (new fields added)
-  - [docker] bumped CLI-LINODE to branch v0.0.7 (more detailed utilization support)
+  - [docker] bumped Python container version from debian12 (bookworm) to debian13 (trixie) 
+  - [docker] bumped CLI-EAA to branch 0.6.12 (new fields added, bugfixes)
+  - [docker] bumped CLI-LINODE to version v0.0.8 (more detailed utilization support, bugfixes)
   
 - **Bugfixes**
   - Fixed a bug in the INPUTCLI, that could have caused a stale behavior of ULS in rare circumstances. We're exiting now properly.
