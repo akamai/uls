@@ -7,6 +7,11 @@
 | Kind   | Major release       |
 | Author | mschiess@akamai.com |
 
+```text
+\!/ Attentition "ULS COMMAND LINE USERS" \!/
+The module list in the `requirements.txt` has increased. Make sure to install & update the required modules before running ULS 2.0.0 !
+```
+
 - **Features**
   - New output type: `None` - This improves debugging and analysing "processing" data
   - Complete rework of the "Callhome" functionality (non-blocking integration) + [stats delivery](FAQ.md#stats)
@@ -16,10 +21,10 @@
 - **Minor improvements** 
   - Show "module version information" in ULS version output (only when --loglevel is set to DEBUG)
   - Removed ACL from Dockerfile
-  - Enhanced "Version" output to show "CPU type, # of cores and the available memory"
+  - Enhanced "Version" output to show "CPU type", number of cores and the available memory
   - Upgraded some of the pypi requirements (requests, prometheus_client, pytz, setuptools)
   - '--help' now shows the ENV-VAR names inline. No need to open a browser anymore when configuring ULS.
-  - [docker] bumped Python container version to 3.13.6
+  - [docker] bumped Python container version to 3.13
   - [docker] bumped Python container version from debian12 (bookworm) to debian13 (trixie) 
   - [docker] bumped CLI-EAA to branch 0.6.12 (new fields added, bugfixes)
   - [docker] bumped CLI-LINODE to version v0.0.8 (more detailed utilization support, bugfixes)

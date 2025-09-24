@@ -49,9 +49,22 @@ current_version=$(cat docs/CHANGELOG.md | grep "##" | head -n 1 | sed 's/.* v//'
 	assert_output --partial $current_version
 	[ "$status" -eq 0 ]
 }
+
+@test "pip3.9 install -r bin/requirements.txt" {
+	run /opt/homebrew/bin/pip3.9 install -r bin/requirements.txt
+	assert_output --partial "satisfied"
+	[ "$status" -eq 0 ]
+}
+
 @test "python3.9 uls.py --version" {
 	run /opt/homebrew/bin/python3.9 $uls_bin --version
 	assert_output --partial "Akamai Unified Log Streamer Version information"
+	[ "$status" -eq 0 ]
+}
+
+@test "pip3.10 install -r bin/requirements.txt" {
+	run /opt/homebrew/bin/pip3.10 install -r bin/requirements.txt
+	assert_output --partial "satisfied"
 	[ "$status" -eq 0 ]
 }
 
@@ -61,15 +74,34 @@ current_version=$(cat docs/CHANGELOG.md | grep "##" | head -n 1 | sed 's/.* v//'
 	[ "$status" -eq 0 ]
 }
 
+@test "pip3.11 install -r bin/requirements.txt" {
+	run /opt/homebrew/bin/pip3.11 install -r bin/requirements.txt
+	assert_output --partial "satisfied"
+	[ "$status" -eq 0 ]
+}
+
 @test "python3.11 uls.py --version" {
 	run /opt/homebrew/bin/python3.11 $uls_bin --version
 	assert_output --partial "Akamai Unified Log Streamer Version information"
 	[ "$status" -eq 0 ]
 }
 
+@test "pip3.12 install -r bin/requirements.txt" {
+	run /opt/homebrew/bin/pip3.12 install -r bin/requirements.txt
+	assert_output --partial "satisfied"
+	[ "$status" -eq 0 ]
+}
+
 @test "python3.12 uls.py --version" {
 	run /opt/homebrew/bin/python3.12 $uls_bin --version
 	assert_output --partial "Akamai Unified Log Streamer Version information"
+	[ "$status" -eq 0 ]
+}
+
+
+@test "pip3.13 install -r bin/requirements.txt" {
+	run /opt/homebrew/bin/pip3.13 install -r bin/requirements.txt
+	assert_output --partial "satisfied"
 	[ "$status" -eq 0 ]
 }
 
