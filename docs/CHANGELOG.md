@@ -4,7 +4,7 @@
 |        |                     |
 |--------|---------------------|
 | Date   | 2025-08-24          |
-| Kind   | Minor release       |
+| Kind   | Major release       |
 | Author | mschiess@akamai.com |
 
 - **Features**
