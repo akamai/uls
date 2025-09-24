@@ -24,9 +24,13 @@ import logging.handlers
 import random
 import json
 
+import gzip
+import brotli
+
 # ULS specific modules
 import uls_config.global_config as uls_config
 import modules.aka_log as aka_log
+from flask import session
 
 
 #stopEvent = threading.Event()
@@ -48,6 +52,8 @@ class UlsOutput:
                  http_insecure=False,
                  http_liveness=True,
                  http_formattype=None,
+                 http_compression: bool=uls_config.output_http_compression,
+                 http_compression_type: str=uls_config.output_http_default_compression_type,
                  filehandler=None,
                  filename=None,
                  filebackupcount=None,
@@ -83,6 +89,9 @@ class UlsOutput:
         self.tcpudp_out_format = None
         self.clientSocket = None
         self.stopEvent = stopEvent
+        self.http_compression = False
+        self.http_compression_type = None
+        self.http_compression_headers = {}             # Compression headers are only used internally
 
         # Handover Parameters
         ## Check & set output type
@@ -119,6 +128,9 @@ class UlsOutput:
             # ---- End change for EME-588 ----
             self.http_formattype = http_formattype
 
+            # --- HTTP Compression variables
+            self.http_compression = http_compression
+            self.http_compression_type = http_compression_type
 
 
             self.http_url = http_url
@@ -232,14 +244,16 @@ class UlsOutput:
                 # HTTP Connector
                 elif self.output_type == "HTTP":
                     self.httpSession = requests.session()
-                    # Prepare & set the headers
+
+                    # -- Prepare & set the normal headers
                     if self.http_out_auth_header:
                         headers = self.http_header | self.http_out_auth_header
                     else:
                         headers = self.http_header
                     aka_log.log.info(f"{self.name} adding http headers: {headers}")
                     self.httpSession.headers.update(headers)
-                    # Output Format
+
+                    # --- Configure Output Format
                     aka_log.log.info(f"{self.name} setting http output "
                                      f"format: {self.http_out_format}")
                     # TLS Verification
@@ -415,16 +429,19 @@ class UlsOutput:
         """
         try:
             aka_log.log.debug(f"{self.name} Trying to send data via {self.output_type}")
+            # --- TCP
             if self.output_type == "TCP":
                 send_data = bytes(self.tcpudp_out_format, 'utf-8') % data
                 out_data = send_data + uls_config.output_line_breaker.encode()
                 self.clientSocket.sendall(out_data)
 
+            # --- UDP
             elif self.output_type == "UDP":
                 send_data = bytes(self.tcpudp_out_format, 'utf-8') % data
                 out_data = send_data + uls_config.output_line_breaker.encode()
                 self.clientSocket.sendto(out_data, (self.host, self.port))
 
+            # --- HTTP
             elif self.output_type == "HTTP":
                 if len(self.aggregateList) < self.http_out_aggregate_count:
                     self.aggregateList.append(json.loads(data.decode()))
@@ -433,6 +450,7 @@ class UlsOutput:
                         f"{self.name} HTTP Aggregation queue is already full - not adding any more entries. Size: "
                         f"({len(self.aggregateList)}/{self.http_out_aggregate_count})")
 
+                # --- We see a n eed to sened the data, lets prepare it
                 if len(self.aggregateList) >= self.http_out_aggregate_count or (
                     self.aggregateListTick is not None and
                     self.aggregateListTick < time.time() - uls_config.output_http_aggregate_idle
@@ -442,7 +460,10 @@ class UlsOutput:
                     # JSON-LIST EVENT FORMAT: '{"event": [{logline1},{logline2},{logline3},{….},{logline500}]}'
                     # See https://github.com/akamai/uls/issues/45
                     if self.http_formattype.lower() == "json-list":
-                        request = requests.Request('POST', url=self.http_url, data=(self.http_out_format % json.dumps(self.aggregateList)))
+                        # Check if we need to compress the payload
+                        raw_payload = self.http_out_format % json.dumps(self.aggregateList)
+                        payload = self._compress_payload(payload=str(raw_payload).encode('utf-8'))
+                        request = requests.Request('POST', url=self.http_url, data=payload, headers=dict(self.httpSession.headers) | self.http_compression_headers)
 
                     # Single EVENT FORMAT: '{"event": {logline1}}{"event": {logline2}}{"event": {….}}{"event": {logline500}}'
                     # See https://github.com/akamai/uls/issues/45
@@ -452,9 +473,11 @@ class UlsOutput:
                         for logline in self.aggregateList:
                             #print(f"logline: {self.http_out_format % logline}")
                             single_event_data = f"{single_event_data}{self.http_out_format % json.dumps(logline)}"
-                        request = requests.Request('POST', url=self.http_url, data=(single_event_data))
+                        # Check if we need to compress the payload
+                        payload = self._compress_payload(str(single_event_data).encode('utf-8'))
+                        request = requests.Request('POST', url=self.http_url, data=payload, headers=dict(self.httpSession.headers) |  self.http_compression_headers)
 
-                    # Send the HTTP request
+                    # --- Send the crafted HTTP request
                     response = None
                     try:
                         aka_log.log.debug(f"{self.name} Sending HTTP Request")
@@ -494,18 +517,22 @@ class UlsOutput:
                     return True
                 self.aggregateListTick = time.time()
 
+            # --- RAW
             elif self.output_type == "RAW":
                 out_data = data + uls_config.output_line_breaker.encode()
                 sys.stdout.write(out_data.decode())
                 sys.stdout.flush()
 
+            # --- NONE
             elif self.output_type == "NONE":
                 should_i_do_something = False
 
+            # --- FILE
             elif self.output_type == "FILE":
                 out_data = data + uls_config.output_line_breaker.encode()
                 self.my_file_writer.info(f"{out_data.decode().rstrip()}")
 
+            # --- UNDEFINED (ERROR)
             else:
                 aka_log.log.critical(f"{self.name} target was not defined {self.output_type} ")
                 sys.exit(1)
@@ -566,9 +593,34 @@ class UlsOutput:
             self.http_out_format = os.path.expandvars(self.http_out_format)
             aka_log.log.debug(f"{self.name} OS_ENV_VARS new HTTP output string: {self.http_out_format} ")
 
+### / FEATURE REQ 20240318 - https://github.com/akamai/uls/issues/57
 
-        return True
+    # --- Payload GZIP compression
+    def _compress_payload(self, payload=None):
+        if self.http_compression:
+            aka_log.log.debug(f"{self.name} Compressing payload with {self.http_compression_type} compression. Size of payload: {len(payload)} bytes")
+            # --- GZIP Compression
+            if self.http_compression_type.upper() == "GZIP":
+                compressed_payload = gzip.compress(payload)
+                self.http_compression_headers = {'Content-Encoding': 'gzip'}
 
-    ### / FEATURE REQ 20240318 - https://github.com/akamai/uls/issues/57
+            # --- BROTLI Compression
+            elif self.http_compression_type.upper() == "BROTLI":
+                compressed_payload = brotli.compress(payload)
+                self.http_compression_headers = {'Content-Encoding': 'br'}
+
+            # --- We can't find a supported compression method
+            else:
+                aka_log.log.debug(f"{self.name} HTTP compression type {self.http_compression_type} not implemented")
+                return payload
+
+            # --- Return the compressed payload
+            aka_log.log.debug(
+                f"{self.name} Payload compressed with {self.http_compression_type} compression. Size of payload: {len(compressed_payload)} bytes")
+            return compressed_payload
+        else:
+            return payload
+
+
 
 # EOF

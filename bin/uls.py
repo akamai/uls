@@ -138,6 +138,8 @@ def main():
                                     http_insecure=uls_args.httpinsecure,
                                     http_liveness=uls_args.httpliveness,
                                     http_formattype=uls_args.httpformattype,
+                                    http_compression=uls_args.httpcompression,
+                                    http_compression_type=uls_args.httpcompressiontype,
                                     filehandler=uls_args.filehandler,
                                     filename=uls_args.filename,
                                     filebackupcount=uls_args.filebackupcount,
@@ -257,12 +259,15 @@ def main():
                                         f"ULS was not able to deliver the log message "
                                         f"{log_line_escaped} after {resend_counter} attempts - Exiting!")
                     sys.exit(1)
+
                 elif resend_counter == uls_config.main_resend_attempts and \
                         not uls_config.main_resend_exit_on_fail:
                     aka_log.log.warning(
                         f"MSG[{my_monitor.get_message_count()}] "
                         f"ULS was not able to deliver the log message "
                         f"{log_line_escaped} after {resend_counter} attempts - (continuing anyway as my config says)")
+                        # This will re-set the send counter and start from the beginning
+
         except queue.Empty:
             # No data available, we get a chance to capture the StopEvent
             pass

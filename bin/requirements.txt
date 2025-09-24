@@ -4,4 +4,5 @@ pytz>=2025.2
 prometheus_client>=0.23.1
 setuptools>=80.9.0
 argparse>=1.4.0
-psutil
+psutil>=6.1.0
+brotli>=1.1.0

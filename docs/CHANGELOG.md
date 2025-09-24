@@ -1,6 +1,6 @@
 # Version History
 
-## v1.9.1
+## v2.0.0
 |        |                     |
 |--------|---------------------|
 | Date   | 2025-08-24          |
@@ -10,13 +10,15 @@
 - **Features**
   - New output type: `None` - This improves debugging and analysing data
   - Complete rework of the "Callhome" functionality (non-blocking integration) + [stats delivery](FAQ.md#stats)
-  - Now also showing average CPU & Memory Usage (in %) within the 5 minute monitoring reoport 
+  - Now also showing average CPU & Memory Usage (in %) within the 5 minute monitoring reoport (only recorded at event handling time)
+  - HTTP GZIP & BROTLI compression implemented (disabled by default) to reduce network overhead (Thx @ Bill !!)
 
 - **Minor improvements** 
   - Show "module version information" in ULS version output (only when --loglevel is set to DEBUG)
   - Removed ACL from Dockerfile
   - Enhanced "Version" output to show "CPU type, # of cores and the available memory"
   - Upgraded some of the pypi requirements (requests, prometheus_client, pytz, setuptools)
+  - '--help' now shows the ENV-VAR names inline. No need to open a browser anymore when configuring ULS.
   - [docker] bumped Python container version to 3.13.6
   - [docker] bumped Python container version from debian12 (bookworm) to debian13 (trixie) 
   - [docker] bumped CLI-EAA to branch 0.6.12 (new fields added, bugfixes)
