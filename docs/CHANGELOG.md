@@ -8,9 +8,9 @@
 | Author | mschiess@akamai.com |
 
 - **Features**
-  - New output type: `None` - This improves debugging and analysing data
+  - New output type: `None` - This improves debugging and analysing "processing" data
   - Complete rework of the "Callhome" functionality (non-blocking integration) + [stats delivery](FAQ.md#stats)
-  - Now also showing average CPU & Memory Usage (in %) within the 5 minute monitoring reoport (only recorded at event handling time)
+  - Now also showing average CPU & Memory Usage (in %) within the 5 minute monitoring report (only recorded at event handling time - not a time average)
   - HTTP GZIP & BROTLI compression implemented (disabled by default) to reduce network overhead (Thx @ Bill !!)
 
 - **Minor improvements** 

@@ -2,7 +2,7 @@
 This document describes the ULS monitoring options
 
 ## Prometheus
-Since version 1.8.0 ULS supports Prometheus monitoring.
+Since version 1.8.0, ULS supports Prometheus monitoring.
 By enabling prometheus monitoring (enabled by using the `--prometheus` arugment or by setting the `ULS_PROMETHEUS=True` env var,   
 ULS will start a listening port on the configured addr & port from which you can use prometheus to collect the data.
 
@@ -58,13 +58,16 @@ The output will be sent every 5 minutes to `stdout` by default.
 | event_bytes_interval    | 12345679                   | Volume of events handled by ULS, in bytes (during the interval) |
 | event_rate              | 10.97                      | Average events per second (during monitoring interval)          |
 | mon_interval            | 300                        | Monitoring interval in seconds                                  |
+| cpu_usage               | 15%                        | Avg. CPU usage across all "message" - not the complete time     |
+| mem_usage               | 45%                        | Avg. memory usage across all "message" - not the complete time  |
+
 
 
 ### Example Output
 The output is delivered in JSON format
 ```json
-{"dt": "2022-07-11T20:59:48.511534", "uls_product": "EAA", "uls_feed": "ACCESS", "uls_output": "HTTP", "uls_version": "1.5.0", "uls_runtime": 300, "event_count": 635450, "event_count_interval": 635450, "event_ingested_interval": 635451, "event_bytes_interval": 602300990, "event_rate": 2118.17, "mon_interval": 300}
-{"dt": "2022-07-11T21:04:48.511982", "uls_product": "EAA", "uls_feed": "ACCESS", "uls_output": "HTTP", "uls_version": "1.5.0", "uls_runtime": 600, "event_count": 1099860, "event_count_interval": 464410, "event_ingested_interval": 464409, "event_bytes_interval": 440221417, "event_rate": 1548.03, "mon_interval": 300}
+{"dt": "2022-07-11T20:59:48.511534", "uls_product": "EAA", "uls_feed": "ACCESS", "uls_output": "HTTP", "uls_version": "1.5.0", "uls_runtime": 300, "event_count": 635450, "event_count_interval": 635450, "event_ingested_interval": 635451, "event_bytes_interval": 602300990, "event_rate": 2118.17, "mon_interval": 300, "cpu_usage": 10.5, "mem_usage": 45}
+{"dt": "2022-07-11T21:04:48.511982", "uls_product": "EAA", "uls_feed": "ACCESS", "uls_output": "HTTP", "uls_version": "1.5.0", "uls_runtime": 600, "event_count": 1099860, "event_count_interval": 464410, "event_ingested_interval": 464409, "event_bytes_interval": 440221417, "event_rate": 1548.03, "mon_interval": 300, "cpu_usage": 17.5, "mem_usage": 55}
 ```
 
 ### Send Docker logs to Splunk
