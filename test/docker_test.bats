@@ -75,6 +75,12 @@ teardown () {
 
 # --- DEBIAN from here downwards
 
+## Verify Dockerfile (DEBIAN)
+@test "[DEBIAN] Verify Docker file (hadolint)" {
+  run hadolint Dockerfile_debian
+  [ "$status" -eq 0 ]
+}
+
 ## CREATE a local DOCKER IMAGE (DEBIAN)
 @test "[DEBIAN] DOCKER IMAGE BUILD - DEBIAN" {
     run docker build --pull -t ${REPO_NAME}:${TAG_DEBIAN} --file Dockerfile_debian .
@@ -139,6 +145,11 @@ teardown () {
 
 
 # --- ALPINE from here downwards
+## Verify Dockerfile (ALPINE)
+@test "[ALPINE] Verify Docker file (hadolint)" {
+  run hadolint Dockerfile
+  [ "$status" -eq 0 ]
+}
 
 ## CREATE a local DOCKER IMAGE (ALPINE)
 @test "[ALPINE] DOCKER IMAGE BUILD - " {

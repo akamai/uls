@@ -1,8 +1,11 @@
 FROM            python:3.13-alpine
-LABEL           MAINTAINER="Mike Schiessl - mike.schiessl@akamai.com"
-LABEL	        APP_LONG="Akamai Unified Log Streamer"
-LABEL           APP_SHORT="ULS"
-LABEL           VENDOR="Akamai Technologies Inc"
+
+LABEL           maintainer="Mike Schiessl - mike.schiessl@akamai.com"
+LABEL           app.long="Akamai Unified Log Streamer"
+LABEL           app.short="ULS"
+LABEL           app.baseimage="alpine"
+LABEL           vendor="Akamai Technologies Inc"
+LABEL           description="Log streaming for AKAMAI products"
 
 
 # CONFIGURATION ARGS
@@ -24,7 +27,7 @@ ENV             HOMEDIR=$HOMEDIR
 ENV             CONTAINERIZED=TRUE
 
 # PREPARE ENVIRONMENT
-    # hadolint ignore=DL3008
+    # hadolint ignore=DL3018
 RUN             apk update &&  \
                 apk add --no-cache git && \
                 apk add --no-cache curl  && \

@@ -1,8 +1,11 @@
 FROM            python:3.13-slim-trixie
-LABEL           MAINTAINER="Mike Schiessl - mike.schiessl@akamai.com"
-LABEL	        APP_LONG="Akamai Unified Log Streamer"
-LABEL           APP_SHORT="ULS"
-LABEL           VENDOR="Akamai Technologies Inc"
+
+LABEL           maintainer="Mike Schiessl - mike.schiessl@akamai.com"
+LABEL           app.long="Akamai Unified Log Streamer"
+LABEL           app.short="ULS"
+LABEL           app.baseimage="debian"
+LABEL           vendor="Akamai Technologies Inc"
+LABEL           description="Log streaming for AKAMAI products"
 
 
 # CONFIGURATION ARGS

@@ -134,8 +134,3 @@ current_version=$(cat docs/CHANGELOG.md | grep "##" | head -n 1 | sed 's/.* v//'
   assert_output --partial "1 chart(s) linted, 0 chart(s) failed"
   [ "$status" -eq 0 ]
 }
-
-@test "Verify Docker file (hadolint)" {
-  run hadolint Dockerfile
-  [ "$status" -eq 0 ]
-}
