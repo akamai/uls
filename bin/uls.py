@@ -123,7 +123,8 @@ def main():
                                        starttime=uls_args.starttime,
                                        endtime=uls_args.endtime,
                                        root_path=root_path,
-                                       cli_debug=uls_args.clidebug)
+                                       cli_debug=uls_args.clidebug,
+                                       stopEvent=stopEvent)
 
 
     # Connect to the selected input UlsOutput

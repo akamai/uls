@@ -1,5 +1,5 @@
 *.md
-docs
-misc
-scripts
-test
+docs/*
+misc/*
+scripts/*
+test/*

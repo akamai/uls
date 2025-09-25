@@ -7,29 +7,42 @@
 | Kind   | Major release       |
 | Author | mschiess@akamai.com |
 
-```text
-\!/ Attentition "ULS COMMAND LINE USERS" \!/
+
+### :exclamation: Attentition "ULS COMMAND LINE USERS" :exclamation:
+
 The module list in the `requirements.txt` has increased. Make sure to install & update the required modules before running ULS 2.0.0 !
-```
+
+### :exclamation: Attentition "ULS DOCKER USERS" :exclamation:
+The baseimage for the ULS has changed from `python:3.12-debian-slim` to `python:3.13-alpine`
+We are not expecting any issues - the container has been tested successfully.
+In case you want to continue with the "debian" base image - we are still offering the same version in the following tag: `akamai/uls:debian-lastest` or `akamai/uls:debian-v2.0.0`
+
+
 
 - **Features**
   - New output type: `None` - This improves debugging and analysing "processing" data
-  - Complete rework of the "Callhome" functionality (non-blocking integration) + [stats delivery](FAQ.md#stats)
+  - Complete rework of the "Callhome" functionality (non-blocking integration)
+  - New "Callhome" feature to send stats [stats delivery](FAQ.md#stats)
   - Now also showing average CPU & Memory Usage (in %) within the 5 minute monitoring report (only recorded at event handling time - not a time average)
   - HTTP GZIP & BROTLI compression implemented (disabled by default) to reduce network overhead (Thx @ Bill !!)
+
+- **Major changes**
+  - We have moved the DOCKER core image from DEBIAN to ALPINE (to increase security and reduce the footprint)
 
 - **Minor improvements** 
   - Show "module version information" in ULS version output (only when --loglevel is set to DEBUG)
   - Removed ACL from Dockerfile
+  - Added '.dockerignore' to decrease the docker footprint and increase the container security
   - Enhanced "Version" output to show "CPU type", number of cores and the available memory
   - Upgraded some of the pypi requirements (requests, prometheus_client, pytz, setuptools)
   - '--help' now shows the ENV-VAR names inline. No need to open a browser anymore when configuring ULS.
-  - [docker] bumped Python container version to 3.13
-  - [docker] bumped Python container version from debian12 (bookworm) to debian13 (trixie) 
+  - [docker-debian] bumped Python container version to 3.13
+  - [docker-debian] bumped Python container version from debian12 (bookworm) to debian13 (trixie) 
   - [docker] bumped CLI-EAA to branch 0.6.12 (new fields added, bugfixes)
   - [docker] bumped CLI-LINODE to version v0.0.8 (more detailed utilization support, bugfixes)
   
 - **Bugfixes**
+  - Fixed a bug that prevented the INPUTCLI from "failing properly", if anything happened during the input handling 
   - Fixed a bug in the INPUTCLI, that could have caused a stale behavior of ULS in rare circumstances. We're exiting now properly.
   - Fixed a bug in the Inputhandling CLI `AttributeError: module 'uls_config.global_config' has no attribute 'edgerc_openap'`
   

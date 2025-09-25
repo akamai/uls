@@ -42,7 +42,8 @@ class UlsInputCli:
                  starttime: int=None,
                  endtime: int=None,
                  root_path: str=None,
-                 cli_debug: bool=False):
+                 cli_debug: bool=False,
+                 stopEvent=None):
         """
         Initialzing a new UlsInput handler
         :param product: Input product
@@ -90,6 +91,9 @@ class UlsInputCli:
 
         # Generic vars
         self.edgerc_hostname = None
+
+        # StopEvent
+        self.stopEvent = stopEvent
 
     def _feed_selector(self, feed, product_feeds):
         if feed in product_feeds:

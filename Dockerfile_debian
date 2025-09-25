@@ -1,4 +1,4 @@
-FROM            python:3.13-alpine
+FROM            python:3.13-slim-trixie
 LABEL           MAINTAINER="Mike Schiessl - mike.schiessl@akamai.com"
 LABEL	        APP_LONG="Akamai Unified Log Streamer"
 LABEL           APP_SHORT="ULS"
@@ -25,30 +25,22 @@ ENV             CONTAINERIZED=TRUE
 
 # PREPARE ENVIRONMENT
     # hadolint ignore=DL3008
-RUN             apk update &&  \
-                apk add --no-cache git && \
-                apk add --no-cache curl  && \
-                apk add --no-cache bash && \
-                apk add --no-cache busybox-extras && \
-                apk add --no-cache build-base && \
-                apk add --no-cache linux-headers && \
-                update-ca-certificates
-
-
-#	            apt-get --no-install-recommends -y install \
-#		        ca-certificates \#
-#		        git \
-#		        curl \
-#                telnet \
-#                gcc \
-#                libssl-dev \
-#                libffi-dev && \
-#		        rm -rf /var/lib/apt/lists/
+RUN	            apt-get update && \
+	            apt-get --no-install-recommends -y install \
+		        ca-certificates \
+		        git \
+		        curl \
+                telnet \
+                gcc \
+                libssl-dev \
+                libffi-dev && \
+		        rm -rf /var/lib/apt/lists/
 
 
 
 # USER & GROUP
-RUN 	        adduser -g akamai -D -s /bin/bash -h ${HOMEDIR} akamai
+RUN 	        groupadd akamai && \
+                useradd -g akamai -s /bin/bash -m -d ${HOMEDIR} akamai
 
 # Installing now as root and switching later to the akamai user
 

@@ -30,7 +30,6 @@ import brotli
 # ULS specific modules
 import uls_config.global_config as uls_config
 import modules.aka_log as aka_log
-from flask import session
 
 
 #stopEvent = threading.Event()
