@@ -3,7 +3,7 @@
 ## v2.0.0
 |        |                     |
 |--------|---------------------|
-| Date   | 2025-08-24          |
+| Date   | 2025-08-25          |
 | Kind   | Major release       |
 | Author | mschiess@akamai.com |
 
