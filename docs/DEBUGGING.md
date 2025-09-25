@@ -20,6 +20,7 @@ We strongly encourage to always get the latest version of ULS. You can find the 
       - [Command line](#command-line)
       - [Docker](#docker)
     - [Example Output](#example-output)
+  - [Tell us what you're trying to do](#tell-us-what-youre-trying-to-do)
   - [Debug output from ULS](#debug-output-from-uls)
     - [Commands to trigger debug output](#commands-to-trigger-debug-output)
       - [Command Line](#command-line-1)
@@ -29,6 +30,10 @@ We strongly encourage to always get the latest version of ULS. You can find the 
       - [CLIDEBUG mode](#clidebug-mode)
       - [manual CLI debugging](#manual-cli-debugging)
       - [DOCKER / DOCKER-COMPOSE](#docker--docker-compose)
+
+---
+
+---
 
 ## Version information
 
@@ -63,6 +68,16 @@ OS Version              5.10.25-linuxkit
 Python Version          3.9.5
 ```
 
+---
+
+## Tell us what you're trying to do
+When raising a ticket or a bug, please make sure, you include the command (input, feed, output config) of what you were originally trying to do.  
+This helps us diving into the correct sections of the code.  
+
+When providing the data, please make sure, you're not leaking any sensitive data such as credentials, usernames or PII.
+
+---
+
 ## Debug output from ULS
 
 To debug problems into depth, ULS provides an extremely verbose output about every step processed within ULS.
@@ -85,6 +100,8 @@ docker run -ti \
 ```
 
 Instead of adding it to the command line, you can also set the `ULS_LOGLEVEL` ENV VAR to "DEBUG"
+
+---
 
 ## Debug output from CLI's
 
@@ -142,3 +159,5 @@ python3 bin/uls.py --input gc --feed netlog --output raw --clidebug --loglevel d
     ```
     This will debug the exact same thing as above, but without passing the data through ULS (and eventually your SIEM)  
     As alternative you also can run the above command omn the CLI directly ;) 
+
+---

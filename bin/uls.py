@@ -71,7 +71,7 @@ def main():
 
     # OUTPUT Version Information
     if uls_args.version:
-        UlsTools.uls_version(root_path=root_path)
+        UlsTools.uls_version(root_path=root_path, uls_args=uls_args)
 
     # Verify the given core params (at least input and output should be set)
     UlsTools.uls_check_args(uls_args.input, uls_args.output)
@@ -107,7 +107,8 @@ def main():
                                              prom_port=uls_args.prometheus_port,
                                              prom_host=uls_args.prometheus_addr,
                                              prom_certfile=uls_args.prometheus_certfile,
-                                             prom_keyfile=uls_args.prometheus_keyfile)
+                                             prom_keyfile=uls_args.prometheus_keyfile,
+                                             nocallhome=uls_args.nocallhome)
     my_monitor.start()
 
     # Connect to an Input Handler UlsInputCli
@@ -122,7 +123,8 @@ def main():
                                        starttime=uls_args.starttime,
                                        endtime=uls_args.endtime,
                                        root_path=root_path,
-                                       cli_debug=uls_args.clidebug)
+                                       cli_debug=uls_args.clidebug,
+                                       stopEvent=stopEvent)
 
 
     # Connect to the selected input UlsOutput
@@ -137,6 +139,8 @@ def main():
                                     http_insecure=uls_args.httpinsecure,
                                     http_liveness=uls_args.httpliveness,
                                     http_formattype=uls_args.httpformattype,
+                                    http_compression=uls_args.httpcompression,
+                                    http_compression_type=uls_args.httpcompressiontype,
                                     filehandler=uls_args.filehandler,
                                     filename=uls_args.filename,
                                     filebackupcount=uls_args.filebackupcount,
@@ -187,7 +191,7 @@ def main():
 
 
     # Send CallHome Request, if not opted_out
-    UlsTools.callhome(nocallhome_state=uls_args.nocallhome, position="uls_start", input=uls_args.input, feed=uls_args.feed, output=uls_args.output)
+    UlsTools.callhome(nocallhome_state=uls_args.nocallhome, position="uls_start", callhome_data={'input': uls_args.input, 'feed': uls_args.feed, 'output': uls_args.output})
 
     # New ULS/1.5: the input module is ingesting messages
     # into a thread safe queue. The function call will immediately
@@ -256,12 +260,15 @@ def main():
                                         f"ULS was not able to deliver the log message "
                                         f"{log_line_escaped} after {resend_counter} attempts - Exiting!")
                     sys.exit(1)
+
                 elif resend_counter == uls_config.main_resend_attempts and \
                         not uls_config.main_resend_exit_on_fail:
                     aka_log.log.warning(
                         f"MSG[{my_monitor.get_message_count()}] "
                         f"ULS was not able to deliver the log message "
                         f"{log_line_escaped} after {resend_counter} attempts - (continuing anyway as my config says)")
+                        # This will re-set the send counter and start from the beginning
+
         except queue.Empty:
             # No data available, we get a chance to capture the StopEvent
             pass

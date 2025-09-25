@@ -14,7 +14,7 @@
 - [What is HTTP FORMATTYPE](#what-is-http-formattype)
 - [Error: "Capacity exceeded, too many incoming data vs. slow output"](#error-capacity-exceeded-too-many-incoming-data-vs-slow-output)
 - [Error: "Invalid timestamp" on API call](#error-invalid-timestamp-on-api-call)
-- [I do not want to send any data to Akamai](#i-do-not-want-to-send-any-data-to-akamai)
+- [I do not want to send any data to Akamai (disable CallHome)](#i-do-not-want-to-send-any-data-to-akamai)
 - [Can i run ULS on Windows Operating Systems](#can-i-run-uls-on-windows-operating-systems)
 - [ULS on Windows error: "[WinError 2] The system cannot find the file specified"](#uls-on-windows-error-winerror-2-the-system-cannot-find-the-file-specified)
 - [Is there an alternative to stream high volume SIA / ETP logs ?](#is-there-an-alternative-to-stream-high-volume-sia--etp-logs-)
@@ -158,11 +158,15 @@ This error points towards a potential issue with the time configuration on the U
 As you can see in the above example, the host timestamp is `2023-10-24 07:00:17,315` but the request timestamp (returned from the API) is more than 1 minute ahaed `"2023-10-24T07:01:40Z"`.
 
 ---
-### I do not want to send any data to Akamai
-With ULS Version 1.8.0 we introduced a call home functionality that once sends data to AKAMAI upon starting ULS.  
-This data helps us continue the ULS development in the future. So if possible, please allow ULS to send this data.  
-We are not sending any sensitive or PII data. The Debug logs show the exact data that has been sent.
+### I do not want to send any data to Akamai (disable CallHome)
+By providing us anonymous information, you're actively helping us improving ULS and taking focussing our work.  
+The data provided is "secure" to be transferred over the internet, as it does not hold any identifyable information other than usage pattern and stats.  
+In order to provide full transparency, all data that is being transmitted is shown below. With ULS2, all requests have been made "non-blocking".   
 
+In addition, all sent "Callhome requests" can be asserted by enabling the "debug logging"
+
+#### Startup Data
+With ULS Version 1.8.0 we introduced a call home functionality that once sends data to AKAMAI upon starting ULS.  
 
 The data includes:
 - current ULS version
@@ -176,9 +180,31 @@ The data includes:
 
 Example data:
 ```curl
-/uls_start?version=1.8.0-alpha&input=EAA&feed=ACCESS&output=RAW&install_id=OU5UR0RHLTIwMjIxMTI4LTEuNi4y&os_platform=macOS-14.5-arm64-arm-64bit&pyhton=3.12.4&container=False
+/uls_start?version=1.8.0-alpha&input=EAA&feed=ACCESS&output=RAW&install_id=OU5UR0RHLTI&os_platform=macOS-14.5-arm64-arm-64bit&pyhton=3.12.4&container=False
 ```
 
+#### Stats
+ULS 2.0.0 introduced an additional call home function, that sends anonymous usage stats to Akamai.  
+The transmission will haben every 50 minutes (10 * monitoring interval).
+
+The data includes:
+- ULS input
+- ULS feed
+- ULS output
+- ULS installation ID
+- ULS Runtime (from initial start)
+- overall number of processed events
+- overall number of transferred bytes)
+- Time of the monitoring interval
+
+Example data:
+```curl
+/stats?input=EAA&feed=ACCESS&output=RAW&install_id=OU5UR0RHLTI&runtime=500&evet_count=9513&event_bytes=78612&mon_interval=3000
+```
+There might be more data attached in the future - but you will always find a hint in the changelog.
+  
+
+#### Generic CallHome Info
 The domain the data will be sent to: `uls-beacon.akamaized.net`
 
 If you still want to disable the CallHome functionality within ULS,  

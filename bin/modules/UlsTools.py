@@ -20,6 +20,9 @@ import configparser
 import pathlib
 import datetime
 import time
+import threading
+import psutil
+import re
 
 # ULS modules
 import modules.aka_log as aka_log
@@ -63,8 +66,22 @@ def uls_check_sys(root_path, uls_input=None):
         aka_log.log.critical(f"No input specified: {uls_input} - exiting")
         sys.exit(1)
 
+def get_processor_name():
+    if platform.system() == "Windows":
+        return platform.processor()
+    elif platform.system() == "Darwin":
+        os.environ['PATH'] = os.environ['PATH'] + os.pathsep + '/usr/sbin'
+        command ="sysctl -n machdep.cpu.brand_string"
+        return subprocess.check_output(command, shell=True).decode().strip()
+    elif platform.system() == "Linux":
+        command = "cat /proc/cpuinfo"
+        all_info = subprocess.check_output(command, shell=True).decode().strip()
+        for line in all_info.split("\n"):
+            if "model name" in line:
+                return re.sub( ".*model name.*:", "", line,1)
+    return ""
 
-def uls_version(root_path):
+def uls_version(root_path, uls_args):
     """
     Collect ULS Version information and display it on STDOUT
     """
@@ -109,11 +126,41 @@ def uls_version(root_path):
           f"OS Version\t\t{platform.release()}\n"
           f"Python Version\t\t{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}\n"
           f"Container Status\t{check_container()}\n"
+          f"Available Memory\t{psutil.virtual_memory().total / 1024 ** 3} GB\n"
+          f"CPU Type\t\t{get_processor_name()}\n"
+          f"Available CPUs\t\t{psutil.cpu_count(logical=False)}\n"
           f"RootPath \t\t{root_path}\n"
           f"TimeZone (UTC OFST) \t{check_timezone()} ({-time.timezone / 3600})\n"
           f"Installation ID \t{get_install_id()['install_id']}"
           )
 
+    # Show some additional output if loglevel debug is enabled :)
+    if uls_args.loglevel == "DEBUG":
+        print("\n\n\n------------------------------------------------")
+        print("ADDITIONAL ULS DEBUGGING VERSION INFORMATION\n\n")
+
+        print("PYTHON MODULE VERSION INFORMATION\n\n")
+        try:
+            with open(root_path + "/bin/requirements.txt", 'r') as requirements_file:
+                #print(requirements_file.read())
+                pip_lines = requirements_file.readlines()
+
+            for line in pip_lines:
+                print(f"\n\nRequirement: {line}")
+                current_tool = line.split(">")[0]
+                #print(current_tool)
+                pip_version_proc = subprocess.Popen(
+                    [uls_config.bin_python, "-m", "pip", "show", current_tool],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE)
+                pip_data = str(pip_version_proc.communicate()[0].decode()).strip()
+                print(pip_data)
+                print(pip_data)
+                pip_version_proc.terminate()
+
+        except Exception as my_err:
+            print(my_err)
+        print("\n\n\n------------------------------------------------")
     # Delete the mocked edgerc file
     os.remove(my_edgerc_mock_file)
 
@@ -351,14 +398,59 @@ def get_install_id(install_id_file=str(root_path()) + "/var/uls_install_id"):
     return data
 
 
-def callhome(nocallhome_state: bool, input: str = "n/a", feed: str = "n/a", output: str = "n/a", position: str = "n/a"):
+def callhome(nocallhome_state: bool=True, position: str=None, callhome_data: dict=None):
+    """
+    A new and more "robust" callhome functionaility - offering a non-blocking integration into different places within ULS,
+    whilst allowing more flexible usage of callhome functionality.
+    """
+    # -- Check if Callhome is enabled (nocallhome_state=false) or disabled (nocallhome_state=true)
     if not nocallhome_state:
         try:
-            url = f"/{position}?version={uls_config.__version__}&input={input}&feed={feed}&output={output}&install_id={get_install_id()['install_id']}&os_platform={platform.platform()}&python={sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}&container={check_container()}"
-            aka_log.log.debug(f"Sending a CallHome request containing the following data: {url}")
-            result = requests.get(uls_config.callhome_url + url, timeout=int(uls_config.callhome_timeout))
-            aka_log.log.debug(f"Callhome response code: {result.status_code}")
+            # -- On ULS Start we want detailed system information
+            if position == "uls_start":
+                #if 'input' and 'feed' and 'c' in my:
+                url_params = f"/{position}?version={uls_config.__version__}&input={callhome_data.get('input')}&feed={callhome_data.get('feed')}&output={callhome_data.get('output')}&install_id={get_install_id()['install_id']}&os_platform={platform.platform()}&python={sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}&container={check_container()}"
+
+            # -- We want ULS to send us some monitoring stats (how many messages/how long running)
+            elif position == "stats":
+                url_params = f"/{position}?input={callhome_data.get('input')}&feed={callhome_data.get('feed')}&output={callhome_data.get('output')}&install_id={get_install_id()['install_id']}&runtime={callhome_data.get('runtime')}&evet_count={callhome_data.get('event_count')}&event_bytes={callhome_data.get('event_bytes')}&mon_interval={callhome_data.get('mon_interval')}"
+            # --- No position matching !!!
+            else:
+                aka_log.log.warning(f"Callhome ({position}) was not found - not sending any data")
+
+
+            # --- Ok, lets actually trigger the "Callhome Thread"
+            url = uls_config.callhome_url + url_params
+            timeout = int(uls_config.callhome_timeout)
+            callhome_thread = threading.Thread(
+                target=_send_request_worker,
+                args=(url,position,timeout),
+                name=f"CallhomeThread-{position}-{time.time()}"
+            )
+            callhome_thread.daemon = True
+            callhome_thread.start()
+
         except:
-            aka_log.log.debug(f"Callhome went wrong ...")
+            aka_log.log.debug(f"Callhome ({position}) went wrong ...")
     else:
-        aka_log.log.debug(f"Callhome functionality has been disabled - not sending any data")
+        aka_log.log.debug(f"Callhome function is disabled - not sending any data")
+
+
+
+def _send_request_worker(url: str, position: str="n/a", timeout: int=10):
+    """
+    This function will send the data towards the callhome receiver, but encapsulated within a "thread" to avoid blocking
+    """
+    try:
+        aka_log.log.debug(f"CallHome ({position}) Sending request containing the following data: {url}")
+        response = requests.get(url, timeout=timeout)
+        response.raise_for_status()
+        aka_log.log.debug(f"Callhome ({position}) Received response code: {response.status_code}")
+
+    except requests.exceptions.RequestException as e:
+        aka_log.log.debug(f" Callhome ({position}) Failed [{threading.current_thread().name}] Error: Reason: {e}. Response: {response.text}")
+
+
+
+
+

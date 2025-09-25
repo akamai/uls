@@ -42,7 +42,8 @@ class UlsInputCli:
                  starttime: int=None,
                  endtime: int=None,
                  root_path: str=None,
-                 cli_debug: bool=False):
+                 cli_debug: bool=False,
+                 stopEvent=None):
         """
         Initialzing a new UlsInput handler
         :param product: Input product
@@ -91,6 +92,9 @@ class UlsInputCli:
         # Generic vars
         self.edgerc_hostname = None
 
+        # StopEvent
+        self.stopEvent = stopEvent
+
     def _feed_selector(self, feed, product_feeds):
         if feed in product_feeds:
             # feed matches the given list
@@ -102,6 +106,7 @@ class UlsInputCli:
         else:
             aka_log.log.critical(
                 f"{self.name} - Feed ({feed}) not available - Available: {product_feeds}")
+            self.stopEvent.set()
             sys.exit(1)
         return feed
 
@@ -115,6 +120,7 @@ class UlsInputCli:
         else:
             aka_log.log.critical(
                 f"{self.name} - FORMAT ({cliformat}) not available")
+            self.stopEvent.set()
             sys.exit(1)
         return cliformat
 
@@ -248,7 +254,7 @@ class UlsInputCli:
                     self.edgerc_hostname = UlsTools.uls_check_edgerc(
                         self.credentials_file,
                         self.credentials_file_section,
-                        uls_config.edgerc_openap
+                        uls_config.edgerc_openapi
                     )
 
                     cli_command = self._gen_cli_cmd(
@@ -492,6 +498,7 @@ class UlsInputCli:
             else:
                 aka_log.log.critical(f" {self.name} - No valid product selected "
                                      f"(--input={self.product}).")
+                self.stopEvent.set()
                 sys.exit(1)
 
             try:
@@ -555,7 +562,8 @@ class UlsInputCli:
             if self.running is False and self.rerun_counter > self.rerun_retries:
                 aka_log.log.critical(f'{self.name} - Not able to start the CLI for '
                                      f'{self.product}. See above errors. '
-                                     f'Giving up after {self.rerun_counter - 2} retries.')
+                                     f'Giving up after {self.rerun_counter - 2} retries. Exiting NOW')
+                self.stopEvent.set()
                 sys.exit(1)
 
     def check_proc(self):
@@ -585,7 +593,7 @@ class UlsInputCli:
         except Exception as my_error:
             if self.run_once:
                 aka_log.log.critical(f"{self.name} - '--endtime' was specified - so stopping now")
-
+                self.stopEvent.set()
                 sys.exit(0)
             else:
                 aka_log.log.error(f'{self.name} - Soemthing really '

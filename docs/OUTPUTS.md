@@ -73,6 +73,13 @@ More information regarding the parameters can be found [here](ARGUMENTS_ENV_VARS
 bin/uls.py --input eaa --feed admin --output raw
 ```
 
+## NONE
+This is just an option, when it comes to direct debugging - and we don't really care about the original "log data", but more about the functionality.
+No "event data" will be displayed at all.  
+Anyhow, the data is really processed in the background (you can see counters go up, ...) but will actually just be dropped.
+
+
+
 ## FILE
 The file output has been introduced in ULS version 1.2.0 to support logging/archiving operations.
 Data is written to an output file and rotated depending on the giben parameters (see examples below).

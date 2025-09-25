@@ -1,9 +1,9 @@
-FROM            python:3.13-alpine
+FROM            python:3.13-slim-trixie
 
 LABEL           maintainer="Mike Schiessl - mike.schiessl@akamai.com"
 LABEL           app.long="Akamai Unified Log Streamer"
 LABEL           app.short="ULS"
-LABEL           app.baseimage="alpine"
+LABEL           app.baseimage="debian"
 LABEL           vendor="Akamai Technologies Inc"
 LABEL           description="Log streaming for AKAMAI products"
 
@@ -27,31 +27,23 @@ ENV             HOMEDIR=$HOMEDIR
 ENV             CONTAINERIZED=TRUE
 
 # PREPARE ENVIRONMENT
-    # hadolint ignore=DL3018
-RUN             apk update &&  \
-                apk add --no-cache git && \
-                apk add --no-cache curl  && \
-                apk add --no-cache bash && \
-                apk add --no-cache busybox-extras && \
-                apk add --no-cache build-base && \
-                apk add --no-cache linux-headers && \
-                update-ca-certificates
-
-
-#	            apt-get --no-install-recommends -y install \
-#		        ca-certificates \#
-#		        git \
-#		        curl \
-#                telnet \
-#                gcc \
-#                libssl-dev \
-#                libffi-dev && \
-#		        rm -rf /var/lib/apt/lists/
+    # hadolint ignore=DL3008
+RUN	            apt-get update && \
+	            apt-get --no-install-recommends -y install \
+		        ca-certificates \
+		        git \
+		        curl \
+                telnet \
+                gcc \
+                libssl-dev \
+                libffi-dev && \
+		        rm -rf /var/lib/apt/lists/
 
 
 
 # USER & GROUP
-RUN 	        adduser -g akamai -D -s /bin/bash -h ${HOMEDIR} akamai
+RUN 	        groupadd akamai && \
+                useradd -g akamai -s /bin/bash -m -d ${HOMEDIR} akamai
 
 # Installing now as root and switching later to the akamai user
 
