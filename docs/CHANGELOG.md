@@ -9,7 +9,8 @@
 
 
 - **Features**
-
+- **Minor improvements** 
+  - [Secureworks XDR integration](SIEM/SECUREWORKS/README.md) documentation published
 
 ---
 
