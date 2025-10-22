@@ -18,7 +18,6 @@ We are not expecting any issues - the container has been tested successfully.
 In case you want to continue with the "debian" base image - we are still offering the same version in the following tag: `akamai/uls:debian-lastest` or `akamai/uls:debian-v2.0.0`
 
 
-
 - **Features**
   - New output type: `None` - This improves debugging and analysing "processing" data
   - Complete rework of the "Callhome" functionality (non-blocking integration)
