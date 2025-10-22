@@ -11,4 +11,4 @@ All contributions in terms of documentation a welcome.
 - [QRADAR](./QRADAR/README.md)
 - [SPLUNK](./SPLUNK/README.md)
 - [SUMOLOGIC](./SUMOLOGIC/README.md)
-
+- Secureworks

@@ -1,5 +1,18 @@
 # Version History
 
+## v2.0.1
+|        |                     |
+|--------|---------------------|
+| Date   | 2025-11-xx          |
+| Kind   | Minor release       |
+| Author | mschiess@akamai.com |
+
+
+- **Features**
+
+
+---
+
 ## v2.0.0
 |        |                     |
 |--------|---------------------|
