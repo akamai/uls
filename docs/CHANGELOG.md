@@ -3,7 +3,7 @@
 ## v2.0.1
 |        |                     |
 |--------|---------------------|
-| Date   | 2025-11-xx          |
+| Date   | 2025-11-19          |
 | Kind   | Minor release       |
 | Author | mschiess@akamai.com |
 
@@ -11,6 +11,8 @@
 - **Features**
 - **Minor improvements** 
   - [Secureworks XDR integration](SIEM/SECUREWORKS/README.md) documentation published
+  - [docker] bumped CLI-EAA to version 0.7.1 (new fields added for ET, bugfixes)
+  
 
 ---
 
