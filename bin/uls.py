@@ -211,15 +211,8 @@ def main():
             for log_line in input_data.splitlines():
 
                 log_line_escaped = log_line.decode('utf-8').replace('"', '\\"')
-                # Write checkpoint to the checkpoint file (if autoresume is enabled) (not after transformation or filter)
-                if uls_args.autoresume and int(my_monitor.get_message_count()) >= autoresume_lastwrite + uls_args.autoresumewriteafter:
-                    aka_log.log.info(f"WRITING AUTORESUME CHECKPOINT - curr_message_count={int(my_monitor.get_message_count())} - last_write = {autoresume_lastwrite}")
-                    UlsTools.write_autoresume_ckpt(uls_args.input,
-                                                   uls_args.feed,
-                                                   autoresume_file,
-                                                   log_line,
-                                                   current_count=int(my_monitor.get_message_count()))
-                    autoresume_lastwrite = int(my_monitor.get_message_count())
+
+
 
                 # Filter Enhancement
                 if uls_args.filter and not filter_pattern.match(log_line):
@@ -268,6 +261,17 @@ def main():
                         f"ULS was not able to deliver the log message "
                         f"{log_line_escaped} after {resend_counter} attempts - (continuing anyway as my config says)")
                         # This will re-set the send counter and start from the beginning
+
+
+                # Write checkpoint to the checkpoint file (if autoresume is enabled) (not after transformation or filter)
+                if uls_args.autoresume and int(my_monitor.get_message_count()) >= autoresume_lastwrite + uls_args.autoresumewriteafter:
+                    aka_log.log.info(f"WRITING AUTORESUME CHECKPOINT - curr_message_count={int(my_monitor.get_message_count())} - last_write = {autoresume_lastwrite}")
+                    UlsTools.write_autoresume_ckpt(uls_args.input,
+                                                   uls_args.feed,
+                                                   autoresume_file,
+                                                   log_line,
+                                                   current_count=int(my_monitor.get_message_count()))
+                    autoresume_lastwrite = int(my_monitor.get_message_count())
 
         except queue.Empty:
             # No data available, we get a chance to capture the StopEvent
