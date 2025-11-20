@@ -208,11 +208,15 @@ def main():
             if uls_args.debugloglines:
                 escaped_data = input_data.rstrip().decode('utf-8').replace('"', '\\"')
                 aka_log.log.debug(f"<IN> {escaped_data}")
+
             for log_line in input_data.splitlines():
 
                 log_line_escaped = log_line.decode('utf-8').replace('"', '\\"')
 
-
+                # Autoresume: Make sure to copy the logline - just in case there is filter or transformation going on (if autoresume is enabled) (not after transformation or filter)
+                if uls_args.autoresume and int(my_monitor.get_message_count()) >= autoresume_lastwrite + uls_args.autoresumewriteafter:
+                    # ok here we just store the regarding logline - as transformation or filter will make it unusuable for autoresume
+                    autoresume_log_line = log_line
 
                 # Filter Enhancement
                 if uls_args.filter and not filter_pattern.match(log_line):
@@ -263,13 +267,15 @@ def main():
                         # This will re-set the send counter and start from the beginning
 
 
-                # Write checkpoint to the checkpoint file (if autoresume is enabled) (not after transformation or filter)
-                if uls_args.autoresume and int(my_monitor.get_message_count()) >= autoresume_lastwrite + uls_args.autoresumewriteafter:
+                # Eventually write the checkpoint to the checkpoint file (if autoresume is enabled) (not after transformation or filter)
+                if uls_args.autoresume and my_output.check_data_sent_successfully() and int(my_monitor.get_message_count()) >= autoresume_lastwrite + uls_args.autoresumewriteafter:
+                    # At this point we are assuming that we should write a checkpoint - but stuff like "http_aggregate" might delay the actual sending of the logline
+                    # Therefore we have to integrate a new mechanism to make sure that the logline has actually been sent out properly !
                     aka_log.log.info(f"WRITING AUTORESUME CHECKPOINT - curr_message_count={int(my_monitor.get_message_count())} - last_write = {autoresume_lastwrite}")
                     UlsTools.write_autoresume_ckpt(uls_args.input,
                                                    uls_args.feed,
                                                    autoresume_file,
-                                                   log_line,
+                                                   autoresume_log_line,
                                                    current_count=int(my_monitor.get_message_count()))
                     autoresume_lastwrite = int(my_monitor.get_message_count())
 
