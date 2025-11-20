@@ -1,4 +1,17 @@
 # Version History
+## v2.0.2
+|        |                     |
+|--------|---------------------|
+| Date   | 202X-XX-XX          |
+| Kind   | Minor release       |
+| Author | mschiess@akamai.com |
+
+
+- **Features**
+- **Major changes** 
+  - Changed the point in time when a "autoresume - checkpoint" will be written to avoid data loss in certain circumstances
+---
+
 
 ## v2.0.1
 |        |                     |
