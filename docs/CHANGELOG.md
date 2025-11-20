@@ -1,5 +1,20 @@
 # Version History
 
+## v2.0.1
+|        |                     |
+|--------|---------------------|
+| Date   | 2025-11-20          |
+| Kind   | Minor release       |
+| Author | mschiess@akamai.com |
+
+
+- **Features**
+- **Minor improvements** 
+  - [Secureworks XDR integration](SIEM/SECUREWORKS/README.md) documentation published
+  - [docker] bumped CLI-EAA to version 0.7.1 (new fields added for ET, bugfixes)
+
+---
+
 ## v2.0.0
 |        |                     |
 |--------|---------------------|
@@ -16,7 +31,6 @@ The module list in the `requirements.txt` has increased. Make sure to install & 
 The baseimage for the ULS has changed from `python:3.12-debian-slim` to `python:3.13-alpine`
 We are not expecting any issues - the container has been tested successfully.
 In case you want to continue with the "debian" base image - we are still offering the same version in the following tag: `akamai/uls:debian-lastest` or `akamai/uls:debian-v2.0.0`
-
 
 
 - **Features**

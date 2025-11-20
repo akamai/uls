@@ -111,6 +111,20 @@ current_version=$(cat docs/CHANGELOG.md | grep "##" | head -n 1 | sed 's/.* v//'
 	[ "$status" -eq 0 ]
 }
 
+
+@test "pip3.14 install -r bin/requirements.txt" {
+	run /opt/homebrew/bin/pip3.13 install -r bin/requirements.txt
+	assert_output --partial "satisfied"
+	[ "$status" -eq 0 ]
+}
+
+@test "python3.14 uls.py --version" {
+	run /opt/homebrew/bin/python3.13 $uls_bin --version
+	assert_output --partial "Akamai Unified Log Streamer Version information"
+	[ "$status" -eq 0 ]
+}
+
+
 @test "cat bin/config/global - Version output should be ($current_version) according to CHANGELOG" {
 	run echo $(cat bin/uls_config/global_config.py | grep "__version__ =" | cut -d " " -f 3)
 	assert_output --partial "$current_version"
