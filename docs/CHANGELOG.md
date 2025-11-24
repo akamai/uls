@@ -10,6 +10,9 @@
 - **Features**
 - **Major changes** 
   - Changed the point in time when a "autoresume - checkpoint" will be written to avoid data loss in certain circumstances
+    - For better convenience - ULS will now write the "current checkpoint" also to the monitoring output  & prometheus (field: current_checkpoint) - even if checkpoint writing is disabled.
+  - Also introduced autorsume checkpoints for most of the feeds
+  - 
 ---
 
 

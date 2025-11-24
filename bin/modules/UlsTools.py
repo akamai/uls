@@ -276,11 +276,28 @@ def check_autoresume(input, feed, checkpoint_dir=uls_config.autoresume_checkpoin
                         creation_time = data['creation_time']
                         # Convert the Checkpoint to "epoch Timestamp", depending on the input
                         is_unixtimestamp=False
+                        # --- SIA / ETP
                         if data['input'] == "ETP" or data['input'] == "SIA":
                             mytime = data['checkpoint'].split("Z")[0]
                             is_unixtimestamp=True
-                        elif data['input'] == "EAA":
+                        # --- EAA
+                        elif data['input'] == "EAA" and data['feed'] in ["ACCESS", "DEVINV", "DIRHEALTH"]:
                             mytime = data['checkpoint'].split("+")[0]
+                        elif data['input'] == "EAA" and data['feed'] in ["ADMIN"]:
+                            mytime = data['checkpoint'].split("Z")[0]
+                        elif data['input'] == "EAA" and data['feed'] in ["CONHEALTH"]:
+                            mytime = data['checkpoint'].split("Z")[0]
+                        # --- MFA
+                        elif data['input'] == "MFA":
+                            mytime = data['checkpoint'].split(".")[0]
+
+                        # --- LINODE
+                        elif data['input'] == "LINODE" and data['feed'] in ["AUDIT"]:
+                            mytime = data['checkpoint']
+                        elif data['input'] == "LINODE" and data['feed'] in ["UTILIZATION"]:
+                            mytime = data['checkpoint'].split(".")[0]
+
+                        # --- GC &  ACC
                         elif data['input'] == "GC"  or data['input'] == "ACC":
                             mytime = data['checkpoint'].split(".")[0]
                         else:
@@ -326,25 +343,47 @@ def check_autoresume(input, feed, checkpoint_dir=uls_config.autoresume_checkpoin
     return {'filename': checkpoint_full, 'creation_time': creation_time, 'checkpoint': checkpoint}
 
 
-def write_autoresume_ckpt(input, feed, autoresume_file, logline, current_count):
-    aka_log.log.info(f"AUTORESUME - IT's time to write a new checkpoint")
+def write_autoresume_ckpt(input, feed, autoresume_file, logline, current_count, write_checkpoint: bool=True):
+    aka_log.log.info(f"AUTORESUME - IT's time to calculate a new checkpoint")
 
     # Adopt the field to the stream / feed
     checkpoint_line = logline.decode()
+
+    # --- ETP / SIA
     if (input == "ETP" or input == "SIA") and (feed == "THREAT" or feed =="PROXY" or feed == "AUP"):
         checkpoint_timestamp = json.loads(checkpoint_line)['event']['detectionTime']
     elif (input == "ETP" or input == "SIA") and feed == "DNS":
         checkpoint_timestamp = json.loads(checkpoint_line)['query']['time']
-    elif input == "EAA" and feed == "ACCESS":
-        checkpoint_timestamp = json.loads(checkpoint_line)['datetime']
     elif (input == "ETP" or input == "SIA") and feed == "NETCON":
         checkpoint_timestamp = json.loads(checkpoint_line)['connStartTime']
+
+    # --- EAAA
+    elif input == "EAA" and (feed == "ACCESS" or feed == "ADMIN" or feed == "CONHEALTH" or feed == "DIRHEALTH"):
+        checkpoint_timestamp = json.loads(checkpoint_line)['datetime']
+    elif input == "EAA" and feed == "DEVINV":
+        checkpoint_timestamp = json.loads(checkpoint_line)['signal_timestamp']
+
+    # --- Guardicore
     elif input == "GC" and feed == "AUDIT":
         checkpoint_timestamp = json.loads(checkpoint_line)['time']
     elif input == "GC" and feed == "INCIDENT":
         checkpoint_timestamp = json.loads(checkpoint_line)['closed_time']
     elif input == "GC" and feed == "NETLOG":
         checkpoint_timestamp = json.loads(checkpoint_line)['db_insert_time']
+    elif input == "GC" and feed == "AGENT":
+        checkpoint_timestamp = json.loads(checkpoint_line)['report_time']
+
+    # --- MFA
+    elif input == "MFA" and feed == "EVENT":
+        checkpoint_timestamp = json.loads(checkpoint_line)['created_at']
+
+    # --- Linode
+    elif input == "LINODE" and (feed == "AUDIT"):
+        checkpoint_timestamp = json.loads(checkpoint_line)['created']
+    elif input == "LINODE" and (feed == "UTILIZATION"):
+        checkpoint_timestamp = json.loads(checkpoint_line)['time']
+
+    # --- Akamai Control Center
     elif input == "ACC" and feed == "EVENTS":
         checkpoint_timestamp = json.loads(checkpoint_line)['eventTime']
     else:
@@ -352,15 +391,23 @@ def write_autoresume_ckpt(input, feed, autoresume_file, logline, current_count):
             f"AUTORESUME - Unhandled Input / Feed detected:  '{input} / {feed}' (this should never happen !!)- Exiting")
         sys.exit(1)
 
-    # Write out the file
-    try:
-        autoresume_data = {'creation_time': str(datetime.datetime.now()), 'checkpoint': str(checkpoint_timestamp), 'input': input, 'feed': feed, 'current_count': current_count}
-        with open(autoresume_file, "w") as ckpt_fd:
-            json.dump(autoresume_data, ckpt_fd)
-        aka_log.log.debug(f"AUTORESUME - Wrote a new checkpoint to {autoresume_file}: {autoresume_data}")
-    except Exception as write_error:
-        aka_log.log.critical(f"AUTORESUME - Failure writing data to {autoresume_file} - Data: {autoresume_data} - error: {write_error} - Exiting")
-        sys.exit(1)
+
+    if write_checkpoint:
+        # Write out the file
+        aka_log.log.info(f"AUTORESUME - IT's time to write a new checkpoint")
+        try:
+            autoresume_data = {'creation_time': str(datetime.datetime.now()), 'checkpoint': str(checkpoint_timestamp), 'input': input, 'feed': feed, 'current_count': current_count}
+            with open(autoresume_file, "w") as ckpt_fd:
+                json.dump(autoresume_data, ckpt_fd)
+            aka_log.log.debug(f"AUTORESUME - Wrote a new checkpoint to {autoresume_file}: {autoresume_data}")
+            return str(checkpoint_timestamp)
+
+        except Exception as write_error:
+            aka_log.log.critical(f"AUTORESUME - Failure writing data to {autoresume_file} - Data: {autoresume_data} - error: {write_error} - Exiting")
+            sys.exit(1)
+    else:
+        aka_log.log.info(f"AUTORESUME - we just calculated the checkpoint value to show it in the monitoring output - not writing it to file - checkpoint {checkpoint_timestamp}")
+        return str(checkpoint_timestamp)
 
 
 def create_install_id(install_id_file=str(root_path()) + "/var/uls_install_id"):

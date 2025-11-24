@@ -54,6 +54,7 @@ class UlsMonitoring:
         self.promeuteheus_cert = prom_certfile
         self.promeuteheus_key = prom_keyfile
 
+        self.prom_checkpoint = None
         self.prom_overall_messages = None
         self.prom_overall_bytes = None
         self.prom_overall_messages_ingested = None
@@ -83,7 +84,8 @@ class UlsMonitoring:
         self.window_messages_bytes = 0                       # Total bytes processed during the window
         self.window_messages_ingested = 0                    # Message ingested from UlsInputCli module
         self.init_time = time.time()                         # Define the init time
-
+        self.checkpoint = None                               # Last checkpoint
+        self.checkpoint_lastwrite = None                     # Last time, the heckpoint was updated
 
         # Define the working thread, daemon allows us to offload
         # of the main program termination to python
@@ -125,6 +127,8 @@ class UlsMonitoring:
         starttime = Info('uls_starttime', "The time, the uls process was started")
         starttime.info({'starttime': f'{self.init_time}'})
 
+        self.prom_checkpoint = Info(name='uls_checkpoint', documentation='The current ULS checkpoint info')
+
 
 
         # Counters
@@ -144,21 +148,22 @@ class UlsMonitoring:
                 # ULS is still active and we safely report the activity
                 if not self._stopEvent.wait(self.monitoring_interval):
                     mon_msg = {
-                       'dt': datetime.datetime.utcnow().isoformat(),
-                       'uls_product': self._product,
-                       'uls_feed': self._feed,
-                       'uls_output': self._output,
-                       'uls_version': self._version,
-                       'uls_runtime': self._runtime(),
-                       'event_count': self.overall_messages_handled,
-                       'event_count_interval': self.window_messages_handled,
-                       'event_ingested_interval': self.window_messages_ingested,
-                       'event_bytes_interval': self.window_messages_bytes,
-                       'event_rate': round(self.window_messages_handled / self.monitoring_interval, 2),
-                       'mon_interval': self.monitoring_interval,
-                       'cpu_usage': round(sum(self.cpu_samples) / (self.window_messages_handled | 1), 2),
-                       'mem_usage': round(sum(self.mem_samples) / (self.window_messages_handled | 1), 2)
-
+                        'dt': datetime.datetime.now(datetime.UTC).isoformat(),
+                        'uls_product': self._product,
+                        'uls_feed': self._feed,
+                        'uls_output': self._output,
+                        'uls_version': self._version,
+                        'uls_runtime': self._runtime(),
+                        'event_count': self.overall_messages_handled,
+                        'event_count_interval': self.window_messages_handled,
+                        'event_ingested_interval': self.window_messages_ingested,
+                        'event_bytes_interval': self.window_messages_bytes,
+                        'event_rate': round(self.window_messages_handled / self.monitoring_interval, 2),
+                        'mon_interval': self.monitoring_interval,
+                        'cpu_usage': round(sum(self.cpu_samples) / (self.window_messages_handled | 1), 2),
+                        'mem_usage': round(sum(self.mem_samples) / (self.window_messages_handled | 1), 2),
+                        'current_checkpoint': self.checkpoint,
+                        'checkpoint_lastupdate': self.checkpoint_lastwrite
                     }
 
                     # --- Handle Callhome stats (if enabled)
@@ -237,5 +242,14 @@ class UlsMonitoring:
         return int(time.time() - self.init_time)
 
 
+    def update_checkpoint(self, checkpoint: str=None):
+        """
+        Update the checkpoint value we show in the monitoring output
+        """
+        self.checkpoint = checkpoint
+        self.checkpoint_lastwrite = datetime.datetime.now(datetime.UTC).isoformat()
+
+        if self.prometheues_enabled:
+            self.prom_checkpoint.info({'checkpoint': str(self.checkpoint), 'last_update': str(self.checkpoint_lastwrite)})
 # EOF
 

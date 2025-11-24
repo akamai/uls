@@ -1,6 +1,6 @@
 #!/bin/bash
 # test.sh [file - $tests_available] [regex merge]
-tests_available="basic positive negative docker "
+tests_available="basic positive negative docker autoresume "
 parallel_tests=20
 
 

@@ -19,6 +19,9 @@ uls_stream_info_info{feed="DNS",output="RAW",product="ETP"} 1.0
 # HELP uls_starttime_info The time, the uls process was started
 # TYPE uls_starttime_info gauge
 uls_starttime_info{starttime="1721909590.092048"} 1.0
+# HELP uls_checkpoint_info The current ULS checkpoint info
+# TYPE uls_checkpoint_info gauge
+uls_checkpoint_info{checkpoint="2025-11-24T09:51:53+00:00",last_update="2025-11-24T10:01:56.316398+00:00"} 1.0
 # HELP uls_overall_messages_incoming_total Number of all handled incoming log lines
 # TYPE uls_overall_messages_incoming_total counter
 uls_overall_messages_incoming_total 0.0
@@ -44,22 +47,25 @@ uls_overall_messages_ingested_created 1.72190959011241e+09
 The output will be sent every 5 minutes to `stdout` by default.
 
 ### Field description
-| Field                   | Example                    | Description                                                     |
-|-------------------------|----------------------------|-----------------------------------------------------------------|
-| dt                      | 2021-06-09T08:15:35.092889 | Date & Time (local OS Timezone)                                 |
-| uls_product             | ETP                        | Selected ULS product                                            |
-| uls_feed                | THREAT                     | Selected ULS feed                                               |
-| uls_output              | HTTP                       | Selected ULS output                                             |
-| uls_version             | 1.3.0                      | Version of ULS currently running                                |
-| uls_runtime             | 3000                       | Time in seconds ULS is running                                  |
-| event_count             | 625014                     | # events handled by ULS (overall)                               |
-| event_count_interval    | 32145                      | # events sent to the Output by ULS (during the interval)        |
-| event_ingested_interval | 32145                      | # events consume from the Input CLI                             |
-| event_bytes_interval    | 12345679                   | Volume of events handled by ULS, in bytes (during the interval) |
-| event_rate              | 10.97                      | Average events per second (during monitoring interval)          |
-| mon_interval            | 300                        | Monitoring interval in seconds                                  |
-| cpu_usage               | 15%                        | Avg. CPU usage across all "message" - not the complete time     |
-| mem_usage               | 45%                        | Avg. memory usage across all "message" - not the complete time  |
+| Field                   | Example                    | Description                                                                     |
+|-------------------------|----------------------------|---------------------------------------------------------------------------------|
+| dt                      | 2021-06-09T08:15:35.092889 | current Date & Time (UTC)                                                       |
+| uls_product             | ETP                        | Selected ULS product                                                            |
+| uls_feed                | THREAT                     | Selected ULS feed                                                               |
+| uls_output              | HTTP                       | Selected ULS output                                                             |
+| uls_version             | 1.3.0                      | Version of ULS currently running                                                |
+| uls_runtime             | 3000                       | Time in seconds ULS is running                                                  |
+| event_count             | 625014                     | # events handled by ULS (overall)                                               |
+| event_count_interval    | 32145                      | # events sent to the Output by ULS (during the interval)                        |
+| event_ingested_interval | 32145                      | # events consume from the Input CLI                                             |
+| event_bytes_interval    | 12345679                   | Volume of events handled by ULS, in bytes (during the interval)                 |
+| event_rate              | 10.97                      | Average events per second (during monitoring interval)                          |
+| mon_interval            | 300                        | Monitoring interval in seconds                                                  |
+| cpu_usage               | 15%                        | Avg. CPU usage across all "message" - not the complete time                     |
+| mem_usage               | 45%                        | Avg. memory usage across all "message" - not the complete time                  |
+| current_checkpoint      | 2025-11-24:10:55:01        | The last checkpoint that was reached (even if checkpoints have not been enabled |
+| checkpoint_lastupdate   | 1763974151.2142231         | The timestamp the last checkpoint was written (UTC)                             |
+
 
 
 
