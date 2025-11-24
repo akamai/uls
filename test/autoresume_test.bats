@@ -11,7 +11,7 @@ mocked_edgerc=FALSE
 
 # TIMEOUT
   # How much time is timeout allowed to run
-  uls_test_timeout=90
+  uls_test_timeout=30
   # Send a kill signal after
   uls_kill_timeout=110
   # Used for regular timeout
@@ -54,50 +54,18 @@ load 'bats/bats-assert/load.bash'
 
 ## before we use this here, we need to actively allow "monitoring interval manipuluation"
 
-
-
+#for item in ACCESS ADMIN CONHEALTH DEVINV DIRHEALTH; do
 
 ## AUTORESUME
-@test "AUTORESUME - EAA - ACCESS" {
+@test "AUTORESUME - EAA ACCESS - Create" {
     rm -f /tmp/uls_eaa_access.ckpt
-    run timeout ${uls_timeout_params} ${uls_bin} --input eaa --feed access --output raw --edgerc $uls_edgerc --section $uls_section --autoresume --autoresumepath /tmp/ --autoresumewriteafter 5
-    assert_output --partial $eaa_access_assert
-    #assert_output --partial " seems to be empty"
-    #assert_output --partial "The specified directory tmp does not exist or privileges are missing - exiting"
-    #[ "$status" -eq 124 ]      #return value from timeout without --preserve status
+    run timeout ${uls_timeout_params} ${uls_bin} --input eaa --feed access --output raw --edgerc $uls_edgerc --section $uls_section --moninterval 10 -o none --autoresumewriteafter 1 --autoresume --autoresumepath /tmp/
+    assert_output --partial "current_checkpoint\": \"$(date +%Y-%m-%d)"
     [ "$status" -eq 100 ] || [ "$status" -eq 130 ]  || [ "$status" -eq 137 ]       #return value from uls when interrupted --> with --preserve status on timeout
-    rm -f /tmp/uls_eaa_access.ckpt
 }
 
-@test "AUTORESUME - EAA - ADMIN" {
-    rm -f /tmp/uls_eaa_admin.ckpt
-    run timeout ${uls_timeout_params} ${uls_bin} --input eaa --feed admin --output raw --edgerc $uls_edgerc --section $uls_section --autoresume --autoresumepath /tmp/ --autoresumewriteafter 5
-    assert_output --partial $eaa_access_assert
-    #assert_output --partial " seems to be empty"
-    #assert_output --partial "The specified directory tmp does not exist or privileges are missing - exiting"
-    #[ "$status" -eq 124 ]      #return value from timeout without --preserve status
-    [ "$status" -eq 100 ] || [ "$status" -eq 130 ]  || [ "$status" -eq 137 ]       #return value from uls when interrupted --> with --preserve status on timeout
-    rm -f /tmp/uls_eaa_admin.ckpt
-}
-
-@test "AUTORESUME - EAA - CONHEALTH" {
-    rm -f /tmp/uls_eaa_conhealth.ckpt
-    run timeout ${uls_timeout_params} ${uls_bin} --input eaa --feed conhealth --output raw --edgerc $uls_edgerc --section $uls_section --autoresume --autoresumepath /tmp/ --autoresumewriteafter 5
-    assert_output --partial $eaa_access_assert
-    #assert_output --partial " seems to be empty"
-    #assert_output --partial "The specified directory tmp does not exist or privileges are missing - exiting"
-    #[ "$status" -eq 124 ]      #return value from timeout without --preserve status
-    [ "$status" -eq 100 ] || [ "$status" -eq 130 ]  || [ "$status" -eq 137 ]       #return value from uls when interrupted --> with --preserve status on timeout
-    rm -f /tmp/uls_eaa_conhealth.ckpt
-}
-
-@test "AUTORESUME - EAA - DEVINV" {
-    rm -f /tmp/uls_eaa_devinv.ckpt
-    run timeout ${uls_timeout_params} ${uls_bin} --input eaa --feed devinv --output raw --edgerc $uls_edgerc --section $uls_section --autoresume --autoresumepath /tmp/ --autoresumewriteafter 5
-    assert_output --partial $eaa_access_assert
-    #assert_output --partial " seems to be empty"
-    #assert_output --partial "The specified directory tmp does not exist or privileges are missing - exiting"
-    #[ "$status" -eq 124 ]      #return value from timeout without --preserve status
-    [ "$status" -eq 100 ] || [ "$status" -eq 130 ]  || [ "$status" -eq 137 ]       #return value from uls when interrupted --> with --preserve status on timeout
-    rm -f /tmp/uls_eaa_devinv.ckpt
+@test "AUTORESUME - EAA ACCESS - FileCheck" {
+    run timeout ${uls_timeout_params} cat /tmp/uls_eaa_access.ckpt
+    assert_output --partial "checkpoint\": \"$(date +%Y-%m-%d)"
+    [ "$status" -eq 0 ]
 }
