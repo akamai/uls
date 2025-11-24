@@ -69,3 +69,9 @@ load 'bats/bats-assert/load.bash'
     assert_output --partial "checkpoint\": \"$(date +%Y-%m-%d)"
     [ "$status" -eq 0 ]
 }
+
+@test "AUTORESUME - EAA ACCESS - RESUME" {
+    run timeout ${uls_timeout_params} ${uls_bin} --input eaa --feed access --output raw --edgerc $uls_edgerc --section $uls_section --moninterval 10 -o none --autoresumewriteafter 1 --autoresume --autoresumepath /tmp/ -l debug
+    assert_output --partial "Autoresume Checkpoint successfully loaded. Checkpoint Time: $(date +%Y-%m-%d)"
+    [ "$status" -eq 100 ] || [ "$status" -eq 130 ]  || [ "$status" -eq 137 ]
+}
