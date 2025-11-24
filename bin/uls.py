@@ -113,7 +113,8 @@ def main():
                                              prom_host=uls_args.prometheus_addr,
                                              prom_certfile=uls_args.prometheus_certfile,
                                              prom_keyfile=uls_args.prometheus_keyfile,
-                                             nocallhome=uls_args.nocallhome)
+                                             nocallhome=uls_args.nocallhome,
+                                             monitoring_interval=uls_args.moninterval)
     my_monitor.start()
 
     # Connect to an Input Handler UlsInputCli

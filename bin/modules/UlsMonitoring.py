@@ -31,7 +31,8 @@ class UlsMonitoring:
                  prom_host: str = '127.0.0.1',
                  prom_certfile: str = None,
                  prom_keyfile: str = None,
-                 nocallhome: bool = False,):
+                 nocallhome: bool = False,
+                 monitoring_interval: int = uls_config.monitoring_interval):
         """
         Hanlde ULS self monitoring, spills out performance counter on stdout.
 
@@ -63,7 +64,7 @@ class UlsMonitoring:
 
         # Variables
         self.monitoring_enabled = uls_config.monitoring_enabled                     # Monitoring enable Flag
-        self.monitoring_interval = uls_config.monitoring_interval                   # Monitoring interval
+        self.monitoring_interval = monitoring_interval                   # Monitoring interval
         self._version = uls_config.__version__
 
             # Callhome

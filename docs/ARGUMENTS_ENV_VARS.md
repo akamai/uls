@@ -23,6 +23,7 @@ The following tables list all available command line parameters and their corres
 | --debugloglines    | ULS_DEBUGLOGLINES  | 'True', 'False'                                                                  | False                 | Should the debug log contain Loglines (useful to debug transformations)                                                                                          |
 | --nocallhome       | ULS_NOCALLHOME     | 'True', 'False'                                                                  | False                 | Disable the ULS CallHome feature that helps the ULS developers to continue improving ULS. (enabled by default)                                                   |
 | --clidebug         | ULS_CLIDEBUG       | 'True', 'False'                                                                  | False                 | Turn on [DEBUG output of the underlying CLI](DEBUGGING.md#clidebug-mode). This setting will only work with RAW OUTPUT (for security reasons) !                   |
+| --moninterval      | ULS_MONINTERVAL    |                                                                                  | 5 * 60                | Configure the monitoring interval (in seconds).                                                                                                                  |
 
 
 ## INPUT

@@ -121,7 +121,13 @@ def init():
                         help=f"Disable the ULS CallHome feature that helps the ULS developers to continue improving ULS. Default: {not uls_config.callhome_enabled}"
                              f"\nENV-VAR: 'ULS_NOCALLHOME'"
                         )
-
+    parser.add_argument('--moninterval',
+                        action='store',
+                        type=int,
+                        default=os.environ.get('ULS_MONINTERVAL') or not uls_config.monitoring_interval,
+                        help=f"Configure the monitoring interval (in seconds). Default: {not uls_config.monitoring_interval}"
+                             f"\nENV-VAR: 'ULS_MONINTERVAL'"
+                        )
 
     # ----------------------
     # Input GROUP
