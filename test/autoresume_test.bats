@@ -59,7 +59,7 @@ load 'bats/bats-assert/load.bash'
 ## AUTORESUME
 @test "AUTORESUME - EAA ACCESS - Create" {
     rm -f /tmp/uls_eaa_access.ckpt
-    run timeout ${uls_timeout_params} ${uls_bin} --input eaa --feed access --output raw --edgerc $uls_edgerc --section $uls_section --moninterval 10 -o none --autoresumewriteafter 1 --autoresume --autoresumepath /tmp/
+    run timeout ${uls_timeout_params} ${uls_bin} --input eaa --feed access --output raw --edgerc $uls_edgerc --section $uls_section --moninterval 10 -o none --autoresumewriteafter 1 --autoresume --autoresumepath /tmp/ -l debug
     assert_output --partial "current_checkpoint\": \"$(date +%Y-%m-%d)"
     [ "$status" -eq 100 ] || [ "$status" -eq 130 ]  || [ "$status" -eq 137 ]       #return value from uls when interrupted --> with --preserve status on timeout
 }
