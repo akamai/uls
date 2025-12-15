@@ -278,18 +278,23 @@ def main():
                 if my_output.check_data_sent_successfully() and int(my_monitor.get_message_count()) >= autoresume_lastwrite + uls_args.autoresumewriteafter:
                     # At this point we are assuming that we should write a checkpoint - but stuff like "http_aggregate" might delay the actual sending of the logline
                     # Therefore we have to integrate a new mechanism to make sure that the logline has actually been sent out properly !
-                    if uls_args.autoresume:
-                        aka_log.log.info(f"WRITING AUTORESUME CHECKPOINT - curr_message_count={int(my_monitor.get_message_count())} - last_write = {autoresume_lastwrite}")
-                    checkpoint_data = UlsTools.write_autoresume_ckpt(uls_args.input,
-                                                   uls_args.feed,
-                                                   autoresume_file,
-                                                   autoresume_log_line,
-                                                   current_count=int(my_monitor.get_message_count()),
-                                                   write_checkpoint=uls_args.autoresume)
-                    # Update the monitoring system with the new checkpoint
-                    my_monitor.update_checkpoint(checkpoint=checkpoint_data)
-                    # Fetch the last write count from the monitoring system
-                    autoresume_lastwrite = int(my_monitor.get_message_count())
+                    try:
+                        if uls_args.autoresume:
+                            aka_log.log.info(f"WRITING AUTORESUME CHECKPOINT - curr_message_count={int(my_monitor.get_message_count())} - last_write = {autoresume_lastwrite}")
+                        checkpoint_data = UlsTools.write_autoresume_ckpt(uls_args.input,
+                                                       uls_args.feed,
+                                                       autoresume_file,
+                                                       autoresume_log_line,
+                                                       current_count=int(my_monitor.get_message_count()),
+                                                       write_checkpoint=uls_args.autoresume)
+                        # Update the monitoring system with the new checkpoint
+
+                        my_monitor.update_checkpoint(checkpoint=checkpoint_data)
+
+                        # Fetch the last write count from the monitoring system
+                        autoresume_lastwrite = int(my_monitor.get_message_count())
+                    except Exception as my_error:
+                        aka_log.log.error(f"Error updating checkpoint in monitoring system: {my_error}")
 
         except queue.Empty:
             # No data available, we get a chance to capture the StopEvent
