@@ -1,4 +1,21 @@
 # Version History
+## v2.0.2
+|        |                     |
+|--------|---------------------|
+| Date   | 2025-12-15          |
+| Kind   | Minor release       |
+| Author | mschiess@akamai.com |
+
+
+- **Features**
+- **Major changes** 
+  - Changed the point in time when a "autoresume - checkpoint" will be written to avoid data loss in certain circumstances
+    - For additional safety - ULS will now write the "current checkpoint" also to the monitoring output  & prometheus (field: current_checkpoint) - even if checkpoint writing is disabled.
+  - Also introduced autorsume checkpoints for most of the feeds
+- **Minor improvements** 
+  - [docker] bumped CLI-EAA to version 0.7.2 (removed RC tag)
+---
+
 
 ## v2.0.1
 |        |                     |

@@ -91,6 +91,7 @@ class UlsOutput:
         self.http_compression = False
         self.http_compression_type = None
         self.http_compression_headers = {}             # Compression headers are only used internally
+        self.data_sent_successfully = False
 
         # Handover Parameters
         ## Check & set output type
@@ -428,17 +429,22 @@ class UlsOutput:
         """
         try:
             aka_log.log.debug(f"{self.name} Trying to send data via {self.output_type}")
+            # Also let's reset our self.data_sent_successfully to False
+            self.data_sent_successfully = False
+
             # --- TCP
             if self.output_type == "TCP":
                 send_data = bytes(self.tcpudp_out_format, 'utf-8') % data
                 out_data = send_data + uls_config.output_line_breaker.encode()
                 self.clientSocket.sendall(out_data)
+                self.data_sent_successfully = True
 
             # --- UDP
             elif self.output_type == "UDP":
                 send_data = bytes(self.tcpudp_out_format, 'utf-8') % data
                 out_data = send_data + uls_config.output_line_breaker.encode()
                 self.clientSocket.sendto(out_data, (self.host, self.port))
+                self.data_sent_successfully = True
 
             # --- HTTP
             elif self.output_type == "HTTP":
@@ -449,7 +455,7 @@ class UlsOutput:
                         f"{self.name} HTTP Aggregation queue is already full - not adding any more entries. Size: "
                         f"({len(self.aggregateList)}/{self.http_out_aggregate_count})")
 
-                # --- We see a n eed to sened the data, lets prepare it
+                # --- We see a need to send the data, lets prepare it
                 if len(self.aggregateList) >= self.http_out_aggregate_count or (
                     self.aggregateListTick is not None and
                     self.aggregateListTick < time.time() - uls_config.output_http_aggregate_idle
@@ -501,6 +507,7 @@ class UlsOutput:
                                      f"completed in {(response.elapsed.total_seconds()*1000):.3f} ms, "
                                      f"payload={payload_length} bytes, HTTP response {response.status_code}, "
                                      f"response={response_text_escaped} ")
+                        self.data_sent_successfully = True
                         self.aggregateList.clear()
                         # Removed the return here - Issue #82
                         # return True
@@ -521,15 +528,18 @@ class UlsOutput:
                 out_data = data + uls_config.output_line_breaker.encode()
                 sys.stdout.write(out_data.decode())
                 sys.stdout.flush()
+                self.data_sent_successfully = True
 
             # --- NONE
             elif self.output_type == "NONE":
                 should_i_do_something = False
+                self.data_sent_successfully = True
 
             # --- FILE
             elif self.output_type == "FILE":
                 out_data = data + uls_config.output_line_breaker.encode()
                 self.my_file_writer.info(f"{out_data.decode().rstrip()}")
+                self.data_sent_successfully = True
 
             # --- UNDEFINED (ERROR)
             else:
@@ -620,6 +630,8 @@ class UlsOutput:
         else:
             return payload
 
-
+# --- A Status function to check if data was sent successfully
+    def check_data_sent_successfully(self):
+        return self.data_sent_successfully
 
 # EOF

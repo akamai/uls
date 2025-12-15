@@ -76,17 +76,22 @@ def main():
     # Verify the given core params (at least input and output should be set)
     UlsTools.uls_check_args(uls_args.input, uls_args.output)
 
+# --- Autoresume& Checkpoint Handling
     # Avoid confusion alongside "autoresume" (we do this after the input class have initialized to avoid creation of dumb files)
+    autoresume_file = None
+    autoresume_log_line = None
+    autoresume_lastwrite = 0
+    # Check for conflicting arguments
     if uls_args.autoresume and uls_args.starttime:
         aka_log.log.critical(f"Error using --autoresume alongside --starttime. This is too confusing to me. Exiting.")
         sys.exit(1)
+    # If Autoresume is enabled
     elif uls_args.autoresume:
-        autoresume_file = None
-        autoresume_lastwrite = 0
         autoresume_data = UlsTools.check_autoresume(input=uls_args.input, feed=uls_args.feed, checkpoint_dir=uls_args.autoresumepath)
         uls_args.starttime = autoresume_data['checkpoint']
         autoresume_file =  autoresume_data['filename']
 
+# --- Some Sanitiy checks
     # Avoid usage of CLI_DEBUG alongside any other output than raw, as this would lead to insecure data injections
     if uls_args.clidebug and not uls_args.output == "RAW":
         aka_log.log.critical(f"Error: CLI_DEBUG (--clidebug) can only be used with the raw output (for security reasons). Exiting.")
@@ -108,7 +113,8 @@ def main():
                                              prom_host=uls_args.prometheus_addr,
                                              prom_certfile=uls_args.prometheus_certfile,
                                              prom_keyfile=uls_args.prometheus_keyfile,
-                                             nocallhome=uls_args.nocallhome)
+                                             nocallhome=uls_args.nocallhome,
+                                             monitoring_interval=uls_args.moninterval)
     my_monitor.start()
 
     # Connect to an Input Handler UlsInputCli
@@ -200,7 +206,6 @@ def main():
     my_input.ingest(stopEvent, event_q, my_monitor)
 
 
-
     # Now we are back to the main thread to process the message
     while not stopEvent.is_set():
         try:
@@ -208,18 +213,17 @@ def main():
             if uls_args.debugloglines:
                 escaped_data = input_data.rstrip().decode('utf-8').replace('"', '\\"')
                 aka_log.log.debug(f"<IN> {escaped_data}")
-            for log_line in input_data.splitlines():
 
+            for log_line in input_data.splitlines():
                 log_line_escaped = log_line.decode('utf-8').replace('"', '\\"')
-                # Write checkpoint to the checkpoint file (if autoresume is enabled) (not after transformation or filter)
-                if uls_args.autoresume and int(my_monitor.get_message_count()) >= autoresume_lastwrite + uls_args.autoresumewriteafter:
-                    aka_log.log.info(f"WRITING AUTORESUME CHECKPOINT - curr_message_count={int(my_monitor.get_message_count())} - last_write = {autoresume_lastwrite}")
-                    UlsTools.write_autoresume_ckpt(uls_args.input,
-                                                   uls_args.feed,
-                                                   autoresume_file,
-                                                   log_line,
-                                                   current_count=int(my_monitor.get_message_count()))
-                    autoresume_lastwrite = int(my_monitor.get_message_count())
+
+                # --- Autoresume Preparation
+                # Make sure to clone the logline - just in case there is filter or transformation going on (if autoresume is enabled) (not after transformation or filter)
+                # As we're writing the checkpoint after delivery, we need to save the line -1 to the current message count
+                if int(my_monitor.get_message_count()) >= autoresume_lastwrite + uls_args.autoresumewriteafter - 1:
+                    # ok here we just store the regarding logline - as transformation or filter will make it unusuable for autoresume
+                    autoresume_log_line = log_line
+
 
                 # Filter Enhancement
                 if uls_args.filter and not filter_pattern.match(log_line):
@@ -269,13 +273,36 @@ def main():
                         f"{log_line_escaped} after {resend_counter} attempts - (continuing anyway as my config says)")
                         # This will re-set the send counter and start from the beginning
 
+                # --- Autoresume Handling
+                # Eventually write the checkpoint to the checkpoint file (if autoresume is enabled) (not after transformation or filter)
+                if my_output.check_data_sent_successfully() and int(my_monitor.get_message_count()) >= autoresume_lastwrite + uls_args.autoresumewriteafter:
+                    # At this point we are assuming that we should write a checkpoint - but stuff like "http_aggregate" might delay the actual sending of the logline
+                    # Therefore we have to integrate a new mechanism to make sure that the logline has actually been sent out properly !
+                    try:
+                        if uls_args.autoresume:
+                            aka_log.log.info(f"WRITING AUTORESUME CHECKPOINT - curr_message_count={int(my_monitor.get_message_count())} - last_write = {autoresume_lastwrite}")
+                        checkpoint_data = UlsTools.write_autoresume_ckpt(uls_args.input,
+                                                       uls_args.feed,
+                                                       autoresume_file,
+                                                       autoresume_log_line,
+                                                       current_count=int(my_monitor.get_message_count()),
+                                                       write_checkpoint=uls_args.autoresume)
+                        # Update the monitoring system with the new checkpoint
+
+                        my_monitor.update_checkpoint(checkpoint=checkpoint_data)
+
+                        # Fetch the last write count from the monitoring system
+                        autoresume_lastwrite = int(my_monitor.get_message_count())
+                    except Exception as my_error:
+                        aka_log.log.error(f"Error updating checkpoint in monitoring system: {my_error}")
+
         except queue.Empty:
             # No data available, we get a chance to capture the StopEvent
             pass
         except KeyboardInterrupt:
             control_break_handler()
-        except Exception as my_error:
-            aka_log.log.critical(f"General error in ULS main loop: {my_error}")
+        #except Exception as my_error:
+        #    aka_log.log.critical(f"General error in ULS main loop: {my_error}")
 
     my_output.tear_down()
 
