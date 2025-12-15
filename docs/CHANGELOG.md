@@ -2,7 +2,7 @@
 ## v2.0.2
 |        |                     |
 |--------|---------------------|
-| Date   | 202X-12-15          |
+| Date   | 2025-12-15          |
 | Kind   | Minor release       |
 | Author | mschiess@akamai.com |
 
