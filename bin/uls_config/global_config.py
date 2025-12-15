@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import sys
 # Common global variables / constants
-__version__ = "2.0.2-alpha"
+__version__ = "2.0.2"
 __tool_name_long__ = "Akamai Unified Log Streamer"
 __tool_name_short__ = "ULS"
 
