@@ -64,7 +64,12 @@ class UlsMonitoring:
 
         # Variables
         self.monitoring_enabled = uls_config.monitoring_enabled                     # Monitoring enable Flag
-        self.monitoring_interval = monitoring_interval                   # Monitoring interval
+        # Bugfix for VLE-761
+        if monitoring_interval != 0:
+            self.monitoring_interval = monitoring_interval                   # Monitoring interval
+        else:
+            self.monitoring_interval = uls_config.monitoring_interval
+
         self._version = uls_config.__version__
 
             # Callhome
