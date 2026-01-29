@@ -2,19 +2,18 @@
 ## v2.0.3
 |        |                     |
 |--------|---------------------|
-| Date   | 2026-XX-XX          |
+| Date   | 2026-01-XX           |
 | Kind   | Minor release       |
 | Author | mschiess@akamai.com |
 
 - **Features**
 - **Major changes** 
-  - 
+  -
 - **Minor improvements** 
   - changed "gc-logs" & "ln-logs" source from dev to main branch in get-uls.sh & the "command line instructions" (issue #97) - thanks for bringing this to my attention @isss802
 - **Bugfixes**
   - Fixed crashing Linode Utilization (division by zero)
----
-
+  - Fixed a bug that caused autoresume to fail on SIA (DNS) (issue #98) - thanks to @caushie-akamai for reporting this and providing a fix
 
 ---
 

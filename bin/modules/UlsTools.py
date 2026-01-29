@@ -279,7 +279,9 @@ def check_autoresume(input, feed, checkpoint_dir=uls_config.autoresume_checkpoin
                         # --- SIA / ETP
                         if data['input'] == "ETP" or data['input'] == "SIA":
                             mytime = data['checkpoint'].split("Z")[0]
-                            is_unixtimestamp=True
+                            if data['feed'] == "PROXY":
+                                is_unixtimestamp=True
+                            #is_unixtimestamp=True
                         # --- EAA
                         elif data['input'] == "EAA" and data['feed'] in ["ACCESS", "DEVINV", "DIRHEALTH"]:
                             mytime = data['checkpoint'].split("+")[0]
