@@ -196,7 +196,7 @@ fi
 ## GRAB GC-CLI
 if [[ "$install_modules" == *"gc"* ]]  ; then
 echo "Installing GC-CLI"
-  git clone -q --depth 1 -b dev --single-branch https://github.com/MikeSchiessl/gc-logs.git ${install_dir}/ext/cli-gc
+  git clone -q --depth 1 --single-branch https://github.com/MikeSchiessl/gc-logs.git ${install_dir}/ext/cli-gc
   py_reqs ${install_dir}/ext/cli-gc/bin/requirements.txt
   pip3 install -q -r ${install_dir}/ext/cli-gc/bin/requirements.txt
 fi
@@ -204,7 +204,7 @@ fi
 ## GRAB LINODE-CLI
 if [[ "$install_modules" == *"acc"* ]]  ; then
 echo "Installing ACC-CLI"
-  git clone -q --depth 1 -b dev --single-branch https://github.com/MikeSchiessl/acc-logs.git ${install_dir}/ext/cli-linode
+  git clone -q --depth 1 --single-branch https://github.com/MikeSchiessl/acc-logs.git ${install_dir}/ext/cli-linode
   py_reqs ${install_dir}/ext/cli-linode/bin/requirements.txt
   pip3 install -q -r ${install_dir}/ext/cli-linode/bin/requirements.txt
 fi

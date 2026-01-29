@@ -6,6 +6,13 @@
 | Kind   | Minor release       |
 | Author | mschiess@akamai.com |
 
+- **Features**
+- **Major changes** 
+  - 
+- **Minor improvements** 
+  - changed "gc-logs" & "ln-logs" source from dev to main branch (issue #97) - thanks for bringing this to my attention @isss802
+  - 
+---
 
 
 ---
