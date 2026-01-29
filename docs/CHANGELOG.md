@@ -10,7 +10,7 @@
 - **Major changes** 
   - 
 - **Minor improvements** 
-  - changed "gc-logs" & "ln-logs" source from dev to main branch (issue #97) - thanks for bringing this to my attention @isss802
+  - changed "gc-logs" & "ln-logs" source from dev to main branch in get-uls.sh & the "command line instructions" (issue #97) - thanks for bringing this to my attention @isss802
   - 
 ---
 
