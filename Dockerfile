@@ -1,4 +1,4 @@
-FROM            python:3.13-alpine
+FROM            python:3.14-alpine
 
 LABEL           maintainer="Mike Schiessl - mike.schiessl@akamai.com"
 LABEL           app.long="Akamai Unified Log Streamer"
