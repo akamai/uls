@@ -30,7 +30,7 @@ To run the operations in this documentation, make sure you have the following to
 - Understanding of available [ULS CLI PARAMETERS](ARGUMENTS_ENV_VARS.md)
 - Access to `github.com`, `uls-beacon.akamaized.net`, `pypi.org`, `pythonhosted.org`, `pypi.python.org` as well as your Akamai API hostname (see edgerc) within your firewall
 
-The above apploes as well for Linux and Windows OS.
+The above applies as well for Linux and Windows OS.
 
 ## Installation
 
@@ -85,7 +85,7 @@ git clone -q --depth 1 --single-branch https://github.com/MikeSchiessl/ln-logs.g
 pip3 install -q -r ext/cli-linode/bin/requirements.txt
 
 # Akamai Control Center Events (experimental)
-git clone -q --depth 1 -b dev --single-branch https://github.com/MikeSchiessl/acc-logs.git ext/acc-logs && \
+git clone -q --depth 1 --single-branch https://github.com/MikeSchiessl/acc-logs.git ext/acc-logs && \
 pip3 install -q -r ext/acc-logs/bin/requirements.txt
 ```
 
@@ -134,11 +134,11 @@ All log output will be directed to STDOUT by default.
     ```
   Rather consider [docker usage](./DOCKER_USAGE.md) instead of this  
 
-
 - ACC EventViewer LOG ==> RAW with starting time
     ```bash
     python3 bin/uls.py --input ACC -f events --section default --starttime 1719852040 --output raw
     ``` 
+
 ## ULS as a service: systemd
 
 If you are planning to use multiple Akamai feed with ULS, bear in mind you will need to repeat the instruction below multiple times. We built this guide with CentOS 7.
@@ -242,5 +242,5 @@ pip3 install -q -r ext/cli-mfa/requirements.txt
 
 # ACC EventViewer (only if installed)
 git -C ext/acc-logs pull -q
-pip3 install -q -r ext/acc-logs/requirements.txt 
+pip3 install -q -r ext/acc-logs/bin/requirements.txt 
 ```
