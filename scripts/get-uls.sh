@@ -37,6 +37,7 @@ Available ULS modules:
   mfa: Akamai phishproof MFA
   gc:  Akamai Guardicore Segmentation
   ln:  Linode Audit log
+  acc: Akamai Control Center Events (experimental)
 
 More about supported feed: 
 https://github.com/akamai/uls/blob/main/docs/LOG_OVERVIEW.md"
@@ -86,7 +87,6 @@ echo -ne "python3: \t $(ls $(which python3))\n"
 echo -ne "pip3: \t\t $(ls $(which pip3))\n\n"
 echo -ne "Is this correct (Y|n)"
 read py_reply
-
 
 case $py_reply in
   n|N)
@@ -145,7 +145,6 @@ fi
 git clone -q https://github.com/akamai/uls.git $install_dir/
 pip3 install -q -r ${install_dir}/bin/requirements.txt
 
-
 function py_reqs() {
   to_install=$(pip3 install --dry-run -r $1 | grep -vi "satisfied")
   if [[ ! -z $to_install ]] ; then
@@ -172,7 +171,6 @@ function py_reqs() {
 if [[ "$install_modules" == *"eaa"* ]]  ; then
 echo "Installing EAA-CLI"
   git clone -q --depth 1 --single-branch https://github.com/akamai/cli-eaa.git ${install_dir}/ext/cli-eaa
-  #echo "${install_dir}/ext/cli-eaa/requirements.txt"
   py_reqs ${install_dir}/ext/cli-eaa/requirements.txt
   pip3 install -q -r ${install_dir}/ext/cli-eaa/requirements.txt
 fi 
@@ -181,7 +179,7 @@ fi
 if [[ "$install_modules" == *"etp"* ]]  ; then
 echo "Installing ETP-CLI"
   git clone -q --depth 1 --single-branch https://github.com/akamai/cli-etp.git ${install_dir}/ext/cli-etp
- py_reqs ${install_dir}/ext/cli-etp/requirements.txt
+  py_reqs ${install_dir}/ext/cli-etp/requirements.txt
   pip3 install -q -r ${install_dir}/ext/cli-etp/requirements.txt
 fi
 
@@ -201,27 +199,26 @@ echo "Installing GC-CLI"
   pip3 install -q -r ${install_dir}/ext/cli-gc/bin/requirements.txt
 fi
 
-## GRAB LINODE-CLI
-if [[ "$install_modules" == *"acc"* ]]  ; then
-echo "Installing ACC-CLI"
-  git clone -q --depth 1 --single-branch https://github.com/MikeSchiessl/acc-logs.git ${install_dir}/ext/cli-linode
+## GRAB LINODE-CLI (ln)
+if [[ "$install_modules" == *"ln"* ]]  ; then
+echo "Installing LINODE-CLI"
+  git clone -q --depth 1 --single-branch https://github.com/MikeSchiessl/ln-logs.git ${install_dir}/ext/cli-linode
   py_reqs ${install_dir}/ext/cli-linode/bin/requirements.txt
   pip3 install -q -r ${install_dir}/ext/cli-linode/bin/requirements.txt
 fi
 
-## GRAB ACC-CLI
-if [[ "$install_modules" == *"gc"* ]]  ; then
+## GRAB ACC-CLI (acc)
+if [[ "$install_modules" == *"acc"* ]]  ; then
 echo "Installing ACC-CLI"
-  git clone -q --depth 1 -b dev --single-branch https://github.com/MikeSchiessl/acc-logs.git ${install_dir}/ext/acc-logs
+  # Do not hard-code branch "dev" (may not exist)
+  git clone -q --depth 1 --single-branch https://github.com/MikeSchiessl/acc-logs.git ${install_dir}/ext/acc-logs
   py_reqs ${install_dir}/ext/acc-logs/bin/requirements.txt
   pip3 install -q -r ${install_dir}/ext/acc-logs/bin/requirements.txt
 fi
-
 
 # Finishing off
 echo -e "\n\n\n"
 echo "ULS has been successfully installed"
 ${install_dir}/bin/uls.py --version
-
 
 exit 0
