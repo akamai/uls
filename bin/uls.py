@@ -102,7 +102,6 @@ def main():
     # Check CLI Environment
     UlsTools.uls_check_sys(root_path=root_path, uls_input=uls_args.input)
 
-
     # Create & Start monitoring Instance
     my_monitor = UlsMonitoring.UlsMonitoring(stopEvent=stopEvent,
                                              product=uls_args.input,

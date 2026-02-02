@@ -124,7 +124,7 @@ def init():
     parser.add_argument('--moninterval',
                         action='store',
                         type=int,
-                        default=os.environ.get('ULS_MONINTERVAL') or not uls_config.monitoring_interval,
+                        default=os.environ.get('ULS_MONINTERVAL') or uls_config.monitoring_interval,
                         help=f"Configure the monitoring interval (in seconds). Default: {not uls_config.monitoring_interval}"
                              f"\nENV-VAR: 'ULS_MONINTERVAL'"
                         )

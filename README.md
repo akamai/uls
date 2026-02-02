@@ -91,10 +91,10 @@ Anyway, details for some specific SIEM solutions can be found in [this directory
 Example commands:
 ```bash
 # ETP - THREAT to console
-python3.9 bin/uls.py --input etp --feed threat --output raw
+python3 bin/uls.py --input etp --feed threat --output raw
 
 # EAA - ACCESS to TCP
-python3.9  bin/uls.py --input eaa --feed access --output tcp --host 10.99.10.99 --port 8081
+python3  bin/uls.py --input eaa --feed access --output tcp --host 10.99.10.99 --port 8081
 ```
 For more information, please visit [this document](./docs/COMMAND_LINE_USAGE.md)
 
