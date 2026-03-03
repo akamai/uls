@@ -26,8 +26,8 @@ More information regarding the parameters can be found [here](ARGUMENTS_ENV_VARS
 # Send ETP - PROXY data via TCP to 10.10.100.100 on port 5544
 bin/uls.py --input etp --feed proxy --output tcp --host 10.10.100.100 --port 5544
 
-# Sends MFA - AUTH data via UDP to localhost on port 8877
-bin/uls.py --input mfa --feed auth --output udp --host localhost --port 8877
+# Sends EAA - ACCESS data via UDP to localhost on port 8877
+bin/uls.py --input eaa --feed access --output udp --host localhost --port 8877
 
 
 ```

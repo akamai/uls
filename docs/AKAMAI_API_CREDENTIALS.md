@@ -11,8 +11,6 @@ This document describes how to create Akamai API credentials and configure them 
     - [EAA {OPEN} API (for Connector Health feed)](#eaa-open-api-for-connector-health-feed)
   - [Enterprise Threat Protector (ETP)](#enterprise-threat-protector-etp)
     - [ETP {OPEN} API Reporting](#etp-open-api-reporting)
-  - [Akamai MFA](#akamai-mfa)
-    - [MFA Integration for logging](#mfa-integration-for-logging)
   - [Guardicore](#guardicore)
     - [Guardicore API Integration](#guardicore-api-integration)
   - [Linode](#linode)
@@ -29,7 +27,6 @@ This document describes how to create Akamai API credentials and configure them 
 |Enterprise Application Access|EAA| ACCESS, ADMIN                   | [EAA Legacy API](#eaa-legacy-api-for-access-and-admin-audit-feeds)                    |
 |Enterprise Application Access|EAA| CONHEALTH, DEVINV, DIRHEALTH                          | [{OPEN} API / Enterprise Application Access](#eaa-open-api-for-connector-health-feed) |
 |Secure Internet Access Enterprise|ETP| THREAT, AUP, DNS, PROXY, NETCON         | [{OPEN} API / ETP Report](#etp-open-api-reporting)                                    |
-|Akamai MFA|MFA| EVENTS                          | [MFA Integration](#mfa-integration-for-logging)                                       |
 |Guardicore|GC| NETLOG, INCIDENT, AGENT, SYSTEM | [Guardicore API Integration](#guardicore-api-integration)                             |
 |Linode|LN| AUDIT                           | [Linode API Credentials](#linode-api-credentials) |                       
 
@@ -114,28 +111,6 @@ access_token = akab-xxxxxxxxxxxxxxxx-xxxxxxxxxxxxxxxx
 
 ; ETP Config ID (required for ETP usage, can be obtained from the Akamai Web Interface)
 etp_config_id = your-ETP-config-ID
-```
-
-### Akamai MFA
-
-#### MFA Integration for logging
-
-To create **MFA Integration** credentials, connect to [Akamai Control Center](https://control.akamai.com).
-
-- Select **Enterprise Center** from the main navigation menu on the left
-- Navigate to **MFA** > **Integrations**
-- Click on (+) to add a new MFA integration:  
-  <img src="images/uls_apicreds_mfa_create.png" width="778" />
-- Confirm by clicking the **Save & Deploy** button
-- **Copy** the credentials as shown below:  
-  <img src="images/uls_apicreds_mfa_creds.png"  width="366" />
-- Add/replace/amend the following section to your `.edgerc` file and replace the data accordingly:
-
-```INI
-[default]
-; Akamai MFA logging integration credentials
-mfa_integration_id = app_xxxxxxxxxxxxxxxxxxxxx
-mfa_signing_key = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
 ### Guardicore

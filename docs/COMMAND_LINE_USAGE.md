@@ -72,10 +72,6 @@ pip3 install -r ext/cli-eaa/requirements.txt
 git clone --depth 1 --single-branch https://github.com/akamai/cli-etp.git ext/cli-etp && \
 pip3 install -r ext/cli-etp/requirements.txt
 
-# Akamai Phish Proof Multi Factor Authenticator (AKAMAI-MFA)
-git clone --depth 1 --single-branch https://github.com/akamai/cli-mfa.git ext/cli-mfa && \
-pip3 install -r ext/cli-mfa/requirements.txt
-
 # Guardicore Log-fetcher (GC-LOGS)
 git clone -q --depth 1 --single-branch https://github.com/MikeSchiessl/gc-logs.git ext/cli-gc && \
 pip3 install -q -r ext/cli-gc/bin/requirements.txt
@@ -122,11 +118,6 @@ All log output will be directed to STDOUT by default.
     ```bash
     python3 bin/uls.py --input sia --feed threat --output udp --host 10.10.10.200 --port 9090
     ```
-- MFA AUTH LOG ==> HTTP LISTENER (SPLUNK) 
-  disabled TLS verification
-  ```bash
-   python3 bin/uls.py --input=MFA --feed event --output HTTP --httpformat '{"event": %s}' --httpauthheader '{"Authorization": "Splunk xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"}' --httpurl "https://127.0.0.1:9091/services/collector/event" --httpinsecure
-  ```
 
 - Logging to a file and sending process to the background
     ```bash
@@ -235,10 +226,6 @@ pip3 install -q -r ext/cli-eaa/requirements.txt
 # ETP CLI (only if installed)
 git -C ext/cli-etp pull -q
 pip3 install -q -r ext/cli-etp/requirements.txt
-
-# MFA CLI (only if installed)
-git -C ext/cli-mfa pull -q
-pip3 install -q -r ext/cli-mfa/requirements.txt
 
 # ACC EventViewer (only if installed)
 git -C ext/acc-logs pull -q

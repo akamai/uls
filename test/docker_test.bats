@@ -115,14 +115,6 @@ teardown () {
     #[ "$status" -eq 0 ]
 }
 
-## RUN AN MFA TEST
-@test "[DEBIAN] DOCKER MFA TEST" {
-    run timeout ${uls_timeout_params} docker run --rm --name "uls-bats-test-debian-mfa" --mount type=bind,source="${uls_edgerc}",target="/opt/akamai-uls/.edgerc",readonly ${REPO_NAME}:${TAG_DEBIAN} --section ${uls_section} --input mfa --feed event --output raw --loglevel info
-    assert_line --partial "UlsInputCli - started PID"
-    refute_line --partial "was found stale -"
-    #[ "$status" -eq 0 ]
-}
-
 ## RUN AN GC TEST
 @test "[DEBIAN] DOCKER GC TEST" {
     run timeout ${uls_timeout_params} docker run --rm --name "uls-bats-test-debian-gc" --mount type=bind,source="${uls_edgerc}",target="/opt/akamai-uls/.edgerc",readonly ${REPO_NAME}:${TAG_DEBIAN} --section ${uls_section} --input gc --feed netlog --output raw --loglevel info
@@ -133,7 +125,7 @@ teardown () {
 
 ## STOP potentially running images
 #@test "[DEBIAN] Stopping everything" {
-#    run docker stop uls-bats-test-debian-eaa ; docker stop uls-bats-test-debian-etp ; docker stop uls-bats-test-debian-mfa ; docker stop uls-bats-test-debian-gc
+#    run docker stop uls-bats-test-debian-eaa ; docker stop uls-bats-test-debian-etp ; docker stop uls-bats-test-debian-gc
 #    #[ "$status" -eq 0 ]
 #}
 
@@ -180,14 +172,6 @@ teardown () {
 ## RUN AN ETP TEST
 @test "[ALPINE] DOCKER ETP TEST" {
     run timeout ${uls_timeout_params} docker run --rm --name "uls-bats-test-alpine-etp" --mount type=bind,source="${uls_edgerc}",target="/opt/akamai-uls/.edgerc",readonly ${REPO_NAME}:${TAG_ALPINE} --section ${uls_section} --input etp --feed threat --output raw --loglevel info
-    assert_line --partial "UlsInputCli - started PID"
-    refute_line --partial "was found stale -"
-    #[ "$status" -eq 0 ]
-}
-
-## RUN AN MFA TEST
-@test "[ALPINE] DOCKER MFA TEST" {
-    run timeout ${uls_timeout_params} docker run --rm --name "uls-bats-test-alpine-mfa" --mount type=bind,source="${uls_edgerc}",target="/opt/akamai-uls/.edgerc",readonly ${REPO_NAME}:${TAG_ALPINE} --section ${uls_section} --input mfa --feed event --output raw --loglevel info
     assert_line --partial "UlsInputCli - started PID"
     refute_line --partial "was found stale -"
     #[ "$status" -eq 0 ]

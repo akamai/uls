@@ -18,12 +18,6 @@ eaa_api_secret = XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXX
 ; ETP Config ID (required for ETP usage)
 etp_config_id = your-ETP-config-ID
 
-
-; MFA INTEGRATION API (required for MFA usage)
-mfa_integration_id = app_xxxxxxxxxxxxxxxxxxxxx
-mfa_signing_key = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-
 ; Advanced Options
 
 ; If your organization have multiple contracts with EAA service

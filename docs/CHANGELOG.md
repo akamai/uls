@@ -9,7 +9,9 @@
 | Author | mschiess@akamai.com |
 
 - **Features**
-- **Major changes** 
+- **BREAKING changes**
+  - **MFA log streaming capabilities have been removed from ULS, due to the deprecation of the underlying CLI tool.**
+
 
 
 ---

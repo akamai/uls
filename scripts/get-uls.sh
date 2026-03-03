@@ -2,7 +2,7 @@
 # This file will install the latest ULS including all of its modules (latest version) into the current directory/uls
 # curl -O https://raw.githubusercontent.com/akamai/uls/main/scripts/get-uls.sh && bash get-uls.sh
 
-default_modules="eaa,etp,mfa,gc,ln,acc"
+default_modules="eaa,etp,gc,ln,acc"
 default_install_dir="$(pwd)/uls"
 
 function min_version() {
@@ -34,7 +34,6 @@ Unified Log Streamer - Installer
 Available ULS modules:
   eaa: Enterprise Application Access
   etp: Secure Internet Access Enterprise
-  mfa: Akamai phishproof MFA
   gc:  Akamai Guardicore Segmentation
   ln:  Linode Audit log
 
@@ -183,14 +182,6 @@ echo "Installing ETP-CLI"
   git clone -q --depth 1 --single-branch https://github.com/akamai/cli-etp.git ${install_dir}/ext/cli-etp
  py_reqs ${install_dir}/ext/cli-etp/requirements.txt
   pip3 install -q -r ${install_dir}/ext/cli-etp/requirements.txt
-fi
-
-## GRAB MFA-CLI
-if [[ "$install_modules" == *"mfa"* ]]  ; then
-echo "Installing MFA-CLI"
-  git clone -q --depth 1 --single-branch https://github.com/akamai/cli-mfa.git ${install_dir}/ext/cli-mfa
-  py_reqs ${install_dir}/ext/cli-mfa/requirements.txt
-  pip3 install -q -r ${install_dir}/ext/cli-mfa/requirements.txt
 fi
 
 ## GRAB GC-CLI

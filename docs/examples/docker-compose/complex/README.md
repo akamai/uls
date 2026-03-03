@@ -14,11 +14,6 @@ All docker related controls can be found in [docker-compose.yml](docker-compose.
 |---|---|---|
 |ETP-THREAT|HTTP|[etp-threat.env](etp-threat.env)|
 
-## MFA-AUTH
-|IN|OUT|FILE|
-|---|---|---|
-|MFA-AUTH|UDP|[mfa-auth.env](mfa.env)|
-
 
 
 

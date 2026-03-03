@@ -365,33 +365,6 @@ class UlsInputCli:
                     endtime=self._prep_start_endtime('--end', self.endtime),
                 )
 
-            # Akamai MFA
-            elif self.product == "MFA":
-                # Check the EDGERC for the product
-                self.edgerc_hostname = UlsTools.uls_check_edgerc(
-                    self.credentials_file,
-                    self.credentials_file_section,
-                    uls_config.edgerc_mfa
-                )
-
-                # Only JSON format support
-                if not self.cliformat == "JSON":
-                    aka_log.log.warning(f"{self.name} - Selected LOG Format ({self.cliformat}) "
-                                        f"not available for {self.product}, continuing with JSON.")
-                    self.cliformat = "JSON"
-
-                cli_command = self._gen_cli_cmd(
-                    cli_bin=uls_config.bin_mfa_cli,
-                    cli_feeds=uls_config.mfa_cli_feeds,
-                    eventtrigger="event",
-                    cli_debug=self._cli_debug_cmd(["--debug"]),
-                    edgerc_file=edgegrid_auth,
-                    proxy=self._prep_proxy(self.inproxy),
-                    starttime=self._prep_start_endtime('--start', self.starttime),
-                    endtime=self._prep_start_endtime('--end', self.endtime),
-                    skip_feed=True
-                )
-
             # Guardicore config
             elif self.product == "GC":
                 # Check the EDGERC for the product
