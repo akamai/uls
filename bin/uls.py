@@ -139,6 +139,7 @@ def main():
                                     tcpudp_out_format=uls_args.tcpudpformat,
                                     http_out_format=uls_args.httpformat,
                                     http_out_auth_header=uls_args.httpauthheader,
+                                    http_out_add_header=uls_args.httpaddheader,
                                     http_out_aggregate_count=uls_args.httpaggregate,
                                     http_url=uls_args.httpurl,
                                     http_insecure=uls_args.httpinsecure,

@@ -11,7 +11,9 @@
 - **Features**
 - **BREAKING changes**
   - **MFA log streaming capabilities have been removed from ULS, due to the deprecation of the underlying CLI tool.**
-
+- 
+- **Minor improvements**
+  - Added capability of adding additional headers to the command line (--httpaddheader / ULS_HTTP_ADD_HEADER)
 
 
 ---
