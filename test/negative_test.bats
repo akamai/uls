@@ -12,12 +12,6 @@ load 'bats/bats-assert/load.bash'
 
 
 # Negative tests (failure responses expected)
-## Basic negative testes
-@test "Checking -i mfa standalone" {
-    run  $uls_bin --input mfa
-    assert_output --partial "Required argument / ENV var not set: OUTPUT"
-    [ "$status" -eq 1 ]
-}
 @test "Checking --input eaa standalone" {
     run  $uls_bin --input eaa
     assert_output --partial "Required argument / ENV var not set: OUTPUT"
@@ -94,7 +88,7 @@ load 'bats/bats-assert/load.bash'
 
 ## HTTP
 @test "HTTP output failure (-o http)" {
-    run  $uls_bin -i mfa -f auth --output http
+    run  $uls_bin -i eaa -f access --output http
     assert_output --partial "--httpurl missing - exiting"
     [ "$status" -eq 1 ]
 }

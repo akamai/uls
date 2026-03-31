@@ -4,7 +4,7 @@
 ## v2.0.4
 |        |                     |
 |--------|---------------------|
-| Date   | 2026-XX-XX          |
+| Date   | 2026-03-31          |
 | Kind   | Minor release       |
 | Author | mschiess@akamai.com |
 
