@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import sys
 # Common global variables / constants
-__version__ = "2.0.3"
+__version__ = "2.0.4"
 __tool_name_long__ = "Akamai Unified Log Streamer"
 __tool_name_short__ = "ULS"
 
@@ -40,10 +40,6 @@ eaa_cli_feeds = ['ACCESS', 'ADMIN', 'CONHEALTH', 'DEVINV', 'DIRHEALTH']
 bin_etp_cli = "ext/cli-etp/bin/akamai-etp"
 etp_cli_feeds = ['THREAT', 'AUP', 'DNS', 'PROXY', 'NETCON']
 
-    ## MFA
-bin_mfa_cli = "ext/cli-mfa/bin/akamai-mfa"      # Path to the MFA CLI Executable
-mfa_cli_feeds = ['EVENT']              # Available MFA CLI feeds
-
     ## Guardicore
 bin_gc_cli = "ext/cli-gc/bin/akamai-gc"                                         # Path to the GC CLI Executable
 gc_cli_feeds = ['NETLOG', 'INCIDENT', 'AGENT', 'SYSTEM', 'AUDIT']                       # Available GC CLI feeds
@@ -57,7 +53,7 @@ bin_acc_logs = "ext/acc-logs/bin/akamai-acc"
 acc_logs_feeds = ['EVENTS']
 
     ## INPUT Choices
-input_choices = ['EAA', 'ETP', 'SIA', 'MFA', 'GC', 'LINODE', 'ACC']           # Available input types
+input_choices = ['EAA', 'ETP', 'SIA', 'GC', 'LINODE', 'ACC']           # Available input types
 input_format_choices = ['JSON', 'TEXT']         # Available input format choices (need to be supported by cli)
 
 

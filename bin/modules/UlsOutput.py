@@ -47,6 +47,7 @@ class UlsOutput:
                  http_out_format=None,
                  http_out_aggregate_count=None,
                  http_out_auth_header=None,
+                 http_out_add_header=None,
                  http_url=None,
                  http_insecure=False,
                  http_liveness=True,
@@ -158,8 +159,21 @@ class UlsOutput:
                         f"{self.name} given HTTP-AUTH-HEADER ({self.http_out_auth_header}) is not a proper dictionary like: "
                         f"'{{\"Authorization\": \"VALUE\"}}' - exiting")
                     sys.exit(1)
-            else:
-                self.http_out_auth_header = http_out_auth_header
+
+            # Verify Additional header
+            if http_out_add_header:
+                try:
+                    self.http_out_add_header = ast.literal_eval(http_out_add_header)
+                except (AttributeError, ValueError, SyntaxError):
+                    aka_log.log.critical(
+                        f"{self.name} given HTTP-ADD-HEADER  is not a proper dictionary like: "
+                        f"'{{\"Authorization\": \"VALUE\"}}' - exiting")
+                    sys.exit(1)
+                if not isinstance(self.http_out_add_header, dict):
+                    aka_log.log.critical(
+                        f"{self.name} given HTTP-AUTH-HEADER ({self.http_out_add_header}) is not a proper dictionary like: "
+                        f"'{{\"Authorization\": \"VALUE\"}}' - exiting")
+                    sys.exit(1)
 
             self.http_insecure = http_insecure
             self.http_liveness = http_liveness
@@ -245,11 +259,19 @@ class UlsOutput:
                 elif self.output_type == "HTTP":
                     self.httpSession = requests.session()
 
+
+                    # Handling headers here (v2.0.4 improved)
+                    headers = {}
+                    # Append normal headers (if existent)
+                    if self.http_header:
+                        headers = headers | self.http_header
                     # -- Prepare & set the normal headers
                     if self.http_out_auth_header:
-                        headers = self.http_header | self.http_out_auth_header
-                    else:
-                        headers = self.http_header
+                        headers = headers | self.http_out_auth_header
+                    if self.http_out_add_header:
+                        headers = headers | self.http_out_add_header
+
+
                     aka_log.log.info(f"{self.name} adding http headers: {headers}")
                     self.httpSession.headers.update(headers)
 

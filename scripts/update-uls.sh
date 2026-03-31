@@ -76,15 +76,6 @@ else
   echo "NO ETP-CLI detected - skipping"
 fi
 
-## MFA
-if [[ -d "${uls_dir}/ext/cli-mfa" ]] ; then
-  echo "MFA-CLI detected, updating"
-  git -C ${uls_dir}/ext/cli-mfa pull -q
-  pip3 install -q -r ${uls_dir}/ext/cli-mfa/requirements.txt
-else
-  echo "NO MFA-CLI detected - skipping"
-fi
-
 ## GC
 if [[ -d "${uls_dir}/ext/cli-gc" ]] ; then
   echo "GC-CLI detected, updating"
@@ -93,7 +84,6 @@ if [[ -d "${uls_dir}/ext/cli-gc" ]] ; then
 else
   echo "NO GC-CLI detected - skipping"
 fi
-
 
 ## LINODE
 if [[ -d "${uls_dir}/ext/cli-ln" ]] ; then

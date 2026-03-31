@@ -61,7 +61,6 @@ ULS Version             0.0.1
 
 EAA Version             0.3.8
 SIA/ETP Version         0.3.4
-MFA Version             0.0.4
 
 OS Plattform            Linux-5.10.25-linuxkit-x86_64-with-glibc2.28
 OS Version              5.10.25-linuxkit

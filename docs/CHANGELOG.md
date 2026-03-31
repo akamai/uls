@@ -1,4 +1,24 @@
 # Version History
+
+
+## v2.0.4
+|        |                     |
+|--------|---------------------|
+| Date   | 2026-03-31          |
+| Kind   | Minor release       |
+| Author | mschiess@akamai.com |
+
+- **Features**
+- **BREAKING changes**
+  - **MFA log streaming capabilities have been removed from ULS, due to the deprecation of the underlying CLI tool.**
+- 
+- **Minor improvements**
+  - Added capability of adding additional headers to the command line (--httpaddheader / ULS_HTTP_ADD_HEADER)
+
+
+---
+
+  
 ## v2.0.3
 |        |                     |
 |--------|---------------------|

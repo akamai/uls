@@ -54,8 +54,6 @@ def uls_check_sys(root_path, uls_input=None):
         _check_cli_installed(root_path + "/" + uls_config.bin_eaa_cli)
     elif uls_input == "ETP" or uls_input == "SIA":
         _check_cli_installed(root_path + "/" + uls_config.bin_etp_cli)
-    elif uls_input == "MFA":
-        _check_cli_installed(root_path + "/" + uls_config.bin_mfa_cli)
     elif uls_input == "GC":
         _check_cli_installed(root_path + "/" + uls_config.bin_gc_cli)
     elif uls_input == "LINODE":
@@ -118,7 +116,6 @@ def uls_version(root_path, uls_args):
           f"ULS Version\t\t{uls_config.__version__}\n\n"
           f"EAA Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_eaa_cli, my_edgerc_mock_file)}\n"
           f"SIA/ETP Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_etp_cli, my_edgerc_mock_file)}\n"
-          f"MFA Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_mfa_cli, my_edgerc_mock_file)}\n"
           f"GC Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_gc_cli, my_edgerc_mock_file)}\n"
           f"LINODE Version\t\t{_get_cli_version(root_path + '/' + uls_config.bin_linode_cli, my_edgerc_mock_file)}\n"
           f"ACC-LOGS Version\t{_get_cli_version(root_path + '/' + uls_config.bin_acc_logs, my_edgerc_mock_file)}\n\n"
@@ -289,9 +286,6 @@ def check_autoresume(input, feed, checkpoint_dir=uls_config.autoresume_checkpoin
                             mytime = data['checkpoint'].split("Z")[0]
                         elif data['input'] == "EAA" and data['feed'] in ["CONHEALTH"]:
                             mytime = data['checkpoint'].split("Z")[0]
-                        # --- MFA
-                        elif data['input'] == "MFA":
-                            mytime = data['checkpoint'].split(".")[0]
 
                         # --- LINODE
                         elif data['input'] == "LINODE" and data['feed'] in ["AUDIT"]:
@@ -374,10 +368,6 @@ def write_autoresume_ckpt(input, feed, autoresume_file, logline, current_count, 
         checkpoint_timestamp = json.loads(checkpoint_line)['db_insert_time']
     elif input == "GC" and feed == "AGENT":
         checkpoint_timestamp = json.loads(checkpoint_line)['report_time']
-
-    # --- MFA
-    elif input == "MFA" and feed == "EVENT":
-        checkpoint_timestamp = json.loads(checkpoint_line)['created_at']
 
     # --- Linode
     elif input == "LINODE" and (feed == "AUDIT"):

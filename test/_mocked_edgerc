@@ -13,5 +13,5 @@ eaa_api_secret = testing
 etp_config_id = 54321
 
 # MFA MOCK
-mfa_integration_id = testing
-mfa_signing_key = testing
+#mfa_integration_id = testing
+#mfa_signing_key = testing

@@ -293,6 +293,16 @@ def init():
                                    f"\nENV-VAR: 'ULS_HTTP_AUTH_HEADER'"
                               )
 
+    ## HTTP ADDITIONAL HEADER
+    output_group.add_argument('--httpaddheader',
+                              action='store',
+                              type=str,
+                              default=(os.environ.get('ULS_HTTP_ADD_HEADER') or None),
+                              help='Additional HTTP Header Example: '
+                                   '\'{"X-MY-HEADER1": "HEADER1", "X-MY-HEADER2": "HEADER2"}\''
+                                   f"\nENV-VAR: 'ULS_HTTP_ADD_HEADER'"
+                              )
+
     ## Disable HTTP TLS verification
     output_group.add_argument('--httpinsecure',
                               action='store',

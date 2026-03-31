@@ -85,32 +85,3 @@ services:
         source: /path/to/your/uls-var-dir/
         target: /opt/akamai-uls/uls/var/
         read_only: false
-# MFA
-  # AUTH
-  mfa-auth:
-    image: akamai/uls:latest
-    restart: always
-    env_file: mfa-auth.env
-    volumes:
-      - type: bind
-        source: /path/to/your/.edgerc
-        target: /opt/akamai-uls/.edgerc
-        read_only: true
-      - type: bind
-        source: /path/to/your/uls-var-dir/
-        target: /opt/akamai-uls/uls/var/
-        read_only: false
-  # POLICY
-  mfa-policy:
-    image: akamai/uls:latest
-    restart: always
-    env_file: mfa-policy.env
-    volumes:
-      - type: bind
-        source: /path/to/your/.edgerc
-        target: /opt/akamai-uls/.edgerc
-        read_only: true
-      - type: bind
-        source: /path/to/your/uls-var-dir/
-        target: /opt/akamai-uls/uls/var/
-        read_only: false

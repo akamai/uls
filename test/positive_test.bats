@@ -192,17 +192,6 @@ load 'bats/bats-assert/load.bash'
     [ "$status" -eq 100 ] || [ "$status" -eq 130 ] || [ "$status" -eq 137 ]        #return value from uls when interrupted --> with --preserve status on timeout
 }
 
-## MFA
-@test "MFA - EVENT" {
-    run timeout ${uls_timeout_params} ${uls_bin} --input mfa --feed event --output raw --edgerc $uls_edgerc --section $uls_section --loglevel info
-    #assert_output ""
-    assert_line --partial "UlsInputCli - started PID"
-    refute_line --partial "was found stale -"
-    #assert_output --partial "The specified directory tmp does not exist or privileges are missing - exiting"
-    #[ "$status" -eq 124 ]      #return value from timeout without --preserve status
-    [ "$status" -eq 100 ] || [ "$status" -eq 130 ] || [ "$status" -eq 137 ]        #return value from uls when interrupted --> with --preserve status on timeout
-}
-
 ## GUARDICORE
 @test "GC - NETLOG" {
     run timeout ${uls_timeout_params} ${uls_bin} --input gc --feed netlog --output raw --edgerc $uls_edgerc --section $uls_section --loglevel info

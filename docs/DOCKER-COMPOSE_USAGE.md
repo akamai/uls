@@ -62,9 +62,8 @@ docker compose up -d
   cd docker-compose/complex
   docker compose up
   ```
-  This triggers a more complex setup consisting out of 3 different data feeds.  
+  This triggers a more complex setup consisting out of 2 different data feeds.  
   **Files:**  
     - [docker-compose.yml](examples/docker-compose/complex/docker-compose.yml)
     - [etp-threat.env](examples/docker-compose/complex/etp-threat.env)
     - [eaa-admin.env](examples/docker-compose/complex/eaa-access.env)
-    - [mfa.env](examples/docker-compose/complex/mfa.env)

@@ -21,8 +21,6 @@ Here are some examples (per product) and links to additional information.
     - [DNS Activity](#dns-activity)
     - [PROXY](#proxy)
     - [NETCON](#netcon)
-  - [Akamai MFA (MFA)](#akamai-mfa-mfa)
-    - [Authentication Logs (AUTH)](#authentication-logs-auth)
   - [Guardicore](#guardicore)
     - [NETLOG](#netlog)
     - [INCIDENT](#incident)
@@ -2216,45 +2214,6 @@ Additional information regarding the log fields can be found [here](https://tech
 </details>
 
 ---
-## Akamai MFA (MFA)
-Additional information regarding the MFA log fields can be found on [here](https://techdocs.akamai.com/mfa/docs/splunk-app).
-
-### Authentication Logs (AUTH)
-<details>
-    <summary>Authentication Events Example (JSON)</summary>
-
-```json
-{
-    "uuid": "aud_JfNqdl6zSByrU0ovrbJ6m",
-    "created_at": "2021-03-23T19:36:20.047688",
-    "browser_ip": "49.207.58.115",
-    "app_id": "app_3IyJXh2U9Jiws6bvxcf8X",
-    "app_name": "Test Application",
-    "device": "push",
-    "auth_method": "push",
-    "user_id": "user_6Hy1v24DZIr8b0UHYi5dv3",
-    "username": "username",
-    "is_success": true,
-    "device_metadata": "Android",
-    "receipt": "",
-    "browser_type": "Chrome",
-    "browser_version": "88.0.4324",
-    "browser_os": "MacOS",
-    "browser_os_version": "10.15.7",
-    "device_os": "android",
-    "device_os_version": "10.0.0",
-    "browser_geo_location": "BANGALORE KA, IN",
-    "device_geo_location": "BANGALORE KA, IN",
-    "device_ip": "49.207.58.115",
-    "denial_type": null,
-    "device_id": "device_3kbTGOPbHxH3KfYkPzm31e",
-    "policy_attr_name": null,
-    "policy_uuid": null,
-    "principal_type": null,
-    "principal_uuid": null
-}
-```
-</details>
 
 ---
 ## Guardicore
