@@ -6,7 +6,8 @@
 | Kind   | Minor release       |
 | Author | mschiess@akamai.com |
 
-- **Features**
+- **Bugfix**
+  - Fixed a bug on handling headers on the HTTP output which caused a crash
 
 - **Minor improvements**
 
