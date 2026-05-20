@@ -11,7 +11,8 @@
 
 - **Minor improvements**
   - Updated GC - Logs to version v0.0.8
-
+  - Updated LN - Logs to version v0.0.9
+  - Removed MFA - CLI (decommissioned) from the docker image (see v.2.0.4)
 ---
 
 ## v2.0.4
