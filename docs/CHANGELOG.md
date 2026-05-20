@@ -1,5 +1,19 @@
 # Version History
+## v2.0.5
+|        |                     |
+|--------|---------------------|
+| Date   | 2026-05-20          |
+| Kind   | Minor release       |
+| Author | mschiess@akamai.com |
 
+- **Bugfix**
+  - Fixed a bug on handling headers on the HTTP output which caused a crash
+
+- **Minor improvements**
+  - Updated GC - Logs to version v0.0.8
+  - Updated LN - Logs to version v0.0.9
+  - Removed MFA - CLI (decommissioned) from the docker image (see v.2.0.4)
+---
 
 ## v2.0.4
 |        |                     |
