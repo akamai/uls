@@ -2,7 +2,7 @@
 ## v2.0.5
 |        |                     |
 |--------|---------------------|
-| Date   | 2026-XX-XX          |
+| Date   | 2026-05-20          |
 | Kind   | Minor release       |
 | Author | mschiess@akamai.com |
 
@@ -10,7 +10,7 @@
   - Fixed a bug on handling headers on the HTTP output which caused a crash
 
 - **Minor improvements**
-
+  - Updated GC - Logs to version v0.0.8
 
 ---
 
