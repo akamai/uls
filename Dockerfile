@@ -15,7 +15,6 @@ ARG             EXT_DIR="$ULS_DIR/ext"
 
 ARG             ETP_CLI_VERSION="0.4.9"
 ARG             EAA_CLI_VERSION="0.7.2"
-#ARG             MFA_CLI_VERSION="0.1.1"
 ARG             GC_CLI_VERSION="v0.0.8"
 ARG             LINODE_CLI_VERSION="v0.0.9"
 ARG             ACC_CLI_VERSION="v0.0.1-alpha"
@@ -76,12 +75,6 @@ RUN             git clone --depth 1 -b "${ETP_CLI_VERSION}" --single-branch http
 ENV             EAA-CLI_VERSION=$EAA_CLI_VERSION
 RUN             git clone --depth 1 -b "${EAA_CLI_VERSION}" --single-branch https://github.com/akamai/cli-eaa.git ${EXT_DIR}/cli-eaa && \
                 pip3 install --no-cache-dir -r ${EXT_DIR}/cli-eaa/requirements.txt
-
-
-## MFA CLI
-ENV             MFA-CLI_VERSION=$MFA_CLI_VERSION
-RUN             git clone --depth 1 -b "${MFA_CLI_VERSION}" --single-branch https://github.com/akamai/cli-mfa.git ${EXT_DIR}/cli-mfa && \
-                pip3 install --no-cache-dir -r ${EXT_DIR}/cli-mfa/requirements.txt
 
 ## GuardiCore CLI
 ENV             GC_CLI_VERSION=$GC_CLI_VERSION
