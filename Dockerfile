@@ -15,9 +15,9 @@ ARG             EXT_DIR="$ULS_DIR/ext"
 
 ARG             ETP_CLI_VERSION="0.4.9"
 ARG             EAA_CLI_VERSION="0.7.2"
-#ARG             MFA_CLI_VERSION="0.1.1"
-ARG             GC_CLI_VERSION="v0.0.8"
-ARG             LINODE_CLI_VERSION="v0.0.9"
+ARG             MFA_CLI_VERSION="0.1.1"
+ARG             GC_CLI_VERSION="v0.0.7"
+ARG             LINODE_CLI_VERSION="v0.0.8"
 ARG             ACC_CLI_VERSION="v0.0.1-alpha"
 
 # ENV VARS

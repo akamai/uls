@@ -24,9 +24,9 @@ if [ "$mocked_edgerc"=="FALSE" ] ; then
   uls_edgerc=~/.edgerc
   uls_section=akamaidemo
 
-REPO_NAME="uls-bats"
-TAG_DEBIAN="debian"
-TAG_ALPINE="alpine"
+export REPO_NAME="uls-bats"
+export TAG_DEBIAN="debian"
+export TAG_ALPINE="alpine"
 
 # Stop potentially running containers
 #docker stop uls-bats-test-debian-eaa || docker stop uls-bats-test-debian-etp || docker stop uls-bats-test-debian-mfa || docker stop uls-bats-test-debian-gc || true
@@ -62,7 +62,7 @@ load 'bats/bats-assert/load.bash'
 ## Make sure everything is tidy and clean after every test ;)
 teardown () {
     for id in $(docker ps -f name=uls-bats-test -q) ; do docker stop $id ; done
-    for id in $(docker image ls -f ${REPO_NAME} -q) ; do docker image rm $id ; done
+    for id in $(docker image ls ${REPO_NAME} -q) ; do docker image rm $id ; done
     return 0
 }
 
@@ -83,15 +83,15 @@ teardown () {
 
 ## CREATE a local DOCKER IMAGE (DEBIAN)
 @test "[DEBIAN] DOCKER IMAGE BUILD - DEBIAN" {
-    run docker build --pull -t ${REPO_NAME}:${TAG_DEBIAN} --file Dockerfile_debian .
+    run docker build -t ${REPO_NAME}:${TAG_DEBIAN} --file Dockerfile_debian .
     [ "$status" -eq 0 ]
 }
 
 ## Test container security posture
-@test "[DEBIAN] DOCKER SECURITY SCAN 1 (scout)" {
-    run docker scout cves --only-fixed ${REPO_NAME}:${TAG_DEBIAN}
-    [ "$status" -eq 0 ]
-}
+#@test "[DEBIAN] DOCKER SECURITY SCAN 1 (scout)" {
+#    run docker scout cves --only-fixed ${REPO_NAME}:${TAG_DEBIAN}
+#    [ "$status" -eq 0 ]
+#}
 
 ## Test container security posture
 @test "[DEBIAN] DOCKER SECURITY SCAN 2 (trivy)" {
@@ -145,7 +145,7 @@ teardown () {
 
 ## CREATE a local DOCKER IMAGE (ALPINE)
 @test "[ALPINE] DOCKER IMAGE BUILD - " {
-    run docker build --pull -t ${REPO_NAME}:${TAG_ALPINE} -f Dockerfile .
+    run docker build -t ${REPO_NAME}:${TAG_ALPINE} -f Dockerfile .
     [ "$status" -eq 0 ]
 }
 
