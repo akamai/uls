@@ -7,6 +7,9 @@
 | Kind   | Minor release       |
 | Author | mschiess@akamai.com |
 
+- **Bugfix**
+  - Fixed a bug caused through EAA API change (Admin API datetime field has changed) which caused the autoresume function to break.
+
 
 ---
 

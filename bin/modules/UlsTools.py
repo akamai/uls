@@ -280,10 +280,12 @@ def check_autoresume(input, feed, checkpoint_dir=uls_config.autoresume_checkpoin
                                 is_unixtimestamp=True
                             #is_unixtimestamp=True
                         # --- EAA
-                        elif data['input'] == "EAA" and data['feed'] in ["ACCESS", "DEVINV", "DIRHEALTH"]:
+                        elif data['input'] == "EAA" and data['feed'] in ["ACCESS", "DEVINV", "DIRHEALTH", "ADMIN"]:
                             mytime = data['checkpoint'].split("+")[0]
-                        elif data['input'] == "EAA" and data['feed'] in ["ADMIN"]:
-                            mytime = data['checkpoint'].split("Z")[0]
+                        # OBSOLETE - see TMESUP-881
+                        #elif data['input'] == "EAA" and data['feed'] in ["ADMIN"]:
+                        #    mytime = data['checkpoint'].split("Z")[0]
+                        # / TMESUP-881
                         elif data['input'] == "EAA" and data['feed'] in ["CONHEALTH"]:
                             mytime = data['checkpoint'].split("Z")[0]
 
