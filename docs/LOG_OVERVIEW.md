@@ -85,7 +85,7 @@ Additional information regarding the log fields can be found on [here](https://t
 
 ```json
 {
-    "datetime": "2021-07-23T05:54:40",
+    "datetime": "2026-06-08T08:05:46+00:00",
     "username": "system",
     "resource_type": "connectors",
     "resource": "tmelab-bos",
@@ -94,6 +94,7 @@ Additional information regarding the log fields can be found on [here](https://t
 }
 ```
 </details>
+
 
 ### Connector Health (CONHEALTH)
 
