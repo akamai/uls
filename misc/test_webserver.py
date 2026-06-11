@@ -2,6 +2,10 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 import gzip
 import io
 
+port = 9999
+address = '127.0.0.1'
+
+
 class SimpleHandler(BaseHTTPRequestHandler):
     def debug_headers(self):
         print("\n--- Received Headers ---")
@@ -54,7 +58,7 @@ class SimpleHandler(BaseHTTPRequestHandler):
         self.wfile.write(response)
 
 if __name__ == '__main__':
-    server_address = ('', 8080)
+    server_address = (address, port)
     httpd = HTTPServer(server_address, SimpleHandler)
-    print("Serving on port 8080...")
+    print(f"Serving on port {port}...")
     httpd.serve_forever()

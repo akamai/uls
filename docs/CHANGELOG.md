@@ -9,6 +9,7 @@
 
 - **Bugfix**
   - Fixed a bug caused through EAA API change (Admin API datetime field has changed) which caused the autoresume function to break.
+  - Fixed a bug in the HTTP OUTPUT that caused an issue when no "AUTH HEADER" was set: `'UlsOutput' object has no attribute 'http_out_auth_header'`
 
 
 ---
