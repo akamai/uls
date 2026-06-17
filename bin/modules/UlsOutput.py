@@ -88,6 +88,7 @@ class UlsOutput:
         self.host = None
         self.tcpudp_out_format = None
         self.http_out_add_header = None
+        self.http_out_auth_header = None
         self.clientSocket = None
         self.stopEvent = stopEvent
         self.http_compression = False
