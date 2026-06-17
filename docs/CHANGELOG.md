@@ -3,14 +3,18 @@
 ## v2.0.6
 |        |                     |
 |--------|---------------------|
-| Date   | 2026-XX-XX          |
+| Date   | 2026-06-17          |
 | Kind   | Minor release       |
 | Author | mschiess@akamai.com |
 
 - **Bugfix**
   - Fixed a bug caused through EAA API change (Admin API datetime field has changed) which caused the autoresume function to break.
   - Fixed a bug in the HTTP OUTPUT that caused an issue when no "AUTH HEADER" was set: `'UlsOutput' object has no attribute 'http_out_auth_header'`
+  - fixed a bug in the docker - testing script
 
+- **Minor improvements**
+  - Fully removed MFA now from the d 
+  - Updated EAA - Logs to version v0.7.3
 
 ---
 

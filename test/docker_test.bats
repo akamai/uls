@@ -19,7 +19,7 @@ mocked_edgerc=FALSE
   uls_timeout_params=" --preserve-status --kill-after $uls_kill_timeout --signal ${uls_timeout_signal} ${uls_test_timeout} "
 
 ### Switch between mocked and real edgerc
-if [ "$mocked_edgerc"=="FALSE" ] ; then
+if [ "$mocked_edgerc" = "FALSE" ] ; then
   # REAL EDGERC FILE
   uls_edgerc=~/.edgerc
   uls_section=akamaidemo
@@ -59,10 +59,23 @@ load 'bats/bats-assert/load.bash'
 
 # DOCKER TESTING
 
-## Make sure everything is tidy and clean after every test ;)
+## File-level cleanup and isolation
+setup_file () {
+    for id in $(docker ps -f name=uls-bats-test -q) ; do docker stop "$id" ; done
+    for id in $(docker image ls ${REPO_NAME} -q) ; do docker image rm "$id" ; done
+    return 0
+}
+
+## Make sure running test containers are cleaned between tests
 teardown () {
-    for id in $(docker ps -f name=uls-bats-test -q) ; do docker stop $id ; done
-    for id in $(docker image ls ${REPO_NAME} -q) ; do docker image rm $id ; done
+    for id in $(docker ps -f name=uls-bats-test -q) ; do docker stop "$id" ; done
+    return 0
+}
+
+## Final cleanup after all tests in this file
+teardown_file () {
+    for id in $(docker ps -f name=uls-bats-test -q) ; do docker stop "$id" ; done
+    for id in $(docker image ls ${REPO_NAME} -q) ; do docker image rm "$id" ; done
     return 0
 }
 
@@ -83,9 +96,10 @@ teardown () {
 
 ## CREATE a local DOCKER IMAGE (DEBIAN)
 @test "[DEBIAN] DOCKER IMAGE BUILD - DEBIAN" {
-    run docker build -t ${REPO_NAME}:${TAG_DEBIAN} --file Dockerfile_debian .
-    [ "$status" -eq 0 ]
+  run docker build -t ${REPO_NAME}:${TAG_DEBIAN} --file Dockerfile_debian .
+  [ "$status" -eq 0 ]
 }
+
 
 ## Test container security posture
 #@test "[DEBIAN] DOCKER SECURITY SCAN 1 (scout)" {
