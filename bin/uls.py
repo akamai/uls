@@ -281,6 +281,7 @@ def main():
                     try:
                         if uls_args.autoresume:
                             aka_log.log.info(f"WRITING AUTORESUME CHECKPOINT - curr_message_count={int(my_monitor.get_message_count())} - last_write = {autoresume_lastwrite}")
+                        # its ok to not indent the next session, as we have the decision in the "write_checkpoint" argument -we don't need to decide here
                         checkpoint_data = UlsTools.write_autoresume_ckpt(uls_args.input,
                                                        uls_args.feed,
                                                        autoresume_file,

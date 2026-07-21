@@ -1,5 +1,19 @@
 # Version History
 
+## v2.0.7
+|        |                     |
+|--------|---------------------|
+| Date   | 2026-07-21          |
+| Kind   | Minor release       |
+| Author | mschiess@akamai.com |
+
+
+- **Minor improvements**
+  - Moved the build pipeline towards GH actions + introduced MULTI - ARCH builds (ARM64 + AMD64)
+  - updated the requirements and pinned the "urllib3" to a version greater 2.7.0 https://github.com/akamai/uls/issues/108 (thanks for reporting @Samadrita-Shaw )
+  - Clarified a uncertainty in the "autoresume" flow in order to keep log messages for autoresume clean - all good
+
+
 ## v2.0.6
 |        |                     |
 |--------|---------------------|
@@ -13,7 +27,7 @@
   - fixed a bug in the docker - testing script
 
 - **Minor improvements**
-  - Fully removed MFA now from the d 
+  - Fully removed MFA now 
   - Updated EAA - Logs to version v0.7.3
 
 ---
@@ -61,7 +75,7 @@
 
 - **Features**
 - **Major changes** 
-  -
+
 - **Minor improvements**
   - [docker-alpine] bumped Python container version to 3.14
   - [docker-debian] bumped Python container version to 3.14
