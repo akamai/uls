@@ -9,7 +9,7 @@
 
 
 - **Minor improvements**
-  - Moved the build pipeline towards GH actions
+  - Moved the build pipeline towards GH actions + introduced MULTI - ARCH builds (ARM64 + AMD64)
   - updated the requirements and pinned the "urllib3" to a version greater 2.7.0 https://github.com/akamai/uls/issues/108 (thanks for reporting @Samadrita-Shaw )
   - Clarified a uncertainty in the "autoresume" flow in order to keep log messages for autoresume clean - all good
 
