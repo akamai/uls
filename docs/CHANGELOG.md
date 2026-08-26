@@ -1,5 +1,14 @@
 # Version History
 
+## v2.0.8
+|        |                     |
+|--------|---------------------|
+| Date   | 2026-XX-XX          |
+| Kind   | Minor release       |
+| Author | mschiess@akamai.com |
+
+---
+
 ## v2.0.7
 |        |                     |
 |--------|---------------------|
@@ -13,6 +22,7 @@
   - updated the requirements and pinned the "urllib3" to a version greater 2.7.0 https://github.com/akamai/uls/issues/108 (thanks for reporting @Samadrita-Shaw )
   - Clarified a uncertainty in the "autoresume" flow in order to keep log messages for autoresume clean - all good
 
+---
 
 ## v2.0.6
 |        |                     |
