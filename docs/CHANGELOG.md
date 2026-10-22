@@ -7,6 +7,9 @@
 | Kind   | Minor release       |
 | Author | mschiess@akamai.com |
 
+- **Bugfix**
+  - Fixed a bug in the "get-uls.sh" script that prevented proper repo fetching
+
 ---
 
 ## v2.0.7
