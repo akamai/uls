@@ -13,6 +13,7 @@
 - **Minor improvements**
   - Upgraded the pypi requirements (pytz, prometheus_client, setuptools, brotli, urllib3)
   - Upgraded to python 3.15
+  - Changed username from "akamai" to userid 1001 (hadolint finding)
 
 - **Security**
   - Bumped "brotli" to >= 1.2.1 to address CVE-2026-111497 (Brotli decoder out-of-bounds write)

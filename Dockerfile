@@ -50,7 +50,7 @@ RUN             apk update &&  \
 
 
 # USER & GROUP
-RUN 	        adduser -g akamai -D -s /bin/bash -h ${HOMEDIR} akamai
+RUN 	        adduser -u 1001 -G root -g "akamai" -D -s /bin/bash -h ${HOMEDIR} akamai
 
 # Installing now as root and switching later to the akamai user
 
@@ -95,7 +95,7 @@ RUN             git clone --depth 1 -b "${ACC_CLI_VERSION}" --single-branch http
 
 # Preparing user - switch
 #RUN             chown -R akamai:root ${HOMEDIR}
-USER            akamai
+USER            1001
 
 
 # ENTRYPOINTS / CMD

@@ -48,7 +48,7 @@ function clone_or_update() {
     git clone -q "$@" "${repo}" "${target}" || die "Could not clone ${repo} into ${target}"
   fi
 }
-
+CVE-2026-111497
 function py_reqs() {
   local to_install
   to_install=$(pip3 install --dry-run -r "$1" | grep -vi "satisfied")

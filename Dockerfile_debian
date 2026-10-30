@@ -42,7 +42,8 @@ RUN	            apt-get update && \
 
 # USER & GROUP
 RUN 	        groupadd akamai && \
-                useradd -g akamai -s /bin/bash -m -d ${HOMEDIR} akamai
+                useradd -u 1001 -g 0 -G akamai -s /bin/bash -m -d ${HOMEDIR} akamai
+                #useradd -g akamai -s /bin/bash -m -d ${HOMEDIR} akamai
 
 # Installing now as root and switching later to the akamai user
 
@@ -87,7 +88,7 @@ RUN             git clone --depth 1 -b "${ACC_CLI_VERSION}" --single-branch http
 
 # Preparing user - switch
 #RUN             chown -R akamai:root ${HOMEDIR}
-USER            akamai
+USER            1001
 
 
 # ENTRYPOINTS / CMD
