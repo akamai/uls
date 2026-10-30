@@ -96,7 +96,7 @@ def main():
     if uls_args.clidebug and not uls_args.output == "RAW":
         aka_log.log.critical(f"Error: CLI_DEBUG (--clidebug) can only be used with the raw output (for security reasons). Exiting.")
         sys.exit(1)
-    else:
+    elif uls_args.clidebug and uls_args.output == "RAW":
         aka_log.log.warning(f"CLIDEBUG has been enabled, beside the loglines, you will also see debug information from the underlying CLI")
 
     # Check CLI Environment
