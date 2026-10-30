@@ -3,7 +3,7 @@
 ## v2.0.8
 |        |                     |
 |--------|---------------------|
-| Date   | 2026-XX-XX          |
+| Date   | 2026-10-30          |
 | Kind   | Minor release       |
 | Author | mschiess@akamai.com |
 
