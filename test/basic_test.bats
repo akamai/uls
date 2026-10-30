@@ -124,6 +124,18 @@ current_version=$(cat docs/CHANGELOG.md | grep "##" | head -n 1 | sed 's/.* v//'
 	[ "$status" -eq 0 ]
 }
 
+# PY14
+@test "pip3.15 install -r bin/requirements.txt" {
+	run ~/.local/share/mise/installs/python/3.15/bin/pip3 install -r bin/requirements.txt
+	assert_output --partial "satisfied"
+	[ "$status" -eq 0 ]
+}
+
+@test "python3.15 uls.py --version" {
+	run ~/.local/share/mise/installs/python/3.15/bin/python3 $uls_bin --version
+	assert_output --partial "Akamai Unified Log Streamer Version information"
+	[ "$status" -eq 0 ]
+}
 
 @test "cat bin/config/global - Version output should be ($current_version) according to CHANGELOG" {
 	run echo $(cat bin/uls_config/global_config.py | grep "__version__ =" | cut -d " " -f 3)
